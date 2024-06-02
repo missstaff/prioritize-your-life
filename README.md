@@ -7,9 +7,8 @@ A mobile application for managing personal budgets and finances, built with Reac
 1. [Features](#features)
 2. [Installation](#installation)
 3. [Usage](#usage)
-4. [Contributing](#contributing)
-5. [License](#license)
-6. [Contact](#contact)
+4. [License](#license)
+5. [Contact](#contact)
 
 ## Features
 
@@ -94,15 +93,6 @@ A mobile application for managing personal budgets and finances, built with Reac
 4. **Monitor Finances**
    - View charts and graphs to analyze your financial data.
 
-## Contributing
-
-We welcome contributions! Please follow these steps to contribute:
-
-1. Fork the repository.
-2. Create a new branch (`git checkout -b feature/your-feature-name`).
-3. Commit your changes (`git commit -m 'Add some feature'`).
-4. Push to the branch (`git push origin feature/your-feature-name`).
-5. Create a pull request.
 
 ## License
 

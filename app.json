@@ -21,7 +21,7 @@
         "backgroundColor": "#ffffff"
       },
       "package": "com.missstaff.prioritizeyourlife",
-      "googleServicesFile": "./google-services.json"
+      "googleServicesFile": "./android/app/google-services.json"
     },
     "web": {
       "bundler": "metro",

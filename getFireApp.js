@@ -1,12 +1,16 @@
-import '@react-native-firebase/auth';
-import '@react-native-firebase/firestore';
+import "@react-native-firebase/auth";
+import "@react-native-firebase/database";
+import "@react-native-firebase/dynamic-links";
+import "@react-native-firebase/firestore";
+import "@react-native-firebase/functions";
+import "@react-native-firebase/in-app-messaging";
+import "@react-native-firebase/messaging";
+import "@react-native-firebase/storage";
 
-import { Platform } from "react-native";
 import firebase from "@react-native-firebase/app";
-
+import { Platform } from "react-native";
 
 export function getFireApp() {
-
   const firebaseConfig = {
     apiKey: process.env.EXPO_PUBLIC_API_KEY,
     appName: process.env.EXPO_PUBLIC_APP_NAME,
@@ -19,17 +23,23 @@ export function getFireApp() {
     appId: "",
   };
 
-  // Conditionally set the appId based on the platform
-  if (Platform.OS === "ios") {
-    firebaseConfig.appId = process.env.EXPO_PUBLIC_IOS_APP_ID || '';
-  } else if (Platform.OS === "android") {
-    firebaseConfig.appId = process.env.EXPO_PUBLIC_ANDROID_APP_ID || '';
-  } else if (Platform.OS === "web") {
-    firebaseConfig.appId = process.env.EXPO_PUBLIC_WEB_APP_ID || '';
-  }
+  try {
+    // Conditionally set the appId based on the platform
+    if (Platform.OS === "ios") {
+      firebaseConfig.appId = process.env.EXPO_PUBLIC_IOS_APP_ID || "";
+    } else if (Platform.OS === "android") {
+      firebaseConfig.appId = process.env.EXPO_PUBLIC_ANDROID_APP_ID || "";
+    } else if (Platform.OS === "web") {
+      firebaseConfig.appId = process.env.EXPO_PUBLIC_WEB_APP_ID || "";
+    } else {
+      throw new Error("Platform not supported");
+    }
 
-  if (!firebase.apps.find(app => app.name === firebaseConfig.appName)) {
-    return firebase.initializeApp(firebaseConfig, firebaseConfig.appName);
+    if (!firebase.apps.find((app) => app.name === firebaseConfig.appName)) {
+      return firebase.initializeApp(firebaseConfig, firebaseConfig.appName);
+    }
+    return firebase.app(firebaseConfig.appName);
+  } catch (e) {
+    console.error("Failed to instantiate firebase app", e);
   }
-  return firebase.app(firebaseConfig.appName);
-};
+}
