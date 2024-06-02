@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "980814194666",
+    "firebase_url": "https://prioritize-your-life-default-rtdb.firebaseio.com",
+    "project_id": "prioritize-your-life",
+    "storage_bucket": "prioritize-your-life.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:980814194666:android:cc4b59aa1a0a1da8397493",
+        "android_client_info": {
+          "package_name": "com.missstaff.prioritizeyourlife"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyClwjBrUSmYyrVZAKmoavJVeWgYyM7KMOk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
