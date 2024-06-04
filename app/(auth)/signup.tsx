@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
     View,
     Text,
@@ -15,11 +15,11 @@ import { isValidEmail, isValidPassword, validateFormInput } from "./utilities";
  * A component that renders a sign-up form.
  */
 const SignUp = () => {
-    const { setIsLoading, setIsAuthenticated } = useContext(AppContext);
-
+    const { isAuthenticated, setIsLoading, setIsAuthenticated } = useContext(AppContext);
     const [email, setEmail] = useState<string>("");
     const [password, setPassword] = useState<string>("");
     const [confirmPassword, setConfirmPassword] = useState<string>("");
+
 
     const signUp = async () => {
         try {
@@ -34,12 +34,10 @@ const SignUp = () => {
 
             const userCreds = await firebase.auth().createUserWithEmailAndPassword(email, password);
             if (userCreds) {
-                alert("Account created successfully");
+                setIsAuthenticated(true);
                 setEmail("");
                 setPassword("");
                 setConfirmPassword("");
-                setIsAuthenticated(true);
-                router.push("/");
             }else{
                 setIsLoading(false);
                 throw new Error("User not found");
@@ -51,6 +49,12 @@ const SignUp = () => {
             alert(errorMessage);
         }
     };
+
+    useEffect(() => {
+        if (isAuthenticated) {
+            router.push("/");
+        }
+    }, [isAuthenticated]);
 
     return (
         <View style={styles.container}>
