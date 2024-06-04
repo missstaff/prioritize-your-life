@@ -88,7 +88,7 @@ const SignIn = (): JSX.Element => {
             value={password}
         />
 
-        <AppTouchableOpacity onPress={onSubmit} />
+        <AppTouchableOpacity onPress={onSubmit}>Sign In</AppTouchableOpacity>
         <AppLink to="./signup">Sign Up</AppLink>
         <AppLink to="./reset">Forgot Password</AppLink>
 

@@ -6,10 +6,10 @@ import {
   StyleSheet,
 } from "react-native";
 
-const AppTouchableOpacity = (props: TouchableOpacityProps) => {
+const AppTouchableOpacity = (props: TouchableOpacityProps ) => {
   return (
     <TouchableOpacity onPress={props.onPress} style={styles.button}>
-      <Text style={styles.buttonText}>Sign In</Text>
+      <Text style={styles.buttonText}>{props.children}</Text>
     </TouchableOpacity>
   );
 };
