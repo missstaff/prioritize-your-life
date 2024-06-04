@@ -1,19 +1,14 @@
 import React, { useContext, useEffect, useState } from "react";
-import {
-  View,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  StyleSheet,
-} from "react-native";
-import { Link, router } from "expo-router";
+import { ScaledSheet } from "react-native-size-matters";
+import { router } from "expo-router";
+import AppThemedLink from "@/components/app_components/AppThemedLink";
+import AppThemedTextInput from "@/components/app_components/AppThemedTextInput";
+import AppTouchableOpacity from "@/components/app_components/AppTouchableOpacity";
 import { AppContext } from "@/store/app-context";
+import { AppThemedView } from "@/components/app_components/AppThemedView";
 import { getFireApp } from "@/getFireApp";
 import { isValidEmail, isValidPassword, validateFormInput } from "./utilities";
-import { ThemedView } from "@/components/ThemedView";
-import AppTextInput from "@/components/AppTextInput";
-import AppLink from "@/components/AppLink";
-import AppTouchableOpacity from "@/components/AppTouchableOpacity";
+
 
 /**
  * A component that renders a sign-up form.
@@ -65,8 +60,8 @@ const SignUp = () => {
   }, [isAuthenticated]);
 
   return (
-    <ThemedView style={styles.container}>
-      <AppTextInput
+    <AppThemedView style={styles.container}>
+      <AppThemedTextInput
         checkValue={isValidEmail}
         icon="email"
         placeholder="Email"
@@ -74,7 +69,7 @@ const SignUp = () => {
         setValue={setEmail}
         value={email}
       />
-      <AppTextInput
+      <AppThemedTextInput
         checkValue={isValidPassword}
         icon="lock"
         placeholder="Password"
@@ -82,7 +77,7 @@ const SignUp = () => {
         setValue={setPassword}
         value={password}
       />
-      <AppTextInput
+      <AppThemedTextInput
         checkValue={isValidPassword}
         icon="lock"
         placeholder="Password"
@@ -91,39 +86,17 @@ const SignUp = () => {
         value={password}
       />
       <AppTouchableOpacity onPress={signUp}>Sign Up</AppTouchableOpacity>
-      <AppLink to="./signup">Sign In</AppLink>
-    </ThemedView>
+      <AppThemedLink to="./signup">Sign In</AppThemedLink>
+    </AppThemedView>
   );
 };
 
-const styles = StyleSheet.create({
+const styles = ScaledSheet.create({
   container: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-  },
-  input: {
-    width: "80%",
-    borderWidth: 1,
-    borderColor: "#ccc",
-    borderRadius: 5,
-    padding: 10,
-    marginBottom: 10,
-  },
-  button: {
-    backgroundColor: "blue",
-    padding: 10,
-    borderRadius: 5,
-    width: "80%",
-    alignItems: "center",
-    marginBottom: 10,
-  },
-  buttonText: {
-    color: "white",
-  },
-  link: {
-    color: "blue",
-  },
+  }
 });
 
 export default SignUp;

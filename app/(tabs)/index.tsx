@@ -2,8 +2,8 @@ import React, { useContext, useState } from "react";
 import { Image, StyleSheet, Platform } from "react-native";
 import { HelloWave } from "@/components/HelloWave";
 import ParallaxScrollView from "@/components/ParallaxScrollView";
-import { ThemedText } from "@/components/ThemedText";
-import { ThemedView } from "@/components/ThemedView";
+import { AppThemedText } from "@/components/app_components/AppThemedText";
+import { AppThemedView } from "@/components/app_components/AppThemedView";
 import SignIn from "../(auth)/signin";
 import { AppContext } from "../../store/app-context";
 
@@ -26,40 +26,37 @@ export default function HomeScreen() {
           style={styles.reactLogo}
         />
       }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Welcome!</ThemedText>
+      <AppThemedView style={styles.titleContainer}>
+        <AppThemedText type="title">Welcome!</AppThemedText>
         <HelloWave />
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 1: Try it</ThemedText>
-        <ThemedText>
-          Edit <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> to see changes.
+      </AppThemedView>
+      <AppThemedView style={styles.stepContainer}>
+        <AppThemedText type="subtitle">Step 1: Try it</AppThemedText>
+        <AppThemedText>
+          Edit <AppThemedText type="defaultSemiBold">app/(tabs)/index.tsx</AppThemedText> to see changes.
           Press{" "}
-          <ThemedText type="defaultSemiBold">
+          <AppThemedText type="defaultSemiBold">
             {Platform.select({ ios: "cmd + d", android: "cmd + m" })}
-          </ThemedText>{" "}
+          </AppThemedText>{" "}
           to open developer tools.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 2: Explore</ThemedText>
-        <ThemedText>
+        </AppThemedText>
+      </AppThemedView>
+      <AppThemedView style={styles.stepContainer}>
+        <AppThemedText type="subtitle">Step 2: Explore</AppThemedText>
+        <AppThemedText>
           Tap the Explore tab to learn more about what"s included in this starter app.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
-        <ThemedText>
+        </AppThemedText>
+      </AppThemedView>
+      <AppThemedView style={styles.stepContainer}>
+        <AppThemedText type="subtitle">Step 3: Get a fresh start</AppThemedText>
+        <AppThemedText>
           When you"re ready, run{" "}
-          <ThemedText type="defaultSemiBold">npm run reset-project</ThemedText> to get a fresh{" "}
-          <ThemedText type="defaultSemiBold">app</ThemedText> directory. This will move the current{" "}
-          <ThemedText type="defaultSemiBold">app</ThemedText> to{" "}
-          <ThemedText type="defaultSemiBold">app-example</ThemedText>.
-        </ThemedText>
-        {/** Add button to navigate to signup */}
-        {/* <Link href="../(auth)/signin">Signup</Link> */}
-
-      </ThemedView>
+          <AppThemedText type="defaultSemiBold">npm run reset-project</AppThemedText> to get a fresh{" "}
+          <AppThemedText type="defaultSemiBold">app</AppThemedText> directory. This will move the current{" "}
+          <AppThemedText type="defaultSemiBold">app</AppThemedText> to{" "}
+          <AppThemedText type="defaultSemiBold">app-example</AppThemedText>.
+        </AppThemedText>
+      </AppThemedView>
     </ParallaxScrollView>
   );
 }

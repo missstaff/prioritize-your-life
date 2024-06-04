@@ -1,0 +1,10 @@
+1. ErrorBoundary
+2. dark and light color schemes
+3. loading spinner
+4. move types into types
+5. Icon jsx
+6. set uid onlogin
+7. user ctx? or add user to appcts??
+8. Alert vs toast 
+
+// if not complete auth is not complete
