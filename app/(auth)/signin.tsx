@@ -14,6 +14,10 @@ import {
     isValidPassword, 
     validateFormInput 
 } from "./utilities";
+import { ThemedView } from "@/components/ThemedView";
+import AppTextInput from "@/components/AppTextInput";
+import AppTouchableOpacity from "@/components/AppTouchableOpacity";
+import AppLink from "@/components/AppLink";
 
 const SignIn = (): JSX.Element => {
     const {
@@ -55,51 +59,40 @@ const SignIn = (): JSX.Element => {
         }
     };
 
+    const onSubmit = () => {
+        if (!validateFormInput(email, password)) {
+            alert("Invalid email address or password. Please try again.");
+            return;
+        }
+        signIn();
+    };
+
     if (!isAuthenticated && isLoading) return <Text>Loading...</Text>;
 
     return (
-        <View style={styles.container}>
-            <TextInput
-                onBlur={(e) => {
-                    if(email.length > 0) isValidEmail(email);
-                }}
-                onChange={(e) => setEmail(e.nativeEvent.text)}
-                placeholder="Email"
-                style={styles.input}
-                value={email}
-            />
-            <TextInput
-                onBlur={(e) => {
-                    if(password.length > 0) isValidPassword(password);
-                }}
-                onChange={(e) => setPassword(e.nativeEvent.text)}
-                placeholder="Password"
-                secureTextEntry={true}
-                style={styles.input}
-                value={password}
-            />
-            <TouchableOpacity onPress={() => {
-                if(validateFormInput(email, password)) {
-                    signIn();
-                }else{
-                    alert("Invalid email address and/or password. Please try again.");
-                }
-            }} style={styles.button}>
-                <Text style={styles.buttonText}>Sign In</Text>
-            </TouchableOpacity>
+        <ThemedView style={styles.container}>
+        <AppTextInput
+            checkValue={isValidEmail}
+            icon="email"
+            placeholder="Email"
+            secureEntry={false}
+            setValue={setEmail}
+            value={email}
+        />
+        <AppTextInput
+            checkValue={isValidPassword}
+            icon="lock"
+            placeholder="Password"
+            secureEntry={true}
+            setValue={setPassword}
+            value={password}
+        />
 
-            <TouchableOpacity>
-                <Link href="./signup" style={styles.link}>
-                    Sign Up
-                </Link>
-            </TouchableOpacity>
+        <AppTouchableOpacity onPress={onSubmit} />
+        <AppLink to="./signup">Sign Up</AppLink>
+        <AppLink to="./reset">Forgot Password</AppLink>
 
-            <TouchableOpacity>
-                <Link href="./reset" style={styles.link}>
-                    Forgot Password
-                </Link>
-            </TouchableOpacity>
-        </View>
+    </ThemedView>
     );
 };
 
@@ -108,29 +101,6 @@ const styles = StyleSheet.create({
         alignItems: "center",
         flex: 1,
         justifyContent: "center",
-    },
-    input: {
-        borderColor: "#ccc",
-        borderWidth: 1,
-        borderRadius: 5,
-        marginBottom: 10,
-        padding: 10,
-        width: "80%",
-    },
-    button: {
-        alignItems: "center",
-        backgroundColor: "blue",
-        borderRadius: 5,
-        marginBottom: 10,
-        padding: 10,
-        width: "80%",
-    },
-    buttonText: {
-        color: "white",
-    },
-    link: {
-        color: "blue",
-        marginBottom: 10,
     },
 });
 
