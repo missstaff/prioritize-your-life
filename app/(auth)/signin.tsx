@@ -67,11 +67,7 @@ const SignIn = (): JSX.Element => {
     <AppThemedView style={styles.container}>
       <AppThemedTextInput
         checkValue={isValidEmail}
-        icon={<AppIcon
-          name={"mail"}
-          size={s(24)}
-          color="black"
-        />}
+        iconName="mail"
         placeholder="Email"
         secureEntry={false}
         setValue={setEmail}

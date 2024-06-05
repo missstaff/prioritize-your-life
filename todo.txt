@@ -1,5 +1,5 @@
 1. ErrorBoundary
-2. dark and light color schemes
+2. dark and light color schemes -- appcomponents are ready introduce the schema and set the dar and light color in appsettings
 3. loading spinner
 4. move types into types
 5. Icon jsx

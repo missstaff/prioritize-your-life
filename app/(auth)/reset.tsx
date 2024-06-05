@@ -43,7 +43,7 @@ export default function ResetPassword() {
     <AppThemedView style={styles.container}>
       <AppThemedTextInput
         checkValue={isValidEmail}
-        icon="email"
+        iconName="mail"
         placeholder="Email"
         secureEntry={false}
         setValue={setEmail}

@@ -6,7 +6,7 @@ import { useThemeColor } from "@/hooks/useThemeColor";
 
 interface AppThemedTextInputProps {
   darkColor?: string;
-  icon?: React.ReactNode | string | null;
+  iconName?: string;
   lightColor?: string;
   placeholder: string;
   style?: StyleProp<ViewStyle>;
@@ -24,7 +24,7 @@ interface AppThemedTextInputProps {
 const AppThemedTextInput = ({
   checkValue,
   darkColor,
-  icon,
+  iconName,
   lightColor,
   placeholder,
   secureEntry,
@@ -59,13 +59,20 @@ const AppThemedTextInput = ({
           <AppIcon
             name={isPasswordVisible ? "eye-off" : "eye"}
             size={s(24)}
-            color="black"
+            color="#999"
             style={styles.icon}
           />
         </TouchableOpacity>
       )}
 
-      {icon && icon}
+      {iconName && (
+          <AppIcon
+          name={iconName}
+          size={s(24)}
+          color="#999"
+          style={styles.icon}
+        />
+      )}
     </View>
   );
 };

@@ -65,7 +65,7 @@ const SignUp = () => {
     <AppThemedView style={styles.container}>
       <AppThemedTextInput
         checkValue={isValidEmail}
-        icon={<AppIcon name="mail" />}
+        iconName="mail"
         placeholder="Email"
         secureEntry={false}
         setValue={setEmail}
@@ -86,7 +86,7 @@ const SignUp = () => {
         value={password}
       />
       <AppTouchableOpacity onPress={signUp}>Sign Up</AppTouchableOpacity>
-      <AppThemedLink to="./signup">Sign In</AppThemedLink>
+      <AppThemedLink to="./signin">Sign In</AppThemedLink>
     </AppThemedView>
   );
 };
