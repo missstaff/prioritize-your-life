@@ -80,8 +80,8 @@ const SignUp = () => {
         checkValue={isValidPassword}
         placeholder="Password"
         secureEntry={true}
-        setValue={setPassword}
-        value={password}
+        setValue={setConfirmPassword}
+        value={confirmPassword}
       />
       <AppTouchableOpacity onPress={signUp}>Sign Up</AppTouchableOpacity>
       <AppLink to="./signin">Sign In</AppLink>

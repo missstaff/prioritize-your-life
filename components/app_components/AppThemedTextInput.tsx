@@ -54,7 +54,7 @@ const AppThemedTextInput = ({
       {secureEntry && (
         <TouchableOpacity onPress={() => setIsPasswordVisible(!isPasswordVisible)}>
           <AppIcon
-            name={isPasswordVisible ? "eye-off" : "eye"}
+            name={!isPasswordVisible ? "eye-off" : "eye"}
             size={s(24)}
             color="#999"
           />
