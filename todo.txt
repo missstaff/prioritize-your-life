@@ -7,4 +7,5 @@
 7. user ctx? or add user to appcts??
 8. Alert vs toast 
 
+then dependencies for web 
 // if not complete auth is not complete
