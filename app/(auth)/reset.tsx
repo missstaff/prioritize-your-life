@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 import { ScaledSheet } from "react-native-size-matters";
 import { router } from "expo-router";
-import AppThemedLink from "@/components/app_components/AppThemedLink";
+import AppLink from "@/components/app_components/AppLink";
 import AppThemedTextInput from "@/components/app_components/AppThemedTextInput";
 import AppTouchableOpacity from "@/components/app_components/AppTouchableOpacity";
 import { AppContext } from "@/store/app-context";
@@ -12,7 +12,7 @@ import { isValidEmail } from "./utilities";
 export default function ResetPassword() {
   const { isAuthenticated } = useContext(AppContext);
   const [email, setEmail] = useState<string>("");
-  
+
   if (isAuthenticated) {
     router.push("/");
   }
@@ -29,8 +29,8 @@ export default function ResetPassword() {
         throw new Error("Firebase app does not have 'auth' property");
       firebase.auth().sendPasswordResetEmail(email);
       alert("Password reset email sent.");
-      setEmail("");
       router.push("/signin");
+      setEmail("");
     } catch (error: any) {
       const errorMessage =
         "Error resetting password: " +
@@ -53,7 +53,7 @@ export default function ResetPassword() {
         Reset Password
       </AppTouchableOpacity>
 
-      <AppThemedLink to="./signin">Sign In</AppThemedLink>
+      <AppLink to="./signin">Sign In</AppLink>
     </AppThemedView>
   );
 }

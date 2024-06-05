@@ -1,15 +1,13 @@
 import React, { useContext, useEffect, useState } from "react";
-import { MaterialIcons } from "@expo/vector-icons";
 import { ScaledSheet } from "react-native-size-matters";
 import { router } from "expo-router";
-import AppThemedLink from "@/components/app_components/AppThemedLink";
+import AppLink from "@/components/app_components/AppLink";
 import AppThemedTextInput from "@/components/app_components/AppThemedTextInput";
 import AppTouchableOpacity from "@/components/app_components/AppTouchableOpacity";
 import { AppContext } from "@/store/app-context";
 import { AppThemedView } from "@/components/app_components/AppThemedView";
 import { getFireApp } from "@/getFireApp";
-import { isValidEmail, isValidPassword, validateFormInput } from "./utilities";
-import { AppIcon } from "@/components/app_components/AppIcon";
+import { isValidEmail, validateFormInput, isValidPassword } from "./utilities";
 
 
 /**
@@ -86,7 +84,7 @@ const SignUp = () => {
         value={password}
       />
       <AppTouchableOpacity onPress={signUp}>Sign Up</AppTouchableOpacity>
-      <AppThemedLink to="./signin">Sign In</AppThemedLink>
+      <AppLink to="./signin">Sign In</AppLink>
     </AppThemedView>
   );
 };

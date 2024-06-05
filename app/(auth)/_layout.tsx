@@ -19,7 +19,7 @@ export default function TabLayout() {
           title: "SignUp",
         }}
       />
-       <Stack.Screen
+      <Stack.Screen
         name="reset"
         options={{
           title: "ResetPassword",

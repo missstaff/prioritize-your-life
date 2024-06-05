@@ -10,6 +10,11 @@ import "@react-native-firebase/storage";
 import firebase from "@react-native-firebase/app";
 import { Platform } from "react-native";
 
+
+/**
+ * Gets the firebase app.
+ * @returns The firebase app.
+ */
 export function getFireApp() {
   const firebaseConfig = {
     apiKey: process.env.EXPO_PUBLIC_API_KEY || "",
@@ -19,7 +24,7 @@ export function getFireApp() {
     projectId: process.env.EXPO_PUBLIC_PROJECT_ID || "",
     storageBucket: process.env.EXPO_PUBLIC_STORAGE_BUCKET || "",
     messagingSenderId: process.env.EXPO_PUBLIC_MESSAGING_SENDER_ID || "",
-    measurementId: process.env.EXPO_PUBLIC_MEASUREMENT_ID|| "" ,
+    measurementId: process.env.EXPO_PUBLIC_MEASUREMENT_ID || "",
     appId: "",
   };
 

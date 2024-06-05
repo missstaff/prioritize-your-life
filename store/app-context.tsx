@@ -3,7 +3,7 @@ import React, { createContext, useReducer, ReactNode } from "react";
 
 /**
  * Represents the state of the application.
- */
+*/
 
 
 // Define AppState type
@@ -11,11 +11,6 @@ interface AppState {
   isAuthenticated: boolean;
   isLoading: boolean;
 }
-
-// Define action types
-type Action =
-  | { type: "Loading"; isLoading: boolean }
-  | { type: "Authenticate"; isAuthenticated: boolean };
 
 // Define context type
 interface AppContextType extends AppState {
@@ -25,15 +20,19 @@ interface AppContextType extends AppState {
   setIsLoading: (isLoading: boolean) => void;
 }
 
-// Create context with default values
+// Define action types
+type Action =
+  | { type: "Loading"; isLoading: boolean }
+  | { type: "Authenticate"; isAuthenticated: boolean };
+
+
 export const AppContext = createContext<AppContextType>({
   isAuthenticated: false,
   isLoading: false,
-  setIsAuthenticated: () => {},
-  setIsLoading: () => {},
+  setIsAuthenticated: () => { },
+  setIsLoading: () => { },
 });
 
-// Reducer function
 function appReducer(state: AppState, action: Action): AppState {
   switch (action.type) {
     case "Loading":
@@ -51,7 +50,7 @@ function appReducer(state: AppState, action: Action): AppState {
   }
 }
 
-// Context provider component
+
 interface AppContextProviderProps {
   children: ReactNode;
 }

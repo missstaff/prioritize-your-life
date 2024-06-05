@@ -1,13 +1,12 @@
 import React, { useState } from "react";
-import { View, Text, TextInput, StyleProp, ViewStyle, TouchableOpacity } from "react-native";
+import { StyleProp, TextInput, TouchableOpacity, View, ViewStyle } from "react-native";
 import { ScaledSheet, s } from "react-native-size-matters";
 import { AppIcon } from "./AppIcon";
+import { Colors } from "@/constants/Colors";
 import { useThemeColor } from "@/hooks/useThemeColor";
 
 interface AppThemedTextInputProps {
-  darkColor?: string;
   iconName?: string;
-  lightColor?: string;
   placeholder: string;
   style?: StyleProp<ViewStyle>;
   secureEntry: boolean;
@@ -23,9 +22,7 @@ interface AppThemedTextInputProps {
  */
 const AppThemedTextInput = ({
   checkValue,
-  darkColor,
   iconName,
-  lightColor,
   placeholder,
   secureEntry,
   setValue,
@@ -35,7 +32,7 @@ const AppThemedTextInput = ({
 }: AppThemedTextInputProps) => {
   const textColor = useThemeColor({}, "text");
   const backgroundColor = useThemeColor(
-    { light: lightColor, dark: darkColor },
+    { light: Colors.light.background, dark: Colors.dark.background },
     "background"
   );
   const [isPasswordVisible, setIsPasswordVisible] = useState(!secureEntry);
@@ -50,7 +47,7 @@ const AppThemedTextInput = ({
         placeholder={placeholder}
         placeholderTextColor="#999"
         secureTextEntry={!isPasswordVisible}
-        style={[styles.input, {backgroundColor: backgroundColor, color: textColor}, styles.input]}
+        style={[styles.input, { backgroundColor: backgroundColor, color: textColor }, styles.input]}
         value={value}
         {...otherProps}
       />
@@ -60,17 +57,15 @@ const AppThemedTextInput = ({
             name={isPasswordVisible ? "eye-off" : "eye"}
             size={s(24)}
             color="#999"
-            style={styles.icon}
           />
         </TouchableOpacity>
       )}
 
       {iconName && (
-          <AppIcon
+        <AppIcon
           name={iconName}
           size={s(24)}
           color="#999"
-          style={styles.icon}
         />
       )}
     </View>
@@ -91,9 +86,6 @@ const styles = ScaledSheet.create({
   input: {
     flex: 1,
     padding: s(10),
-  },
-  icon: {
-    marginLeft: s(10),
   },
 });
 

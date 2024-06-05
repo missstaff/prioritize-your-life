@@ -1,15 +1,13 @@
 import React, { useContext, useState } from "react";
-import { ScaledSheet, s } from "react-native-size-matters";
+import { ScaledSheet } from "react-native-size-matters";
 import AppThemedTextInput from "@/components/app_components/AppThemedTextInput";
 import AppTouchableOpacity from "@/components/app_components/AppTouchableOpacity";
-import AppThemedLink from "@/components/app_components/AppThemedLink";
+import AppLink from "@/components/app_components/AppLink";
 import { isValidEmail, isValidPassword, validateFormInput } from "./utilities";
 import { AppContext } from "@/store/app-context";
 import { AppThemedView } from "@/components/app_components/AppThemedView";
 import { getFireApp } from "@/getFireApp";
 import { AppThemedText } from "@/components/app_components/AppThemedText";
-import { AppIcon } from "@/components/app_components/AppIcon";
-import { Ionicons } from "@expo/vector-icons";
 
 const SignIn = (): JSX.Element => {
   const { isLoading, setIsLoading, isAuthenticated, setIsAuthenticated } =
@@ -82,8 +80,8 @@ const SignIn = (): JSX.Element => {
       />
 
       <AppTouchableOpacity onPress={onSubmit}>Sign In</AppTouchableOpacity>
-      <AppThemedLink to="./signup">Sign Up</AppThemedLink>
-      <AppThemedLink to="./reset">Forgot Password</AppThemedLink>
+      <AppLink to="./signup">Sign Up</AppLink>
+      <AppLink to="./reset">Forgot Password</AppLink>
     </AppThemedView>
   );
 };

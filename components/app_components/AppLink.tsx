@@ -2,13 +2,13 @@ import React from "react";
 import { ScaledSheet, s } from "react-native-size-matters";
 import { Link } from "expo-router";
 import {
-  TouchableOpacity,
   StyleProp,
+  TouchableOpacity,
   ViewStyle,
 } from "react-native";
 
 //create types for the props
-interface AppThemedLinkProps {
+interface AppLinkProps {
   to: string;
   children: React.ReactNode;
   style?: StyleProp<ViewStyle>;
@@ -20,13 +20,13 @@ interface AppThemedLinkProps {
  * @param to - The path to navigate to.
  * @param children - The children to be rendered in the link.
  * @param style - The style object to be applied to the link component.
- * @returns The AppThemedLink component.
+ * @returns The AppLink component.
  */
-const AppThemedLink = ({
+const AppLink = ({
   to,
   children,
   style,
-}: AppThemedLinkProps) => {
+}: AppLinkProps) => {
   return (
     <TouchableOpacity>
       <Link href={to} style={[styles.link, style]}>
@@ -42,4 +42,4 @@ const styles = ScaledSheet.create({
   },
 });
 
-export default AppThemedLink;
+export default AppLink;
