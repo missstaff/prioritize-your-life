@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { ScaledSheet } from "react-native-size-matters";
+import { ScaledSheet, s } from "react-native-size-matters";
 import AppThemedTextInput from "@/components/app_components/AppThemedTextInput";
 import AppTouchableOpacity from "@/components/app_components/AppTouchableOpacity";
 import AppThemedLink from "@/components/app_components/AppThemedLink";
@@ -8,6 +8,8 @@ import { AppContext } from "@/store/app-context";
 import { AppThemedView } from "@/components/app_components/AppThemedView";
 import { getFireApp } from "@/getFireApp";
 import { AppThemedText } from "@/components/app_components/AppThemedText";
+import { AppIcon } from "@/components/app_components/AppIcon";
+import { Ionicons } from "@expo/vector-icons";
 
 const SignIn = (): JSX.Element => {
   const { isLoading, setIsLoading, isAuthenticated, setIsAuthenticated } =
@@ -65,7 +67,11 @@ const SignIn = (): JSX.Element => {
     <AppThemedView style={styles.container}>
       <AppThemedTextInput
         checkValue={isValidEmail}
-        icon="email"
+        icon={<AppIcon
+          name={"mail"}
+          size={s(24)}
+          color="black"
+        />}
         placeholder="Email"
         secureEntry={false}
         setValue={setEmail}
@@ -73,7 +79,6 @@ const SignIn = (): JSX.Element => {
       />
       <AppThemedTextInput
         checkValue={isValidPassword}
-        icon="lock"
         placeholder="Password"
         secureEntry={true}
         setValue={setPassword}

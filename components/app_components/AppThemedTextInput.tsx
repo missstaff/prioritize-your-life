@@ -1,17 +1,15 @@
-import React from "react";
-import { StyleProp, TextInput, ViewStyle } from "react-native";
+import React, { useState } from "react";
+import { View, Text, TextInput, StyleProp, ViewStyle, TouchableOpacity } from "react-native";
 import { ScaledSheet, s } from "react-native-size-matters";
-// import { MaterialCommunityIcons } from "@expo/vector-icons";
-{
-  /* {icon && <MaterialCommunityIcons name={icon} size={20} />} */
-}
+import { AppIcon } from "./AppIcon";
+import { useThemeColor } from "@/hooks/useThemeColor";
 
 interface AppThemedTextInputProps {
   darkColor?: string;
-  icon?: string;
+  icon?: React.ReactNode | string | null;
   lightColor?: string;
-  style?: StyleProp<ViewStyle>;
   placeholder: string;
+  style?: StyleProp<ViewStyle>;
   secureEntry: boolean;
   value: string;
   checkValue: (value: string) => void;
@@ -35,48 +33,60 @@ const AppThemedTextInput = ({
   value,
   ...otherProps
 }: AppThemedTextInputProps) => {
+  const textColor = useThemeColor({}, "text");
+  const backgroundColor = useThemeColor(
+    { light: lightColor, dark: darkColor },
+    "background"
+  );
+  const [isPasswordVisible, setIsPasswordVisible] = useState(!secureEntry);
+
   return (
-    <TextInput
-      onBlur={(e) => {
-        if (value.length > 0) checkValue(value);
-      }}
-      onChange={(e) => setValue(e.nativeEvent.text)}
-      placeholder={placeholder}
-      secureTextEntry={secureEntry}
-      style={styles.input}
-      value={value}
-      {...otherProps}
-    />
+    <View style={[styles.inputContainer, style]}>
+      <TextInput
+        onBlur={(e) => {
+          if (value.length > 0) checkValue(value);
+        }}
+        onChange={(e) => setValue(e.nativeEvent.text)}
+        placeholder={placeholder}
+        placeholderTextColor="#999"
+        secureTextEntry={!isPasswordVisible}
+        style={[styles.input, {backgroundColor: backgroundColor, color: textColor}, styles.input]}
+        value={value}
+        {...otherProps}
+      />
+      {secureEntry && (
+        <TouchableOpacity onPress={() => setIsPasswordVisible(!isPasswordVisible)}>
+          <AppIcon
+            name={isPasswordVisible ? "eye-off" : "eye"}
+            size={s(24)}
+            color="black"
+            style={styles.icon}
+          />
+        </TouchableOpacity>
+      )}
+
+      {icon && icon}
+    </View>
   );
 };
+
 const styles = ScaledSheet.create({
-  container: {
+  inputContainer: {
+    flexDirection: "row",
     alignItems: "center",
-    flex: 1,
-    justifyContent: "center",
-  },
-  input: {
     borderColor: "#ccc",
     borderWidth: s(1),
     borderRadius: s(5),
     marginBottom: s(10),
-    padding: s(10),
+    paddingHorizontal: s(10),
     width: "80%",
   },
-  button: {
-    alignItems: "center",
-    backgroundColor: "blue",
-    borderRadius: s(5),
-    marginBottom: s(10),
+  input: {
+    flex: 1,
     padding: s(10),
-    width: "80%",
   },
-  buttonText: {
-    color: "white",
-  },
-  link: {
-    color: "blue",
-    marginBottom: s(10),
+  icon: {
+    marginLeft: s(10),
   },
 });
 

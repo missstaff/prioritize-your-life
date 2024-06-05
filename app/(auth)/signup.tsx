@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
+import { MaterialIcons } from "@expo/vector-icons";
 import { ScaledSheet } from "react-native-size-matters";
 import { router } from "expo-router";
 import AppThemedLink from "@/components/app_components/AppThemedLink";
@@ -8,6 +9,7 @@ import { AppContext } from "@/store/app-context";
 import { AppThemedView } from "@/components/app_components/AppThemedView";
 import { getFireApp } from "@/getFireApp";
 import { isValidEmail, isValidPassword, validateFormInput } from "./utilities";
+import { AppIcon } from "@/components/app_components/AppIcon";
 
 
 /**
@@ -63,7 +65,7 @@ const SignUp = () => {
     <AppThemedView style={styles.container}>
       <AppThemedTextInput
         checkValue={isValidEmail}
-        icon="email"
+        icon={<AppIcon name="mail" />}
         placeholder="Email"
         secureEntry={false}
         setValue={setEmail}
@@ -71,7 +73,6 @@ const SignUp = () => {
       />
       <AppThemedTextInput
         checkValue={isValidPassword}
-        icon="lock"
         placeholder="Password"
         secureEntry={true}
         setValue={setPassword}
@@ -79,7 +80,6 @@ const SignUp = () => {
       />
       <AppThemedTextInput
         checkValue={isValidPassword}
-        icon="lock"
         placeholder="Password"
         secureEntry={true}
         setValue={setPassword}

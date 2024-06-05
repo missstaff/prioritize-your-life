@@ -1,12 +1,12 @@
 import React from "react";
 import { ScaledSheet, s } from "react-native-size-matters";
-import { Text, TouchableOpacity, TouchableOpacityProps } from "react-native";
-import { useThemeColor } from "@/hooks/useThemeColor";
+import { StyleProp, TouchableOpacity, TouchableOpacityProps, ViewStyle } from "react-native";
+import { AppThemedText } from "./AppThemedText";
 
 export type ThemedAppTouchableOpacity = TouchableOpacityProps & {
   children: React.ReactNode;
-  darkColor?: string;
-  lightColor?: string;
+  textStyles?: StyleProp<ViewStyle>;
+  btnStyles?: StyleProp<ViewStyle>;
   onPress?: () => void;
 };
 
@@ -20,13 +20,13 @@ export type ThemedAppTouchableOpacity = TouchableOpacityProps & {
 const AppTouchableOpacity = ({
   children,
   onPress,
-  lightColor,
-  darkColor,
+  textStyles,
+  btnStyles,
 }: ThemedAppTouchableOpacity): JSX.Element => {
-  const color = useThemeColor({ light: lightColor, dark: darkColor }, "text");
+  
   return (
-    <TouchableOpacity onPress={onPress} style={styles.button}>
-      <Text style={styles.buttonText}>{children}</Text>
+    <TouchableOpacity onPress={onPress} style={[styles.button, btnStyles]}>
+      <AppThemedText style={[styles.buttonText, textStyles]}>{children}</AppThemedText>
     </TouchableOpacity>
   );
 };

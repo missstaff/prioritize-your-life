@@ -12,20 +12,24 @@ interface AppThemedLinkProps {
   to: string;
   children: React.ReactNode;
   style?: StyleProp<ViewStyle>;
-  lightColor?: string;
-  darkColor?: string;
 }
 
+
+/**
+ * A custom link component that applies theme-based styling.
+ * @param to - The path to navigate to.
+ * @param children - The children to be rendered in the link.
+ * @param style - The style object to be applied to the link component.
+ * @returns The AppThemedLink component.
+ */
 const AppThemedLink = ({
   to,
   children,
   style,
-  lightColor,
-  darkColor,
 }: AppThemedLinkProps) => {
   return (
     <TouchableOpacity>
-      <Link href={to} style={styles.link}>
+      <Link href={to} style={[styles.link, style]}>
         {children}
       </Link>
     </TouchableOpacity>
