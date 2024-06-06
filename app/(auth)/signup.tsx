@@ -23,6 +23,7 @@ const SignUp = () => {
 
   const signUp = async () => {
     try {
+      email.toLocaleLowerCase();
       if (!validateFormInput(email, password, confirmPassword)) {
         alert("Invalid email address or password. Please try again.");
         return;

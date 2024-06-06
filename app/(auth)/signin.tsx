@@ -24,7 +24,7 @@ const SignIn = (): JSX.Element => {
       if (!firebase) {
         throw new Error("Firebase app not initialized");
       }
-
+      email.toLocaleLowerCase();
       const userCreds = await firebase
         .auth()
         .signInWithEmailAndPassword(email, password);

@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { ScaledSheet } from "react-native-size-matters";
 import { router } from "expo-router";
 import AppLink from "@/components/app_components/AppLink";
@@ -13,12 +13,15 @@ export default function ResetPassword() {
   const { isAuthenticated } = useContext(AppContext);
   const [email, setEmail] = useState<string>("");
 
+ useEffect(() => {
   if (isAuthenticated) {
     router.push("/");
   }
+ }, [isAuthenticated]);
 
   const onSubmit = () => {
     try {
+      email.toLocaleLowerCase();
       if (!isValidEmail(email)) {
         alert("Invalid email address. Please try again.");
         return;
