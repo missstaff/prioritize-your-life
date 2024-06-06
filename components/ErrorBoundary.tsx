@@ -1,4 +1,3 @@
-import { router } from "expo-router";
 import React, { Component, ReactNode } from "react";
 import { View, Text, Button } from "react-native";
 import { ScaledSheet, s } from "react-native-size-matters";
