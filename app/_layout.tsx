@@ -7,6 +7,7 @@ import 'react-native-reanimated';
 import { AppContextProvider } from "@/store/app-context";
 
 import { useColorScheme } from '@/hooks/useColorScheme';
+import ErrorBoundary from "@/components/ErrorBoundary";
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -28,7 +29,8 @@ export default function RootLayout() {
   }
 
   return (
-   <AppContextProvider>
+   <ErrorBoundary>
+    <AppContextProvider>
      <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
       <Stack>
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
@@ -37,5 +39,6 @@ export default function RootLayout() {
       </Stack>
     </ThemeProvider>
    </AppContextProvider>
+   </ErrorBoundary>
   );
 }
