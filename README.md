@@ -7,8 +7,9 @@ A mobile application for managing personal budgets and finances, built with Reac
 1. [Features](#features)
 2. [Installation](#installation)
 3. [Usage](#usage)
-4. [License](#license)
-5. [Contact](#contact)
+4. [Contributing](#contributing)
+5. [License](#license)
+6. [Contact](#contact)
 
 ## Features 🎬
 
@@ -31,7 +32,7 @@ A mobile application for managing personal budgets and finances, built with Reac
 - Java JDK 17 installed
 - Test device with Expo Go installed
 
-### Steps 📝
+### Steps 👟
 
 1. **Clone the repository**
 
@@ -120,13 +121,15 @@ A mobile application for managing personal budgets and finances, built with Reac
    ```
 
    - Start the server
+
    ```sh
    npx expo start
    ```
 
    - Using Expo Go
+
    * Scan the QR code
-   * Follow terminal prompts 
+   * Follow terminal prompts
 
 ## Usage ▶
 
@@ -153,7 +156,52 @@ A mobile application for managing personal budgets and finances, built with Reac
 6. **Promote Financial Literacy**
    - Access links to informative media to educate yourself about money management.
 
-## License ❗
+
+## Contributing ➕
+
+Contributions are welcome! If you have any improvements, bug fixes, or new features to add, follow these steps:
+
+1. **Fork the repository**
+
+   Click on the "Fork" button at the top right of the repository page.
+
+2. **Clone your forked repository**
+
+   ```sh
+   git clone https://github.com/your-username/prioritize-your-life
+   cd prioritize-your-life
+   ```
+````
+
+3. **Create a new branch**
+
+   ```sh
+   git checkout -b my-feature-branch
+   ```
+
+4. **Make your changes**
+
+   Implement your changes in the new branch.
+
+5. **Commit your changes**
+
+   ```sh
+   git commit -m "Description of the feature or fix"
+   ```
+
+6. **Push your changes to your fork**
+
+   ```sh
+   git push origin my-feature-branch
+   ```
+
+7. **Submit a pull request**
+
+   Go to the original repository and create a pull request from your forked repository and branch.
+
+```
+
+## License ⚖
 
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
 
@@ -162,3 +210,4 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file 
 For any questions or suggestions, feel free to open an issue or contact us at [shawnastaff@gmail.com].
 
 ### Special note at this time the iOS build has not been built. Building iOS will require some basic knowledge of native iOS development.
+```
