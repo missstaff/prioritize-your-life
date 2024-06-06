@@ -9,6 +9,10 @@ import { AppThemedView } from "@/components/app_components/AppThemedView";
 import { getFireApp } from "@/getFireApp";
 import { isValidEmail } from "./utilities";
 
+
+/**
+ * A component that renders a password reset form.
+ */
 export default function ResetPassword() {
   const { isAuthenticated } = useContext(AppContext);
   const [email, setEmail] = useState<string>("");
@@ -42,6 +46,7 @@ export default function ResetPassword() {
       alert(errorMessage);
     }
   };
+
   return (
     <AppThemedView style={styles.container}>
       <AppThemedTextInput

@@ -7,8 +7,12 @@ import { isValidEmail, isValidPassword, validateFormInput } from "./utilities";
 import { AppContext } from "@/store/app-context";
 import { AppThemedView } from "@/components/app_components/AppThemedView";
 import { getFireApp } from "@/getFireApp";
-import { AppThemedText } from "@/components/app_components/AppThemedText";
+import LoadingSpinner from "@/components/LoadingSpinner";
+import ShowIf from "@/components/ShowIf";
 
+/**
+ * A component that renders a sign-in form.
+ */
 const SignIn = (): JSX.Element => {
   const { isLoading, setIsLoading, isAuthenticated, setIsAuthenticated } =
     useContext(AppContext);
@@ -54,34 +58,40 @@ const SignIn = (): JSX.Element => {
     signIn();
   };
 
-  if (!isAuthenticated && isLoading)
-    return (
-      <AppThemedView>
-        <AppThemedText>Loading...</AppThemedText>
-      </AppThemedView>
-    );
 
   return (
     <AppThemedView style={styles.container}>
-      <AppThemedTextInput
-        checkValue={isValidEmail}
-        iconName="mail"
-        placeholder="Email"
-        secureEntry={false}
-        setValue={setEmail}
-        value={email}
-      />
-      <AppThemedTextInput
-        checkValue={isValidPassword}
-        placeholder="Password"
-        secureEntry={true}
-        setValue={setPassword}
-        value={password}
-      />
+      <ShowIf
+        condition={isLoading}
+        render={
+          <LoadingSpinner />
+        }
+        renderElse={
+          <>
+            <AppThemedTextInput
+              checkValue={isValidEmail}
+              iconName="mail"
+              placeholder="Email"
+              secureEntry={false}
+              setValue={setEmail}
+              value={email}
+            />
+            <AppThemedTextInput
+              checkValue={isValidPassword}
+              placeholder="Password"
+              secureEntry={true}
+              setValue={setPassword}
+              value={password}
+            />
 
-      <AppTouchableOpacity onPress={onSubmit}>Sign In</AppTouchableOpacity>
-      <AppLink to="./signup">Sign Up</AppLink>
-      <AppLink to="./reset">Forgot Password</AppLink>
+            <AppTouchableOpacity onPress={onSubmit}>
+              Sign In
+            </AppTouchableOpacity>
+            <AppLink to="./signup">Sign Up</AppLink>
+            <AppLink to="./reset">Forgot Password</AppLink>
+          </>
+        }
+      />
     </AppThemedView>
   );
 };

@@ -8,7 +8,8 @@ import { AppContext } from "@/store/app-context";
 import { AppThemedView } from "@/components/app_components/AppThemedView";
 import { getFireApp } from "@/getFireApp";
 import { isValidEmail, validateFormInput, isValidPassword } from "./utilities";
-
+import ShowIf from "@/components/ShowIf";
+import LoadingSpinner from "@/components/LoadingSpinner";
 
 /**
  * A component that renders a sign-up form.
@@ -16,7 +17,7 @@ import { isValidEmail, validateFormInput, isValidPassword } from "./utilities";
 const SignUp = () => {
   const { isAuthenticated, setIsLoading, setIsAuthenticated } =
     useContext(AppContext);
-    
+
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [confirmPassword, setConfirmPassword] = useState<string>("");
@@ -62,40 +63,50 @@ const SignUp = () => {
 
   return (
     <AppThemedView style={styles.container}>
-      <AppThemedTextInput
-        checkValue={isValidEmail}
-        iconName="mail"
-        placeholder="Email"
-        secureEntry={false}
-        setValue={setEmail}
-        value={email}
+      <ShowIf
+        condition={!isAuthenticated}
+        render={
+          <>
+            <AppThemedTextInput
+              checkValue={isValidEmail}
+              iconName="mail"
+              placeholder="Email"
+              secureEntry={false}
+              setValue={setEmail}
+              value={email}
+            />
+            <AppThemedTextInput
+              checkValue={isValidPassword}
+              placeholder="Password"
+              secureEntry={true}
+              setValue={setPassword}
+              value={password}
+            />
+            <AppThemedTextInput
+              checkValue={isValidPassword}
+              placeholder="Password"
+              secureEntry={true}
+              setValue={setConfirmPassword}
+              value={confirmPassword}
+            />
+            <AppTouchableOpacity onPress={signUp}>Sign Up</AppTouchableOpacity>
+            <AppLink to="./signin">Sign In</AppLink>
+          </>
+        }
+        renderElse={<LoadingSpinner size="large" color="#0000ff" />}
       />
-      <AppThemedTextInput
-        checkValue={isValidPassword}
-        placeholder="Password"
-        secureEntry={true}
-        setValue={setPassword}
-        value={password}
-      />
-      <AppThemedTextInput
-        checkValue={isValidPassword}
-        placeholder="Password"
-        secureEntry={true}
-        setValue={setConfirmPassword}
-        value={confirmPassword}
-      />
-      <AppTouchableOpacity onPress={signUp}>Sign Up</AppTouchableOpacity>
-      <AppLink to="./signin">Sign In</AppLink>
     </AppThemedView>
   );
 };
 
 const styles = ScaledSheet.create({
   container: {
+    display: "flex",
     flex: 1,
+    flexDirection: "column",
     justifyContent: "center",
     alignItems: "center",
-  }
+  },
 });
 
 export default SignUp;
