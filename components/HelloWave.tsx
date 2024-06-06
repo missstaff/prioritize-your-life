@@ -1,13 +1,13 @@
-import { StyleSheet } from 'react-native';
+import { ScaledSheet, s } from "react-native-size-matters";
 import Animated, {
   useSharedValue,
   useAnimatedStyle,
   withTiming,
   withRepeat,
   withSequence,
-} from 'react-native-reanimated';
+} from "react-native-reanimated";
 
-import { ThemedText } from '@/components/ThemedText';
+import { AppThemedText } from "@/components/app_components/AppThemedText";
 
 export function HelloWave() {
   const rotationAnimation = useSharedValue(0);
@@ -23,15 +23,15 @@ export function HelloWave() {
 
   return (
     <Animated.View style={animatedStyle}>
-      <ThemedText style={styles.text}>👋</ThemedText>
+      <AppThemedText style={styles.text}>👋</AppThemedText>
     </Animated.View>
   );
 }
 
-const styles = StyleSheet.create({
+const styles = ScaledSheet.create({
   text: {
-    fontSize: 28,
-    lineHeight: 32,
-    marginTop: -6,
+    fontSize: s(28),
+    lineHeight: s(32),
+    marginTop: s(-6),
   },
 });
