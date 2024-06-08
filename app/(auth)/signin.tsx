@@ -1,4 +1,5 @@
 import React, { useContext, useState } from "react";
+import Toast from "react-native-toast-message";
 import { ScaledSheet } from "react-native-size-matters";
 import AppThemedTextInput from "@/components/app_components/AppThemedTextInput";
 import AppTouchableOpacity from "@/components/app_components/AppTouchableOpacity";
@@ -14,7 +15,7 @@ import ShowIf from "@/components/ShowIf";
  * A component that renders a sign-in form.
  */
 const SignIn = (): JSX.Element => {
-  const { isLoading, setIsLoading, isAuthenticated, setIsAuthenticated } =
+  const { isLoading, setIsLoading, setIsAuthenticated } =
     useContext(AppContext);
 
   const [email, setEmail] = useState<string>("");
@@ -22,37 +23,50 @@ const SignIn = (): JSX.Element => {
 
   const signIn = async () => {
     try {
+      
+      const emailToLower = email.toLocaleLowerCase();
       setIsLoading(true);
 
       const firebase = await getFireApp();
       if (!firebase) {
+        Toast.show({
+          type: "error",
+          text1: "There has been an error. Please try again.",
+        });
         throw new Error("Firebase app not initialized");
       }
-      email.toLocaleLowerCase();
+
       const userCreds = await firebase
         .auth()
-        .signInWithEmailAndPassword(email, password);
+        .signInWithEmailAndPassword(emailToLower, password);
       if (!userCreds) {
         setIsLoading(false);
-        throw new Error("User not found");
+        Toast.show({
+          type: "error",
+          text1: "User not found!",
+        });
       }
 
       setEmail("");
       setPassword("");
       setIsAuthenticated(true);
       setIsLoading(false);
+
     } catch (error: any) {
       const errorMessage =
         "Error signing in: " + (error.message ?? "Unknown error occurred.");
       console.error(errorMessage + "\nStackTrace: " + error.stack);
       setIsLoading(false);
-      alert(errorMessage);
+      Toast.show({
+        type: "error",
+        text1: "Error signing in.",
+        text2: errorMessage,
+      });
     }
   };
 
   const onSubmit = () => {
     if (!validateFormInput(email, password)) {
-      alert("Invalid email address or password. Please try again.");
       return;
     }
     signIn();

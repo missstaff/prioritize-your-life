@@ -1,15 +1,16 @@
 import React, { useContext, useEffect, useState } from "react";
+import Toast from "react-native-toast-message";
 import { ScaledSheet } from "react-native-size-matters";
 import { router } from "expo-router";
 import AppLink from "@/components/app_components/AppLink";
 import AppThemedTextInput from "@/components/app_components/AppThemedTextInput";
 import AppTouchableOpacity from "@/components/app_components/AppTouchableOpacity";
+import LoadingSpinner from "@/components/LoadingSpinner";
+import ShowIf from "@/components/ShowIf";
 import { AppContext } from "@/store/app-context";
 import { AppThemedView } from "@/components/app_components/AppThemedView";
 import { getFireApp } from "@/getFireApp";
 import { isValidEmail, validateFormInput, isValidPassword } from "./utilities";
-import ShowIf from "@/components/ShowIf";
-import LoadingSpinner from "@/components/LoadingSpinner";
 
 /**
  * A component that renders a sign-up form.
@@ -24,11 +25,11 @@ const SignUp = () => {
 
   const signUp = async () => {
     try {
-      email.toLocaleLowerCase();
-      if (!validateFormInput(email, password, confirmPassword)) {
-        alert("Invalid email address or password. Please try again.");
+      const emailToLowerCase = email.toLocaleLowerCase();
+      if (!validateFormInput(emailToLowerCase, password, confirmPassword)) {
         return;
       }
+
       setIsLoading(true);
 
       const firebase = await getFireApp();
@@ -36,7 +37,8 @@ const SignUp = () => {
 
       const userCreds = await firebase
         .auth()
-        .createUserWithEmailAndPassword(email, password);
+        .createUserWithEmailAndPassword(emailToLowerCase, password);
+
       if (userCreds) {
         setIsAuthenticated(true);
         setEmail("");
@@ -44,14 +46,24 @@ const SignUp = () => {
         setConfirmPassword("");
       } else {
         setIsLoading(false);
-        throw new Error("User not found");
+        Toast.show({
+          type: "error",
+          text1: "Error signing in",
+          text2: "User not found.",
+        });
       }
     } catch (error: any) {
+      setIsLoading(false);
+
       const errorMessage =
         "Error signing up:" + (error.message ?? "Unknown error occurred");
       console.error(errorMessage + "\nStackTrace: " + error);
-      setIsLoading(false);
-      alert(errorMessage);
+
+      Toast.show({
+        type: "error",
+        text1: "Error signing up",
+        text2: errorMessage,
+      });
     }
   };
 

@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
+import Toast from "react-native-toast-message";
 import { ScaledSheet } from "react-native-size-matters";
 import { router } from "expo-router";
 import AppLink from "@/components/app_components/AppLink";
@@ -23,27 +24,39 @@ export default function ResetPassword() {
   }
  }, [isAuthenticated]);
 
-  const onSubmit = () => {
+  const onSubmit = async () => {
     try {
-      email.toLocaleLowerCase();
-      if (!isValidEmail(email)) {
-        alert("Invalid email address. Please try again.");
+      const emailToLowerCase = email.toLocaleLowerCase();
+      if (!isValidEmail(emailToLowerCase)) {
         return;
       }
-      const firebase = getFireApp();
-      if (!firebase) throw new Error("Firebase app not initialized");
-      if (!("auth" in firebase))
+      const firebase = await getFireApp();
+      if (!firebase) {
+        throw new Error("Firebase app not initialized");
+      }
+      if (!("auth" in firebase)){
         throw new Error("Firebase app does not have 'auth' property");
-      firebase.auth().sendPasswordResetEmail(email);
-      alert("Password reset email sent.");
+      }
+
+      const x = await firebase.auth().sendPasswordResetEmail(emailToLowerCase);
+      Toast.show({
+        type: "success",
+        text1: "Password reset email sent.",
+      });
+
       router.push("/signin");
       setEmail("");
+
     } catch (error: any) {
       const errorMessage =
         "Error resetting password: " +
         (error.message ?? "Unknown error occurred.");
       console.error(errorMessage + "\nStackTrace: " + error.stack);
-      alert(errorMessage);
+      Toast.show({
+        type: "error",
+        text1: "Error resetting password",
+        text2: errorMessage,
+      });
     }
   };
 
