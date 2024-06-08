@@ -29,11 +29,24 @@ export const isValidPassword = (password: string) => {
   return isValid;
 };
 
+export const isEmailAndPasswordValid = (email: string, password: string) => {
+  if (!isValidEmail(email) && !isValidPassword(password)){
+    Toast.show({
+      type: "error",
+      text1: "Invalid email and password.",
+      text2:"Please try again.",
+    });
+    return false;
+  };
+  return true;
+}
+
 export const validateFormInput = (
   email: string,
   password: string,
   confirmPassword: string = ""
 ) => {
+  if (!isEmailAndPasswordValid(email, password)) return false;
   if (!isValidEmail(email)) return false;
   if (!isValidPassword(password)) return false;
   if (confirmPassword != "" && password != "" && confirmPassword !== password) {
