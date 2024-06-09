@@ -2,16 +2,17 @@ import React, { useContext, useEffect, useState } from "react";
 import Toast from "react-native-toast-message";
 import { ScaledSheet } from "react-native-size-matters";
 import { router } from "expo-router";
+import { useMutation } from "@tanstack/react-query";
 import AppThemedTextInput from "@/components/app_components/AppThemedTextInput";
 import AppTouchableOpacity from "@/components/app_components/AppTouchableOpacity";
+import LoadingSpinner from "@/components/LoadingSpinner";
+import ShowIf from "@/components/ShowIf";
 import { AppContext } from "@/store/app-context";
-import { AppThemedView } from "@/components/app_components/AppThemedView";
+import { AppThemedText } from "@/components/app_components/AppThemedText";
+import { AppThemedView } from "@/components/app_components/AppThemedView"
 import { getFireApp } from "@/getFireApp";
 import { isValidEmail } from "./utilities";
-import { AppThemedText } from "@/components/app_components/AppThemedText";
-import { useMutation } from "@tanstack/react-query";
-import ShowIf from "@/components/ShowIf";
-import LoadingSpinner from "@/components/LoadingSpinner";
+
 
 /**
  * A component that renders a password reset form.

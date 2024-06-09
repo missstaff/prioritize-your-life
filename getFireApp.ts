@@ -10,7 +10,6 @@ import "@react-native-firebase/storage";
 import firebase from "@react-native-firebase/app";
 import { Platform } from "react-native";
 
-
 /**
  * Gets the firebase app.
  * @returns The firebase app.

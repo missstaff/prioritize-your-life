@@ -1,27 +1,15 @@
 import React, { createContext, useReducer, ReactNode } from "react";
+import { appReducer, AppState, Action } from "./app-reducer";
 
 /**
  * Represents the state of the application.
  */
 
-// Define AppState type
-interface AppState {
-  isAuthenticated: boolean;
-  uid: string;
-}
-
 // Define context type
 interface AppContextType extends AppState {
-  isAuthenticated: boolean;
-  uid: string;
   setIsAuthenticated: (isAuthenticated: boolean) => void;
   setUid: (uid: string | undefined) => void;
 }
-
-// Define action types
-type Action =
-  | { type: "UID"; uid: string }
-  | { type: "Authenticated"; isAuthenticated: boolean };
 
 export const AppContext = createContext<AppContextType>({
   isAuthenticated: false,
@@ -30,32 +18,18 @@ export const AppContext = createContext<AppContextType>({
   setUid: () => {},
 });
 
-function appReducer(state: AppState, action: Action): AppState {
-  switch (action.type) {
-    case "Authenticated":
-      return {
-        ...state,
-        isAuthenticated: action.isAuthenticated,
-      };
-    case "UID":
-      return {
-        ...state,
-        uid: action.uid,
-      };
-    default:
-      return state;
-  }
-}
-
 interface AppContextProviderProps {
   children: ReactNode;
 }
 
 export const AppContextProvider = ({ children }: AppContextProviderProps) => {
-  const [state, dispatch] = useReducer(appReducer, {
-    isAuthenticated: false,
-    uid: "",
-  });
+  const [state, dispatch] = useReducer<React.Reducer<AppState, Action>>(
+    appReducer,
+    {
+      isAuthenticated: false,
+      uid: "",
+    }
+  );
 
   const setIsAuthenticated = (isAuthenticated: boolean) => {
     dispatch({ type: "Authenticated", isAuthenticated });
