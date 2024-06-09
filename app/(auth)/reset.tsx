@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
 import Toast from "react-native-toast-message";
-import { ScaledSheet } from "react-native-size-matters";
 import { router } from "expo-router";
 import { useMutation } from "@tanstack/react-query";
 import AppThemedTextInput from "@/components/app_components/AppThemedTextInput";
@@ -12,6 +11,7 @@ import { AppThemedText } from "@/components/app_components/AppThemedText";
 import { AppThemedView } from "@/components/app_components/AppThemedView"
 import { getFireApp } from "@/getFireApp";
 import { isValidEmail } from "./utilities";
+import { styles } from "./styles";
 
 
 /**
@@ -96,11 +96,3 @@ export default function ResetPassword() {
     />
   );
 }
-
-const styles = ScaledSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-});

@@ -1,6 +1,5 @@
 import React, { useContext, useState } from "react";
 import Toast from "react-native-toast-message";
-import { ScaledSheet } from "react-native-size-matters";
 import AppThemedTextInput from "@/components/app_components/AppThemedTextInput";
 import AppTouchableOpacity from "@/components/app_components/AppTouchableOpacity";
 import { isValidEmail, isValidPassword, validateFormInput } from "./utilities";
@@ -12,11 +11,12 @@ import ShowIf from "@/components/ShowIf";
 import { AppThemedText } from "@/components/app_components/AppThemedText";
 import { router } from "expo-router";
 import { useMutation } from "@tanstack/react-query";
+import { styles } from "./styles";
 
 /**
  * A component that renders a sign-in form.
  */
-const SignIn = (): JSX.Element => {
+export default function SignIn(): JSX.Element {
   const { setIsAuthenticated, setUid } = useContext(AppContext);
 
   const [email, setEmail] = useState<string>("");
@@ -112,13 +112,3 @@ const SignIn = (): JSX.Element => {
     </AppThemedView>
   );
 };
-
-const styles = ScaledSheet.create({
-  container: {
-    alignItems: "center",
-    flex: 1,
-    justifyContent: "center",
-  },
-});
-
-export default SignIn;
