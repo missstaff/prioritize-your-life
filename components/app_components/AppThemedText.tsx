@@ -61,6 +61,6 @@ const styles = ScaledSheet.create({
   link: {
     lineHeight: s(30),
     fontSize: s(16),
-    color: "#0a7ea4",
+    color: "#0000ff",
   },
 });

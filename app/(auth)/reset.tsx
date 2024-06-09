@@ -2,11 +2,14 @@ import React, { useContext, useEffect, useState } from "react";
 import Toast from "react-native-toast-message";
 import { ScaledSheet } from "react-native-size-matters";
 import { router } from "expo-router";
-import AppLink from "@/components/app_components/AppLink";
+import { useMutation } from "@tanstack/react-query";
 import AppThemedTextInput from "@/components/app_components/AppThemedTextInput";
 import AppTouchableOpacity from "@/components/app_components/AppTouchableOpacity";
+import LoadingSpinner from "@/components/LoadingSpinner";
+import ShowIf from "@/components/ShowIf";
 import { AppContext } from "@/store/app-context";
-import { AppThemedView } from "@/components/app_components/AppThemedView";
+import { AppThemedText } from "@/components/app_components/AppThemedText";
+import { AppThemedView } from "@/components/app_components/AppThemedView"
 import { getFireApp } from "@/getFireApp";
 import { isValidEmail } from "./utilities";
 
@@ -18,36 +21,39 @@ export default function ResetPassword() {
   const { isAuthenticated } = useContext(AppContext);
   const [email, setEmail] = useState<string>("");
 
- useEffect(() => {
-  if (isAuthenticated) {
-    router.push("/");
-  }
- }, [isAuthenticated]);
+  useEffect(() => {
+    if (isAuthenticated) {
+      router.push("/");
+    }
+  }, [isAuthenticated]);
 
-  const onSubmit = async () => {
-    try {
-      const emailToLowerCase = email.toLocaleLowerCase();
-      if (!isValidEmail(emailToLowerCase)) {
-        return;
-      }
-      const firebase = await getFireApp();
-      if (!firebase) {
-        throw new Error("Firebase app not initialized");
-      }
-      if (!("auth" in firebase)){
-        throw new Error("Firebase app does not have 'auth' property");
-      }
+  const resetPassword = async () => {
+    const emailToLowerCase = email.toLocaleLowerCase();
+    if (!isValidEmail(emailToLowerCase)) {
+      return;
+    }
+    const firebase = await getFireApp();
+    if (!firebase) {
+      throw new Error("Firebase app not initialized");
+    }
+    if (!("auth" in firebase)) {
+      throw new Error("Firebase app does not have 'auth' property");
+    }
 
-      const x = await firebase.auth().sendPasswordResetEmail(emailToLowerCase);
+    await firebase.auth().sendPasswordResetEmail(emailToLowerCase);
+  };
+
+  const mutation = useMutation({
+    mutationFn: resetPassword,
+    onSuccess: () => {
       Toast.show({
         type: "success",
         text1: "Password reset email sent.",
       });
-
       router.push("/signin");
       setEmail("");
-
-    } catch (error: any) {
+    },
+    onError: (error: any) => {
       const errorMessage =
         "Error resetting password: " +
         (error.message ?? "Unknown error occurred.");
@@ -55,27 +61,39 @@ export default function ResetPassword() {
       Toast.show({
         type: "error",
         text1: "Error resetting password",
-        text2: errorMessage,
+        text2: "Please try again.",
       });
-    }
-  };
+    },
+  });
 
   return (
-    <AppThemedView style={styles.container}>
-      <AppThemedTextInput
-        checkValue={isValidEmail}
-        iconName="mail"
-        placeholder="Email"
-        secureEntry={false}
-        setValue={setEmail}
-        value={email}
-      />
-      <AppTouchableOpacity onPress={onSubmit}>
-        Reset Password
-      </AppTouchableOpacity>
-
-      <AppLink to="./signin">Sign In</AppLink>
-    </AppThemedView>
+    <ShowIf
+      condition={mutation.status === "pending"}
+      render={
+        <AppThemedView style={styles.container}>
+          <LoadingSpinner />
+        </AppThemedView>
+      }
+      renderElse={
+        <AppThemedView style={styles.container}>
+          <AppThemedTextInput
+            checkValue={isValidEmail}
+            iconName="mail"
+            placeholder="Email"
+            secureEntry={false}
+            setValue={setEmail}
+            value={email}
+          />
+          <AppTouchableOpacity onPress={() => mutation.mutate()}>
+            Reset Password
+          </AppTouchableOpacity>
+          <AppThemedText
+            type="link"
+            onPress={() => router.push("/signup")}
+          ></AppThemedText>
+        </AppThemedView>
+      }
+    />
   );
 }
 
