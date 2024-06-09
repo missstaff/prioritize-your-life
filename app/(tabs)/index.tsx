@@ -8,15 +8,11 @@ import SignIn from "../(auth)/signin";
 import { AppContext } from "../../store/app-context";
 import ShowIf from "@/components/ShowIf";
 
-
-export default function HomeScreen() {
+const HomeScreen = () => {
   const { isAuthenticated } = useContext(AppContext);
 
-  if (!isAuthenticated) {
-    return <SignIn />;
-  }
   return (
-    <SafeAreaView>
+    <SafeAreaView style={styles.container}>
       <ShowIf
         condition={!isAuthenticated}
         render={<SignIn />}
@@ -51,16 +47,14 @@ export default function HomeScreen() {
             <AppThemedView style={styles.stepContainer}>
               <AppThemedText type="subtitle">Step 2: Explore</AppThemedText>
               <AppThemedText>
-                Tap the Explore tab to learn more about what"s included in this
+                Tap the Explore tab to learn more about what's included in this
                 starter app.
               </AppThemedText>
             </AppThemedView>
             <AppThemedView style={styles.stepContainer}>
-              <AppThemedText type="subtitle">
-                Step 3: Get a fresh start
-              </AppThemedText>
+              <AppThemedText type="subtitle">Step 3: Get a fresh start</AppThemedText>
               <AppThemedText>
-                When you"re ready, run{" "}
+                When you're ready, run{" "}
                 <AppThemedText type="defaultSemiBold">
                   npm run reset-project
                 </AppThemedText>{" "}
@@ -79,6 +73,10 @@ export default function HomeScreen() {
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "#fff",
+  },
   titleContainer: {
     flexDirection: "row",
     alignItems: "center",
@@ -96,3 +94,5 @@ const styles = StyleSheet.create({
     position: "absolute",
   },
 });
+
+export default HomeScreen;

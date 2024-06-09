@@ -65,11 +65,11 @@ function RootLayoutNav() {
         <ThemeProvider
           value={colorScheme === "dark" ? DarkTheme : DefaultTheme}
         >
-          <Stack 
-          screenOptions={{
-            headerShown: false,
-    
-          }} />
+          <Stack
+            screenOptions={{
+              headerShown: false,
+            }}
+          />
           <StatusBar style={"auto"} />
           <Toast />
         </ThemeProvider>

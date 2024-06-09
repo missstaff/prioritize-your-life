@@ -3,13 +3,14 @@ import Toast from "react-native-toast-message";
 import { ScaledSheet } from "react-native-size-matters";
 import AppThemedTextInput from "@/components/app_components/AppThemedTextInput";
 import AppTouchableOpacity from "@/components/app_components/AppTouchableOpacity";
-import AppLink from "@/components/app_components/AppLink";
 import { isValidEmail, isValidPassword, validateFormInput } from "./utilities";
 import { AppContext } from "@/store/app-context";
 import { AppThemedView } from "@/components/app_components/AppThemedView";
 import { getFireApp } from "@/getFireApp";
 import LoadingSpinner from "@/components/LoadingSpinner";
 import ShowIf from "@/components/ShowIf";
+import { AppThemedText } from "@/components/app_components/AppThemedText";
+import { router } from "expo-router";
 
 /**
  * A component that renders a sign-in form.
@@ -101,8 +102,10 @@ const SignIn = (): JSX.Element => {
             <AppTouchableOpacity onPress={onSubmit}>
               Sign In
             </AppTouchableOpacity>
-            <AppLink to="./signup">Sign Up</AppLink>
-            <AppLink to="./reset">Reset Password</AppLink>
+            <AppThemedText type="link" onPress={() => router.push("/signup")}>          
+              Sign Up
+            </AppThemedText>
+            <AppThemedText type="link" onPress={() => router.push("/reset")}>Reset Password</AppThemedText>
           </>
         }
       />

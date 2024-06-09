@@ -2,13 +2,13 @@ import React, { useContext, useEffect, useState } from "react";
 import Toast from "react-native-toast-message";
 import { ScaledSheet } from "react-native-size-matters";
 import { router } from "expo-router";
-import AppLink from "@/components/app_components/AppLink";
 import AppThemedTextInput from "@/components/app_components/AppThemedTextInput";
 import AppTouchableOpacity from "@/components/app_components/AppTouchableOpacity";
 import { AppContext } from "@/store/app-context";
 import { AppThemedView } from "@/components/app_components/AppThemedView";
 import { getFireApp } from "@/getFireApp";
 import { isValidEmail } from "./utilities";
+import { AppThemedText } from "@/components/app_components/AppThemedText";
 
 
 /**
@@ -74,7 +74,7 @@ export default function ResetPassword() {
         Reset Password
       </AppTouchableOpacity>
 
-      <AppLink to="./signin">Sign In</AppLink>
+      <AppThemedText type="link" onPress={() => router.push("/signup")} ></AppThemedText>
     </AppThemedView>
   );
 }
