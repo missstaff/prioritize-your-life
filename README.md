@@ -126,10 +126,10 @@ A mobile application for managing personal budgets and finances, built with Reac
    npx expo start
    ```
 
-   - Using Expo Go
-
-   * Scan the QR code
-   * Follow terminal prompts
+   - Create a local development build using expo
+   ```
+   npx expo run:anroid
+   ```sh
 
 ## Usage ▶
 
