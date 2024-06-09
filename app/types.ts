@@ -5,3 +5,10 @@ export type RootStackParamList = {
   reset: undefined;
   auth: undefined;
 };
+
+export interface ToasterProps {
+  type: string;
+  text1: string;
+  text2?: string;
+  title: string;
+}
