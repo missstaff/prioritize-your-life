@@ -1,5 +1,5 @@
 import { Link, Stack } from "expo-router";
-import { StyleSheet } from "react-native";
+import { ScaledSheet, s, vs } from "react-native-size-matters";
 import { AppThemedText } from "@/components/app_components/AppThemedText";
 import { AppThemedView } from "@/components/app_components/AppThemedView";
 
@@ -22,15 +22,15 @@ export default function NotFoundScreen() {
   );
 }
 
-const styles = StyleSheet.create({
+const styles = ScaledSheet.create({
   container: {
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
-    padding: 20,
+    padding: s(20),
   },
   link: {
-    marginTop: 15,
-    paddingVertical: 15,
+    marginTop: s(15),
+    paddingVertical: vs(15),
   },
 });

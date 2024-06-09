@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
 import Toast from "react-native-toast-message";
-import { ScaledSheet } from "react-native-size-matters";
 import { router } from "expo-router";
 import AppThemedTextInput from "@/components/app_components/AppThemedTextInput";
 import AppTouchableOpacity from "@/components/app_components/AppTouchableOpacity";
@@ -12,8 +11,9 @@ import { getFireApp } from "@/getFireApp";
 import { isValidEmail, validateFormInput, isValidPassword } from "./utilities";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { AppThemedText } from "@/components/app_components/AppThemedText";
+import { styles } from "./styles";
 
-const SignUp = () => {
+export default function SignUp(): JSX.Element {
   const queryClient = useQueryClient();
   const { isAuthenticated, setIsAuthenticated, setUid  } = useContext(AppContext);
 
@@ -116,14 +116,3 @@ const SignUp = () => {
   );
 };
 
-const styles = ScaledSheet.create({
-  container: {
-    display: "flex",
-    flex: 1,
-    flexDirection: "column",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-});
-
-export default SignUp;
