@@ -70,7 +70,7 @@ function RootLayoutNav() {
             headerShown: false,
     
           }} />
-          <StatusBar style="dark" />
+          <StatusBar style={"auto"} />
           <Toast />
         </ThemeProvider>
       </AppContextProvider>
