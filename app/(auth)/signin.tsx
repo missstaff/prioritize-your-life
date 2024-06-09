@@ -39,7 +39,7 @@ const SignIn = (): JSX.Element => {
       .signInWithEmailAndPassword(emailToLower, password);
 
     if (userCreds) {
-      return userCreds.user.uid
+      return userCreds.user.uid;
     } else {
       Toast.show({
         type: "error",
@@ -79,7 +79,7 @@ const SignIn = (): JSX.Element => {
   return (
     <AppThemedView style={styles.container}>
       <ShowIf
-        condition={mutation.status === 'pending'}
+        condition={mutation.status === "pending"}
         render={<LoadingSpinner />}
         renderElse={
           <>

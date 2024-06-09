@@ -7,7 +7,7 @@ import React from "react";
  * @param render The component to render if the condition is met.
  * @param renderElse The component to render if the condition is not met.
  */
-export default function ShowIf({ condition, render, renderElse }: { condition: boolean, render: React.ReactNode, renderElse: React.ReactNode }) {
+export default function ShowIf({ condition, render, renderElse }: { condition: boolean, render: React.ReactNode, renderElse: React.ReactNode | null }) {
     if (condition) {
         return <>{render}</>;
     }

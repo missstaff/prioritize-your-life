@@ -65,8 +65,6 @@ export const AppContextProvider = ({ children }: AppContextProviderProps) => {
     dispatch({ type: "UID", uid: uid || "" });
   };
 
-  console.log("AppContextProvider", state);
-
   const ctxValue: AppContextType = {
     isAuthenticated: state.isAuthenticated,
     uid: state.uid,
