@@ -1,55 +1,51 @@
 import React, { createContext, useReducer, ReactNode } from "react";
 
-
 /**
  * Represents the state of the application.
-*/
-
+ */
 
 // Define AppState type
 interface AppState {
   isAuthenticated: boolean;
-  isLoading: boolean;
+  uid: string;
 }
 
 // Define context type
 interface AppContextType extends AppState {
   isAuthenticated: boolean;
-  isLoading: boolean;
+  uid: string;
   setIsAuthenticated: (isAuthenticated: boolean) => void;
-  setIsLoading: (isLoading: boolean) => void;
+  setUid: (uid: string | undefined) => void;
 }
 
 // Define action types
 type Action =
-  | { type: "Loading"; isLoading: boolean }
-  | { type: "Authenticate"; isAuthenticated: boolean };
-
+  | { type: "UID"; uid: string }
+  | { type: "Authenticated"; isAuthenticated: boolean };
 
 export const AppContext = createContext<AppContextType>({
   isAuthenticated: false,
-  isLoading: false,
-  setIsAuthenticated: () => { },
-  setIsLoading: () => { },
+  uid: "",
+  setIsAuthenticated: () => {},
+  setUid: () => {},
 });
 
 function appReducer(state: AppState, action: Action): AppState {
   switch (action.type) {
-    case "Loading":
-      return {
-        ...state,
-        isLoading: action.isLoading,
-      };
-    case "Authenticate":
+    case "Authenticated":
       return {
         ...state,
         isAuthenticated: action.isAuthenticated,
+      };
+    case "UID":
+      return {
+        ...state,
+        uid: action.uid,
       };
     default:
       return state;
   }
 }
-
 
 interface AppContextProviderProps {
   children: ReactNode;
@@ -58,23 +54,24 @@ interface AppContextProviderProps {
 export const AppContextProvider = ({ children }: AppContextProviderProps) => {
   const [state, dispatch] = useReducer(appReducer, {
     isAuthenticated: false,
-    isLoading: false,
+    uid: "",
   });
 
   const setIsAuthenticated = (isAuthenticated: boolean) => {
-    dispatch({ type: "Authenticate", isAuthenticated });
+    dispatch({ type: "Authenticated", isAuthenticated });
   };
 
-  const setIsLoading = (isLoading: boolean) => {
-    dispatch({ type: "Loading", isLoading });
+  const setUid = (uid: string | undefined = "") => {
+    dispatch({ type: "UID", uid: uid || "" });
   };
 
+  console.log("AppContextProvider", state);
 
   const ctxValue: AppContextType = {
     isAuthenticated: state.isAuthenticated,
-    isLoading: state.isLoading,
+    uid: state.uid,
     setIsAuthenticated,
-    setIsLoading,
+    setUid,
   };
 
   return <AppContext.Provider value={ctxValue}>{children}</AppContext.Provider>;

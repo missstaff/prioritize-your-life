@@ -11,76 +11,76 @@ import LoadingSpinner from "@/components/LoadingSpinner";
 import ShowIf from "@/components/ShowIf";
 import { AppThemedText } from "@/components/app_components/AppThemedText";
 import { router } from "expo-router";
+import { useMutation } from "@tanstack/react-query";
 
 /**
  * A component that renders a sign-in form.
  */
 const SignIn = (): JSX.Element => {
-  const { isLoading, setIsLoading, setIsAuthenticated } =
-    useContext(AppContext);
+  const { setIsAuthenticated, setUid } = useContext(AppContext);
 
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
 
   const signIn = async () => {
-    try {
-      
-      const emailToLower = email.toLocaleLowerCase();
-      setIsLoading(true);
+    const emailToLower = email.toLocaleLowerCase();
 
-      const firebase = await getFireApp();
-      if (!firebase) {
-        Toast.show({
-          type: "error",
-          text1: "There has been an error. Please try again.",
-        });
-        throw new Error("Firebase app not initialized");
-      }
+    const firebase = await getFireApp();
+    if (!firebase) {
+      Toast.show({
+        type: "error",
+        text1: "There has been an error. Please try again.",
+      });
+      throw new Error("Firebase app not initialized");
+    }
 
-      const userCreds = await firebase
-        .auth()
-        .signInWithEmailAndPassword(emailToLower, password);
-      if (!userCreds) {
-        setIsLoading(false);
-        Toast.show({
-          type: "error",
-          text1: "User not found!",
-        });
-      }
+    const userCreds = await firebase
+      .auth()
+      .signInWithEmailAndPassword(emailToLower, password);
 
+    if (userCreds) {
+      return userCreds.user.uid
+    } else {
+      Toast.show({
+        type: "error",
+        text1: "User not found!",
+      });
+    }
+  };
+
+  const mutation = useMutation({
+    mutationFn: signIn,
+    onSuccess: (uid) => {
       setEmail("");
       setPassword("");
       setIsAuthenticated(true);
-      setIsLoading(false);
-
-    } catch (error: any) {
+      setUid(uid);
+      router.push("/");
+    },
+    onError: (error: any) => {
       const errorMessage =
         "Error signing in: " + (error.message ?? "Unknown error occurred.");
       console.error(errorMessage + "\nStackTrace: " + error.stack);
-      setIsLoading(false);
       Toast.show({
         type: "error",
         text1: "Error signing in.",
         text2: errorMessage,
       });
-    }
-  };
+    },
+  });
 
   const onSubmit = () => {
     if (!validateFormInput(email, password)) {
       return;
     }
-    signIn();
+    mutation.mutate();
   };
-
 
   return (
     <AppThemedView style={styles.container}>
       <ShowIf
-        condition={isLoading}
-        render={
-          <LoadingSpinner />
-        }
+        condition={mutation.status === 'pending'}
+        render={<LoadingSpinner />}
         renderElse={
           <>
             <AppThemedTextInput
@@ -98,14 +98,15 @@ const SignIn = (): JSX.Element => {
               setValue={setPassword}
               value={password}
             />
-
             <AppTouchableOpacity onPress={onSubmit}>
               Sign In
             </AppTouchableOpacity>
-            <AppThemedText type="link" onPress={() => router.push("/signup")}>          
+            <AppThemedText type="link" onPress={() => router.push("/signup")}>
               Sign Up
             </AppThemedText>
-            <AppThemedText type="link" onPress={() => router.push("/reset")}>Reset Password</AppThemedText>
+            <AppThemedText type="link" onPress={() => router.push("/reset")}>
+              Reset Password
+            </AppThemedText>
           </>
         }
       />

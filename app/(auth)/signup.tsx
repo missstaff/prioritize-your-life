@@ -15,7 +15,7 @@ import { AppThemedText } from "@/components/app_components/AppThemedText";
 
 const SignUp = () => {
   const queryClient = useQueryClient();
-  const { isAuthenticated, setIsAuthenticated } = useContext(AppContext);
+  const { isAuthenticated, setIsAuthenticated, setUid  } = useContext(AppContext);
 
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
@@ -35,9 +35,7 @@ const SignUp = () => {
       .createUserWithEmailAndPassword(emailToLowerCase, password);
 
     if (userCreds) {
-      setEmail("");
-      setPassword("");
-      setConfirmPassword("");
+      return userCreds.user.uid;
     } else {
       Toast.show({
         type: "error",
@@ -49,9 +47,12 @@ const SignUp = () => {
 
   const mutation = useMutation({
     mutationFn: signUp,
-    onSuccess: () => {
-      console.log("User signed up successfully");
+    onSuccess: (uid) => {
       setIsAuthenticated(true);
+      setUid(uid);
+      setEmail("");
+      setPassword("");
+      setConfirmPassword("");
       queryClient.invalidateQueries({ queryKey: ["uid"] });
     },
     onError: (error: any) => {

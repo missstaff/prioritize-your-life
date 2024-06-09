@@ -10,6 +10,7 @@ import ShowIf from "@/components/ShowIf";
 
 const HomeScreen = () => {
   const { isAuthenticated } = useContext(AppContext);
+  
 
   return (
     <SafeAreaView style={styles.container}>
