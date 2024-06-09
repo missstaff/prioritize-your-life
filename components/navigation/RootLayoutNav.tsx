@@ -1,8 +1,3 @@
-/**
- * RootLayoutNav component is responsible for rendering the root layout of the navigation in the finance app.
- * It sets up the necessary providers and configurations for React Navigation, React Query, and other dependencies.
- * It also handles app state changes and online/offline status using NetInfo.
- */
 import { useReactNavigationDevTools } from "@dev-plugins/react-navigation";
 import { useReactQueryDevTools } from "@dev-plugins/react-query";
 import {
