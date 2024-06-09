@@ -102,7 +102,7 @@ const SignIn = (): JSX.Element => {
               Sign In
             </AppTouchableOpacity>
             <AppLink to="./signup">Sign Up</AppLink>
-            <AppLink to="./reset">Forgot Password</AppLink>
+            <AppLink to="./reset">Reset Password</AppLink>
           </>
         }
       />

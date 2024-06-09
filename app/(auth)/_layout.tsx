@@ -6,28 +6,29 @@ import { Stack } from "expo-router";
  * Renders the tab layout component.
  * This component displays a stack of screens for signing in, signing up, and resetting password.
  */
-export default function TabLayout() {
+export default function AuthLayout() {
   return (
     <Stack
       screenOptions={{
-        headerShown: false,
+        headerShown: true,
+
       }}>
       <Stack.Screen
         name="signin"
         options={{
-          title: "SignIn"
+          title: "Login"
         }}
       />
       <Stack.Screen
         name="signup"
         options={{
-          title: "SignUp",
+          title: "Sign Up",
         }}
       />
       <Stack.Screen
         name="reset"
         options={{
-          title: "ResetPassword",
+          title: "Reset Password",
         }}
       />
     </Stack>
