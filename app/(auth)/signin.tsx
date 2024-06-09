@@ -60,7 +60,6 @@ const SignIn = (): JSX.Element => {
     onError: (error: any) => {
       const errorMessage =
         "Error signing in: " + (error.message ?? "Unknown error occurred.");
-      console.error(errorMessage + "\nStackTrace: " + error.stack);
       Toast.show({
         type: "error",
         text1: "Error signing in.",

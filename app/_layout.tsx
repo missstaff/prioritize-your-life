@@ -13,12 +13,14 @@ import "react-native-reanimated";
 import Toast from "react-native-toast-message";
 import { FontAwesome } from "@expo/vector-icons";
 import { AppContextProvider } from "@/store/app-context";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-
+import { QueryClient, QueryClientProvider, focusManager } from "@tanstack/react-query";
+import { useReactQueryDevTools } from '@dev-plugins/react-query';
 import { useColorScheme } from "@/hooks/useColorScheme";
+import { AppState, AppStateStatus, Platform } from "react-native";
+import { onlineManager } from '@tanstack/react-query'
+import NetInfo from '@react-native-community/netinfo'
 
 export {
-  // Catch any errors thrown by the Layout component.
   ErrorBoundary,
 } from "expo-router";
 
@@ -28,6 +30,13 @@ SplashScreen.preventAutoHideAsync();
 export const unstable_settings = {
   initialRouteName: "./index",
 };
+
+
+function onAppStateChange(status: AppStateStatus) {
+  if (Platform.OS !== 'web') {
+    focusManager.setFocused(status === 'active')
+  }
+}
 
 export default function RootLayout() {
   const [loaded, error] = useFonts({
@@ -58,6 +67,22 @@ function RootLayoutNav() {
   const colorScheme = useColorScheme();
   const navigationRef = useNavigationContainerRef();
   useReactNavigationDevTools(navigationRef);
+  useReactQueryDevTools(queryClient);
+
+  useEffect(() => {
+     onlineManager.setEventListener((setOnline) => {
+        return NetInfo.addEventListener((state) => {
+          setOnline(!!state.isConnected)
+        })
+      })
+  }, []);
+
+  useEffect(() => {
+    const subscription = AppState.addEventListener('change', onAppStateChange)
+  
+    return () => subscription.remove()
+  }, [])
+
 
   return (
     <QueryClientProvider client={queryClient}>
