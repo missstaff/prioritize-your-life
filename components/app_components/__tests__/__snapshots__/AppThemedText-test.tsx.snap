@@ -5,11 +5,11 @@ exports[`renders correctly 1`] = `
   style={
     [
       {
-        "color": "#11181C",
+        "color": "#000000",
       },
       {
-        "fontSize": 16,
-        "lineHeight": 24,
+        "fontSize": 34.285714285714285,
+        "lineHeight": 51.42857142857143,
       },
       undefined,
       undefined,

@@ -9,6 +9,6 @@ import { type ComponentProps } from 'react';
  * @param {IconProps<ComponentProps<typeof Ionicons>['name']>} props - The props for the TabBarIcon component.
  * @returns {JSX.Element} The rendered TabBarIcon component.
  */
-export function TabBarIcon({ style, ...rest }: IconProps<ComponentProps<typeof Ionicons>['name']>) {
+export function TabBarIcon({ style, ...rest }: IconProps<ComponentProps<typeof Ionicons>['name']>): JSX.Element {
   return <Ionicons size={28} style={[{ marginBottom: -3 }, style]} {...rest} />;
 }

@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 import Toast from "react-native-toast-message";
 import AppThemedTextInput from "@/components/app_components/AppThemedTextInput";
-import AppTouchableOpacity from "@/components/app_components/AppTouchableOpacity";
+import AppThemedTouchableOpacity from "@/components/app_components/AppThemedTouchableOpacity";
 import { isValidEmail, isValidPassword, validateFormInput } from "./utilities";
 import { AppContext } from "@/store/app-context";
 import { AppThemedView } from "@/components/app_components/AppThemedView";
@@ -97,9 +97,9 @@ export default function SignIn(): JSX.Element {
               setValue={setPassword}
               value={password}
             />
-            <AppTouchableOpacity onPress={onSubmit}>
+            <AppThemedTouchableOpacity onPress={onSubmit}>
               Sign In
-            </AppTouchableOpacity>
+            </AppThemedTouchableOpacity>
             <AppThemedText type="link" onPress={() => router.push("/signup")}>
               Sign Up
             </AppThemedText>

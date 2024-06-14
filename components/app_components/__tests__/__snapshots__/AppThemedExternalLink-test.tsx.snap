@@ -1,0 +1,19 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`AppThemedExternalLink renders correctly 1`] = `
+<Text
+  href="https://www.google.com"
+  onPress={[Function]}
+  role="link"
+  style={
+    [
+      {
+        "color": "#000000",
+      },
+      undefined,
+    ]
+  }
+>
+  Snapshot test!
+</Text>
+`;

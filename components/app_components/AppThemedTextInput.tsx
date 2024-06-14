@@ -20,7 +20,7 @@ interface AppThemedTextInputProps {
  * @param props The component props.
  * @returns The rendered component.
  */
-const AppThemedTextInput = ({
+export const AppThemedTextInput = ({
   checkValue,
   iconName,
   placeholder,

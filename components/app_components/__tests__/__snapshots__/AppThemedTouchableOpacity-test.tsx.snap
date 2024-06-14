@@ -1,0 +1,70 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<View
+  accessibilityState={
+    {
+      "busy": undefined,
+      "checked": undefined,
+      "disabled": undefined,
+      "expanded": undefined,
+      "selected": undefined,
+    }
+  }
+  accessibilityValue={
+    {
+      "max": undefined,
+      "min": undefined,
+      "now": undefined,
+      "text": undefined,
+    }
+  }
+  accessible={true}
+  collapsable={false}
+  focusable={false}
+  onClick={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    {
+      "alignItems": "center",
+      "backgroundColor": "blue",
+      "borderRadius": 10.714285714285714,
+      "marginBottom": 21.428571428571427,
+      "opacity": 1,
+      "padding": 21.428571428571427,
+      "width": "80%",
+    }
+  }
+>
+  <Text
+    style={
+      [
+        {
+          "color": "#000000",
+        },
+        {
+          "fontSize": 34.285714285714285,
+          "lineHeight": 51.42857142857143,
+        },
+        undefined,
+        undefined,
+        undefined,
+        undefined,
+        [
+          {
+            "color": "white",
+          },
+          undefined,
+        ],
+      ]
+    }
+  >
+    Children Content
+  </Text>
+</View>
+`;
