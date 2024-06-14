@@ -43,7 +43,7 @@ export const AppThemedTextInput = ({
         onBlur={(e) => {
           if (value.length > 0) checkValue(value);
         }}
-        onChange={(e) => setValue(e.nativeEvent.text)}
+        onChangeText={(text) => setValue(text)}
         placeholder={placeholder}
         placeholderTextColor="#999"
         secureTextEntry={!isPasswordVisible}
@@ -52,7 +52,7 @@ export const AppThemedTextInput = ({
         {...otherProps}
       />
       {secureEntry && (
-        <TouchableOpacity onPress={() => setIsPasswordVisible(!isPasswordVisible)}>
+        <TouchableOpacity onPress={() => setIsPasswordVisible(!isPasswordVisible)} testID="passwordVisibilityToggle">
           <AppIcon
             name={!isPasswordVisible ? "eye-off" : "eye"}
             size={s(24)}

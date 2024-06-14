@@ -20,7 +20,7 @@ exports[`AppThemedTextInput Tests renders correctly 1`] = `
 >
   <TextInput
     onBlur={[Function]}
-    onChange={[Function]}
+    onChangeText={[Function]}
     placeholder="Snapshot test!"
     placeholderTextColor="#999"
     secureTextEntry={false}
@@ -65,7 +65,7 @@ exports[`AppThemedTextInput Tests renders correctly with dark theme 1`] = `
 >
   <TextInput
     onBlur={[Function]}
-    onChange={[Function]}
+    onChangeText={[Function]}
     placeholder="Snapshot test!"
     placeholderTextColor="#999"
     secureTextEntry={false}
@@ -110,7 +110,7 @@ exports[`AppThemedTextInput Tests renders correctly with light theme 1`] = `
 >
   <TextInput
     onBlur={[Function]}
-    onChange={[Function]}
+    onChangeText={[Function]}
     placeholder="Snapshot test!"
     placeholderTextColor="#999"
     secureTextEntry={false}

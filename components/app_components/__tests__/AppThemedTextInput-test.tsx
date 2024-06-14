@@ -59,22 +59,42 @@ describe("AppThemedTextInput Tests", () => {
     expect(tree).toMatchSnapshot();
   });
 
-  // it("updates value correctly when typing", () => {
-  //   const mockSetValue = jest.fn();
-  //   const { getByPlaceholderText } = render(
-  //     <AppThemedTextInput
-  //       placeholder="Type here..."
-  //       secureEntry={false}
-  //       value=""
-  //       checkValue={() => {}}
-  //       setValue={mockSetValue}
-  //     />
-  //   );
+  describe("AppThemedTextInput Tests", () => {
+    it("updates value correctly when typing", () => {
+      const mockSetValue = jest.fn();
+      const { getByPlaceholderText } = render(
+        <AppThemedTextInput
+          placeholder="Type here..."
+          secureEntry={false}
+          value=""
+          checkValue={() => {}}
+          setValue={mockSetValue}
+        />
+      );
 
-  //   const input = getByPlaceholderText("Type here...");
+      const input = getByPlaceholderText("Type here...");
+      fireEvent.changeText(input, "Hello, World!");
 
-  //   fireEvent.changeText(input, { target: { value: 'Hello, World!' } });
+      expect(mockSetValue).toHaveBeenCalledWith("Hello, World!");
+    });
 
-  //   expect(mockSetValue).toHaveBeenCalledWith("Hello, World!");
-  // });
+    it("toggles secureTextEntry when eye icon is pressed", () => {
+      const mockSetValue = jest.fn();
+      const { getByPlaceholderText, getByTestId } = render(
+        <AppThemedTextInput
+          placeholder="Type here..."
+          secureEntry={true}
+          value=""
+          checkValue={() => {}}
+          setValue={mockSetValue}
+        />
+      );
+
+      const input = getByPlaceholderText("Type here...");
+      const eyeIcon = getByTestId("passwordVisibilityToggle");
+      fireEvent.press(eyeIcon);
+
+      expect(input.props.secureTextEntry).toBe(false);
+    });
+  });
 });
