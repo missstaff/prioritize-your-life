@@ -5,7 +5,7 @@ exports[`renders correctly 1`] = `
   style={
     [
       {
-        "backgroundColor": "#000000",
+        "backgroundColor": "#151718",
       },
       undefined,
     ]

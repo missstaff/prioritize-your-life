@@ -31,8 +31,8 @@ exports[`renders correctly 1`] = `
           "padding": 21.428571428571427,
         },
         {
-          "backgroundColor": "#000000",
-          "color": "#000000",
+          "backgroundColor": "#151718",
+          "color": undefined,
         },
         {
           "flex": 1,

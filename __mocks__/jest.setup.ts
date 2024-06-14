@@ -10,9 +10,10 @@ jest.mock("react-native-reanimated", () => {
   return Reanimated;
 });
 
-// Mock useThemeColor hook
-jest.mock("@/hooks/useThemeColor", () => ({
-  useThemeColor: jest.fn().mockReturnValue("#000000"),
+jest.mock('@/hooks/useThemeColor', () => ({
+  useThemeColor: jest.fn().mockImplementation((colors, theme) => {
+    return theme === "light" ? colors.light : colors.dark;
+  }),
 }));
 
 jest.mock("expo-web-browser", () => ({
