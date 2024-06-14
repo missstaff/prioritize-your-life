@@ -2,30 +2,59 @@ import * as React from "react";
 import renderer from "react-test-renderer";
 import { TouchableOpacity } from "react-native";
 import AppThemedTouchableOpacity from "../../app_components/AppThemedTouchableOpacity";
+import { useThemeColor } from "@/hooks/useThemeColor";
 
-// Snapshot test
-it(`renders correctly`, () => {
-  const tree = renderer.create(
-    <AppThemedTouchableOpacity>
-      Children Content
-    </AppThemedTouchableOpacity>
-  ).toJSON();
+describe("AppThemedTouchableOpacity Tests", () => {
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
 
-  expect(tree).toMatchSnapshot();
-});
+  it(`renders correctly`, () => {
+    const tree = renderer
+      .create(
+        <AppThemedTouchableOpacity>Children Content</AppThemedTouchableOpacity>
+      )
+      .toJSON();
 
-// Test onPress
-it(`calls onPress when pressed`, () => {
-  const onPress = jest.fn();
-  const component = renderer.create(
-    <AppThemedTouchableOpacity onPress={onPress}>
-      Children Content
-    </AppThemedTouchableOpacity>
-  );
+    expect(tree).toMatchSnapshot();
+  });
 
-  // Find the TouchableOpacity and simulate a press
-  const touchableOpacity = component.root.findByType(TouchableOpacity);
-  touchableOpacity.props.onPress();
+  it(`calls onPress when pressed`, () => {
+    const onPress = jest.fn();
+    const component = renderer.create(
+      <AppThemedTouchableOpacity onPress={onPress}>
+        Children Content
+      </AppThemedTouchableOpacity>
+    );
+    const touchableOpacity = component.root.findByType(TouchableOpacity);
+    touchableOpacity.props.onPress();
 
-  expect(onPress).toHaveBeenCalled();
+    expect(onPress).toHaveBeenCalled();
+  });
+
+  it("renders correctly with dark theme", () => {
+    const mockDarkColor = "#000000";
+    (useThemeColor as jest.Mock).mockReturnValue(mockDarkColor);
+
+    const tree = renderer
+      .create(
+        <AppThemedTouchableOpacity>Children Content</AppThemedTouchableOpacity>
+      )
+      .toJSON();
+
+    expect(tree).toMatchSnapshot();
+  });
+
+  it("renders correctly with light theme", () => {
+    const mockLightColor = "#ffffff";
+    (useThemeColor as jest.Mock).mockReturnValue(mockLightColor);
+
+    const tree = renderer
+      .create(
+        <AppThemedTouchableOpacity>Children Content</AppThemedTouchableOpacity>
+      )
+      .toJSON();
+
+    expect(tree).toMatchSnapshot();
+  });
 });

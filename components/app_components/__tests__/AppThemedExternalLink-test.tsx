@@ -16,9 +16,7 @@ describe("AppThemedExternalLink", () => {
   it("renders correctly", () => {
     const tree = renderer
       .create(
-        <AppThemedExternalLink href={url}>
-          Snapshot test!
-        </AppThemedExternalLink>
+        <AppThemedExternalLink href={url}>Snapshot test!</AppThemedExternalLink>
       )
       .toJSON();
     expect(tree).toMatchSnapshot();
@@ -82,9 +80,7 @@ describe("AppThemedExternalLink", () => {
     (useThemeColor as jest.Mock).mockReturnValue(mockDarkColor);
     const tree = renderer
       .create(
-        <AppThemedExternalLink href="https://www.google.com">
-          Snapshot test!
-        </AppThemedExternalLink>
+        <AppThemedExternalLink href={url}>Snapshot test!</AppThemedExternalLink>
       )
       .toJSON();
     expect(tree).toMatchSnapshot();
@@ -97,9 +93,7 @@ describe("AppThemedExternalLink", () => {
 
     const tree = renderer
       .create(
-        <AppThemedExternalLink href="https://www.google.com">
-          Snapshot test!
-        </AppThemedExternalLink>
+        <AppThemedExternalLink href={url}>Snapshot test!</AppThemedExternalLink>
       )
       .toJSON();
     expect(tree).toMatchSnapshot();

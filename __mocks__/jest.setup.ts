@@ -1,7 +1,8 @@
 import "react-native-gesture-handler/jestSetup";
 
-
-jest.mock("react-native/Libraries/Components/AccessibilityInfo/AccessibilityInfo");
+jest.mock(
+  "react-native/Libraries/Components/AccessibilityInfo/AccessibilityInfo"
+);
 jest.mock("react-native/Libraries/EventEmitter/NativeEventEmitter");
 
 jest.mock("react-native-reanimated", () => {
@@ -10,7 +11,7 @@ jest.mock("react-native-reanimated", () => {
   return Reanimated;
 });
 
-jest.mock('@/hooks/useThemeColor', () => ({
+jest.mock("@/hooks/useThemeColor", () => ({
   useThemeColor: jest.fn().mockImplementation((colors, theme) => {
     return theme === "light" ? colors.light : colors.dark;
   }),
@@ -19,5 +20,3 @@ jest.mock('@/hooks/useThemeColor', () => ({
 jest.mock("expo-web-browser", () => ({
   openBrowserAsync: jest.fn(),
 }));
-
-
