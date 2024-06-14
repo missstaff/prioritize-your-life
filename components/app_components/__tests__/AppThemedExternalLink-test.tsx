@@ -6,16 +6,17 @@ import { AppThemedExternalLink } from "../AppThemedExternalLink";
 import { openBrowserAsync } from "expo-web-browser";
 import { useThemeColor } from "@/hooks/useThemeColor";
 
-
 describe("AppThemedExternalLink", () => {
   afterEach(() => {
     jest.clearAllMocks();
   });
 
+  const url = "https://www.google.com";
+
   it("renders correctly", () => {
     const tree = renderer
       .create(
-        <AppThemedExternalLink href="https://www.google.com">
+        <AppThemedExternalLink href={url}>
           Snapshot test!
         </AppThemedExternalLink>
       )
@@ -24,9 +25,9 @@ describe("AppThemedExternalLink", () => {
   });
 
   it("onPress navigates to another page on web platforms", async () => {
-    Platform.OS = "web"; // Simulate a web platform
+    Platform.OS = "web";
 
-    const href = "https://www.google.com";
+    const href = url;
 
     const { getByText } = render(
       <AppThemedExternalLink href={href}>Test Link</AppThemedExternalLink>
@@ -39,9 +40,9 @@ describe("AppThemedExternalLink", () => {
   });
 
   it("onPress navigates to an external link on native platforms", async () => {
-    Platform.OS = "ios"; // Simulate a native platform
+    Platform.OS = "ios";
 
-    const href = "https://www.google.com";
+    const href = url;
     const mockEvent = {
       preventDefault: jest.fn(),
     };
@@ -57,11 +58,10 @@ describe("AppThemedExternalLink", () => {
     expect(openBrowserAsync).toHaveBeenCalledWith(href);
   });
 
- 
   it("onPress navigates to an external link on Android platforms", async () => {
     Platform.OS = "android";
 
-    const href = "https://www.google.com";
+    const href = url;
     const mockEvent = {
       preventDefault: jest.fn(),
     };
@@ -77,8 +77,9 @@ describe("AppThemedExternalLink", () => {
     expect(openBrowserAsync).toHaveBeenCalledWith(href);
   });
 
-  //test usetheme
   it("renders correctly with dark theme", () => {
+    const mockDarkColor = "#000000";
+    (useThemeColor as jest.Mock).mockReturnValue(mockDarkColor);
     const tree = renderer
       .create(
         <AppThemedExternalLink href="https://www.google.com">
@@ -90,10 +91,8 @@ describe("AppThemedExternalLink", () => {
   });
 
   it("renders correctly with light theme", () => {
-    // Mocking the light theme color
-    const mockLightColor = "#FFFFFF"; // Replace with your light theme color
+    const mockLightColor = "#FFFFFF";
 
-    // Mocking useThemeColor to return light theme color
     (useThemeColor as jest.Mock).mockReturnValue(mockLightColor);
 
     const tree = renderer
