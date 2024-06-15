@@ -5,16 +5,11 @@ import { type ComponentProps } from "react";
 import { Colors } from "@/constants/Colors";
 import { useThemeColor } from "@/hooks/useThemeColor";
 
-
 type Props = Omit<ComponentProps<typeof Link>, "href"> & {
   href: string;
 };
 
-export function AppThemedExternalLink({
-  href,
-  style,
-  ...rest
-}: Props) {
+export function AppThemedExternalLink({ href, style, ...rest }: Props) {
   const color = useThemeColor(
     { light: Colors.light.background, dark: Colors.dark.background },
     "background"

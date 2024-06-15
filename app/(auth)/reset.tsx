@@ -3,7 +3,7 @@ import Toast from "react-native-toast-message";
 import { router } from "expo-router";
 import { useMutation } from "@tanstack/react-query";
 import AppThemedTextInput from "@/components/app_components/AppThemedTextInput";
-import AppTouchableOpacity from "@/components/app_components/AppTouchableOpacity";
+import AppThemedTouchableOpacity from "@/components/app_components/AppThemedTouchableOpacity";
 import LoadingSpinner from "@/components/LoadingSpinner";
 import ShowIf from "@/components/ShowIf";
 import { AppContext } from "@/store/app-context";
@@ -84,9 +84,9 @@ export default function ResetPassword() {
             setValue={setEmail}
             value={email}
           />
-          <AppTouchableOpacity onPress={() => mutation.mutate()}>
+          <AppThemedTouchableOpacity onPress={() => mutation.mutate()}>
             Reset Password
-          </AppTouchableOpacity>
+          </AppThemedTouchableOpacity>
           <AppThemedText
             type="link"
             onPress={() => router.push("/signup")}

@@ -1,9 +1,9 @@
 import React from "react";
-import { ScaledSheet, s } from "react-native-size-matters";
-import { View } from "react-native";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { type IconProps } from "@expo/vector-icons/build/createIconSet";
 import { type ComponentProps } from "react";
+import { View } from "react-native";
+import { ScaledSheet, s } from "react-native-size-matters";
 
 /**
  * An icon component for the app.
@@ -15,9 +15,7 @@ export function AppIcon({
   ...rest
 }: IconProps<ComponentProps<typeof Ionicons>["name"] | any>) {
   return (
-    <View
-      style={[styles.container, style]}
-    >
+    <View style={[styles.container, style]}>
       <Ionicons size={s(28)} {...rest} />
     </View>
   );

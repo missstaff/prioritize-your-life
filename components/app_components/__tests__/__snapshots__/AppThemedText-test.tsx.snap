@@ -1,0 +1,70 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`AppThemedText Tests renders correctly 1`] = `
+<Text
+  style={
+    [
+      {
+        "color": "#ECEDEE",
+      },
+      {
+        "fontSize": 34.285714285714285,
+        "lineHeight": 51.42857142857143,
+      },
+      undefined,
+      undefined,
+      undefined,
+      undefined,
+      undefined,
+    ]
+  }
+>
+  Snapshot test!
+</Text>
+`;
+
+exports[`AppThemedText Tests renders correctly with dark theme 1`] = `
+<Text
+  style={
+    [
+      {
+        "color": "#000000",
+      },
+      {
+        "fontSize": 34.285714285714285,
+        "lineHeight": 51.42857142857143,
+      },
+      undefined,
+      undefined,
+      undefined,
+      undefined,
+      undefined,
+    ]
+  }
+>
+  Snapshot test!
+</Text>
+`;
+
+exports[`AppThemedText Tests renders correctly with light theme 1`] = `
+<Text
+  style={
+    [
+      {
+        "color": "#ffffff",
+      },
+      {
+        "fontSize": 34.285714285714285,
+        "lineHeight": 51.42857142857143,
+      },
+      undefined,
+      undefined,
+      undefined,
+      undefined,
+      undefined,
+    ]
+  }
+>
+  Snapshot test!
+</Text>
+`;

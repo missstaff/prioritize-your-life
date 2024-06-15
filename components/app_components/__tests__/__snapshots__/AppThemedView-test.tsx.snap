@@ -1,0 +1,40 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`AppThemedView Tests renders correctly 1`] = `
+<View
+  style={
+    [
+      {
+        "backgroundColor": "#151718",
+      },
+      undefined,
+    ]
+  }
+/>
+`;
+
+exports[`AppThemedView Tests renders correctly with dark theme 1`] = `
+<View
+  style={
+    [
+      {
+        "backgroundColor": "#000000",
+      },
+      undefined,
+    ]
+  }
+/>
+`;
+
+exports[`AppThemedView Tests renders correctly with light theme 1`] = `
+<View
+  style={
+    [
+      {
+        "backgroundColor": "#ffffff",
+      },
+      undefined,
+    ]
+  }
+/>
+`;

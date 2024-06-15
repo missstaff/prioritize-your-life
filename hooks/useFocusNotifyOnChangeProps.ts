@@ -2,7 +2,6 @@ import React from "react";
 import { NotifyOnChangeProps } from "@tanstack/query-core";
 import { useFocusEffect } from "@react-navigation/native";
 
-
 /**
  * Hook that returns a function that can be used to notify the parent component
  * when the component is focused and the props have changed.
@@ -14,29 +13,29 @@ import { useFocusEffect } from "@react-navigation/native";
  * when they change. Can be a function that returns the props to notify about.
  */
 export function useFocusNotifyOnChangeProps(
-  notifyOnChangeProps?: NotifyOnChangeProps,
+  notifyOnChangeProps?: NotifyOnChangeProps
 ) {
-  const focusedRef = React.useRef(true)
+  const focusedRef = React.useRef(true);
 
   useFocusEffect(
     React.useCallback(() => {
-      focusedRef.current = true
+      focusedRef.current = true;
 
       return () => {
-        focusedRef.current = false
-      }
-    }, []),
-  )
+        focusedRef.current = false;
+      };
+    }, [])
+  );
 
   return () => {
     if (!focusedRef.current) {
-      return []
+      return [];
     }
 
     if (typeof notifyOnChangeProps === "function") {
-      return notifyOnChangeProps()
+      return notifyOnChangeProps();
     }
 
-    return notifyOnChangeProps
-  }
+    return notifyOnChangeProps;
+  };
 }

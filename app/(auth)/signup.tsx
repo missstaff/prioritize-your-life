@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import Toast from "react-native-toast-message";
 import { router } from "expo-router";
 import AppThemedTextInput from "@/components/app_components/AppThemedTextInput";
-import AppTouchableOpacity from "@/components/app_components/AppTouchableOpacity";
+import AppThemedTouchableOpacity from "@/components/app_components/AppThemedTouchableOpacity";
 import LoadingSpinner from "@/components/LoadingSpinner";
 import ShowIf from "@/components/ShowIf";
 import { AppContext } from "@/store/app-context";
@@ -102,9 +102,9 @@ export default function SignUp(): JSX.Element {
               setValue={setConfirmPassword}
               value={confirmPassword}
             />
-            <AppTouchableOpacity onPress={() => mutation.mutate()}>
+            <AppThemedTouchableOpacity onPress={() => mutation.mutate()}>
               Sign Up
-            </AppTouchableOpacity>
+            </AppThemedTouchableOpacity>
             <AppThemedText type="link" onPress={() => router.push("/signin")}>
               Sign In
             </AppThemedText>

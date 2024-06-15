@@ -1,0 +1,22 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`AppIcon Tests renders correctly 1`] = `
+<View
+  style={
+    [
+      {
+        "alignItems": "center",
+        "backgroundColor": "transparent",
+        "borderRadius": 100,
+        "display": "flex",
+        "flexDirection": "column",
+        "justifyContent": "center",
+        "padding": 5.357142857142857,
+      },
+      undefined,
+    ]
+  }
+>
+  <Text />
+</View>
+`;

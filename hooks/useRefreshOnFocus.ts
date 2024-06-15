@@ -1,7 +1,6 @@
 import React from "react";
 import { useFocusEffect } from "@react-navigation/native";
 
-
 /**
  * Refresh the screen when it is focused
  * @param refetch - The refetch function

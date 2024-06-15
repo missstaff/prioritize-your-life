@@ -3,6 +3,10 @@ import { appReducer, AppState, Action } from "./app-reducer";
 
 /**
  * Represents the state of the application.
+ * @property {boolean} isAuthenticated - Indicates whether the user is authenticated.
+ * @property {string} uid - The user ID.
+ * @property {function} setIsAuthenticated - Sets the value of isAuthenticated.
+ * @property {function} setUid - Sets the value of uid.
  */
 
 // Define context type
