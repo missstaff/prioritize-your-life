@@ -1,6 +1,11 @@
 import React from "react";
 import { ScaledSheet, s } from "react-native-size-matters";
-import { StyleProp, TouchableOpacity, TouchableOpacityProps, ViewStyle } from "react-native";
+import {
+  StyleProp,
+  TouchableOpacity,
+  TouchableOpacityProps,
+  ViewStyle,
+} from "react-native";
 import { AppThemedText } from "./AppThemedText";
 
 export type ThemedAppThemedTouchableOpacity = TouchableOpacityProps & {
@@ -23,10 +28,11 @@ const AppThemedTouchableOpacity = ({
   textStyles,
   btnStyles,
 }: ThemedAppThemedTouchableOpacity): JSX.Element => {
-  
   return (
     <TouchableOpacity onPress={onPress} style={[styles.button, btnStyles]}>
-      <AppThemedText style={[styles.buttonText, textStyles]}>{children}</AppThemedText>
+      <AppThemedText style={[styles.buttonText, textStyles]}>
+        {children}
+      </AppThemedText>
     </TouchableOpacity>
   );
 };

@@ -1,5 +1,11 @@
 import React, { useState } from "react";
-import { StyleProp, TextInput, TouchableOpacity, View, ViewStyle } from "react-native";
+import {
+  StyleProp,
+  TextInput,
+  TouchableOpacity,
+  View,
+  ViewStyle,
+} from "react-native";
 import { ScaledSheet, s } from "react-native-size-matters";
 import { AppIcon } from "./AppIcon";
 import { Colors } from "@/constants/Colors";
@@ -47,12 +53,19 @@ export const AppThemedTextInput = ({
         placeholder={placeholder}
         placeholderTextColor="#999"
         secureTextEntry={!isPasswordVisible}
-        style={[styles.input, { backgroundColor: backgroundColor, color: textColor }, styles.input]}
+        style={[
+          styles.input,
+          { backgroundColor: backgroundColor, color: textColor },
+          styles.input,
+        ]}
         value={value}
         {...otherProps}
       />
       {secureEntry && (
-        <TouchableOpacity onPress={() => setIsPasswordVisible(!isPasswordVisible)} testID="passwordVisibilityToggle">
+        <TouchableOpacity
+          onPress={() => setIsPasswordVisible(!isPasswordVisible)}
+          testID="passwordVisibilityToggle"
+        >
           <AppIcon
             name={!isPasswordVisible ? "eye-off" : "eye"}
             size={s(24)}
@@ -61,13 +74,7 @@ export const AppThemedTextInput = ({
         </TouchableOpacity>
       )}
 
-      {iconName && (
-        <AppIcon
-          name={iconName}
-          size={s(24)}
-          color="#999"
-        />
-      )}
+      {iconName && <AppIcon name={iconName} size={s(24)} color="#999" />}
     </View>
   );
 };

@@ -1,7 +1,7 @@
 import React from "react";
 import Toast from "react-native-toast-message";
-import { Button } from "react-native";
 import { type ToasterProps } from "../app/types";
+import { Button } from "react-native";
 
 /**
  * A component that renders a toast message.

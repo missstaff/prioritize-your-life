@@ -16,10 +16,7 @@ export type ThemedViewProps = ViewProps & {
  * @param otherProps - Additional props to be spread onto the View component.
  * @returns The rendered ThemedView component.
  */
-export function AppThemedView({
-  style,
-  ...otherProps
-}: ThemedViewProps) {
+export function AppThemedView({ style, ...otherProps }: ThemedViewProps) {
   const backgroundColor = useThemeColor(
     { light: Colors.light.background, dark: Colors.dark.background },
     "background"

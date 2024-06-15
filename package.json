@@ -1,4 +1,8 @@
 {
+  "author": {
+    "name": "Shawna (Miss) Staff",
+    "email": "shawnastaff@gmail.com"
+  },
   "name": "finance-app",
   "main": "expo-router/entry",
   "version": "1.0.0",
