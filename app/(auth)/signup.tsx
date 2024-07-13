@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import Toast from "react-native-toast-message";
 import { router } from "expo-router";
 import AppThemedTextInput from "@/components/app_components/AppThemedTextInput";
@@ -15,7 +15,8 @@ import { styles } from "./styles";
 
 export default function SignUp(): JSX.Element {
   const queryClient = useQueryClient();
-  const { isAuthenticated, setIsAuthenticated, setUid  } = useContext(AppContext);
+  const { isAuthenticated, setIsAuthenticated, setUid } =
+    useContext(AppContext);
   console.log("isAuthenticated", isAuthenticated);
 
   const [email, setEmail] = useState<string>("");
@@ -37,6 +38,7 @@ export default function SignUp(): JSX.Element {
 
     if (userCreds) {
       setIsAuthenticated(true);
+      router.push("/");
       return userCreds.user.uid;
     } else {
       Toast.show({
@@ -56,7 +58,6 @@ export default function SignUp(): JSX.Element {
       setEmail("");
       setPassword("");
       setConfirmPassword("");
-      router.push("/");
       queryClient.invalidateQueries({ queryKey: ["uid"] });
     },
     onError: (error: any) => {
@@ -74,10 +75,9 @@ export default function SignUp(): JSX.Element {
 
   const toSignin = () => router.push("/auth/signin");
 
-
   return (
     <AppThemedView style={styles.container}>
-       <ShowIf
+      <ShowIf
         condition={mutation.status === "pending"}
         render={<LoadingSpinner />}
         renderElse={
@@ -115,5 +115,4 @@ export default function SignUp(): JSX.Element {
       />
     </AppThemedView>
   );
-};
-
+}
