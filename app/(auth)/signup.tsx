@@ -16,6 +16,7 @@ import { styles } from "./styles";
 export default function SignUp(): JSX.Element {
   const queryClient = useQueryClient();
   const { isAuthenticated, setIsAuthenticated, setUid  } = useContext(AppContext);
+  console.log("isAuthenticated", isAuthenticated);
 
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
@@ -35,6 +36,7 @@ export default function SignUp(): JSX.Element {
       .createUserWithEmailAndPassword(emailToLowerCase, password);
 
     if (userCreds) {
+      setIsAuthenticated(true);
       return userCreds.user.uid;
     } else {
       Toast.show({
@@ -45,21 +47,23 @@ export default function SignUp(): JSX.Element {
     }
   };
 
+  const callUseMutation = (): any => mutation.mutate();
+
   const mutation = useMutation({
     mutationFn: signUp,
     onSuccess: (uid) => {
-      setIsAuthenticated(true);
       setUid(uid);
       setEmail("");
       setPassword("");
       setConfirmPassword("");
+      router.push("/");
       queryClient.invalidateQueries({ queryKey: ["uid"] });
     },
     onError: (error: any) => {
+      setIsAuthenticated(true);
       const errorMessage =
         "Error signing up:" + (error.message ?? "Unknown error occurred");
       console.error(errorMessage + "\nStackTrace: " + error);
-  
       Toast.show({
         type: "error",
         text1: "Error signing up",
@@ -68,17 +72,15 @@ export default function SignUp(): JSX.Element {
     },
   });
 
-  useEffect(() => {
-    if (isAuthenticated) {
-      router.push("/");
-    }
-  }, [isAuthenticated]);
+  const toSignin = () => router.push("/auth/signin");
+
 
   return (
     <AppThemedView style={styles.container}>
-      <ShowIf
-        condition={!isAuthenticated}
-        render={
+       <ShowIf
+        condition={mutation.status === "pending"}
+        render={<LoadingSpinner />}
+        renderElse={
           <>
             <AppThemedTextInput
               checkValue={isValidEmail}
@@ -102,15 +104,14 @@ export default function SignUp(): JSX.Element {
               setValue={setConfirmPassword}
               value={confirmPassword}
             />
-            <AppThemedTouchableOpacity onPress={() => mutation.mutate()}>
+            <AppThemedTouchableOpacity onPress={callUseMutation}>
               Sign Up
             </AppThemedTouchableOpacity>
-            <AppThemedText type="link" onPress={() => router.push("/signin")}>
+            <AppThemedText type="link" onPress={toSignin}>
               Sign In
             </AppThemedText>
           </>
         }
-        renderElse={mutation.status === 'pending' && <LoadingSpinner size="large" color="#0000ff" />}
       />
     </AppThemedView>
   );

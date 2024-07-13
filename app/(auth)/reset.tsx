@@ -6,7 +6,6 @@ import AppThemedTextInput from "@/components/app_components/AppThemedTextInput";
 import AppThemedTouchableOpacity from "@/components/app_components/AppThemedTouchableOpacity";
 import LoadingSpinner from "@/components/LoadingSpinner";
 import ShowIf from "@/components/ShowIf";
-import { AppContext } from "@/store/app-context";
 import { AppThemedText } from "@/components/app_components/AppThemedText";
 import { AppThemedView } from "@/components/app_components/AppThemedView"
 import { getFireApp } from "@/getFireApp";
@@ -18,14 +17,8 @@ import { styles } from "./styles";
  * A component that renders a password reset form.
  */
 export default function ResetPassword() {
-  const { isAuthenticated } = useContext(AppContext);
   const [email, setEmail] = useState<string>("");
 
-  useEffect(() => {
-    if (isAuthenticated) {
-      router.push("/");
-    }
-  }, [isAuthenticated]);
 
   const resetPassword = async () => {
     const emailToLowerCase = email.toLocaleLowerCase();
@@ -84,7 +77,7 @@ export default function ResetPassword() {
             setValue={setEmail}
             value={email}
           />
-          <AppThemedTouchableOpacity onPress={() => mutation.mutate()}>
+          <AppThemedTouchableOpacity disabled={!isValidEmail} onPress={() => mutation.mutate()}>
             Reset Password
           </AppThemedTouchableOpacity>
           <AppThemedText
