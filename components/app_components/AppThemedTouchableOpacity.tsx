@@ -43,7 +43,7 @@ export default AppThemedTouchableOpacity;
 const styles = ScaledSheet.create({
   button: {
     alignItems: "center",
-    backgroundColor: "blue",
+    backgroundColor: "#CD03EF",
     borderRadius: s(5),
     marginBottom: s(10),
     padding: s(10),
