@@ -1,20 +1,23 @@
 import React from "react";
-import { Modal, StyleSheet } from "react-native";
+import { Modal } from "react-native";
 import { AppThemedView } from "./app_components/AppThemedView";
+import { ms, ScaledSheet } from "react-native-size-matters";
 
 interface ModalProps {
-  visible: boolean;
-  onClose: () => void;
   children: React.ReactNode;
+  onClose: () => void;
+  visible: boolean;
 }
 
-const SettingsModal = ({ visible, onClose, children }: ModalProps) => {
+const SettingsModal = ({ children, onClose, visible }: ModalProps) => {
   return (
     <Modal
       animationType="slide"
+      aria-label="Settings Modal"
+      onRequestClose={onClose}
       transparent={true}
       visible={visible}
-      onRequestClose={onClose}
+      role="dialog"
     >
       <AppThemedView style={styles.modalOverlay}>
         <AppThemedView style={styles.modalContent}>{children}</AppThemedView>
@@ -25,7 +28,7 @@ const SettingsModal = ({ visible, onClose, children }: ModalProps) => {
 
 export default SettingsModal;
 
-const styles = StyleSheet.create({
+const styles = ScaledSheet.create({
   modalOverlay: {
     flex: 1,
     justifyContent: "center",
@@ -34,9 +37,8 @@ const styles = StyleSheet.create({
   },
   modalContent: {
     width: "80%",
-    // backgroundColor: "white",
-    padding: 20,
-    borderRadius: 10,
+    padding: ms(20),
+    borderRadius: ms(10),
     alignItems: "center",
   },
 });

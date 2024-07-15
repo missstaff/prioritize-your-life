@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { StyleSheet, Button } from "react-native";
+import { StyleSheet } from "react-native";
 import { Tabs } from "expo-router";
 import { AppContext } from "@/store/app-context";
 import { TabBarIcon } from "@/components/navigation/TabBarIcon";
@@ -7,6 +7,9 @@ import { Colors } from "@/constants/Colors";
 import { useColorScheme } from "@/hooks/useColorScheme";
 import SettingsModal from "@/components/Modal";
 import { AppThemedText } from "@/components/app_components/AppThemedText";
+import AppThemedTouchableOpacity from "@/components/app_components/AppThemedTouchableOpacity";
+import { getFireApp } from "@/getFireApp";
+import Toast from "react-native-toast-message";
 
 /**
  * Renders the layout for the tabs in the app.
@@ -15,15 +18,42 @@ import { AppThemedText } from "@/components/app_components/AppThemedText";
  */
 export default function TabLayout() {
   const colorScheme = useColorScheme();
-  const { isAuthenticated } = useContext(AppContext);
+  const { isAuthenticated, setIsAuthenticated, setUid } = useContext(AppContext);
   const [modalVisible, setModalVisible] = useState(false);
+
+  const logout = async () => {
+    // Implement logout logic here
+    const firebase = await getFireApp();
+    if (!firebase) {
+      Toast.show({
+        type: "error",
+        text1: "There has been an error. Please try again.",
+      });
+      throw new Error("Firebase app not initialized");
+    }
+
+     await firebase
+      .auth()
+      .signOut()
+      .then(() => {
+        console.log("User signed out");
+        setModalVisible(false);
+        setIsAuthenticated(false);
+        setUid("");
+      });
+  }
 
   return (
     <>
-       <SettingsModal visible={modalVisible} onClose={() => setModalVisible(false)}>
+      <SettingsModal
+        onClose={() => setModalVisible(false)}
+        visible={modalVisible}
+      >
         <AppThemedText style={styles.modalTitle}>Settings</AppThemedText>
-        <Button title="Close" onPress={() => setModalVisible(false)} />
-        {/* Add any other settings content here */}
+        <AppThemedText type="link" onPress={logout} >Logout</AppThemedText>
+        <AppThemedText type="link" onPress={() => setModalVisible(false)}>
+          Close
+        </AppThemedText>
       </SettingsModal>
       <Tabs
         screenOptions={{
@@ -37,7 +67,12 @@ export default function TabLayout() {
           },
 
           headerRight: () => (
-            <TabBarIcon name="settings" color="gray" size={24} onPress={() => setModalVisible(true)} />
+            <TabBarIcon
+              name="settings"
+              color="gray"
+              size={24}
+              onPress={() => setModalVisible(true)}
+            />
           ),
 
           headerRightContainerStyle: {
@@ -113,7 +148,7 @@ export default function TabLayout() {
 const styles = StyleSheet.create({
   modalTitle: {
     fontSize: 20,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     marginBottom: 20,
   },
 });

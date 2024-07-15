@@ -22,7 +22,7 @@ export default function SignIn(): JSX.Element {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
 
-  const signIn = async () => {
+  const login = async () => {
     const emailToLower = email.toLocaleLowerCase();
 
     const firebase = await getFireApp();
@@ -49,7 +49,7 @@ export default function SignIn(): JSX.Element {
   };
 
   const mutation = useMutation({
-    mutationFn: signIn,
+    mutationFn: login,
     onSuccess: (uid) => {
       setEmail("");
       setPassword("");
@@ -59,7 +59,7 @@ export default function SignIn(): JSX.Element {
     },
     onError: (error: any) => {
       const errorMessage =
-        "Error signing in: " + (error.message ?? "Unknown error occurred.");
+        "Error logIng in: " + (error.message ?? "Unknown error occurred.");
       Toast.show({
         type: "error",
         text1: "Error signing in.",
