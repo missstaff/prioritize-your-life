@@ -15,10 +15,7 @@ import { styles } from "./styles";
 
 export default function SignUp(): JSX.Element {
   const queryClient = useQueryClient();
-  const { isAuthenticated, setIsAuthenticated, setUid } =
-    useContext(AppContext);
-  console.log("isAuthenticated", isAuthenticated);
-
+  const { setIsAuthenticated, setUid } = useContext(AppContext);
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [confirmPassword, setConfirmPassword] = useState<string>("");
@@ -73,8 +70,6 @@ export default function SignUp(): JSX.Element {
     },
   });
 
-  const toSignin = () => router.push("/auth/signin");
-
   return (
     <AppThemedView style={styles.container}>
       <ShowIf
@@ -104,10 +99,13 @@ export default function SignUp(): JSX.Element {
               setValue={setConfirmPassword}
               value={confirmPassword}
             />
-            <AppThemedTouchableOpacity onPress={callUseMutation}>
+            <AppThemedTouchableOpacity
+              disabled={mutation.status === "pending"}
+              onPress={callUseMutation}
+            >
               Sign Up
             </AppThemedTouchableOpacity>
-            <AppThemedText type="link" onPress={toSignin}>
+            <AppThemedText type="link" onPress={() => router.push("/")}>
               Sign In
             </AppThemedText>
           </>

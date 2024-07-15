@@ -8,7 +8,7 @@ import {
 } from "react-native";
 import { ScaledSheet, s } from "react-native-size-matters";
 import { AppIcon } from "./AppIcon";
-import { Colors } from "@/constants/Colors";
+import { COLORTHEME } from "@/constants/Colors";
 import { useThemeColor } from "@/hooks/useThemeColor";
 
 interface AppThemedTextInputProps {
@@ -38,7 +38,7 @@ export const AppThemedTextInput = ({
 }: AppThemedTextInputProps) => {
   const textColor = useThemeColor({}, "text");
   const backgroundColor = useThemeColor(
-    { light: Colors.light.background, dark: Colors.dark.background },
+    { light: COLORTHEME.light.background, dark: COLORTHEME.dark.background },
     "background"
   );
   const [isPasswordVisible, setIsPasswordVisible] = useState(!secureEntry);
@@ -69,12 +69,12 @@ export const AppThemedTextInput = ({
           <AppIcon
             name={!isPasswordVisible ? "eye-off" : "eye"}
             size={s(24)}
-            color="#999"
+            color="#ccc"
           />
         </TouchableOpacity>
       )}
 
-      {iconName && <AppIcon name={iconName} size={s(24)} color="#999" />}
+      {iconName && <AppIcon name={iconName} size={s(24)} color="#ccc" />}
     </View>
   );
 };

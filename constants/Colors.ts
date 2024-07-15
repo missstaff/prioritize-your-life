@@ -2,24 +2,32 @@
  * Below are the colors that are used in the app.
  */
 
-const tintColorLight = '#687076';
-const tintColorDark = '#fff';
+export const COLORS = {
+  white: "#fff",
+  offWhite: "#ECEDEE",
+  black: "#000",
+  darkGray: "#333",
+  mediumGray: "#687076",
+  lightGray: "#9BA1A6",
+  primary: "#CD03EF",
+  red: "#FF0000",
+};
 
-export const Colors = {
+export const COLORTHEME = {
   light: {
-    text: '#11181C',
-    background: '#fff',
-    tint: tintColorLight,
-    icon: '#687076',
-    tabIconDefault: '#687076',
-    tabIconSelected: tintColorLight,
+    text: "#11181C",
+    background: COLORS.white,
+    tint: COLORS.mediumGray,
+    icon: COLORS.mediumGray,
+    tabIconDefault: COLORS.mediumGray,
+    tabIconSelected: COLORS.mediumGray,
   },
   dark: {
-    text: '#ECEDEE',
-    background: '#151718',
-    tint: tintColorDark,
-    icon: '#9BA1A6',
-    tabIconDefault: '#9BA1A6',
-    tabIconSelected: tintColorDark,
+    text: COLORS.offWhite,
+    background: "#151718",
+    tint: COLORS.white,
+    icon: COLORS.lightGray,
+    tabIconDefault: COLORS.lightGray,
+    tabIconSelected: COLORS.white,
   },
 };

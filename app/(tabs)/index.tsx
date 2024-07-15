@@ -1,15 +1,19 @@
 import React, { useContext } from "react";
-import { StyleSheet, SafeAreaView, ScrollView, useColorScheme } from "react-native";
+import {
+  SafeAreaView,
+  ScrollView,
+  useColorScheme,
+} from "react-native";
+import { ScaledSheet, s, vs } from "react-native-size-matters";
 import { AppThemedText } from "@/components/app_components/AppThemedText";
 import { AppThemedView } from "@/components/app_components/AppThemedView";
 import SignIn from "../(auth)/signin";
 import { AppContext } from "../../store/app-context";
 import ShowIf from "@/components/ShowIf";
+import { COLORS } from "@/constants/Colors";
 
 const HomeScreen = () => {
   const { isAuthenticated } = useContext(AppContext);
-
-
   const colorScheme = useColorScheme();
 
   return (
@@ -19,62 +23,108 @@ const HomeScreen = () => {
         render={<SignIn />}
         renderElse={
           <ScrollView contentContainerStyle={styles.scrollViewContent}>
-            <AppThemedView style={[styles.section, {backgroundColor: colorScheme === "dark" ? "#687076" : "#fff"}]}>
-              <AppThemedText style={styles.sectionTitle}>Account Balances</AppThemedText>
-              <AppThemedText style={styles.text}>Enter and view your account balances here.</AppThemedText>
+            <AppThemedView
+              style={[
+                styles.section,
+                {
+                  backgroundColor:
+                    colorScheme === "dark" ? COLORS.mediumGray : COLORS.white,
+                },
+              ]}
+            >
+              <AppThemedText style={styles.sectionTitle}>
+                Account Balances
+              </AppThemedText>
+              <AppThemedText style={styles.text}>
+                Enter and view your account balances here.
+              </AppThemedText>
             </AppThemedView>
 
-            <AppThemedView style={[styles.section, {backgroundColor: colorScheme === "dark" ? "#687076" : "#fff"}]}>
-              <AppThemedText style={styles.sectionTitle}>Income & Expenses</AppThemedText>
-              <AppThemedText style={styles.text}>Track your income and expenses here.</AppThemedText>
+            <AppThemedView
+              style={[
+                styles.section,
+                {
+                  backgroundColor:
+                    colorScheme === "dark" ? COLORS.mediumGray : COLORS.white,
+                },
+              ]}
+            >
+              <AppThemedText style={styles.sectionTitle}>
+                Income & Expenses
+              </AppThemedText>
+              <AppThemedText style={styles.text}>
+                Track your income and expenses here.
+              </AppThemedText>
             </AppThemedView>
 
-            <AppThemedView style={[styles.section, {backgroundColor: colorScheme === "dark" ? "#687076" : "#fff"}]}>
+            <AppThemedView
+              style={[
+                styles.section,
+                {
+                  backgroundColor:
+                    colorScheme === "dark" ? COLORS.mediumGray : COLORS.white,
+                },
+              ]}
+            >
               <AppThemedText style={styles.sectionTitle}>Budget</AppThemedText>
-              <AppThemedText style={styles.text}>Create and manage your budget here.</AppThemedText>
+              <AppThemedText style={styles.text}>
+                Create and manage your budget here.
+              </AppThemedText>
             </AppThemedView>
 
-            <AppThemedView style={[styles.section, {backgroundColor: colorScheme === "dark" ? "#687076" : "#fff"}]}>
-              <AppThemedText style={styles.sectionTitle}>Saving & Planning</AppThemedText>
-              <AppThemedText style={styles.text}>Plan your savings and financial goals here.</AppThemedText>
+            <AppThemedView
+              style={[
+                styles.section,
+                {
+                  backgroundColor:
+                    colorScheme === "dark" ? COLORS.mediumGray : COLORS.white,
+                },
+              ]}
+            >
+              <AppThemedText style={styles.sectionTitle}>
+                Saving & Planning
+              </AppThemedText>
+              <AppThemedText style={styles.text}>
+                Plan your savings and financial goals here.
+              </AppThemedText>
             </AppThemedView>
           </ScrollView>
         }
       />
     </SafeAreaView>
   );
-}
+};
 
-const styles = StyleSheet.create({
+const styles = ScaledSheet.create({
   container: {
     flex: 1,
   },
   scrollViewContent: {
     flexGrow: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingVertical: 20,
+    justifyContent: "center",
+    alignItems: "center",
+    paddingVertical: vs(20),
   },
   section: {
-    width: '90%',
-    marginVertical: 10,
-    padding: 20,
-    borderRadius: 10,
-    shadowColor: '#000',
+    width: "90%",
+    marginVertical: vs(10),
+    padding: s(20),
+    borderRadius: s(10),
+    shadowColor: COLORS.black,
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
-    shadowRadius: 5,
+    shadowRadius: s(5),
     elevation: 3,
-    alignItems: 'center',
+    alignItems: "center",
   },
   sectionTitle: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    marginBottom: 10,
+    fontSize: s(18),
+    fontWeight: "bold",
+    marginBottom: vs(10),
   },
   text: {
-    fontSize: 16,
-    textAlign: 'center',
+    fontSize: s(16),
+    textAlign: "center",
   },
 });
 

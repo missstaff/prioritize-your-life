@@ -3,7 +3,7 @@ import { StyleSheet } from "react-native";
 import { Tabs } from "expo-router";
 import { AppContext } from "@/store/app-context";
 import { TabBarIcon } from "@/components/navigation/TabBarIcon";
-import { Colors } from "@/constants/Colors";
+import { COLORS, COLORTHEME } from "@/constants/Colors";
 import { useColorScheme } from "@/hooks/useColorScheme";
 import SettingsModal from "@/components/Modal";
 import { AppThemedText } from "@/components/app_components/AppThemedText";
@@ -57,8 +57,8 @@ export default function TabLayout() {
       </SettingsModal>
       <Tabs
         screenOptions={{
-          tabBarInactiveTintColor: Colors[colorScheme ?? "light"].tint,
-          tabBarActiveTintColor: "#CD03EF",
+          tabBarInactiveTintColor: COLORTHEME[colorScheme ?? "light"].tint,
+          tabBarActiveTintColor: COLORS.primary,
           headerShown: true,
           headerTitleAlign: "center",
           headerShadowVisible: true,

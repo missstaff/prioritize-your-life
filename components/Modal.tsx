@@ -1,7 +1,7 @@
 import React from "react";
 import { Modal } from "react-native";
 import { AppThemedView } from "./app_components/AppThemedView";
-import { ms, ScaledSheet } from "react-native-size-matters";
+import { s, ScaledSheet } from "react-native-size-matters";
 
 interface ModalProps {
   children: React.ReactNode;
@@ -37,8 +37,8 @@ const styles = ScaledSheet.create({
   },
   modalContent: {
     width: "80%",
-    padding: ms(20),
-    borderRadius: ms(10),
+    padding: s(20),
+    borderRadius: s(10),
     alignItems: "center",
   },
 });

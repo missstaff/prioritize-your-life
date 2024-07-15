@@ -4,7 +4,7 @@ import { StyleSheet, TouchableOpacity, useColorScheme } from "react-native";
 
 import { AppThemedText } from "@/components/app_components/AppThemedText";
 import { AppThemedView } from "@/components/app_components/AppThemedView";
-import { Colors } from "@/constants/Colors";
+import { COLORTHEME } from "@/constants/Colors";
 
 /**
  * A collapsible component that can be used to hide and show content.
@@ -30,7 +30,7 @@ export function Collapsible({
         <Ionicons
           name={isOpen ? "chevron-down" : "chevron-forward-outline"}
           size={18}
-          color={theme === "light" ? Colors.light.icon : Colors.dark.icon}
+          color={theme === "light" ? COLORTHEME.light.icon : COLORTHEME.dark.icon}
         />
         <AppThemedText type="defaultSemiBold">{title}</AppThemedText>
       </TouchableOpacity>
