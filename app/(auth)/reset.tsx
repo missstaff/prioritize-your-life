@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useState } from "react";
 import Toast from "react-native-toast-message";
 import { router } from "expo-router";
 import { useMutation } from "@tanstack/react-query";
@@ -7,18 +7,16 @@ import AppThemedTouchableOpacity from "@/components/app_components/AppThemedTouc
 import LoadingSpinner from "@/components/LoadingSpinner";
 import ShowIf from "@/components/ShowIf";
 import { AppThemedText } from "@/components/app_components/AppThemedText";
-import { AppThemedView } from "@/components/app_components/AppThemedView"
+import { AppThemedView } from "@/components/app_components/AppThemedView";
 import { getFireApp } from "@/getFireApp";
 import { isValidEmail } from "./utilities";
 import { styles } from "./styles";
-
 
 /**
  * A component that renders a password reset form.
  */
 export default function ResetPassword() {
   const [email, setEmail] = useState<string>("");
-
 
   const resetPassword = async () => {
     const emailToLowerCase = email.toLocaleLowerCase();
@@ -77,12 +75,15 @@ export default function ResetPassword() {
             setValue={setEmail}
             value={email}
           />
-          <AppThemedTouchableOpacity disabled={!isValidEmail} onPress={() => mutation.mutate()}>
+          <AppThemedTouchableOpacity
+            disabled={!isValidEmail || mutation.status === "pending"}
+            onPress={() => mutation.mutate()}
+          >
             Reset Password
           </AppThemedTouchableOpacity>
           <AppThemedText
-            type="link"
             onPress={() => router.push("/signup")}
+            type="link"
           ></AppThemedText>
         </AppThemedView>
       }

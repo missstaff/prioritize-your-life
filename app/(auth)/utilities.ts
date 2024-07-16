@@ -23,23 +23,23 @@ export const isValidPassword = (password: string) => {
     Toast.show({
       type: "error",
       text1: "Invalid password.",
-      text2:"Please try again.",
+      text2: "Please try again.",
     });
   }
   return isValid;
 };
 
 export const isEmailAndPasswordValid = (email: string, password: string) => {
-  if (!isValidEmail(email) && !isValidPassword(password)){
+  if (!isValidEmail(email) && !isValidPassword(password)) {
     Toast.show({
       type: "error",
       text1: "Invalid email and password.",
-      text2:"Please try again.",
+      text2: "Please try again.",
     });
     return false;
-  };
+  }
   return true;
-}
+};
 
 export const validateFormInput = (
   email: string,
@@ -53,7 +53,7 @@ export const validateFormInput = (
     Toast.show({
       type: "error",
       text1: "Passwords do not match.",
-      text2:"Please try again.",
+      text2: "Please try again.",
     });
     return false;
   }

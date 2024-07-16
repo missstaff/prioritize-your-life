@@ -6,7 +6,7 @@ import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { AppThemedText } from '@/components/app_components/AppThemedText';
 import { AppThemedView } from '@/components/app_components/AppThemedView';
 
-export default function TabTwoScreen() {
+export default function TabThreeScreen() {
   return (
     <ParallaxScrollView
       headerBackgroundColor={{ light: '#D0D0D0', dark: '#353636' }}

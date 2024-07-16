@@ -1,16 +1,20 @@
 import React, { useContext } from "react";
-import { Image, StyleSheet, Platform, SafeAreaView } from "react-native";
-import { HelloWave } from "@/components/HelloWave";
-import ParallaxScrollView from "@/components/ParallaxScrollView";
+import {
+  SafeAreaView,
+  ScrollView,
+  useColorScheme,
+} from "react-native";
+import { ScaledSheet, s, vs } from "react-native-size-matters";
 import { AppThemedText } from "@/components/app_components/AppThemedText";
 import { AppThemedView } from "@/components/app_components/AppThemedView";
 import SignIn from "../(auth)/signin";
 import { AppContext } from "../../store/app-context";
 import ShowIf from "@/components/ShowIf";
+import { COLORS } from "@/constants/Colors";
 
 const HomeScreen = () => {
   const { isAuthenticated } = useContext(AppContext);
-  
+  const colorScheme = useColorScheme();
 
   return (
     <SafeAreaView style={styles.container}>
@@ -18,81 +22,109 @@ const HomeScreen = () => {
         condition={!isAuthenticated}
         render={<SignIn />}
         renderElse={
-          <ParallaxScrollView
-            headerBackgroundColor={{ light: "#A1CEDC", dark: "#1D3D47" }}
-            headerImage={
-              <Image
-                source={require("@/assets/images/partial-react-logo.png")}
-                style={styles.reactLogo}
-              />
-            }
-          >
-            <AppThemedView style={styles.titleContainer}>
-              <AppThemedText type="title">Welcome!</AppThemedText>
-              <HelloWave />
-            </AppThemedView>
-            <AppThemedView style={styles.stepContainer}>
-              <AppThemedText type="subtitle">Step 1: Try it</AppThemedText>
-              <AppThemedText>
-                Edit{" "}
-                <AppThemedText type="defaultSemiBold">
-                  app/(tabs)/index.tsx
-                </AppThemedText>{" "}
-                to see changes. Press{" "}
-                <AppThemedText type="defaultSemiBold">
-                  {Platform.select({ ios: "cmd + d", android: "cmd + m" })}
-                </AppThemedText>{" "}
-                to open developer tools.
+          <ScrollView contentContainerStyle={styles.scrollViewContent}>
+            <AppThemedView
+              style={[
+                styles.section,
+                {
+                  backgroundColor:
+                    colorScheme === "dark" ? COLORS.mediumGray : COLORS.white,
+                },
+              ]}
+            >
+              <AppThemedText style={styles.sectionTitle}>
+                Account Balances
+              </AppThemedText>
+              <AppThemedText style={styles.text}>
+                Enter and view your account balances here.
               </AppThemedText>
             </AppThemedView>
-            <AppThemedView style={styles.stepContainer}>
-              <AppThemedText type="subtitle">Step 2: Explore</AppThemedText>
-              <AppThemedText>
-                Tap the Explore tab to learn more about what's included in this
-                starter app.
+
+            <AppThemedView
+              style={[
+                styles.section,
+                {
+                  backgroundColor:
+                    colorScheme === "dark" ? COLORS.mediumGray : COLORS.white,
+                },
+              ]}
+            >
+              <AppThemedText style={styles.sectionTitle}>
+                Income & Expenses
+              </AppThemedText>
+              <AppThemedText style={styles.text}>
+                Track your income and expenses here.
               </AppThemedText>
             </AppThemedView>
-            <AppThemedView style={styles.stepContainer}>
-              <AppThemedText type="subtitle">Step 3: Get a fresh start</AppThemedText>
-              <AppThemedText>
-                When you're ready, run{" "}
-                <AppThemedText type="defaultSemiBold">
-                  npm run reset-project
-                </AppThemedText>{" "}
-                to get a fresh{" "}
-                <AppThemedText type="defaultSemiBold">app</AppThemedText>{" "}
-                directory. This will move the current{" "}
-                <AppThemedText type="defaultSemiBold">app</AppThemedText> to{" "}
-                <AppThemedText type="defaultSemiBold">app-example</AppThemedText>.
+
+            <AppThemedView
+              style={[
+                styles.section,
+                {
+                  backgroundColor:
+                    colorScheme === "dark" ? COLORS.mediumGray : COLORS.white,
+                },
+              ]}
+            >
+              <AppThemedText style={styles.sectionTitle}>Budget</AppThemedText>
+              <AppThemedText style={styles.text}>
+                Create and manage your budget here.
               </AppThemedText>
             </AppThemedView>
-          </ParallaxScrollView>
+
+            <AppThemedView
+              style={[
+                styles.section,
+                {
+                  backgroundColor:
+                    colorScheme === "dark" ? COLORS.mediumGray : COLORS.white,
+                },
+              ]}
+            >
+              <AppThemedText style={styles.sectionTitle}>
+                Saving & Planning
+              </AppThemedText>
+              <AppThemedText style={styles.text}>
+                Plan your savings and financial goals here.
+              </AppThemedText>
+            </AppThemedView>
+          </ScrollView>
         }
       />
     </SafeAreaView>
   );
-}
+};
 
-const styles = StyleSheet.create({
+const styles = ScaledSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
   },
-  titleContainer: {
-    flexDirection: "row",
+  scrollViewContent: {
+    flexGrow: 1,
+    justifyContent: "center",
     alignItems: "center",
-    gap: 8,
+    paddingVertical: vs(20),
   },
-  stepContainer: {
-    gap: 8,
-    marginBottom: 8,
+  section: {
+    width: "90%",
+    marginVertical: vs(10),
+    padding: s(20),
+    borderRadius: s(10),
+    shadowColor: COLORS.black,
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: s(5),
+    elevation: 3,
+    alignItems: "center",
   },
-  reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
-    position: "absolute",
+  sectionTitle: {
+    fontSize: s(18),
+    fontWeight: "bold",
+    marginBottom: vs(10),
+  },
+  text: {
+    fontSize: s(16),
+    textAlign: "center",
   },
 });
 

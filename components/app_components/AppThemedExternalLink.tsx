@@ -2,8 +2,8 @@ import { Link } from "expo-router";
 import { Platform } from "react-native";
 import { openBrowserAsync } from "expo-web-browser";
 import { type ComponentProps } from "react";
-import { Colors } from "@/constants/Colors";
 import { useThemeColor } from "@/hooks/useThemeColor";
+import { COLORTHEME } from "@/constants/Colors";
 
 type Props = Omit<ComponentProps<typeof Link>, "href"> & {
   href: string;
@@ -11,7 +11,7 @@ type Props = Omit<ComponentProps<typeof Link>, "href"> & {
 
 export function AppThemedExternalLink({ href, style, ...rest }: Props) {
   const color = useThemeColor(
-    { light: Colors.light.background, dark: Colors.dark.background },
+    { light: COLORTHEME.light.background, dark: COLORTHEME.dark.background },
     "background"
   );
   return (

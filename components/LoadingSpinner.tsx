@@ -1,6 +1,7 @@
+import { COLORS } from "@/constants/Colors";
 import React from "react";
 import { ActivityIndicator, View } from "react-native";
-import { ScaledSheet } from "react-native-size-matters";
+import { s, ScaledSheet } from "react-native-size-matters";
 
 type SizeType = number | "small" | "large";
 
@@ -11,7 +12,7 @@ interface LoadingSpinnerProps {
 
 export default function LoadingSpinner({
   size = "large",
-  color = "#0a7ea4",
+  color = COLORS.primary,
 }: LoadingSpinnerProps) {
   return (
     <View style={styles.container}>
@@ -31,6 +32,6 @@ const styles = ScaledSheet.create({
   horizontal: {
     flexDirection: "row",
     justifyContent: "space-around",
-    padding: 10,
+    padding: s(10),
   },
 });

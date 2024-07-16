@@ -1,7 +1,7 @@
 import { Text, type TextProps } from "react-native";
 import { ScaledSheet, s } from "react-native-size-matters";
-import { Colors } from "@/constants/Colors";
 import { useThemeColor } from "@/hooks/useThemeColor";
+import { COLORS, COLORTHEME } from "@/constants/Colors";
 
 export type ThemedTextProps = TextProps & {
   type?: "default" | "title" | "defaultSemiBold" | "subtitle" | "link";
@@ -22,7 +22,7 @@ export function AppThemedText({
   ...rest
 }: ThemedTextProps) {
   const color = useThemeColor(
-    { light: Colors.light.text, dark: Colors.dark.text },
+    { light: COLORTHEME.light.text, dark: COLORTHEME.dark.text },
     "text"
   );
 
@@ -64,6 +64,6 @@ const styles = ScaledSheet.create({
   link: {
     lineHeight: s(30),
     fontSize: s(16),
-    color: "#0000ff",
+    color: COLORS.primary,
   },
 });
