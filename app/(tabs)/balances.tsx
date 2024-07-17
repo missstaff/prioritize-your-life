@@ -26,6 +26,7 @@ export default function Balances() {
   const queryClient = useQueryClient();
   const [amount, setAmount] = useState("");
   const [description, setDescription] = useState("");
+  const [date, setDate] = useState("");
 
   // #TODO:move to ts file
   const fetchTransactions = async (): Promise<Transaction[]> => {
@@ -57,7 +58,7 @@ export default function Balances() {
     refetchOnMount: true,
   });
 
-    // #TODO:move to ts file
+  // #TODO:move to ts file
   const addTransaction = async () => {
     const firebase = await getFireApp();
     if (!description || !amount) {
@@ -84,7 +85,7 @@ export default function Balances() {
       .collection("transactions");
 
     const newTransaction: Omit<Transaction, "id"> = {
-      date: new Date().toISOString(),
+      date: date.toString(),
       description,
       amount: parseFloat(amount),
     };
@@ -125,7 +126,16 @@ export default function Balances() {
           ]}
         >
           <AppThemedText type="title">Transactions</AppThemedText>
+          {/* #TODO: move to a tapable modal? maybe an add link that opens the modal? */}
+          {/* #TODO: form validaton */}
+          {/* #TODO: loading spinner when adding transactions */}
           <AppThemedText type="title">Add Transaction</AppThemedText>
+          <TextInput
+            style={styles.input}
+            placeholder="Date"
+            value={date}
+            onChangeText={setDate}
+          />
           <TextInput
             style={styles.input}
             placeholder="Amount"
@@ -140,6 +150,7 @@ export default function Balances() {
             onChangeText={setDescription}
           />
           <Button title="Add" onPress={() => addTransactionMutation.mutate()} />
+          {/* #TODO: loading spinner when fetching transactions */}
           <FlatList
             data={transactions}
             keyExtractor={(item) => item.id}
