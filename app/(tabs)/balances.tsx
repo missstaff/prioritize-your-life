@@ -1,21 +1,19 @@
+import React, { useState } from "react";
+import Toast from "react-native-toast-message";
 import {
   useColorScheme,
   TextInput,
   Button,
   FlatList,
   View,
-  Text,
 } from "react-native";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { s, vs, ScaledSheet } from "react-native-size-matters";
 import { AppThemedText } from "@/components/app_components/AppThemedText";
 import { AppThemedView } from "@/components/app_components/AppThemedView";
-import React, { useState } from "react";
-import { s, ScaledSheet, vs } from "react-native-size-matters";
-import { COLORS } from "@/constants/Colors";
 import { getFireApp } from "@/getFireApp";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import Toast from "react-native-toast-message";
+import { COLORS } from "@/constants/Colors";
 
-// Define the Transaction type
 interface Transaction {
   id: string;
   date: string;
@@ -23,12 +21,13 @@ interface Transaction {
   amount: number;
 }
 
-export default function TabTwoScreen() {
+export default function Balances() {
   const colorScheme = useColorScheme();
+  const queryClient = useQueryClient();
   const [amount, setAmount] = useState("");
   const [description, setDescription] = useState("");
-  const queryClient = useQueryClient();
 
+  // #TODO:move to ts file
   const fetchTransactions = async (): Promise<Transaction[]> => {
     const firebase = await getFireApp();
     if (!firebase) {
@@ -49,7 +48,6 @@ export default function TabTwoScreen() {
       id: doc.id,
       ...doc.data(),
     })) as Transaction[];
-    console.log("Fetched transactions:", transactions); // Debugging line
     return transactions;
   };
 
@@ -59,6 +57,7 @@ export default function TabTwoScreen() {
     refetchOnMount: true,
   });
 
+    // #TODO:move to ts file
   const addTransaction = async () => {
     const firebase = await getFireApp();
     if (!description || !amount) {
@@ -113,7 +112,6 @@ export default function TabTwoScreen() {
     },
   });
 
-  console.log("Transactions💥:", transactions); // Debugging line
   return (
     <>
       <AppThemedView style={styles.container}>
@@ -126,6 +124,7 @@ export default function TabTwoScreen() {
             },
           ]}
         >
+          <AppThemedText type="title">Transactions</AppThemedText>
           <AppThemedText type="title">Add Transaction</AppThemedText>
           <TextInput
             style={styles.input}
@@ -141,18 +140,6 @@ export default function TabTwoScreen() {
             onChangeText={setDescription}
           />
           <Button title="Add" onPress={() => addTransactionMutation.mutate()} />
-        </AppThemedView>
-
-        <AppThemedView
-          style={[
-            styles.section,
-            {
-              backgroundColor:
-                colorScheme === "dark" ? COLORS.mediumGray : COLORS.white,
-            },
-          ]}
-        >
-          <AppThemedText type="title">Transaction History</AppThemedText>
           <FlatList
             data={transactions}
             keyExtractor={(item) => item.id}
