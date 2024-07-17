@@ -21,7 +21,7 @@ interface Transaction {
   amount: number;
 }
 
-export default function Balances() {
+export default function Balance() {
   const colorScheme = useColorScheme();
   const queryClient = useQueryClient();
   const [amount, setAmount] = useState("");
@@ -129,7 +129,7 @@ export default function Balances() {
           {/* #TODO: move to a tapable modal? maybe an add link that opens the modal? */}
           {/* #TODO: form validaton */}
           {/* #TODO: loading spinner when adding transactions */}
-          <AppThemedText type="title">Add Transaction</AppThemedText>
+          {/* <AppThemedText type="title">Add Transaction</AppThemedText> */}
           <TextInput
             style={styles.input}
             placeholder="Date"
@@ -163,13 +163,13 @@ export default function Balances() {
             )}
             ListHeaderComponent={() => (
               <View style={styles.tableRow}>
-                <AppThemedText style={[styles.tableCell, styles.tableHeader]}>
+                <AppThemedText style={[styles.tableHeader]}>
                   Date
                 </AppThemedText>
-                <AppThemedText style={[styles.tableCell, styles.tableHeader]}>
+                <AppThemedText style={[styles.tableHeader]}>
                   Description
                 </AppThemedText>
-                <AppThemedText style={[styles.tableCell, styles.tableHeader]}>
+                <AppThemedText style={[styles.tableHeader]}>
                   Amount
                 </AppThemedText>
               </View>
@@ -213,11 +213,14 @@ const styles = ScaledSheet.create({
     justifyContent: "space-between",
     paddingVertical: vs(5),
   },
-  tableCell: {
-    flex: 1,
-    textAlign: "center",
-  },
+  // tableCell: {
+  //   flex: 1,
+  //   textAlign: "center",
+  // },
   tableHeader: {
     fontWeight: "bold",
+    flexGrow: 1,
+    paddingHorizontal: s(15),
+    justifyContent: "space-between",
   },
 });
