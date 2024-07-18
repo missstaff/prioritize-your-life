@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import {
   StyleProp,
   TextInput,
+  TextStyle,
   TouchableOpacity,
   View,
   ViewStyle,
@@ -14,7 +15,8 @@ import { useThemeColor } from "@/hooks/useThemeColor";
 interface AppThemedTextInputProps {
   iconName?: string;
   placeholder: string;
-  style?: StyleProp<ViewStyle>;
+  containerStyle?: StyleProp<ViewStyle>;
+  inputStyle?: StyleProp<TextStyle>;
   secureEntry: boolean;
   value: string;
   checkValue: (value: string) => void;
@@ -32,19 +34,21 @@ export const AppThemedTextInput = ({
   placeholder,
   secureEntry,
   setValue,
-  style,
+  containerStyle,
+  inputStyle,
   value,
   ...otherProps
 }: AppThemedTextInputProps) => {
   const textColor = useThemeColor({}, "text");
-  const backgroundColor = useThemeColor(
+  let backgroundColor = useThemeColor(
     { light: COLORTHEME.light.background, dark: COLORTHEME.dark.background },
     "background"
   );
+  
   const [isPasswordVisible, setIsPasswordVisible] = useState(!secureEntry);
 
   return (
-    <View style={[styles.inputContainer, style]}>
+    <View style={[styles.inputContainer, containerStyle]}>
       <TextInput
         onBlur={(e) => {
           if (value.length > 0) checkValue(value);
@@ -56,7 +60,7 @@ export const AppThemedTextInput = ({
         style={[
           styles.input,
           { backgroundColor: backgroundColor, color: textColor },
-          styles.input,
+          inputStyle,
         ]}
         value={value}
         {...otherProps}

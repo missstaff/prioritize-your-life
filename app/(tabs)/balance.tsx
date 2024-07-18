@@ -1,25 +1,22 @@
 import React, { useState } from "react";
 import Toast from "react-native-toast-message";
-import {
-  useColorScheme,
-  TextInput,
-  Button,
-  FlatList,
-  View,
-} from "react-native";
+import { useColorScheme, Button, FlatList, View } from "react-native";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { s, vs, ScaledSheet } from "react-native-size-matters";
 import { AppThemedText } from "@/components/app_components/AppThemedText";
+import AppThemedTextInput from "@/components/app_components/AppThemedTextInput";
 import { AppThemedView } from "@/components/app_components/AppThemedView";
-import { getFireApp } from "@/getFireApp";
+import {
+  addTransaction,
+  fetchTransactions,
+  isValidAmount,
+  isValidDate,
+  isValidDescription,
+} from "./utilities/balance-utilities";
+import { TransactionProps } from "../types";
 import { COLORS } from "@/constants/Colors";
-
-interface Transaction {
-  id: string;
-  date: string;
-  description: string;
-  amount: number;
-}
+import AppModal from "@/components/Modal";
+import ShowIf from "@/components/ShowIf";
 
 export default function Balance() {
   const colorScheme = useColorScheme();
@@ -27,76 +24,24 @@ export default function Balance() {
   const [amount, setAmount] = useState("");
   const [description, setDescription] = useState("");
   const [date, setDate] = useState("");
+  const [modalVisible, setModalVisible] = useState(true);
 
-  // #TODO:move to ts file
-  const fetchTransactions = async (): Promise<Transaction[]> => {
-    const firebase = await getFireApp();
-    if (!firebase) {
-      throw new Error("Firebase app not initialized");
-    }
-    const db = firebase.firestore();
-    const uid = firebase.auth().currentUser?.uid;
-    if (!uid) {
-      throw new Error("User not authenticated");
-    }
-
-    const transactionsRef = db
-      .collection("users")
-      .doc(uid)
-      .collection("transactions");
-    const snapshot = await transactionsRef.orderBy("date", "desc").get();
-    const transactions: Transaction[] = snapshot.docs.map((doc) => ({
-      id: doc.id,
-      ...doc.data(),
-    })) as Transaction[];
-    return transactions;
-  };
-
-  const { data: transactions = [], refetch } = useQuery<Transaction[]>({
+  const { data: transactions = [], refetch } = useQuery<TransactionProps[]>({
     queryKey: ["transactions"],
     queryFn: fetchTransactions,
     refetchOnMount: true,
   });
 
-  // #TODO:move to ts file
-  const addTransaction = async () => {
-    const firebase = await getFireApp();
-    if (!description || !amount) {
-      Toast.show({
-        type: "error",
-        text1: "Error adding transaction.",
-        text2: "Please enter a description and amount.",
-      });
-      return;
-    }
-    if (!firebase) {
-      throw new Error("Firebase app not initialized");
-    }
-
-    const db = firebase.firestore();
-    const uid = firebase.auth().currentUser?.uid;
-    if (!uid) {
-      throw new Error("User not authenticated");
-    }
-
-    const transactionsRef = db
-      .collection("users")
-      .doc(uid)
-      .collection("transactions");
-
-    const newTransaction: Omit<Transaction, "id"> = {
-      date: date.toString(),
-      description,
-      amount: parseFloat(amount),
-    };
-
-    await transactionsRef.add(newTransaction);
-    setAmount("");
-    setDescription("");
-  };
-
   const addTransactionMutation = useMutation({
-    mutationFn: addTransaction,
+    mutationFn: () =>
+      addTransaction(
+        amount,
+        date,
+        description,
+        setAmount,
+        setDate,
+        setDescription
+      ),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["transactions"] });
       refetch();
@@ -104,7 +49,7 @@ export default function Balance() {
     onError: (error) => {
       const errorMessage =
         "Error adding transaction: " +
-        (error.message ?? "Unknown error occurred.");
+        (error instanceof Error ? error.message : "Unknown error occurred.");
       Toast.show({
         type: "error",
         text1: "Error adding transaction.",
@@ -114,76 +59,114 @@ export default function Balance() {
   });
 
   return (
-    <>
-      <AppThemedView style={styles.container}>
-        <AppThemedView
-          style={[
-            styles.section,
-            {
-              backgroundColor:
-                colorScheme === "dark" ? COLORS.mediumGray : COLORS.white,
-            },
-          ]}
-        >
-          <AppThemedText type="title">Transactions</AppThemedText>
-          {/* #TODO: move to a tapable modal? maybe an add link that opens the modal? */}
-          {/* #TODO: form validaton */}
-          {/* #TODO: loading spinner when adding transactions */}
-          {/* <AppThemedText type="title">Add Transaction</AppThemedText> */}
-          <TextInput
-            style={styles.input}
-            placeholder="Date"
-            value={date}
-            onChangeText={setDate}
-          />
-          <TextInput
-            style={styles.input}
-            placeholder="Amount"
-            value={amount}
-            onChangeText={setAmount}
-            keyboardType="numeric"
-          />
-          <TextInput
-            style={styles.input}
-            placeholder="Description"
-            value={description}
-            onChangeText={setDescription}
-          />
-          <Button title="Add" onPress={() => addTransactionMutation.mutate()} />
-          {/* #TODO: loading spinner when fetching transactions */}
-          <FlatList
-            data={transactions}
-            keyExtractor={(item) => item.id}
-            renderItem={({ item }) => (
-              <View style={styles.tableRow}>
-                <AppThemedText>{item.date}</AppThemedText>
-                <AppThemedText>{item.description}</AppThemedText>
-                <AppThemedText>{item.amount.toFixed(2)}</AppThemedText>
-              </View>
-            )}
-            ListHeaderComponent={() => (
-              <View style={styles.tableRow}>
-                <AppThemedText style={[styles.tableHeader]}>
-                  Date
-                </AppThemedText>
-                <AppThemedText style={[styles.tableHeader]}>
-                  Description
-                </AppThemedText>
-                <AppThemedText style={[styles.tableHeader]}>
-                  Amount
-                </AppThemedText>
-              </View>
-            )}
-          />
+    <ShowIf
+      condition={!modalVisible}
+      render={
+        <AppThemedView style={styles.container}>
+          <AppThemedView
+            style={[
+              styles.section,
+              {
+                backgroundColor:
+                  colorScheme === "dark" ? COLORS.mediumGray : COLORS.white,
+              },
+            ]}
+          >
+            <AppThemedText type="title" style={{ marginBottom: 50 }}>
+              Transactions
+            </AppThemedText>
+
+            <FlatList
+              data={transactions}
+              keyExtractor={(item) => item.id}
+              renderItem={({ item }) => (
+                <View style={styles.tableRow}>
+                  <AppThemedText>{item.date}</AppThemedText>
+                  <AppThemedText>{item.description}</AppThemedText>
+                  <AppThemedText>{item.amount}</AppThemedText>
+                </View>
+              )}
+              ListHeaderComponent={() => (
+                <View style={styles.tableRow}>
+                  <AppThemedText style={[styles.tableHeader]}>
+                    Date
+                  </AppThemedText>
+                  <AppThemedText style={[styles.tableHeader]}>
+                    Description
+                  </AppThemedText>
+                  <AppThemedText style={[styles.tableHeader]}>
+                    Amount
+                  </AppThemedText>
+                </View>
+              )}
+            />
+          </AppThemedView>
         </AppThemedView>
-      </AppThemedView>
-    </>
+      }
+      renderElse={
+        <AppModal
+        onClose={() => setModalVisible(false)}
+        visible={modalVisible}
+      >
+        <AppThemedTextInput
+          checkValue={isValidDate}
+          iconName="calendar"
+          placeholder="Date"
+          secureEntry={false}
+          setValue={setDate}
+          value={date}
+          containerStyle={{
+            backgroundColor: COLORS.white,
+          }}
+          inputStyle={{
+            backgroundColor: COLORS.white,
+            color: COLORS.black,
+          }}
+        />
+        <AppThemedTextInput
+          checkValue={isValidAmount}
+          placeholder="Amount"
+          secureEntry={false}
+          setValue={setAmount}
+          value={amount}
+          containerStyle={{
+            backgroundColor: COLORS.white,
+          }}
+          inputStyle={{
+            backgroundColor: COLORS.white,
+            color: COLORS.black,
+          }}
+        />
+        <AppThemedTextInput
+          checkValue={isValidDescription}
+          placeholder="Description"
+          secureEntry={false}
+          setValue={setDescription}
+          value={description}
+          containerStyle={{
+            backgroundColor: COLORS.white,
+          }}
+          inputStyle={{
+            backgroundColor: COLORS.white,
+            color: COLORS.black,
+          }}
+        />
+        <Button
+          title="Add"
+          onPress={() => addTransactionMutation.mutate()}
+        />
+        <AppThemedText type="link" onPress={() => setModalVisible(false)}>
+          Close
+        </AppThemedText>
+      </AppModal>
+      }
+    />
   );
 }
 
 const styles = ScaledSheet.create({
   container: {
-    flex: 1,
+    flexDirection: "column",
     justifyContent: "center",
     alignItems: "center",
     paddingVertical: vs(20),
@@ -199,6 +182,8 @@ const styles = ScaledSheet.create({
     shadowRadius: s(5),
     elevation: 3,
     alignItems: "center",
+    // height: "90%",
+    // maxHeight: "100%",
   },
   input: {
     width: "100%",
@@ -212,14 +197,11 @@ const styles = ScaledSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     paddingVertical: vs(5),
+    // paddingHorizontal: s(5),
   },
-  // tableCell: {
-  //   flex: 1,
-  //   textAlign: "center",
-  // },
   tableHeader: {
     fontWeight: "bold",
-    flexGrow: 1,
+    // flexGrow: 1,
     paddingHorizontal: s(15),
     justifyContent: "space-between",
   },
