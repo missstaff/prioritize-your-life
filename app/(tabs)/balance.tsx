@@ -22,9 +22,9 @@ export default function Balance() {
   const colorScheme = useColorScheme();
   const queryClient = useQueryClient();
   const [amount, setAmount] = useState("");
-  const [description, setDescription] = useState("");
   const [date, setDate] = useState("");
-  const [modalVisible, setModalVisible] = useState(true);
+  const [description, setDescription] = useState("");
+  const [modalVisible, setModalVisible] = useState(false);
 
   const { data: transactions = [], refetch } = useQuery<TransactionProps[]>({
     queryKey: ["transactions"],
@@ -68,35 +68,41 @@ export default function Balance() {
               styles.section,
               {
                 backgroundColor:
-                  colorScheme === "dark" ? COLORS.mediumGray : COLORS.white,
+                  colorScheme === "dark" ? COLORS.black : COLORS.white,
               },
             ]}
           >
-            <AppThemedText type="title" style={{ marginBottom: 50 }}>
-              Transactions
+            <AppThemedText type="title">Transactions</AppThemedText>
+           <View style={{width: "80%", display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center", marginBottom: 20, marginTop: 5}}>
+           <AppThemedText>
+              233.89
             </AppThemedText>
-
+            <AppThemedText
+              type="link"
+              onPress={() => setModalVisible(true)}
+            >
+              Add Transaction
+            </AppThemedText>
+           </View>
             <FlatList
               data={transactions}
               keyExtractor={(item) => item.id}
               renderItem={({ item }) => (
                 <View style={styles.tableRow}>
-                  <AppThemedText>{item.date}</AppThemedText>
-                  <AppThemedText>{item.description}</AppThemedText>
-                  <AppThemedText>{item.amount}</AppThemedText>
+                  <AppThemedText  style={[{fontSize: s(12)}]}>{item.date}</AppThemedText>
+                  <AppThemedText style={[styles.descriptionText, {fontSize: s(12)}]}>
+                    {item.description}
+                  </AppThemedText>
+                  <AppThemedText style={[{fontSize: s(12)}]}>{item.amount}</AppThemedText>
                 </View>
               )}
               ListHeaderComponent={() => (
                 <View style={styles.tableRow}>
-                  <AppThemedText style={[styles.tableHeader]}>
-                    Date
-                  </AppThemedText>
-                  <AppThemedText style={[styles.tableHeader]}>
+                  <AppThemedText style={styles.tableHeader}>Date</AppThemedText>
+                  <AppThemedText style={styles.tableHeader}>
                     Description
                   </AppThemedText>
-                  <AppThemedText style={[styles.tableHeader]}>
-                    Amount
-                  </AppThemedText>
+                  <AppThemedText style={styles.tableHeader}>Amount</AppThemedText>
                 </View>
               )}
             />
@@ -104,61 +110,55 @@ export default function Balance() {
         </AppThemedView>
       }
       renderElse={
-        <AppModal
-        onClose={() => setModalVisible(false)}
-        visible={modalVisible}
-      >
-        <AppThemedTextInput
-          checkValue={isValidDate}
-          iconName="calendar"
-          placeholder="Date"
-          secureEntry={false}
-          setValue={setDate}
-          value={date}
-          containerStyle={{
-            backgroundColor: COLORS.white,
-          }}
-          inputStyle={{
-            backgroundColor: COLORS.white,
-            color: COLORS.black,
-          }}
-        />
-        <AppThemedTextInput
-          checkValue={isValidAmount}
-          placeholder="Amount"
-          secureEntry={false}
-          setValue={setAmount}
-          value={amount}
-          containerStyle={{
-            backgroundColor: COLORS.white,
-          }}
-          inputStyle={{
-            backgroundColor: COLORS.white,
-            color: COLORS.black,
-          }}
-        />
-        <AppThemedTextInput
-          checkValue={isValidDescription}
-          placeholder="Description"
-          secureEntry={false}
-          setValue={setDescription}
-          value={description}
-          containerStyle={{
-            backgroundColor: COLORS.white,
-          }}
-          inputStyle={{
-            backgroundColor: COLORS.white,
-            color: COLORS.black,
-          }}
-        />
-        <Button
-          title="Add"
-          onPress={() => addTransactionMutation.mutate()}
-        />
-        <AppThemedText type="link" onPress={() => setModalVisible(false)}>
-          Close
-        </AppThemedText>
-      </AppModal>
+        <AppModal onClose={() => setModalVisible(false)} visible={modalVisible}>
+          <AppThemedTextInput
+            checkValue={isValidDate}
+            iconName="calendar"
+            placeholder="Date"
+            secureEntry={false}
+            setValue={setDate}
+            value={date}
+            containerStyle={{
+              backgroundColor: COLORS.white,
+            }}
+            inputStyle={{
+              backgroundColor: COLORS.white,
+              color: COLORS.black,
+            }}
+          />
+          <AppThemedTextInput
+            checkValue={isValidAmount}
+            placeholder="Amount"
+            secureEntry={false}
+            setValue={setAmount}
+            value={amount}
+            containerStyle={{
+              backgroundColor: COLORS.white,
+            }}
+            inputStyle={{
+              backgroundColor: COLORS.white,
+              color: COLORS.black,
+            }}
+          />
+          <AppThemedTextInput
+            checkValue={isValidDescription}
+            placeholder="Description"
+            secureEntry={false}
+            setValue={setDescription}
+            value={description}
+            containerStyle={{
+              backgroundColor: COLORS.white,
+            }}
+            inputStyle={{
+              backgroundColor: COLORS.white,
+              color: COLORS.black,
+            }}
+          />
+          <Button title="Add" onPress={() => addTransactionMutation.mutate()} />
+          <AppThemedText type="link" onPress={() => setModalVisible(false)}>
+            Close
+          </AppThemedText>
+        </AppModal>
       }
     />
   );
@@ -182,8 +182,6 @@ const styles = ScaledSheet.create({
     shadowRadius: s(5),
     elevation: 3,
     alignItems: "center",
-    // height: "90%",
-    // maxHeight: "100%",
   },
   input: {
     width: "100%",
@@ -194,15 +192,16 @@ const styles = ScaledSheet.create({
     marginVertical: vs(5),
   },
   tableRow: {
+    width: "100%",
     flexDirection: "row",
     justifyContent: "space-between",
     paddingVertical: vs(5),
-    // paddingHorizontal: s(5),
   },
   tableHeader: {
     fontWeight: "bold",
-    // flexGrow: 1,
-    paddingHorizontal: s(15),
-    justifyContent: "space-between",
+  },
+  descriptionText: {
+    flex: 1,
+    paddingHorizontal: s(25),
   },
 });
