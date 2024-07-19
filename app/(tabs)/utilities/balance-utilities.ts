@@ -20,15 +20,25 @@ export const addTransaction = async (
   setDate: React.Dispatch<React.SetStateAction<string>>,
   setDescription: React.Dispatch<React.SetStateAction<string>>
 ) => {
-  const firebase = await getFireApp();
-  if (!description || !amount) {
+  if (!description || !amount || !date) {
     Toast.show({
       type: "error",
       text1: "Error adding transaction.",
-      text2: "Please enter a description and amount.",
+      text2: "Please try again.",
     });
     return;
   }
+
+  if(!validateFormInputs(amount, date, description)){
+    Toast.show({
+      type: "error",
+      text1: "Error adding transaction.",
+      text2: "Please try again.",
+    });
+    return;
+  }
+
+  const firebase = await getFireApp();
   if (!firebase) {
     throw new Error("Firebase app not initialized");
   }
@@ -44,8 +54,12 @@ export const addTransaction = async (
     .doc(uid)
     .collection("transactions");
 
+    
+    var date = new Date(date).toISOString();
+    amount = parseFloat(amount).toFixed(2);
+
   const newTransaction: Omit<TransactionProps, "id"> = {
-    date: date.toString(),
+    date: date,
     description,
     amount: parseFloat(amount),
   };
@@ -142,3 +156,11 @@ export const isValidAmount = (amount: string): boolean => {
   }
   return isValid;
 };
+
+export const validateFormInputs = (amount: string, date: string, description: string): boolean => {
+  let isValid = false;
+  if(isValidAmount(amount) && isValidDate(date) && isValidDescription(description)){
+    isValid = true;
+  }
+  return isValid;
+}

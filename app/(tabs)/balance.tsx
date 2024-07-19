@@ -69,6 +69,7 @@ export default function Balance() {
               {
                 backgroundColor:
                   colorScheme === "dark" ? COLORS.black : COLORS.white,
+
               },
             ]}
           >
@@ -84,7 +85,7 @@ export default function Balance() {
               Add Transaction
             </AppThemedText>
            </View>
-            <FlatList
+            {transactions.length > 0 && <FlatList
               data={transactions}
               keyExtractor={(item) => item.id}
               renderItem={({ item }) => (
@@ -105,7 +106,7 @@ export default function Balance() {
                   <AppThemedText style={styles.tableHeader}>Amount</AppThemedText>
                 </View>
               )}
-            />
+            />}
           </AppThemedView>
         </AppThemedView>
       }
@@ -118,13 +119,6 @@ export default function Balance() {
             secureEntry={false}
             setValue={setDate}
             value={date}
-            containerStyle={{
-              backgroundColor: COLORS.white,
-            }}
-            inputStyle={{
-              backgroundColor: COLORS.white,
-              color: COLORS.black,
-            }}
           />
           <AppThemedTextInput
             checkValue={isValidAmount}
@@ -132,13 +126,6 @@ export default function Balance() {
             secureEntry={false}
             setValue={setAmount}
             value={amount}
-            containerStyle={{
-              backgroundColor: COLORS.white,
-            }}
-            inputStyle={{
-              backgroundColor: COLORS.white,
-              color: COLORS.black,
-            }}
           />
           <AppThemedTextInput
             checkValue={isValidDescription}
@@ -146,15 +133,10 @@ export default function Balance() {
             secureEntry={false}
             setValue={setDescription}
             value={description}
-            containerStyle={{
-              backgroundColor: COLORS.white,
-            }}
-            inputStyle={{
-              backgroundColor: COLORS.white,
-              color: COLORS.black,
-            }}
           />
-          <Button title="Add" onPress={() => addTransactionMutation.mutate()} />
+          <AppThemedText type="link" onPress={() => addTransactionMutation.mutate()}>
+            Add
+          </AppThemedText>
           <AppThemedText type="link" onPress={() => setModalVisible(false)}>
             Close
           </AppThemedText>
@@ -182,6 +164,8 @@ const styles = ScaledSheet.create({
     shadowRadius: s(5),
     elevation: 3,
     alignItems: "center",
+    height: "100%",
+    maxHeight: "100%"
   },
   input: {
     width: "100%",
