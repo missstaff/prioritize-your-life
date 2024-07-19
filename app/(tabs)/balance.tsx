@@ -179,7 +179,7 @@ const styles = ScaledSheet.create({
     paddingVertical: vs(20),
   },
   section: {
-    width: "90%",
+    width: "100%",
     marginVertical: vs(5),
     padding: s(20),
     borderRadius: s(10),
@@ -211,6 +211,6 @@ const styles = ScaledSheet.create({
   },
   descriptionText: {
     flex: 1,
-    paddingHorizontal: s(25),
+    paddingHorizontal: s(65),
   },
 });

@@ -148,7 +148,7 @@ export const isValidDate = (date: string): boolean => {
  * @returns `true` if the description is valid, otherwise `false`.
  */
 export const isValidDescription = (description: string): boolean => {
-  const regex = /^.{1,25}$/;
+  const regex = /^.{1,20}$/;
   const isValid = regex.test(description);
   if (!isValid) {
     Toast.show({
