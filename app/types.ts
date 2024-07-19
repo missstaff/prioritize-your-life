@@ -15,7 +15,7 @@ export interface ToasterProps {
 
 export interface TransactionProps {
   id: string;
-  date: string;
+  date: Date;
   description: string;
-  amount: number;
+  amount: string;
 };

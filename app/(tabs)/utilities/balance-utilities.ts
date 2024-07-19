@@ -3,6 +3,18 @@ import Toast from "react-native-toast-message";
 import { getFireApp } from "@/getFireApp";
 import { TransactionProps } from "../../types";
 
+
+/**
+ * Parses a date string in the format MM-DD-YY to a Date object.
+ * @param dateStr The date string to parse.
+ * @returns A Date object representing the parsed date.
+ */
+const parseDate = (dateStr: string): Date => {
+  const [day, month, year] = dateStr.split("/").map(Number);
+  const parsedDate = new Date(year + 2000, month - 1, day); // Adjust year for '20' prefix
+  return isNaN(parsedDate.getTime()) ? new Date() : parsedDate;
+};
+
 /**
  * Adds a transaction to Firestore.
  * @param amount The amount of the transaction.
@@ -54,14 +66,23 @@ export const addTransaction = async (
     .doc(uid)
     .collection("transactions");
 
+
+    amount = Number(amount).toFixed(2);
     
-    var date = new Date(date).toISOString();
-    amount = parseFloat(amount).toFixed(2);
+    const numericAmount = parseFloat(amount).toFixed(2); // Ensure two decimal places
+    if (isNaN(numericAmount as any)) {
+      Toast.show({
+        type: "error",
+        text1: "Invalid amount.",
+        text2: "Please enter a valid number.",
+      });
+      return;
+    }
 
   const newTransaction: Omit<TransactionProps, "id"> = {
-    date: date,
+    date: parseDate(date),
     description,
-    amount: parseFloat(amount),
+    amount: numericAmount,
   };
 
   await transactionsRef.add(newTransaction);
@@ -107,7 +128,7 @@ export const fetchTransactions = async (): Promise<TransactionProps[]> => {
  * @returns `true` if the date is valid, otherwise `false`.
  */
 export const isValidDate = (date: string): boolean => {
-  const regex = /^(0[1-9]|1[0-2])[-/](0[1-9]|[12][0-9]|3[01])[-/]\d{2}$/;
+  const regex = /^(0[1-9]|1[0-2])[/](0[1-9]|[12][0-9]|3[01])[/]\d{2}$/;
   const isValid = regex.test(date);
 
   if (!isValid) {
@@ -158,9 +179,13 @@ export const isValidAmount = (amount: string): boolean => {
 };
 
 export const validateFormInputs = (amount: string, date: string, description: string): boolean => {
+  console.log("amount: ", amount);
+  console.log("date: ", date);
+  console.log("description: ", description);
   let isValid = false;
   if(isValidAmount(amount) && isValidDate(date) && isValidDescription(description)){
     isValid = true;
   }
   return isValid;
 }
+

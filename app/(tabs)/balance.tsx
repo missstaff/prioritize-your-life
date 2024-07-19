@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Toast from "react-native-toast-message";
-import { useColorScheme, Button, FlatList, View } from "react-native";
+import { useColorScheme, FlatList, View } from "react-native";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { s, vs, ScaledSheet } from "react-native-size-matters";
 import { AppThemedText } from "@/components/app_components/AppThemedText";
@@ -17,6 +17,18 @@ import { TransactionProps } from "../types";
 import { COLORS } from "@/constants/Colors";
 import AppModal from "@/components/Modal";
 import ShowIf from "@/components/ShowIf";
+
+/**
+ * Formats a Firestore Timestamp to a short date string (MM/DD).
+ * @param timestamp The Firestore Timestamp to format.
+ * @returns A formatted date string in MM/DD format.
+ */
+const formatDate = (timestamp: any): string => {
+  const date = timestamp.toDate();
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+  return `${month}/${day}`;
+};
 
 export default function Balance() {
   const colorScheme = useColorScheme();
@@ -45,6 +57,7 @@ export default function Balance() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["transactions"] });
       refetch();
+      setModalVisible(false);
     },
     onError: (error) => {
       const errorMessage =
@@ -69,44 +82,56 @@ export default function Balance() {
               {
                 backgroundColor:
                   colorScheme === "dark" ? COLORS.black : COLORS.white,
-
               },
             ]}
           >
             <AppThemedText type="title">Transactions</AppThemedText>
-           <View style={{width: "80%", display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center", marginBottom: 20, marginTop: 5}}>
-           <AppThemedText>
-              233.89
-            </AppThemedText>
-            <AppThemedText
-              type="link"
-              onPress={() => setModalVisible(true)}
+            <View
+              style={{
+                width: "80%",
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "space-between",
+                alignItems: "center",
+                marginBottom: 20,
+                marginTop: 5,
+              }}
             >
-              Add Transaction
-            </AppThemedText>
-           </View>
-            {transactions.length > 0 && <FlatList
-              data={transactions}
-              keyExtractor={(item) => item.id}
-              renderItem={({ item }) => (
-                <View style={styles.tableRow}>
-                  <AppThemedText  style={[{fontSize: s(12)}]}>{item.date}</AppThemedText>
-                  <AppThemedText style={[styles.descriptionText, {fontSize: s(12)}]}>
-                    {item.description}
-                  </AppThemedText>
-                  <AppThemedText style={[{fontSize: s(12)}]}>{item.amount}</AppThemedText>
-                </View>
-              )}
-              ListHeaderComponent={() => (
-                <View style={styles.tableRow}>
-                  <AppThemedText style={styles.tableHeader}>Date</AppThemedText>
-                  <AppThemedText style={styles.tableHeader}>
-                    Description
-                  </AppThemedText>
-                  <AppThemedText style={styles.tableHeader}>Amount</AppThemedText>
-                </View>
-              )}
-            />}
+              <AppThemedText>233.89</AppThemedText>
+              <AppThemedText type="link" onPress={() => setModalVisible(true)}>
+                Add Transaction
+              </AppThemedText>
+            </View>
+            {transactions.length > 0 && (
+              <FlatList
+                data={transactions}
+                keyExtractor={(item) => item.id}
+                renderItem={({ item }) => (
+                  <View style={styles.tableRow}>
+                    <AppThemedText style={[{ fontSize: s(12) }]}>
+                      {formatDate(item.date)}
+                    </AppThemedText>
+                    <AppThemedText
+                      style={[styles.descriptionText, { fontSize: s(12) }]}
+                    >
+                      {item.description}
+                    </AppThemedText>
+                    <AppThemedText style={[{ fontSize: s(12) }]}>
+                      {parseFloat(item.amount).toFixed(2)} {/* Ensure two decimal places */}
+                    </AppThemedText>
+                  </View>
+                )}
+                ListHeaderComponent={() => (
+                  <View style={styles.tableRow}>
+                    <AppThemedText style={styles.tableHeader}>Date</AppThemedText>
+                    <AppThemedText style={styles.tableHeader}>
+                      Description
+                    </AppThemedText>
+                    <AppThemedText style={styles.tableHeader}>Amount</AppThemedText>
+                  </View>
+                )}
+              />
+            )}
           </AppThemedView>
         </AppThemedView>
       }
@@ -115,7 +140,7 @@ export default function Balance() {
           <AppThemedTextInput
             checkValue={isValidDate}
             iconName="calendar"
-            placeholder="Date"
+            placeholder="MM/DD/YY"
             secureEntry={false}
             setValue={setDate}
             value={date}
