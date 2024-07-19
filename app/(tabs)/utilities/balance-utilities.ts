@@ -69,15 +69,15 @@ export const addTransaction = async (
 
     amount = Number(amount).toFixed(2);
     
-    const numericAmount = parseFloat(amount).toFixed(2); // Ensure two decimal places
-    if (isNaN(numericAmount as any)) {
-      Toast.show({
-        type: "error",
-        text1: "Invalid amount.",
-        text2: "Please enter a valid number.",
-      });
-      return;
-    }
+  const numericAmount = parseFloat(amount).toFixed(2);
+  if (isNaN(numericAmount as any)) {
+    Toast.show({
+      type: "error",
+      text1: "Invalid amount.",
+      text2: "Please enter a valid number.",
+    });
+    return;
+  }
 
   const newTransaction: Omit<TransactionProps, "id"> = {
     date: parseDate(date),
