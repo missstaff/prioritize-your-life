@@ -17,6 +17,7 @@ import { TransactionProps } from "../types";
 import { COLORS } from "@/constants/Colors";
 import AppModal from "@/components/Modal";
 import ShowIf from "@/components/ShowIf";
+import LoadingSpinner from "@/components/LoadingSpinner";
 
 /**
  * Formats a Firestore Timestamp to a short date string (MM/DD).
@@ -37,14 +38,15 @@ export default function Balance() {
   const [date, setDate] = useState("");
   const [description, setDescription] = useState("");
   const [modalVisible, setModalVisible] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const { data: transactions = [], refetch } = useQuery<TransactionProps[]>({
     queryKey: ["transactions"],
-    queryFn: fetchTransactions,
+    queryFn: () => fetchTransactions(setLoading),
     refetchOnMount: true,
   });
 
-  const addTransactionMutation = useMutation({
+  const mutation = useMutation({
     mutationFn: () =>
       addTransaction(
         amount,
@@ -52,14 +54,16 @@ export default function Balance() {
         description,
         setAmount,
         setDate,
-        setDescription
+        setDescription,
       ),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["transactions"] });
-      refetch();
+    onSuccess: async () => {
+      setLoading(false)
+      await refetch();
       setModalVisible(false);
+      queryClient.invalidateQueries({ queryKey: ["transactions"] });
     },
     onError: (error) => {
+      setLoading(false)
       const errorMessage =
         "Error adding transaction: " +
         (error instanceof Error ? error.message : "Unknown error occurred.");
@@ -71,106 +75,116 @@ export default function Balance() {
     },
   });
 
+
   return (
     <ShowIf
-      condition={!modalVisible}
-      render={
-        <AppThemedView style={styles.container}>
-          <AppThemedView
-            style={[
-              styles.section,
-              {
-                backgroundColor:
-                  colorScheme === "dark" ? COLORS.black : COLORS.white,
-              },
-            ]}
-          >
-            <AppThemedText type="title">Transactions</AppThemedText>
-            <View
-              style={{
-                width: "80%",
-                display: "flex",
-                flexDirection: "row",
-                justifyContent: "space-between",
-                alignItems: "center",
-                marginBottom: 20,
-                marginTop: 5,
-              }}
-            >
-              <AppThemedText>233.89</AppThemedText>
-              <AppThemedText type="link" onPress={() => setModalVisible(true)}>
-                Add Transaction
-              </AppThemedText>
-            </View>
-            {transactions.length > 0 && (
-              <FlatList
-                data={transactions}
-                keyExtractor={(item) => item.id}
-                renderItem={({ item }) => (
-                  <View style={styles.tableRow}>
-                    <AppThemedText style={[{ fontSize: s(12) }]}>
-                      {formatDate(item.date)}
-                    </AppThemedText>
-                    <AppThemedText
-                      style={[styles.descriptionText, { fontSize: s(12) }]}
-                    >
-                      {item.description}
-                    </AppThemedText>
-                    <AppThemedText style={[{ fontSize: s(12) }]}>
-                      {parseFloat(item.amount).toFixed(2)} {/* Ensure two decimal places */}
-                    </AppThemedText>
-                  </View>
+        condition={mutation.status === "pending" || loading}
+        render={<LoadingSpinner />}
+        renderElse={
+          <ShowIf
+          condition={!modalVisible}
+          render={
+            <AppThemedView style={styles.container}>
+              <AppThemedView
+                style={[
+                  styles.section,
+                  {
+                    backgroundColor:
+                      colorScheme === "dark" ? COLORS.black : COLORS.white,
+                  },
+                ]}
+              >
+                <AppThemedText type="title">Transactions</AppThemedText>
+                <View
+                  style={{
+                    width: "80%",
+                    display: "flex",
+                    flexDirection: "row",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                    marginBottom: 20,
+                    marginTop: 5,
+                  }}
+                >
+                  <AppThemedText>233.89</AppThemedText>
+                  <AppThemedText type="link" onPress={() => setModalVisible(true)}>
+                    Add Transaction
+                  </AppThemedText>
+                </View>
+                {transactions.length > 0 && (
+                  <FlatList
+                    data={transactions}
+                    keyExtractor={(item) => item.id}
+                    renderItem={({ item }) => (
+                      <View style={styles.tableRow}>
+                        <AppThemedText style={[{ fontSize: s(12) }]}>
+                          {formatDate(item.date)}
+                        </AppThemedText>
+                        <AppThemedText
+                          style={[styles.descriptionText, { fontSize: s(12) }]}
+                        >
+                          {item.description}
+                        </AppThemedText>
+                        <AppThemedText style={[{ fontSize: s(12) }]}>
+                          {parseFloat(item.amount).toFixed(2)} {/* Ensure two decimal places */}
+                        </AppThemedText>
+                      </View>
+                    )}
+                    ListHeaderComponent={() => (
+                      <View style={styles.tableRow}>
+                        <AppThemedText style={styles.tableHeader}>Date</AppThemedText>
+                        <AppThemedText style={styles.tableHeader}>
+                          Description
+                        </AppThemedText>
+                        <AppThemedText style={styles.tableHeader}>Amount</AppThemedText>
+                      </View>
+                    )}
+                  />
                 )}
-                ListHeaderComponent={() => (
-                  <View style={styles.tableRow}>
-                    <AppThemedText style={styles.tableHeader}>Date</AppThemedText>
-                    <AppThemedText style={styles.tableHeader}>
-                      Description
-                    </AppThemedText>
-                    <AppThemedText style={styles.tableHeader}>Amount</AppThemedText>
-                  </View>
-                )}
+                {/**pagination? */}
+              </AppThemedView>
+            </AppThemedView>
+          }
+          renderElse={
+            <AppModal onClose={() => setModalVisible(false)} visible={modalVisible}>
+              {/** move to a modal content jsx */}
+              <AppThemedTextInput
+                checkValue={isValidDate}
+                iconName="calendar"
+                placeholder="MM/DD/YY"
+                secureEntry={false}
+                setValue={setDate}
+                value={date}
               />
-            )}
-          </AppThemedView>
-        </AppThemedView>
-      }
-      renderElse={
-        <AppModal onClose={() => setModalVisible(false)} visible={modalVisible}>
-          <AppThemedTextInput
-            checkValue={isValidDate}
-            iconName="calendar"
-            placeholder="MM/DD/YY"
-            secureEntry={false}
-            setValue={setDate}
-            value={date}
-          />
-          <AppThemedTextInput
-            checkValue={isValidAmount}
-            placeholder="Amount"
-            secureEntry={false}
-            setValue={setAmount}
-            value={amount}
-          />
-          <AppThemedTextInput
-            checkValue={isValidDescription}
-            placeholder="Description"
-            secureEntry={false}
-            setValue={setDescription}
-            value={description}
-          />
-          <AppThemedText type="link" onPress={() => addTransactionMutation.mutate()}>
-            Add
-          </AppThemedText>
-          <AppThemedText type="link" onPress={() => setModalVisible(false)}>
-            Close
-          </AppThemedText>
-        </AppModal>
-      }
-    />
+              <AppThemedTextInput
+                checkValue={isValidAmount}
+                placeholder="Amount"
+                secureEntry={false}
+                setValue={setAmount}
+                value={amount}
+              />
+              <AppThemedTextInput
+                checkValue={isValidDescription}
+                placeholder="Description"
+                secureEntry={false}
+                setValue={setDescription}
+                value={description}
+              />
+              <AppThemedText type="link" onPress={() => mutation.mutate()}>
+                Add
+              </AppThemedText>
+              <AppThemedText type="link" onPress={() => setModalVisible(false)}>
+                Close
+              </AppThemedText>
+            </AppModal>
+          }
+        />
+        }
+        />
+
   );
 }
-
+{/** move in to styles.ts */}
 const styles = ScaledSheet.create({
   container: {
     flexDirection: "column",
@@ -214,3 +228,7 @@ const styles = ScaledSheet.create({
     paddingHorizontal: s(65),
   },
 });
+function invalidateQueries(arg0: { queryKey: string[]; }) {
+  throw new Error("Function not implemented.");
+}
+

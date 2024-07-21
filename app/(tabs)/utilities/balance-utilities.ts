@@ -95,7 +95,8 @@ export const addTransaction = async (
  * Fetches the transactions for the current user from Firestore.
  * @returns An array of transactions.
  */
-export const fetchTransactions = async (): Promise<TransactionProps[]> => {
+export const fetchTransactions = async (setLoading: React.Dispatch<React.SetStateAction<boolean>>): Promise<TransactionProps[]> => {
+  setLoading(true);
   const firebase = await getFireApp();
   if (!firebase) {
     throw new Error("Firebase app not initialized");
@@ -119,6 +120,7 @@ export const fetchTransactions = async (): Promise<TransactionProps[]> => {
   if (!transactions) {
     transactions = [];
   }
+  setLoading(false)
   return transactions;
 };
 
