@@ -5,7 +5,7 @@ import { AppContext } from "@/store/app-context";
 import { TabBarIcon } from "@/components/navigation/TabBarIcon";
 import { COLORS, COLORTHEME } from "@/constants/Colors";
 import { useColorScheme } from "@/hooks/useColorScheme";
-import SettingsModal from "@/components/Modal";
+import AppModal from "@/components/Modal";
 import { AppThemedText } from "@/components/app_components/AppThemedText";
 import AppThemedTouchableOpacity from "@/components/app_components/AppThemedTouchableOpacity";
 import { getFireApp } from "@/getFireApp";
@@ -22,7 +22,6 @@ export default function TabLayout() {
   const [modalVisible, setModalVisible] = useState(false);
 
   const logout = async () => {
-    // Implement logout logic here
     const firebase = await getFireApp();
     if (!firebase) {
       Toast.show({
@@ -45,7 +44,7 @@ export default function TabLayout() {
 
   return (
     <>
-      <SettingsModal
+      <AppModal
         onClose={() => setModalVisible(false)}
         visible={modalVisible}
       >
@@ -54,7 +53,7 @@ export default function TabLayout() {
         <AppThemedText type="link" onPress={() => setModalVisible(false)}>
           Close
         </AppThemedText>
-      </SettingsModal>
+      </AppModal>
       <Tabs
         screenOptions={{
           tabBarInactiveTintColor: COLORTHEME[colorScheme ?? "light"].tint,
@@ -93,9 +92,9 @@ export default function TabLayout() {
           }}
         />
         <Tabs.Screen
-          name="balances"
+          name="balance"
           options={{
-            title: "Balances",
+            title: "Balance",
             tabBarIcon: ({ color, focused }) => (
               <TabBarIcon
                 name={focused ? "cash" : "cash-outline"}

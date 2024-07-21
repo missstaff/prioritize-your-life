@@ -11,4 +11,11 @@ export interface ToasterProps {
   text1: string;
   text2?: string;
   title: string;
-}
+};
+
+export interface TransactionProps {
+  id: string;
+  date: Date;
+  description: string;
+  amount: string;
+};

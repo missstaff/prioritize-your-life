@@ -9,7 +9,7 @@ interface ModalProps {
   visible: boolean;
 }
 
-const SettingsModal = ({ children, onClose, visible }: ModalProps) => {
+const AppModal = ({ children, onClose, visible }: ModalProps) => {
   return (
     <Modal
       animationType="slide"
@@ -26,7 +26,7 @@ const SettingsModal = ({ children, onClose, visible }: ModalProps) => {
   );
 };
 
-export default SettingsModal;
+export default AppModal;
 
 const styles = ScaledSheet.create({
   modalOverlay: {
