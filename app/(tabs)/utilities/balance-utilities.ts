@@ -10,9 +10,30 @@ import { TransactionProps } from "../../types";
  * @returns A Date object representing the parsed date.
  */
 const parseDate = (dateStr: string): Date => {
-  const [day, month, year] = dateStr.split("/").map(Number);
-  const parsedDate = new Date(year + 2000, month - 1, day); // Adjust year for '20' prefix
+  let month, day, year;
+  
+  if (dateStr.includes("/")) {
+    // Format: MM/DD/YY
+    [month, day, year] = dateStr.split("/").map(Number);
+
+  } else if (dateStr.includes("-")) {
+    // Format: MM-DD-YY
+    [month, day, year] = dateStr.split("-").map(Number);
+  } else {
+    // Format: MMDDYY
+    if (dateStr.length !== 6) {
+      return new Date(); // Invalid format, return current date
+    }
+    month = Number(dateStr.slice(0, 2));
+    day = Number(dateStr.slice(2, 4));
+    year = Number(dateStr.slice(4, 6));
+  }
+
+  const parsedYear = year + 2000; // Adjust year for '20' prefix
+  const parsedDate = new Date(parsedYear, month - 1, day); // month is 0-indexed
+  
   return isNaN(parsedDate.getTime()) ? new Date() : parsedDate;
+  
 };
 
 /**
@@ -130,6 +151,11 @@ export const fetchTransactions = async (setLoading: React.Dispatch<React.SetStat
  * @returns `true` if the date is valid, otherwise `false`.
  */
 export const isValidDate = (date: string): boolean => {
+  if (date.includes("-")) {
+    date = date.replace(/-/g, "/");
+  } else if (date.length === 6) {
+    date = `${date.slice(0, 2)}/${date.slice(2, 4)}/${date.slice(4)}`;
+  }
   const regex = /^(0[1-9]|1[0-2])[/](0[1-9]|[12][0-9]|3[01])[/]\d{2}$/;
   const isValid = regex.test(date);
 
