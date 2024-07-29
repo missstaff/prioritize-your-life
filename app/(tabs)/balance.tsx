@@ -15,9 +15,10 @@ import {
 } from "./utilities/balance-utilities";
 import { TransactionProps } from "../types";
 import { COLORS } from "@/constants/Colors";
-import AppModal from "@/components/Modal";
+import AppModal from "@/components/modal/Modal";
 import ShowIf from "@/components/ShowIf";
 import LoadingSpinner from "@/components/LoadingSpinner";
+import AddTransactionModalContent from "@/components/modal/modal_content/AddTransactionModalContent";
 
 /**
  * Formats a Firestore Timestamp to a short date string (MM/DD).
@@ -149,7 +150,7 @@ export default function Balance() {
           renderElse={
             <AppModal onClose={() => setModalVisible(false)} visible={modalVisible}>
               {/** move to a modal content jsx */}
-              <AppThemedTextInput
+              {/* <AppThemedTextInput
                 checkValue={isValidDate}
                 iconName="calendar"
                 placeholder="MM/DD/YY"
@@ -176,7 +177,17 @@ export default function Balance() {
               </AppThemedText>
               <AppThemedText type="link" onPress={() => setModalVisible(false)}>
                 Close
-              </AppThemedText>
+              </AppThemedText> */}
+              <AddTransactionModalContent
+                amount={amount}
+                date={date}
+                description={description}
+                setAmount={setAmount}
+                setDate={setDate}
+                setDescription={setDescription}
+                mutation={mutation}
+                setModalVisible={setModalVisible}
+              />
             </AppModal>
           }
         />

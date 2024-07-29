@@ -3,39 +3,6 @@ import Toast from "react-native-toast-message";
 import { getFireApp } from "@/getFireApp";
 import { TransactionProps } from "../../types";
 
-
-/**
- * Parses a date string in the format MM-DD-YY to a Date object.
- * @param dateStr The date string to parse.
- * @returns A Date object representing the parsed date.
- */
-const parseDate = (dateStr: string): Date => {
-  let month, day, year;
-  
-  if (dateStr.includes("/")) {
-    // Format: MM/DD/YY
-    [month, day, year] = dateStr.split("/").map(Number);
-
-  } else if (dateStr.includes("-")) {
-    // Format: MM-DD-YY
-    [month, day, year] = dateStr.split("-").map(Number);
-  } else {
-    // Format: MMDDYY
-    if (dateStr.length !== 6) {
-      return new Date(); // Invalid format, return current date
-    }
-    month = Number(dateStr.slice(0, 2));
-    day = Number(dateStr.slice(2, 4));
-    year = Number(dateStr.slice(4, 6));
-  }
-
-  const parsedYear = year + 2000; // Adjust year for '20' prefix
-  const parsedDate = new Date(parsedYear, month - 1, day); // month is 0-indexed
-  
-  return isNaN(parsedDate.getTime()) ? new Date() : parsedDate;
-  
-};
-
 /**
  * Adds a transaction to Firestore.
  * @param amount The amount of the transaction.
@@ -62,7 +29,7 @@ export const addTransaction = async (
     return;
   }
 
-  if(!validateFormInputs(amount, date, description)){
+  if (!validateFormInputs(amount, date, description)) {
     Toast.show({
       type: "error",
       text1: "Error adding transaction.",
@@ -87,9 +54,8 @@ export const addTransaction = async (
     .doc(uid)
     .collection("transactions");
 
+  amount = Number(amount).toFixed(2);
 
-    amount = Number(amount).toFixed(2);
-    
   const numericAmount = parseFloat(amount).toFixed(2);
   if (isNaN(numericAmount as any)) {
     Toast.show({
@@ -116,7 +82,9 @@ export const addTransaction = async (
  * Fetches the transactions for the current user from Firestore.
  * @returns An array of transactions.
  */
-export const fetchTransactions = async (setLoading: React.Dispatch<React.SetStateAction<boolean>>): Promise<TransactionProps[]> => {
+export const fetchTransactions = async (
+  setLoading: React.Dispatch<React.SetStateAction<boolean>>
+): Promise<TransactionProps[]> => {
   setLoading(true);
   const firebase = await getFireApp();
   if (!firebase) {
@@ -141,7 +109,7 @@ export const fetchTransactions = async (setLoading: React.Dispatch<React.SetStat
   if (!transactions) {
     transactions = [];
   }
-  setLoading(false)
+  setLoading(false);
   return transactions;
 };
 
@@ -206,14 +174,51 @@ export const isValidAmount = (amount: string): boolean => {
   return isValid;
 };
 
-export const validateFormInputs = (amount: string, date: string, description: string): boolean => {
+export const validateFormInputs = (
+  amount: string,
+  date: string,
+  description: string
+): boolean => {
   console.log("amount: ", amount);
   console.log("date: ", date);
   console.log("description: ", description);
   let isValid = false;
-  if(isValidAmount(amount) && isValidDate(date) && isValidDescription(description)){
+  if (
+    isValidAmount(amount) &&
+    isValidDate(date) &&
+    isValidDescription(description)
+  ) {
     isValid = true;
   }
   return isValid;
-}
+};
 
+/**
+ * Parses a date string in the format MM-DD-YY to a Date object.
+ * @param dateStr The date string to parse.
+ * @returns A Date object representing the parsed date.
+ */
+const parseDate = (dateStr: string): Date => {
+  let month, day, year;
+
+  if (dateStr.includes("/")) {
+    // Format: MM/DD/YY
+    [month, day, year] = dateStr.split("/").map(Number);
+  } else if (dateStr.includes("-")) {
+    // Format: MM-DD-YY
+    [month, day, year] = dateStr.split("-").map(Number);
+  } else {
+    // Format: MMDDYY
+    if (dateStr.length !== 6) {
+      return new Date(); // Invalid format, return current date
+    }
+    month = Number(dateStr.slice(0, 2));
+    day = Number(dateStr.slice(2, 4));
+    year = Number(dateStr.slice(4, 6));
+  }
+
+  const parsedYear = year + 2000; // Adjust year for '20' prefix
+  const parsedDate = new Date(parsedYear, month - 1, day); // month is 0-indexed
+
+  return isNaN(parsedDate.getTime()) ? new Date() : parsedDate;
+};
