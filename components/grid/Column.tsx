@@ -18,7 +18,7 @@ const styles = ScaledSheet.create({
         display: "flex",
         flexDirection: "column",
         justifyContent: "center",
-        width: "33%",
+        // width: "33%",
       },
 });
 

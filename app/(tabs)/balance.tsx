@@ -104,36 +104,40 @@ export default function Balance() {
                     keyExtractor={(item) => item.id}
                     renderItem={({ item }) => (
                       <Row>
-                        <Column inlineStyles={{width: "30%"}}>
+                        <Column inlineStyles={{ width: "30%" }}>
                           <AppThemedText style={[{ fontSize: s(12) }]}>
                             {formatDate(item.date)}
                           </AppThemedText>
                         </Column>
-                        <Column inlineStyles={{width: "50%"}}>
-                        <AppThemedText
-                          style={{ fontSize: s(12) }}
-                        >
-                          {item.description}
-                        </AppThemedText>
+                        <Column inlineStyles={{ width: "50%" }}>
+                          <AppThemedText style={{ fontSize: s(12) }}>
+                            {item.description}
+                          </AppThemedText>
                         </Column>
-                       <Column inlineStyles={{width: "20%"}}>
-                       <AppThemedText style={[{ fontSize: s(12) }]}>
-                          {parseFloat(item.amount).toFixed(2)}{" "}
-                        </AppThemedText>
+                        <Column inlineStyles={{ width: "20%" }}>
+                          <AppThemedText style={[{ fontSize: s(12) }]}>
+                            {parseFloat(item.amount).toFixed(2)}{" "}
+                          </AppThemedText>
                         </Column>
                       </Row>
                     )}
                     ListHeaderComponent={() => (
                       <Row>
-                        <AppThemedText style={styles.tableHeader}>
-                          Date
-                        </AppThemedText>
-                        <AppThemedText style={styles.tableHeader}>
-                          Description
-                        </AppThemedText>
-                        <AppThemedText style={styles.tableHeader}>
-                          Amount
-                        </AppThemedText>
+                        <Column>
+                          <AppThemedText style={styles.tableHeader}>
+                            Date
+                          </AppThemedText>
+                        </Column>
+                        <Column>
+                          <AppThemedText style={styles.tableHeader}>
+                            Description
+                          </AppThemedText>
+                        </Column>
+                        <Column>
+                          <AppThemedText style={styles.tableHeader}>
+                            Amount
+                          </AppThemedText>
+                        </Column>
                       </Row>
                     )}
                   />
@@ -191,5 +195,5 @@ const styles = ScaledSheet.create({
   },
   tableHeader: {
     fontWeight: "bold",
-  }
+  },
 });
