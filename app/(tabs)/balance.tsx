@@ -4,34 +4,17 @@ import { useColorScheme, FlatList, View } from "react-native";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { s, vs, ScaledSheet } from "react-native-size-matters";
 import { AppThemedText } from "@/components/app_components/AppThemedText";
-import AppThemedTextInput from "@/components/app_components/AppThemedTextInput";
 import { AppThemedView } from "@/components/app_components/AppThemedView";
-import {
-  addTransaction,
-  fetchTransactions,
-  isValidAmount,
-  isValidDate,
-  isValidDescription,
-} from "./utilities/balance-utilities";
+import { formatDate } from "./utilities/balance-utilities";
 import { TransactionProps } from "../types";
 import { COLORS } from "@/constants/Colors";
 import AppModal from "@/components/modal/Modal";
 import ShowIf from "@/components/ShowIf";
 import LoadingSpinner from "@/components/LoadingSpinner";
 import AddTransactionModalContent from "@/components/modal/modal_content/AddTransactionModalContent";
-
-/**
- * Formats a Firestore Timestamp to a short date string (MM/DD).
- * @param timestamp The Firestore Timestamp to format.
- * @returns A formatted date string in MM/DD format.
- */
-const formatDate = (timestamp: any): string => {
-  const date = timestamp.toDate();
-  const month = String(date.getMonth() + 1).padStart(2, "0");
-  const day = String(date.getDate()).padStart(2, "0");
-  const year = String(date.getFullYear()).slice(2);
-  return `${month}/${day}/${year}`;
-};
+import { addTransaction, fetchTransactions } from "./apis/api";
+import Row from "@/components/grid/Row";
+import Column from "@/components/grid/Column";
 
 export default function Balance() {
   const colorScheme = useColorScheme();
@@ -56,16 +39,16 @@ export default function Balance() {
         description,
         setAmount,
         setDate,
-        setDescription,
+        setDescription
       ),
     onSuccess: async () => {
-      setLoading(false)
+      setLoading(false);
       await refetch();
       setModalVisible(false);
       queryClient.invalidateQueries({ queryKey: ["transactions"] });
     },
     onError: (error) => {
-      setLoading(false)
+      setLoading(false);
       const errorMessage =
         "Error adding transaction: " +
         (error instanceof Error ? error.message : "Unknown error occurred.");
@@ -77,19 +60,18 @@ export default function Balance() {
     },
   });
 
-
   return (
     <ShowIf
-        condition={mutation.status === "pending" || loading}
-        render={<LoadingSpinner />}
-        renderElse={
-          <ShowIf
+      condition={mutation.status === "pending" || loading}
+      render={<LoadingSpinner />}
+      renderElse={
+        <ShowIf
           condition={!modalVisible}
           render={
             <AppThemedView style={styles.container}>
               <AppThemedView
                 style={[
-                  styles.section,
+                  styles.heading,
                   {
                     backgroundColor:
                       colorScheme === "dark" ? COLORS.black : COLORS.white,
@@ -109,7 +91,10 @@ export default function Balance() {
                   }}
                 >
                   <AppThemedText>233.89</AppThemedText>
-                  <AppThemedText type="link" onPress={() => setModalVisible(true)}>
+                  <AppThemedText
+                    type="link"
+                    onPress={() => setModalVisible(true)}
+                  >
                     Add Transaction
                   </AppThemedText>
                 </View>
@@ -118,28 +103,38 @@ export default function Balance() {
                     data={transactions}
                     keyExtractor={(item) => item.id}
                     renderItem={({ item }) => (
-                      <View style={styles.tableRow}>
-                        <AppThemedText style={[{ fontSize: s(12) }]}>
-                          {formatDate(item.date)}
-                        </AppThemedText>
+                      <Row>
+                        <Column inlineStyles={{width: "30%"}}>
+                          <AppThemedText style={[{ fontSize: s(12) }]}>
+                            {formatDate(item.date)}
+                          </AppThemedText>
+                        </Column>
+                        <Column inlineStyles={{width: "50%"}}>
                         <AppThemedText
-                          style={[styles.descriptionText, { fontSize: s(12) }]}
+                          style={{ fontSize: s(12) }}
                         >
                           {item.description}
                         </AppThemedText>
-                        <AppThemedText style={[{ fontSize: s(12) }]}>
-                          {parseFloat(item.amount).toFixed(2)} {/* Ensure two decimal places */}
+                        </Column>
+                       <Column inlineStyles={{width: "20%"}}>
+                       <AppThemedText style={[{ fontSize: s(12) }]}>
+                          {parseFloat(item.amount).toFixed(2)}{" "}
                         </AppThemedText>
-                      </View>
+                        </Column>
+                      </Row>
                     )}
                     ListHeaderComponent={() => (
-                      <View style={styles.tableRow}>
-                        <AppThemedText style={styles.tableHeader}>Date</AppThemedText>
+                      <Row>
+                        <AppThemedText style={styles.tableHeader}>
+                          Date
+                        </AppThemedText>
                         <AppThemedText style={styles.tableHeader}>
                           Description
                         </AppThemedText>
-                        <AppThemedText style={styles.tableHeader}>Amount</AppThemedText>
-                      </View>
+                        <AppThemedText style={styles.tableHeader}>
+                          Amount
+                        </AppThemedText>
+                      </Row>
                     )}
                   />
                 )}
@@ -148,36 +143,10 @@ export default function Balance() {
             </AppThemedView>
           }
           renderElse={
-            <AppModal onClose={() => setModalVisible(false)} visible={modalVisible}>
-              {/** move to a modal content jsx */}
-              {/* <AppThemedTextInput
-                checkValue={isValidDate}
-                iconName="calendar"
-                placeholder="MM/DD/YY"
-                secureEntry={false}
-                setValue={setDate}
-                value={date}
-              />
-              <AppThemedTextInput
-                checkValue={isValidAmount}
-                placeholder="Amount"
-                secureEntry={false}
-                setValue={setAmount}
-                value={amount}
-              />
-              <AppThemedTextInput
-                checkValue={isValidDescription}
-                placeholder="Description"
-                secureEntry={false}
-                setValue={setDescription}
-                value={description}
-              />
-              <AppThemedText type="link" onPress={() => mutation.mutate()}>
-                Add
-              </AppThemedText>
-              <AppThemedText type="link" onPress={() => setModalVisible(false)}>
-                Close
-              </AppThemedText> */}
+            <AppModal
+              onClose={() => setModalVisible(false)}
+              visible={modalVisible}
+            >
               <AddTransactionModalContent
                 amount={amount}
                 date={date}
@@ -191,12 +160,14 @@ export default function Balance() {
             </AppModal>
           }
         />
-        }
-        />
-
+      }
+    />
   );
 }
-{/** move in to styles.ts */}
+
+{
+  /** move in to styles.ts */
+}
 const styles = ScaledSheet.create({
   container: {
     flexDirection: "column",
@@ -204,7 +175,7 @@ const styles = ScaledSheet.create({
     alignItems: "center",
     paddingVertical: vs(20),
   },
-  section: {
+  heading: {
     width: "100%",
     marginVertical: vs(5),
     padding: s(20),
@@ -216,31 +187,9 @@ const styles = ScaledSheet.create({
     elevation: 3,
     alignItems: "center",
     height: "100%",
-    maxHeight: "100%"
-  },
-  input: {
-    width: "100%",
-    padding: s(10),
-    borderColor: COLORS.mediumGray,
-    borderWidth: 1,
-    borderRadius: s(5),
-    marginVertical: vs(5),
-  },
-  tableRow: {
-    width: "100%",
-    flexDirection: "row",
-    justifyContent: "space-between",
-    paddingVertical: vs(5),
+    maxHeight: "100%",
   },
   tableHeader: {
     fontWeight: "bold",
-  },
-  descriptionText: {
-    flex: 1,
-    paddingHorizontal: s(65),
-  },
+  }
 });
-function invalidateQueries(arg0: { queryKey: string[]; }) {
-  throw new Error("Function not implemented.");
-}
-
