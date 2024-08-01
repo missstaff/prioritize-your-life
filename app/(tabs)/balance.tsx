@@ -15,6 +15,7 @@ import AddTransactionModalContent from "@/components/modal/modal_content/AddTran
 import { addTransaction, fetchTransactions } from "./apis/api";
 import Row from "@/components/grid/Row";
 import Column from "@/components/grid/Column";
+import EditTransactionModalContent from "@/components/modal/modal_content/UpdateTransactionModalContent";
 
 export default function Balance() {
   const colorScheme = useColorScheme();
@@ -23,12 +24,20 @@ export default function Balance() {
   const [date, setDate] = useState("");
   const [description, setDescription] = useState("");
   const [modalVisible, setModalVisible] = useState(false);
-  const [loading, setLoading] = useState(false);
+  // const [loading, setLoading] = useState(false);
   const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [modalType, setModalType] = useState("");
 
-  const { data: transactions = [], refetch } = useQuery<TransactionProps[]>({
+  const {
+    data: transactions = [],
+    refetch,
+    isPending,
+    isError,
+    data,
+    error,
+  } = useQuery<TransactionProps[]>({
     queryKey: ["transactions"],
-    queryFn: () => fetchTransactions(setLoading),
+    queryFn: () => fetchTransactions(),
     refetchOnMount: true,
   });
 
@@ -43,13 +52,13 @@ export default function Balance() {
         setDescription
       ),
     onSuccess: async () => {
-      setLoading(false);
+      // setLoading(false);
       await refetch();
       setModalVisible(false);
       queryClient.invalidateQueries({ queryKey: ["transactions"] });
     },
     onError: (error) => {
-      setLoading(false);
+      // setLoading(false);
       const errorMessage =
         "Error adding transaction: " +
         (error instanceof Error ? error.message : "Unknown error occurred.");
@@ -63,106 +72,144 @@ export default function Balance() {
 
   return (
     <ShowIf
-      condition={mutation.status === "pending" || loading}
+      condition={isPending}
       render={<LoadingSpinner />}
       renderElse={
         <ShowIf
-          condition={!modalVisible}
+          condition={mutation.status !== "pending"}
           render={
-            <AppThemedView style={styles.container}>
-              <AppThemedView
-                style={[
-                  styles.heading,
-                  {
-                    backgroundColor:
-                      colorScheme === "dark" ? COLORS.black : COLORS.white,
-                  },
-                ]}
-              >
-                <AppThemedText type="title">Transactions</AppThemedText>
-                <View
-                  style={{
-                    width: "100%",
-                    display: "flex",
-                    flexDirection: "row",
-                    justifyContent: "space-between",
-                    alignItems: "center",
-                    marginBottom: 20,
-                    marginTop: 5,
-                  }}
-                >
-                  <AppThemedText>233.89</AppThemedText>
-                  <AppThemedText
-                    type="link"
-                    onPress={() => setModalVisible(true)}
+            <ShowIf
+              condition={!modalVisible}
+              render={
+                <AppThemedView style={styles.container}>
+                  <AppThemedView
+                    style={[
+                      styles.heading,
+                      {
+                        backgroundColor:
+                          colorScheme === "dark" ? COLORS.black : COLORS.white,
+                      },
+                    ]}
                   >
-                    Add Transaction
-                  </AppThemedText>
-                </View>
-                {transactions.length > 0 && (
-                  <FlatList
-                    data={transactions}
-                    keyExtractor={(item) => item.id}
-                    renderItem={({ item }) => (
-                      <Row onTouchStart={() => setModalIsOpen(true)}>
-                        <Column inlineStyles={{ width: "30%" }}>
-                          <AppThemedText style={[{ fontSize: s(12) }]}>
-                            {formatDate(item.date)}
-                          </AppThemedText>
-                        </Column>
-                        <Column inlineStyles={{ width: "50%" }}>
-                          <AppThemedText style={{ fontSize: s(12) }}>
-                            {item.description}
-                          </AppThemedText>
-                        </Column>
-                        <Column inlineStyles={{ width: "20%" }}>
-                          <AppThemedText style={[{ fontSize: s(12) }]}>
-                            {parseFloat(item.amount).toFixed(2)}{" "}
-                          </AppThemedText>
-                        </Column>
-                      </Row>
-                    )}
-                    ListHeaderComponent={() => (
-                      <Row>
-                        <Column>
-                          <AppThemedText style={styles.tableHeader}>
-                            Date
-                          </AppThemedText>
-                        </Column>
-                        <Column>
-                          <AppThemedText style={styles.tableHeader}>
-                            Description
-                          </AppThemedText>
-                        </Column>
-                        <Column>
-                          <AppThemedText style={styles.tableHeader}>
-                            Amount
-                          </AppThemedText>
-                        </Column>
-                      </Row>
-                    )}
-                  />
-                )}
-                {/**pagination? */}
-              </AppThemedView>
-            </AppThemedView>
-          }
-          renderElse={
-            <AppModal
-              onClose={() => setModalVisible(false)}
-              visible={modalVisible}
-            >
-              <AddTransactionModalContent
-                amount={amount}
-                date={date}
-                description={description}
-                setAmount={setAmount}
-                setDate={setDate}
-                setDescription={setDescription}
-                mutation={mutation}
-                setModalVisible={setModalVisible}
-              />
-            </AppModal>
+                    <AppThemedText type="title">Transactions</AppThemedText>
+                    <View
+                      style={{
+                        width: "100%",
+                        display: "flex",
+                        flexDirection: "row",
+                        justifyContent: "space-between",
+                        alignItems: "center",
+                        marginBottom: 20,
+                        marginTop: 5,
+                      }}
+                    >
+                      <AppThemedText>233.89</AppThemedText>
+                      <AppThemedText
+                        type="link"
+                        onPress={() => [
+                          setModalType("add"),
+                          setModalVisible(true),
+                        ]}
+                      >
+                        Add Transaction
+                      </AppThemedText>
+                    </View>
+                    <ShowIf
+                      condition={transactions.length > 0}
+                      render={
+                        <FlatList
+                          data={transactions}
+                          keyExtractor={(item) => item.id}
+                          renderItem={({ item }) => (
+                            <Row
+                              onTouchStart={() => [
+                                setModalType("update"),
+                                setModalIsOpen(true),
+                              ]}
+                            >
+                              <Column inlineStyles={{ width: "30%" }}>
+                                <AppThemedText style={[{ fontSize: s(12) }]}>
+                                  {formatDate(item.date)}
+                                </AppThemedText>
+                              </Column>
+                              <Column inlineStyles={{ width: "50%" }}>
+                                <AppThemedText style={{ fontSize: s(12) }}>
+                                  {item.description}
+                                </AppThemedText>
+                              </Column>
+                              <Column inlineStyles={{ width: "20%" }}>
+                                <AppThemedText style={[{ fontSize: s(12) }]}>
+                                  {parseFloat(item.amount).toFixed(2)}{" "}
+                                </AppThemedText>
+                              </Column>
+                            </Row>
+                          )}
+                          ListHeaderComponent={() => (
+                            <Row>
+                              <Column>
+                                <AppThemedText style={styles.tableHeader}>
+                                  Date
+                                </AppThemedText>
+                              </Column>
+                              <Column>
+                                <AppThemedText style={styles.tableHeader}>
+                                  Description
+                                </AppThemedText>
+                              </Column>
+                              <Column>
+                                <AppThemedText style={styles.tableHeader}>
+                                  Amount
+                                </AppThemedText>
+                              </Column>
+                            </Row>
+                          )}
+                        />
+                      }
+                    />
+                    {/**pagination? */}
+                  </AppThemedView>
+                </AppThemedView>
+              }
+              renderElse={
+                <ShowIf
+                  condition={modalType === "add"}
+                  render={
+                    <AppModal
+                      onClose={() => [setModalType(""), setModalVisible(false)]}
+                      visible={modalVisible}
+                    >
+                      <AddTransactionModalContent
+                        amount={amount}
+                        date={date}
+                        description={description}
+                        setAmount={setAmount}
+                        setDate={setDate}
+                        setDescription={setDescription}
+                        mutation={mutation}
+                        setModalVisible={setModalVisible}
+                      />
+                    </AppModal>
+                  }
+                  renderElse={
+                    <AppModal
+                      onClose={() => [setModalType(""), setModalVisible(false)]}
+                      visible={modalVisible}
+                    >
+                      <EditTransactionModalContent
+                        amount={amount}
+                        date={date}
+                        description={description}
+                        setAmount={setAmount}
+                        setDate={setDate}
+                        setDescription={setDescription}
+                        mutation={mutation}
+                        setModalVisible={setModalVisible}
+                      />
+                    </AppModal>
+                  }
+                />
+              }
+            />
           }
         />
       }

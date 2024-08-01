@@ -87,9 +87,9 @@ export const addTransaction = async (
  * @returns An array of transactions.
  */
 export const fetchTransactions = async (
-    setLoading: React.Dispatch<React.SetStateAction<boolean>>
+    // setLoading: React.Dispatch<React.SetStateAction<boolean>>
 ): Promise<TransactionProps[]> => {
-    setLoading(true);
+    // setLoading(true);
     const firebase = await getFireApp();
     if (!firebase) {
         throw new Error("Firebase app not initialized");
@@ -113,6 +113,6 @@ export const fetchTransactions = async (
     if (!transactions) {
         transactions = [];
     }
-    setLoading(false);
+    // setLoading(false);
     return transactions;
 };

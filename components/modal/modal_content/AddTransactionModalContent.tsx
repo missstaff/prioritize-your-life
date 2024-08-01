@@ -44,7 +44,7 @@ const AddTransactionModalContent = ({
         value={description}
       />
       <AppThemedText type="link" onPress={() => mutation.mutate()}>
-        Add
+        Submiit
       </AppThemedText>
       <AppThemedText type="link" onPress={() => setModalVisible(false)}>
         Close
