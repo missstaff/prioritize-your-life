@@ -24,8 +24,6 @@ export default function Balance() {
   const [date, setDate] = useState("");
   const [description, setDescription] = useState("");
   const [modalVisible, setModalVisible] = useState(false);
-  // const [loading, setLoading] = useState(false);
-  const [modalIsOpen, setModalIsOpen] = useState(false);
   const [modalType, setModalType] = useState("");
 
   const {
@@ -52,13 +50,11 @@ export default function Balance() {
         setDescription
       ),
     onSuccess: async () => {
-      // setLoading(false);
       await refetch();
       setModalVisible(false);
       queryClient.invalidateQueries({ queryKey: ["transactions"] });
     },
     onError: (error) => {
-      // setLoading(false);
       const errorMessage =
         "Error adding transaction: " +
         (error instanceof Error ? error.message : "Unknown error occurred.");
@@ -123,8 +119,9 @@ export default function Balance() {
                           renderItem={({ item }) => (
                             <Row
                               onTouchStart={() => [
+                                console.log("item", item),
                                 setModalType("update"),
-                                setModalIsOpen(true),
+                                setModalVisible(true),
                               ]}
                             >
                               <Column inlineStyles={{ width: "30%" }}>
@@ -166,18 +163,17 @@ export default function Balance() {
                         />
                       }
                     />
-                    {/**pagination? */}
                   </AppThemedView>
                 </AppThemedView>
               }
               renderElse={
-                <ShowIf
-                  condition={modalType === "add"}
-                  render={
-                    <AppModal
-                      onClose={() => [setModalType(""), setModalVisible(false)]}
-                      visible={modalVisible}
-                    >
+                <AppModal
+                  onClose={() => [setModalType(""), setModalVisible(false)]}
+                  visible={modalVisible}
+                >
+                  <ShowIf
+                    condition={modalType === "add"}
+                    render={
                       <AddTransactionModalContent
                         amount={amount}
                         date={date}
@@ -188,13 +184,8 @@ export default function Balance() {
                         mutation={mutation}
                         setModalVisible={setModalVisible}
                       />
-                    </AppModal>
-                  }
-                  renderElse={
-                    <AppModal
-                      onClose={() => [setModalType(""), setModalVisible(false)]}
-                      visible={modalVisible}
-                    >
+                    }
+                    renderElse={
                       <EditTransactionModalContent
                         amount={amount}
                         date={date}
@@ -205,9 +196,9 @@ export default function Balance() {
                         mutation={mutation}
                         setModalVisible={setModalVisible}
                       />
-                    </AppModal>
-                  }
-                />
+                    }
+                  />
+                </AppModal>
               }
             />
           }
@@ -216,6 +207,7 @@ export default function Balance() {
     />
   );
 }
+
 
 {
   /** move in to styles.ts */
