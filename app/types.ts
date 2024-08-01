@@ -1,3 +1,5 @@
+import { UseMutationResult } from "@tanstack/react-query";
+
 export type RootStackParamList = {
   index: undefined;
   login: undefined;
@@ -18,4 +20,15 @@ export interface TransactionProps {
   date: Date;
   description: string;
   amount: string;
+};
+
+export interface TransactionModalContentProps {
+  amount: string;
+  date: string;
+  description: string;
+  setAmount: React.Dispatch<React.SetStateAction<string>>;
+  setDate: React.Dispatch<React.SetStateAction<string>>;
+  setDescription: React.Dispatch<React.SetStateAction<string>>;
+  mutation: UseMutationResult<void, Error, void, unknown>;
+  setModalVisible: React.Dispatch<React.SetStateAction<boolean>>;
 };

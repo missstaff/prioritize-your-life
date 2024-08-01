@@ -53,7 +53,7 @@ export const isValidDescription = (description: string): boolean => {
   if (!isValid) {
     Toast.show({
       type: "error",
-      text1: "Entry must be less than 25 chars...",
+      text1: "Entry must be less than 20 chars...",
       text2: "Please try again.",
     });
   }

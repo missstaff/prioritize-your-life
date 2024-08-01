@@ -24,6 +24,7 @@ export default function Balance() {
   const [description, setDescription] = useState("");
   const [modalVisible, setModalVisible] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [modalIsOpen, setModalIsOpen] = useState(false);
 
   const { data: transactions = [], refetch } = useQuery<TransactionProps[]>({
     queryKey: ["transactions"],
@@ -81,7 +82,7 @@ export default function Balance() {
                 <AppThemedText type="title">Transactions</AppThemedText>
                 <View
                   style={{
-                    width: "80%",
+                    width: "100%",
                     display: "flex",
                     flexDirection: "row",
                     justifyContent: "space-between",
@@ -103,7 +104,7 @@ export default function Balance() {
                     data={transactions}
                     keyExtractor={(item) => item.id}
                     renderItem={({ item }) => (
-                      <Row>
+                      <Row onTouchStart={() => setModalIsOpen(true)}>
                         <Column inlineStyles={{ width: "30%" }}>
                           <AppThemedText style={[{ fontSize: s(12) }]}>
                             {formatDate(item.date)}

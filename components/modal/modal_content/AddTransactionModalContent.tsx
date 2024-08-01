@@ -3,21 +3,11 @@ import {
   isValidDate,
   isValidDescription,
 } from "@/app/(tabs)/utilities/balance-utilities";
+import { TransactionModalContentProps } from "@/app/types";
 import { AppThemedText } from "@/components/app_components/AppThemedText";
 import AppThemedTextInput from "@/components/app_components/AppThemedTextInput";
-import { AppThemedView } from "@/components/app_components/AppThemedView";
-import { UseMutationResult } from "@tanstack/react-query";
 
-interface AddTransactionModalContentProps {
-  amount: string;
-  date: string;
-  description: string;
-  setAmount: React.Dispatch<React.SetStateAction<string>>;
-  setDate: React.Dispatch<React.SetStateAction<string>>;
-  setDescription: React.Dispatch<React.SetStateAction<string>>;
-  mutation: UseMutationResult<void, Error, void, unknown>;
-  setModalVisible: React.Dispatch<React.SetStateAction<boolean>>;
-};
+
 
 const AddTransactionModalContent = ({
   amount,
@@ -28,7 +18,7 @@ const AddTransactionModalContent = ({
   setDescription,
   mutation,
   setModalVisible,
-}: AddTransactionModalContentProps) => {
+}: TransactionModalContentProps) => {
   return (
     <>
       <AppThemedTextInput
