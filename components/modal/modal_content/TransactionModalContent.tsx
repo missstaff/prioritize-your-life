@@ -1,3 +1,6 @@
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { AppThemedText } from "@/components/app_components/AppThemedText";
+import AppThemedTextInput from "@/components/app_components/AppThemedTextInput";
 import { addOrUpdateTransaction } from "@/app/(tabs)/apis/api";
 import {
   isValidAmount,
@@ -5,10 +8,9 @@ import {
   isValidDescription,
 } from "@/app/(tabs)/utilities/balance-utilities";
 import { TransactionModalContentProps } from "@/app/types";
-import { AppThemedText } from "@/components/app_components/AppThemedText";
-import AppThemedTextInput from "@/components/app_components/AppThemedTextInput";
-import Toast from "react-native-toast-message";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import AppThemedTouchableOpacity from "@/components/app_components/AppThemedTouchableOpacity";
+import ShowIf from "@/components/ShowIf";
+import { View } from "react-native";
 
 const TransactionModalContent = ({
   amount,
@@ -40,17 +42,49 @@ const TransactionModalContent = ({
     },
     onError: (error) => {
       const errorMessage =
-        "Error adding transaction: " +
-        (error instanceof Error ? error.message : "Unknown error occurred.");
-      Toast.show({
-        type: "error",
-        text1: "Error adding transaction.",
-        text2: errorMessage,
-      });
+        "Error adding or updating transaction(s): " +
+        (error instanceof Error ? error.message : error);
+      console.error(errorMessage + " " + error.stack);
+      setAmount("");
+      setDate("");
+      setDescription("");
+      setTransactionId("");
+      setModalVisible(false);
     },
   });
   return (
     <>
+      <ShowIf
+        condition={transactionId.length > 0} 
+        render={
+          <View
+          style={{
+            alignItems: "center",
+            flexDirection: "row",
+            paddingBottom: 25,
+            width: "80%",
+            justifyContent: "flex-end",
+          }}
+          >
+            <AppThemedText
+            type="link"
+            onPress={() => [
+              setModalVisible(false),
+              setAmount(""),
+              setDate(""),
+              setDescription(""),
+              setTransactionId(""),
+            ]}
+            onPressIn={() => {() => console}}
+          >
+            Delete
+          </AppThemedText>
+          </View>
+        }
+        renderElse={
+          <View style={{marginVertical: 25}}></View>
+        }
+      />
       <AppThemedTextInput
         checkValue={isValidDate}
         iconName="calendar"
@@ -73,9 +107,9 @@ const TransactionModalContent = ({
         setValue={setDescription}
         value={description}
       />
-      <AppThemedText type="link" onPress={() => mutation.mutate()}>
-        Submiit
-      </AppThemedText>
+      <AppThemedTouchableOpacity onPress={() => mutation.mutate()}>
+        Submit
+      </AppThemedTouchableOpacity>
       <AppThemedText
         type="link"
         onPress={() => [
