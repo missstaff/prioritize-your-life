@@ -114,6 +114,46 @@ export const addOrUpdateTransaction = async (
     }
 };
 
+export const deleteTransaction = async (transactionId: string) => {
+    try {
+        const firebase = await getFireApp();
+        if (!firebase) {
+            throw new Error("Firebase app not initialized");
+        }
+        const db = firebase.firestore();
+        const uid = firebase.auth().currentUser?.uid;
+        if (!uid) {
+            throw new Error("User not authenticated");
+        }
+
+        const transactionsRef = db
+            .collection("users")
+            .doc(uid)
+            .collection("transactions");
+
+        await transactionsRef.doc(transactionId).delete();
+    } catch (error: unknown) {
+        if (typeof error === "string") {
+            Toast.show({
+                type: "error",
+                text1: "Error deleting transaction.",
+                text2: error,
+            });
+            console.error(error);
+        } else if (error instanceof Error) {
+            Toast.show({
+                type: "error",
+                text1: "Error deleting transaction.",
+                text2: error.message,
+            });
+            console.error("Error deleting transaction: ", error.message);
+            console.error("StackTrace: ", error.stack);
+        } else {
+            console.error("An unknown error occurred.");
+        }
+    }
+}
+
 /**
  * Fetches transactions from Firestore.
  * @returns A promise that resolves to an array of transactions.

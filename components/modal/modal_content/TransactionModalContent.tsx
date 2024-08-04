@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { AppThemedText } from "@/components/app_components/AppThemedText";
 import AppThemedTextInput from "@/components/app_components/AppThemedTextInput";
-import { addOrUpdateTransaction } from "@/app/(tabs)/apis/api";
+import { addOrUpdateTransaction, deleteTransaction } from "@/app/(tabs)/apis/api";
 import {
   isValidAmount,
   isValidDate,
@@ -17,11 +17,12 @@ const TransactionModalContent = ({
   date,
   description,
   setAmount,
+  transactionId,
   setDate,
   setDescription,
   setModalVisible,
   setTransactionId,
-  transactionId,
+  refetch
 }: TransactionModalContentProps) => {
   const queryClient = useQueryClient();
   const mutation = useMutation({
@@ -75,7 +76,7 @@ const TransactionModalContent = ({
               setDescription(""),
               setTransactionId(""),
             ]}
-            onPressIn={() => {() => console}}
+            onPressOut={() => [deleteTransaction(transactionId), refetch()]}
           >
             Delete
           </AppThemedText>

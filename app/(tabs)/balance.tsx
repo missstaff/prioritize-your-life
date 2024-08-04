@@ -162,6 +162,7 @@ export default function Balance() {
                     setDescription={setDescription}
                     setModalVisible={setModalVisible}
                     setTransactionId={setTransactionId}
+                    refetch={refetch}
                   />
                 </AppModal>
               }
