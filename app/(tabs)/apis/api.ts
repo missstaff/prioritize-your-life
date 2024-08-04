@@ -114,6 +114,10 @@ export const addOrUpdateTransaction = async (
     }
 };
 
+/**
+ * Deletes a transaction from Firestore.
+ * @param transactionId The ID of the transaction to delete.
+ */
 export const deleteTransaction = async (transactionId: string) => {
     try {
         const firebase = await getFireApp();
