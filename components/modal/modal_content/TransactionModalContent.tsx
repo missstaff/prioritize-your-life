@@ -1,3 +1,4 @@
+import { addTransaction } from "@/app/(tabs)/apis/api";
 import {
   isValidAmount,
   isValidDate,
@@ -6,19 +7,46 @@ import {
 import { TransactionModalContentProps } from "@/app/types";
 import { AppThemedText } from "@/components/app_components/AppThemedText";
 import AppThemedTextInput from "@/components/app_components/AppThemedTextInput";
+import Toast from "react-native-toast-message";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 
-
-const AddTransactionModalContent = ({
+const TransactionModalContent = ({
   amount,
   date,
   description,
   setAmount,
   setDate,
   setDescription,
-  mutation,
   setModalVisible,
 }: TransactionModalContentProps) => {
+  const queryClient = useQueryClient();
+  const mutation = useMutation({
+    mutationFn: () =>
+      addTransaction(
+        amount,
+        date,
+        description,
+        setAmount,
+        setDate,
+        setDescription
+      ),
+    onSuccess: async () => {
+      // await refetch();
+      setModalVisible(false);
+      queryClient.invalidateQueries({ queryKey: ["transactions"] });
+    },
+    onError: (error) => {
+      const errorMessage =
+        "Error adding transaction: " +
+        (error instanceof Error ? error.message : "Unknown error occurred.");
+      Toast.show({
+        type: "error",
+        text1: "Error adding transaction.",
+        text2: errorMessage,
+      });
+    },
+  });
   return (
     <>
       <AppThemedTextInput
@@ -46,11 +74,16 @@ const AddTransactionModalContent = ({
       <AppThemedText type="link" onPress={() => mutation.mutate()}>
         Submiit
       </AppThemedText>
-      <AppThemedText type="link" onPress={() => setModalVisible(false)}>
+      <AppThemedText type="link" onPress={() => [
+        setModalVisible(false),
+        setAmount(""),
+        setDate(""),
+        setDescription(""), 
+      ]}>
         Close
       </AppThemedText>
     </>
   );
 };
 
-export default AddTransactionModalContent;
+export default TransactionModalContent;

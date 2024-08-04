@@ -1,8 +1,7 @@
 import React, { useState } from "react";
-import Toast from "react-native-toast-message";
 import { useColorScheme, FlatList, View, Pressable } from "react-native";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { s, vs, ScaledSheet } from "react-native-size-matters";
+import { useQuery } from "@tanstack/react-query";
+import { ScaledSheet, s, vs } from "react-native-size-matters";
 import { AppThemedText } from "@/components/app_components/AppThemedText";
 import { AppThemedView } from "@/components/app_components/AppThemedView";
 import { formatDate, truncateString } from "./utilities/balance-utilities";
@@ -11,20 +10,17 @@ import { COLORS } from "@/constants/Colors";
 import AppModal from "@/components/modal/Modal";
 import ShowIf from "@/components/ShowIf";
 import LoadingSpinner from "@/components/LoadingSpinner";
-import AddTransactionModalContent from "@/components/modal/modal_content/AddTransactionModalContent";
-import { addTransaction, fetchTransactions } from "./apis/api";
+import TransactionModalContent from "@/components/modal/modal_content/TransactionModalContent";
+import { fetchTransactions } from "./apis/api";
 import Row from "@/components/grid/Row";
 import Column from "@/components/grid/Column";
-import EditTransactionModalContent from "@/components/modal/modal_content/UpdateTransactionModalContent";
 
 export default function Balance() {
   const colorScheme = useColorScheme();
-  const queryClient = useQueryClient();
   const [amount, setAmount] = useState("");
   const [date, setDate] = useState("");
   const [description, setDescription] = useState("");
   const [modalVisible, setModalVisible] = useState(false);
-  const [modalType, setModalType] = useState("");
 
   const {
     data: transactions = [],
@@ -37,33 +33,6 @@ export default function Balance() {
     queryKey: ["transactions"],
     queryFn: () => fetchTransactions(),
     refetchOnMount: true,
-  });
-
-  const mutation = useMutation({
-    mutationFn: () =>
-      addTransaction(
-        amount,
-        date,
-        description,
-        setAmount,
-        setDate,
-        setDescription
-      ),
-    onSuccess: async () => {
-      await refetch();
-      setModalVisible(false);
-      queryClient.invalidateQueries({ queryKey: ["transactions"] });
-    },
-    onError: (error) => {
-      const errorMessage =
-        "Error adding transaction: " +
-        (error instanceof Error ? error.message : "Unknown error occurred.");
-      Toast.show({
-        type: "error",
-        text1: "Error adding transaction.",
-        text2: errorMessage,
-      });
-    },
   });
 
   return (
@@ -103,7 +72,6 @@ export default function Balance() {
                       <AppThemedText
                         type="link"
                         onPress={() => [
-                          setModalType("add"),
                           setModalVisible(true),
                         ]}
                       >
@@ -111,30 +79,34 @@ export default function Balance() {
                       </AppThemedText>
                     </View>
                     <ShowIf
-                      condition={transactions.length > 0}
+                      condition={transactions.length > 0 || modalVisible}
                       render={
                         <FlatList
                           data={transactions}
                           keyExtractor={(item) => item.id}
                           renderItem={({ item }) => (
-                           <Pressable onLongPress={() => [setModalType("update"), setModalVisible(true)]}>
-                             <Row>
-                              <Column>
-                                <AppThemedText style={[{ fontSize: s(12) }]}>
-                                  {formatDate(item.date)}
-                                </AppThemedText>
-                              </Column>
-                              <Column>
-                                <AppThemedText style={[{ fontSize: s(12) }]}>
-                                  {parseFloat(item.amount).toFixed(2)}{" "}
-                                </AppThemedText>
-                              </Column>
-                              <Column>
-                                <AppThemedText style={{ fontSize: s(12) }}>
-                                  {truncateString(item.description, 12)}
-                                </AppThemedText>
-                              </Column>
-                            </Row>
+                            <Pressable onPress={() => [
+                              setModalVisible(true),
+                              setAmount(item.amount),
+                              setDate(formatDate(item.date)),
+                              setDescription(item.description)]}>
+                              <Row>
+                                <Column>
+                                  <AppThemedText style={[{ fontSize: s(12) }]}>
+                                    {formatDate(item.date)}
+                                  </AppThemedText>
+                                </Column>
+                                <Column>
+                                  <AppThemedText style={[{ fontSize: s(12) }]}>
+                                    {parseFloat(item.amount).toFixed(2)}{" "}
+                                  </AppThemedText>
+                                </Column>
+                                <Column>
+                                  <AppThemedText style={{ fontSize: s(12) }}>
+                                    {truncateString(item.description, 12)}
+                                  </AppThemedText>
+                                </Column>
+                              </Row>
                             </Pressable>
                           )}
                           ListHeaderComponent={() => (
@@ -158,41 +130,29 @@ export default function Balance() {
                           )}
                         />
                       }
+
                     />
                   </AppThemedView>
                 </AppThemedView>
               }
               renderElse={
                 <AppModal
-                  onClose={() => [setModalType(""), setModalVisible(false)]}
+                  onClose={() => [
+                    setModalVisible(false),
+                    setAmount(""),
+                    setDate(""),
+                    setDescription(""),
+                  ]}
                   visible={modalVisible}
                 >
-                  <ShowIf
-                    condition={modalType === "add"}
-                    render={
-                      <AddTransactionModalContent
-                        amount={amount}
-                        date={date}
-                        description={description}
-                        setAmount={setAmount}
-                        setDate={setDate}
-                        setDescription={setDescription}
-                        mutation={mutation}
-                        setModalVisible={setModalVisible}
-                      />
-                    }
-                    renderElse={
-                      <EditTransactionModalContent
-                        amount={amount}
-                        date={date}
-                        description={description}
-                        setAmount={setAmount}
-                        setDate={setDate}
-                        setDescription={setDescription}
-                        mutation={mutation}
-                        setModalVisible={setModalVisible}
-                      />
-                    }
+                  <TransactionModalContent
+                    amount={amount}
+                    date={date}
+                    description={description}
+                    setAmount={setAmount}
+                    setDate={setDate}
+                    setDescription={setDescription}
+                    setModalVisible={setModalVisible}
                   />
                 </AppModal>
               }
