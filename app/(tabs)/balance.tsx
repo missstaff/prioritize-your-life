@@ -5,7 +5,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { s, vs, ScaledSheet } from "react-native-size-matters";
 import { AppThemedText } from "@/components/app_components/AppThemedText";
 import { AppThemedView } from "@/components/app_components/AppThemedView";
-import { formatDate } from "./utilities/balance-utilities";
+import { formatDate, truncateString } from "./utilities/balance-utilities";
 import { TransactionProps } from "../types";
 import { COLORS } from "@/constants/Colors";
 import AppModal from "@/components/modal/Modal";
@@ -72,7 +72,7 @@ export default function Balance() {
       render={<LoadingSpinner />}
       renderElse={
         <ShowIf
-          condition={mutation.status !== "pending"}
+          condition={!isPending}
           render={
             <ShowIf
               condition={!modalVisible}
@@ -124,33 +124,37 @@ export default function Balance() {
                                 setModalVisible(true),
                               ]}
                             >
-                              <Column inlineStyles={{ width: "30%" }}>
+                              <Column>
                                 <AppThemedText style={[{ fontSize: s(12) }]}>
                                   {formatDate(item.date)}
                                 </AppThemedText>
                               </Column>
-                              <Column inlineStyles={{ width: "50%" }}>
-                                <AppThemedText style={{ fontSize: s(12) }}>
-                                  {item.description}
-                                </AppThemedText>
-                              </Column>
-                              <Column inlineStyles={{ width: "20%" }}>
+                              <Column>
                                 <AppThemedText style={[{ fontSize: s(12) }]}>
                                   {parseFloat(item.amount).toFixed(2)}{" "}
+                                </AppThemedText>
+                              </Column>
+                              <Column>
+                                <AppThemedText style={{ fontSize: s(12) }}>
+                                  {truncateString(item.description, 12)}
                                 </AppThemedText>
                               </Column>
                             </Row>
                           )}
                           ListHeaderComponent={() => (
                             <Row>
-                              <Column>
+                              <AppThemedText style={styles.tableHeader}>
+                                Date
+                              </AppThemedText>
+                              <AppThemedText style={styles.tableHeader}>
+                                Amount
+                              </AppThemedText>
+                              <AppThemedText style={styles.tableHeader}>
+                                Description
+                              </AppThemedText>
+                              {/* <Column>
                                 <AppThemedText style={styles.tableHeader}>
                                   Date
-                                </AppThemedText>
-                              </Column>
-                              <Column>
-                                <AppThemedText style={styles.tableHeader}>
-                                  Description
                                 </AppThemedText>
                               </Column>
                               <Column>
@@ -158,6 +162,11 @@ export default function Balance() {
                                   Amount
                                 </AppThemedText>
                               </Column>
+                              <Column>
+                                <AppThemedText style={styles.tableHeader}>
+                                  Description
+                                </AppThemedText>
+                              </Column> */}
                             </Row>
                           )}
                         />
@@ -207,7 +216,6 @@ export default function Balance() {
     />
   );
 }
-
 
 {
   /** move in to styles.ts */

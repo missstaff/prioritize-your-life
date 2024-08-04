@@ -48,13 +48,11 @@ export const isValidDate = (date: string): boolean => {
  * @returns `true` if the description is valid, otherwise `false`.
  */
 export const isValidDescription = (description: string): boolean => {
-  const regex = /^.{1,20}$/;
-  const isValid = regex.test(description);
+  const isValid = description.length > 0
   if (!isValid) {
     Toast.show({
       type: "error",
-      text1: "Entry must be less than 20 chars...",
-      text2: "Please try again.",
+      text1: "Please try again.",
     });
   }
   return isValid;
@@ -132,3 +130,18 @@ export const parseDate = (dateStr: string): Date => {
 
   return isNaN(parsedDate.getTime()) ? new Date() : parsedDate;
 };
+
+
+/**
+ * Truncates a string to a specified length.
+ * @param str 
+ * @param maxLength 
+ * @returns A string truncated to the specified length.
+ */
+export const truncateString = (str: string, maxLength: number = 20) => {
+  if (str.length > maxLength) {
+    return str.substring(0, maxLength) + '...';
+  }
+  return str;
+};
+

@@ -1,14 +1,18 @@
-import { ScaledSheet, vs } from "react-native-size-matters";
+import { ScaledSheet } from "react-native-size-matters";
 import { AppThemedView } from "../app_components/AppThemedView";
+import React from "react";
 
 interface ColumnProps {
   children: React.ReactNode;
   inlineStyles?: object;
 }
 
+
 const Column = ({ children, inlineStyles, ...props }: ColumnProps) => {
-  return(
-    <AppThemedView style={[styles.column, inlineStyles]} {...props}>{children}</AppThemedView>
+  return (
+    <AppThemedView style={[styles.column, inlineStyles]} {...props}>
+      {children}
+    </AppThemedView>
   );
 };
 
@@ -17,8 +21,9 @@ const styles = ScaledSheet.create({
         alignItems: "flex-start",
         display: "flex",
         flexDirection: "column",
+        flexGrow: 1,
         justifyContent: "center",
-        // width: "33%",
+        width: "33%",
       },
 });
 
