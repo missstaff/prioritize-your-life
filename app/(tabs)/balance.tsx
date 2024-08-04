@@ -21,6 +21,7 @@ export default function Balance() {
   const [date, setDate] = useState("");
   const [description, setDescription] = useState("");
   const [modalVisible, setModalVisible] = useState(false);
+  const [transactionId, setTransactionId] = useState("");
 
   const {
     data: transactions = [],
@@ -71,9 +72,7 @@ export default function Balance() {
                       <AppThemedText>233.89</AppThemedText>
                       <AppThemedText
                         type="link"
-                        onPress={() => [
-                          setModalVisible(true),
-                        ]}
+                        onPress={() => [setModalVisible(true)]}
                       >
                         Add Transaction
                       </AppThemedText>
@@ -81,56 +80,63 @@ export default function Balance() {
                     <ShowIf
                       condition={transactions.length > 0 || modalVisible}
                       render={
-                        <FlatList
-                          data={transactions}
-                          keyExtractor={(item) => item.id}
-                          renderItem={({ item }) => (
-                            <Pressable onPress={() => [
-                              setModalVisible(true),
-                              setAmount(item.amount),
-                              setDate(formatDate(item.date)),
-                              setDescription(item.description)]}>
-                              <Row>
-                                <Column>
-                                  <AppThemedText style={[{ fontSize: s(12) }]}>
-                                    {formatDate(item.date)}
-                                  </AppThemedText>
-                                </Column>
-                                <Column>
-                                  <AppThemedText style={[{ fontSize: s(12) }]}>
-                                    {parseFloat(item.amount).toFixed(2)}{" "}
-                                  </AppThemedText>
-                                </Column>
-                                <Column>
-                                  <AppThemedText style={{ fontSize: s(12) }}>
-                                    {truncateString(item.description, 12)}
-                                  </AppThemedText>
-                                </Column>
-                              </Row>
-                            </Pressable>
-                          )}
-                          ListHeaderComponent={() => (
-                            <Row>
-                              <Column>
-                                <AppThemedText style={styles.tableHeader}>
-                                  Date
-                                </AppThemedText>
-                              </Column>
-                              <Column>
-                                <AppThemedText style={styles.tableHeader}>
-                                  Amount
-                                </AppThemedText>
-                              </Column>
-                              <Column>
-                                <AppThemedText style={styles.tableHeader}>
-                                  Description
-                                </AppThemedText>
-                              </Column>
-                            </Row>
-                          )}
-                        />
+                        <>
+                          <Row>
+                            <Column>
+                              <AppThemedText style={styles.tableHeader}>
+                                Date
+                              </AppThemedText>
+                            </Column>
+                            <Column>
+                              <AppThemedText style={styles.tableHeader}>
+                                Amount
+                              </AppThemedText>
+                            </Column>
+                            <Column>
+                              <AppThemedText style={styles.tableHeader}>
+                                Description
+                              </AppThemedText>
+                            </Column>
+                          </Row>
+                          <FlatList
+                            data={transactions}
+                            keyExtractor={(item) => item.id}
+                            renderItem={({ item }) => (
+                              <Pressable
+                                onPress={() => [
+                                  setModalVisible(true),
+                                  setAmount(item.amount),
+                                  setDate(formatDate(item.date)),
+                                  setDescription(item.description),
+                                  setTransactionId(item.id),
+                                ]}
+                              >
+                                <Row>
+                                  <Column>
+                                    <AppThemedText
+                                      style={[{ fontSize: s(12) }]}
+                                    >
+                                      {formatDate(item.date)}
+                                    </AppThemedText>
+                                  </Column>
+                                  <Column>
+                                    <AppThemedText
+                                      style={[{ fontSize: s(12) }]}
+                                    >
+                                      {parseFloat(item.amount).toFixed(2)}{" "}
+                                    </AppThemedText>
+                                  </Column>
+                                  <Column>
+                                    <AppThemedText style={{ fontSize: s(12) }}>
+                                      {truncateString(item.description, 12)}
+                                    </AppThemedText>
+                                  </Column>
+                                </Row>
+                              </Pressable>
+                            )}
+                          />
+                        </>
                       }
-
                     />
                   </AppThemedView>
                 </AppThemedView>
@@ -142,6 +148,7 @@ export default function Balance() {
                     setAmount(""),
                     setDate(""),
                     setDescription(""),
+                    setTransactionId(""),
                   ]}
                   visible={modalVisible}
                 >
@@ -149,10 +156,12 @@ export default function Balance() {
                     amount={amount}
                     date={date}
                     description={description}
+                    transactionId={transactionId}
                     setAmount={setAmount}
                     setDate={setDate}
                     setDescription={setDescription}
                     setModalVisible={setModalVisible}
+                    setTransactionId={setTransactionId}
                   />
                 </AppModal>
               }

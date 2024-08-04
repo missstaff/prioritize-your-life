@@ -8,26 +8,29 @@ import { getFireApp } from "@/getFireApp";
 
 
 /**
- * Adds a transaction to Firestore.
+ * Adds or updates a transaction in Firestore.
  * @param amount The amount of the transaction.
  * @param date The date of the transaction.
  * @param description The description of the transaction.
  * @param setAmount A function to set the amount state.
  * @param setDate A function to set the date state.
  * @param setDescription A function to set the description state.
+ * @param transactionId (Optional) The ID of the transaction to update.
  */
-export const addTransaction = async (
+export const addOrUpdateTransaction = async (
     amount: string,
     date: string,
     description: string,
+    transactionId: string,
     setAmount: React.Dispatch<React.SetStateAction<string>>,
     setDate: React.Dispatch<React.SetStateAction<string>>,
-    setDescription: React.Dispatch<React.SetStateAction<string>>
+    setDescription: React.Dispatch<React.SetStateAction<string>>,
+    setTransactionId: React.Dispatch<React.SetStateAction<string>>,
 ) => {
     if (!description || !amount || !date) {
         Toast.show({
             type: "error",
-            text1: "Error adding transaction.",
+            text1: "Error adding/updating transaction.",
             text2: "Please try again.",
         });
         return;
@@ -36,7 +39,7 @@ export const addTransaction = async (
     if (!validateFormInputs(amount, date, description)) {
         Toast.show({
             type: "error",
-            text1: "Error adding transaction.",
+            text1: "Error adding/updating transaction.",
             text2: "Please try again.",
         });
         return;
@@ -70,17 +73,31 @@ export const addTransaction = async (
         return;
     }
 
-    const newTransaction: Omit<TransactionProps, "id"> = {
+    const transactionData: Omit<TransactionProps, "id"> = {
         date: parseDate(date),
         description,
         amount: numericAmount,
     };
 
-    await transactionsRef.add(newTransaction);
-    setAmount("");
-    setDate("");
-    setDescription("");
+    try {
+        if (transactionId) {
+            await transactionsRef.doc(transactionId).update(transactionData);
+        } else {
+            await transactionsRef.add(transactionData);
+        }
+        setAmount("");
+        setDate("");
+        setDescription("");
+        setTransactionId("");
+    } catch (error: any) {
+        Toast.show({
+            type: "error",
+            text1: "Error saving transaction.",
+            text2: error.message,
+        });
+    }
 };
+
 
 /**
  * Fetches the transactions for the current user from Firestore.

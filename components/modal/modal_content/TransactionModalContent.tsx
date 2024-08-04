@@ -1,4 +1,4 @@
-import { addTransaction } from "@/app/(tabs)/apis/api";
+import { addOrUpdateTransaction } from "@/app/(tabs)/apis/api";
 import {
   isValidAmount,
   isValidDate,
@@ -10,7 +10,6 @@ import AppThemedTextInput from "@/components/app_components/AppThemedTextInput";
 import Toast from "react-native-toast-message";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-
 const TransactionModalContent = ({
   amount,
   date,
@@ -19,20 +18,23 @@ const TransactionModalContent = ({
   setDate,
   setDescription,
   setModalVisible,
+  setTransactionId,
+  transactionId,
 }: TransactionModalContentProps) => {
   const queryClient = useQueryClient();
   const mutation = useMutation({
     mutationFn: () =>
-      addTransaction(
+      addOrUpdateTransaction(
         amount,
         date,
         description,
+        transactionId,
         setAmount,
         setDate,
-        setDescription
+        setDescription,
+        setTransactionId
       ),
     onSuccess: async () => {
-      // await refetch();
       setModalVisible(false);
       queryClient.invalidateQueries({ queryKey: ["transactions"] });
     },
@@ -74,12 +76,16 @@ const TransactionModalContent = ({
       <AppThemedText type="link" onPress={() => mutation.mutate()}>
         Submiit
       </AppThemedText>
-      <AppThemedText type="link" onPress={() => [
-        setModalVisible(false),
-        setAmount(""),
-        setDate(""),
-        setDescription(""), 
-      ]}>
+      <AppThemedText
+        type="link"
+        onPress={() => [
+          setModalVisible(false),
+          setAmount(""),
+          setDate(""),
+          setDescription(""),
+          setTransactionId(""),
+        ]}
+      >
         Close
       </AppThemedText>
     </>

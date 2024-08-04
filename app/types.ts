@@ -26,9 +26,11 @@ export interface TransactionModalContentProps {
   amount: string;
   date: string;
   description: string;
+  transactionId: string;
   setAmount: React.Dispatch<React.SetStateAction<string>>;
   setDate: React.Dispatch<React.SetStateAction<string>>;
   setDescription: React.Dispatch<React.SetStateAction<string>>;
   setModalVisible: React.Dispatch<React.SetStateAction<boolean>>;
+  setTransactionId: React.Dispatch<React.SetStateAction<string>>;
 };
-  // mutation: UseMutationResult<void, Error, void, unknown>;
+// mutation: UseMutationResult<void, Error, void, unknown>;
