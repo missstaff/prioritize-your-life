@@ -1,13 +1,12 @@
-import { s, ScaledSheet, vs } from "react-native-size-matters";
+import { ScaledSheet, s, vs } from "react-native-size-matters";
 import { AppThemedView } from "../app_components/AppThemedView";
 
 interface RowProps {
   children: React.ReactNode;
-  onTouchStart?: () => void;
 }
-const Row = ({ children, onTouchStart, ...props }: RowProps) => {
+const Row = ({ children, ...props }: RowProps) => {
   return(
-    <AppThemedView onTouchStart={onTouchStart} style={styles.row} {...props}>{children}</AppThemedView>
+    <AppThemedView style={styles.row} {...props}>{children}</AppThemedView>
   );
 };
 
@@ -16,7 +15,7 @@ const styles = ScaledSheet.create({
     alignItems: "center",
     display: "flex",
     flexDirection: "row",
-    justifyContent: "space-between",
+    justifyContent: "flex-start",
     paddingHorizontal: s(5),
     paddingVertical: vs(5),
     width: "100%",

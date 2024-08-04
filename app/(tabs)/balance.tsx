@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Toast from "react-native-toast-message";
-import { useColorScheme, FlatList, View } from "react-native";
+import { useColorScheme, FlatList, View, Pressable } from "react-native";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { s, vs, ScaledSheet } from "react-native-size-matters";
 import { AppThemedText } from "@/components/app_components/AppThemedText";
@@ -117,13 +117,8 @@ export default function Balance() {
                           data={transactions}
                           keyExtractor={(item) => item.id}
                           renderItem={({ item }) => (
-                            <Row
-                              onTouchStart={() => [
-                                console.log("item", item),
-                                setModalType("update"),
-                                setModalVisible(true),
-                              ]}
-                            >
+                           <Pressable onLongPress={() => [setModalType("update"), setModalVisible(true)]}>
+                             <Row>
                               <Column>
                                 <AppThemedText style={[{ fontSize: s(12) }]}>
                                   {formatDate(item.date)}
@@ -140,19 +135,11 @@ export default function Balance() {
                                 </AppThemedText>
                               </Column>
                             </Row>
+                            </Pressable>
                           )}
                           ListHeaderComponent={() => (
                             <Row>
-                              <AppThemedText style={styles.tableHeader}>
-                                Date
-                              </AppThemedText>
-                              <AppThemedText style={styles.tableHeader}>
-                                Amount
-                              </AppThemedText>
-                              <AppThemedText style={styles.tableHeader}>
-                                Description
-                              </AppThemedText>
-                              {/* <Column>
+                              <Column>
                                 <AppThemedText style={styles.tableHeader}>
                                   Date
                                 </AppThemedText>
@@ -166,7 +153,7 @@ export default function Balance() {
                                 <AppThemedText style={styles.tableHeader}>
                                   Description
                                 </AppThemedText>
-                              </Column> */}
+                              </Column>
                             </Row>
                           )}
                         />
