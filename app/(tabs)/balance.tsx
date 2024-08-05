@@ -14,6 +14,7 @@ import TransactionModalContent from "@/components/modal/modal_content/Transactio
 import { fetchTransactions } from "./apis/api";
 import Row from "@/components/grid/Row";
 import Column from "@/components/grid/Column";
+import { router } from "expo-router";
 
 export default function Balance() {
   const colorScheme = useColorScheme();
@@ -24,7 +25,6 @@ export default function Balance() {
   const [transactionId, setTransactionId] = useState("");
 
   const {
-    data: transactions = [],
     refetch,
     isPending,
     isError,
@@ -35,6 +35,13 @@ export default function Balance() {
     queryFn: () => fetchTransactions(),
     refetchOnMount: true,
   });
+
+  if(isError) {
+    return <AppThemedView style={{display: "flex", flexGrow: 1, flexDirection: "column", alignItems: "center", justifyContent: "center"}}>
+      <AppThemedText>Error: {error.message}</AppThemedText>
+      <AppThemedText type="link"  onPress={() => router.push("/")}>Home</AppThemedText>
+    </AppThemedView>
+  }
 
   return (
     <ShowIf
@@ -78,7 +85,7 @@ export default function Balance() {
                       </AppThemedText>
                     </View>
                     <ShowIf
-                      condition={transactions.length > 0 || modalVisible}
+                      condition={data && data.length > 0 || modalVisible}
                       render={
                         <>
                           <Row>
@@ -99,7 +106,7 @@ export default function Balance() {
                             </Column>
                           </Row>
                           <FlatList
-                            data={transactions}
+                            data={data}
                             keyExtractor={(item) => item.id}
                             renderItem={({ item }) => (
                               <Pressable

@@ -163,7 +163,7 @@ export const deleteTransaction = async (transactionId: string) => {
  * @returns A promise that resolves to an array of transactions.
  */
 export const fetchTransactions = async (): Promise<TransactionProps[]> => {
-    let transactions: TransactionProps[] = [];
+    let data: TransactionProps[] = [];
     try {
         const firebase = await getFireApp();
         if (!firebase) {
@@ -180,13 +180,13 @@ export const fetchTransactions = async (): Promise<TransactionProps[]> => {
             .doc(uid)
             .collection("transactions");
         const snapshot = await transactionsRef.orderBy("date", "desc").get();
-        transactions = snapshot.docs.map((doc) => ({
+        data = snapshot.docs.map((doc) => ({
             id: doc.id,
             ...doc.data(),
         })) as TransactionProps[];
 
-        if (!transactions) {
-            transactions = [];
+        if (!data) {
+            data = [];
         }
     } catch (error: unknown) {
         if (typeof error === 'string') {
@@ -208,5 +208,5 @@ export const fetchTransactions = async (): Promise<TransactionProps[]> => {
             console.error("An unknown error occurred.");
         }
     }
-    return transactions;
+    return data;
 };

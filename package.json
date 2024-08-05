@@ -25,8 +25,6 @@
     ]
   },
   "dependencies": {
-    "@dev-plugins/react-navigation": "^0.0.6",
-    "@dev-plugins/react-query": "^0.0.6",
     "@expo/vector-icons": "^14.0.0",
     "@react-native-community/netinfo": "11.3.1",
     "@react-native-firebase/analytics": "^20.0.0",
@@ -69,6 +67,8 @@
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
+    "@dev-plugins/react-navigation": "^0.0.6",
+    "@dev-plugins/react-query": "^0.0.6",
     "@tanstack/eslint-plugin-query": "^5.35.6",
     "@tanstack/react-query-devtools": "^5.40.1",
     "@types/jest": "^29.5.12",
