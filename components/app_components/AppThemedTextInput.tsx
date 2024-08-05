@@ -12,7 +12,7 @@ import { ScaledSheet, s } from "react-native-size-matters";
 import { AppIcon } from "./AppIcon";
 import { COLORTHEME } from "@/constants/Colors";
 import { useThemeColor } from "@/hooks/useThemeColor";
-import DateTimePickerModal from 'react-native-modal-datetime-picker';
+import RNDateTimePicker  from 'react-native-modal-datetime-picker';
 import { formatDate } from "@/app/(tabs)/utilities/balance-utilities";
 
 interface AppThemedTextInputProps {
@@ -98,7 +98,7 @@ export const AppThemedTextInput = ({
       )}
 
       {iconName && <Pressable disabled={iconName !== "calendar"} onPress={showDatePicker}><AppIcon name={iconName} size={s(24)} color="#ccc" /></Pressable>}
-      <DateTimePickerModal
+      <RNDateTimePicker 
           isVisible={datePickerVisible}
           mode="date"
           onConfirm={handleConfirm}

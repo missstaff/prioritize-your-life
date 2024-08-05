@@ -32,7 +32,8 @@
       "expo-router",
       "@react-native-firebase/app",
       "@react-native-firebase/auth",
-      "@react-native-firebase/crashlytics"
+      "@react-native-firebase/crashlytics",
+      "./plugins/custom-android-styles.js"
     ],
     "experiments": {
       "typedRoutes": true
