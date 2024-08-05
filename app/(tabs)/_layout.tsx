@@ -35,7 +35,6 @@ export default function TabLayout() {
       .auth()
       .signOut()
       .then(() => {
-        console.log("User signed out");
         setModalVisible(false);
         setIsAuthenticated(false);
         setUid("");

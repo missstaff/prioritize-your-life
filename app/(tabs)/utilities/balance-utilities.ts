@@ -35,7 +35,6 @@ export const isValidDate = (date: string): boolean => {
   }
   const regex = /^(0[1-9]|1[0-2])\/(0[1-9]|[12][0-9]|3[01])\/\d{4}$/;
   const isValid = regex.test(date);
-  console.log("isValidDate: ", isValid);
   if (!isValid) {
     Toast.show({
       type: "error",
@@ -116,7 +115,6 @@ export const validateFormInputs = (
  */
 export const parseDate = (dateStr: string): Date => {
   let month, day, year;
-  console.log("😀dateStr: ", dateStr);
   if (dateStr.includes("/")) {
     [month, day, year] = dateStr.split("/").map(Number);
   } else if (dateStr.includes("-")) {
