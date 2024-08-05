@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import {
+  Pressable,
   StyleProp,
   TextInput,
   TextStyle,
@@ -11,6 +12,8 @@ import { ScaledSheet, s } from "react-native-size-matters";
 import { AppIcon } from "./AppIcon";
 import { COLORTHEME } from "@/constants/Colors";
 import { useThemeColor } from "@/hooks/useThemeColor";
+import DateTimePickerModal from 'react-native-modal-datetime-picker';
+import { formatDate } from "@/app/(tabs)/utilities/balance-utilities";
 
 interface AppThemedTextInputProps {
   iconName?: string;
@@ -46,6 +49,22 @@ export const AppThemedTextInput = ({
   );
   
   const [isPasswordVisible, setIsPasswordVisible] = useState(!secureEntry);
+  const [datePickerVisible, setDatePickerVisible] = useState(false);
+
+  const showDatePicker = () => {
+    setDatePickerVisible(true);
+  };
+
+  const hideDatePicker = () => {
+    setDatePickerVisible(false);
+  };
+
+  const handleConfirm = (date: Date) => {
+    const formattedDate = formatDate(date);
+    setValue(formattedDate);
+    hideDatePicker();
+  };
+  
 
   return (
     <View style={[styles.inputContainer, containerStyle]}>
@@ -78,7 +97,13 @@ export const AppThemedTextInput = ({
         </TouchableOpacity>
       )}
 
-      {iconName && <AppIcon name={iconName} size={s(24)} color="#ccc" />}
+      {iconName && <Pressable disabled={iconName !== "calendar"} onPress={showDatePicker}><AppIcon name={iconName} size={s(24)} color="#ccc" /></Pressable>}
+      <DateTimePickerModal
+          isVisible={datePickerVisible}
+          mode="date"
+          onConfirm={handleConfirm}
+          onCancel={hideDatePicker}
+        />
     </View>
   );
 };

@@ -89,7 +89,7 @@ const TransactionModalContent = ({
       <AppThemedTextInput
         checkValue={isValidDate}
         iconName="calendar"
-        placeholder="MM/DD/YY"
+        placeholder="MM/DD/YYYY"
         secureEntry={false}
         setValue={setDate}
         value={date}
