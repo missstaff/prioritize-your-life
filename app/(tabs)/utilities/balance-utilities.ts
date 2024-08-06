@@ -1,21 +1,26 @@
 import Toast from "react-native-toast-message";
-
+import { Timestamp } from 'firebase/firestore';
 
 // Purpose: Contains utility/helper functions for the balance screen.
 
 
 /**
- * Formats a Firestore Timestamp to a short date string (MM/DD).
- * @param timestamp The Firestore Timestamp to format.
- * @returns A formatted date string in MM/DD format.
+ * Formats a date object to a string in the format MM/DD/YYYY.
+ * @param timestamp The date object to format.
+ * @returns A string representing the formatted date.
  */
-export const formatDate = (timestamp: any): string => {
-  const date = timestamp.toDate();
-  const month = String(date.getMonth() + 1).padStart(2, "0");
-  const day = String(date.getDate()).padStart(2, "0");
-  const year = String(date.getFullYear()).slice(2);
-  return `${month}/${day}/${year}`;
+export const formatDate = (timestamp: Date | Timestamp): string => {
+  const date = timestamp instanceof Date ? timestamp : timestamp.toDate();
+
+  const pad = (num: number) => num.toString().padStart(2, '0');
+
+  const day = pad(date.getDate());
+  const month = pad(date.getMonth() + 1);
+  const year = date.getFullYear();
+  const formattedDate = `${month}/${day}/${year}`;
+  return formattedDate;
 };
+
 
 /**
  * Validates the date to ensure it is in the format MM-DD-YY.
@@ -28,9 +33,8 @@ export const isValidDate = (date: string): boolean => {
   } else if (date.length === 6) {
     date = `${date.slice(0, 2)}/${date.slice(2, 4)}/${date.slice(4)}`;
   }
-  const regex = /^(0[1-9]|1[0-2])[/](0[1-9]|[12][0-9]|3[01])[/]\d{2}$/;
+  const regex = /^(0[1-9]|1[0-2])\/(0[1-9]|[12][0-9]|3[01])\/\d{4}$/;
   const isValid = regex.test(date);
-
   if (!isValid) {
     Toast.show({
       type: "error",
@@ -111,7 +115,6 @@ export const validateFormInputs = (
  */
 export const parseDate = (dateStr: string): Date => {
   let month, day, year;
-
   if (dateStr.includes("/")) {
     [month, day, year] = dateStr.split("/").map(Number);
   } else if (dateStr.includes("-")) {
@@ -122,11 +125,11 @@ export const parseDate = (dateStr: string): Date => {
     }
     month = Number(dateStr.slice(0, 2));
     day = Number(dateStr.slice(2, 4));
-    year = Number(dateStr.slice(4, 6));
+    year = Number(dateStr.slice(4, 8));
   }
 
-  const parsedYear = year + 2000;
-  const parsedDate = new Date(parsedYear, month - 1, day);
+  // const parsedYear = year + 2000;
+  const parsedDate = new Date(year, month - 1, day);
 
   return isNaN(parsedDate.getTime()) ? new Date() : parsedDate;
 };
