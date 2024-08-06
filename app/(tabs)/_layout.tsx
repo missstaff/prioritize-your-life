@@ -5,7 +5,7 @@ import { AppContext } from "@/store/app-context";
 import { TabBarIcon } from "@/components/navigation/TabBarIcon";
 import { COLORS, COLORTHEME } from "@/constants/Colors";
 import { useColorScheme } from "@/hooks/useColorScheme";
-import AppModal from "@/components/Modal";
+import AppModal from "@/components/modal/Modal";
 import { AppThemedText } from "@/components/app_components/AppThemedText";
 import AppThemedTouchableOpacity from "@/components/app_components/AppThemedTouchableOpacity";
 import { getFireApp } from "@/getFireApp";

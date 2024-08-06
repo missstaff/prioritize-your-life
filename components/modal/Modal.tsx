@@ -1,6 +1,6 @@
 import React from "react";
 import { Modal } from "react-native";
-import { AppThemedView } from "./app_components/AppThemedView";
+import { AppThemedView } from "../app_components/AppThemedView";
 import { s, ScaledSheet } from "react-native-size-matters";
 
 interface ModalProps {
@@ -36,7 +36,7 @@ const styles = ScaledSheet.create({
     backgroundColor: "rgba(0, 0, 0, 0.5)",
   },
   modalContent: {
-    width: "80%",
+    width: "90%",
     padding: s(20),
     borderRadius: s(10),
     alignItems: "center",
