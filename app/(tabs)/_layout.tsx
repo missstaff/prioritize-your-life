@@ -92,9 +92,9 @@ export default function TabLayout() {
           }}
         />
         <Tabs.Screen
-          name="balance"
+          name="transactions"
           options={{
-            title: "Balance",
+            title: "Transactions",
             tabBarIcon: ({ color, focused }) => (
               <TabBarIcon
                 name={focused ? "cash" : "cash-outline"}

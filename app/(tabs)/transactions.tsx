@@ -42,6 +42,15 @@ export default function Balance() {
       <AppThemedText type="link"  onPress={() => router.push("/")}>Home</AppThemedText>
     </AppThemedView>
   }
+  /**
+   * @todo
+   * if no transactions and no balance, disable the add transaction button
+   * if no balance show modal to add initial balance
+   * if balance show transactions and enable add transaction button
+   * first transaction should be the initial balance
+   * if no transactions and balance, show the balance
+   * if transactions, show the transactions
+   */
 
   return (
     <ShowIf
@@ -70,13 +79,13 @@ export default function Balance() {
                         width: "100%",
                         display: "flex",
                         flexDirection: "row",
-                        justifyContent: "space-between",
+                        justifyContent: "space-evenly",
                         alignItems: "center",
                         marginBottom: 20,
-                        marginTop: 5,
+                        marginTop: 20,
                       }}
                     >
-                      <AppThemedText>233.89</AppThemedText>
+                      <AppThemedText>0</AppThemedText>
                       <AppThemedText
                         type="link"
                         onPress={() => [setModalVisible(true)]}
