@@ -25,9 +25,11 @@ export default function ResetPassword() {
     }
     const firebase = await getFireApp();
     if (!firebase) {
+      console.error("Firebase app not initialized");
       throw new Error("Firebase app not initialized");
     }
     if (!("auth" in firebase)) {
+      console.error("Firebase app does not have 'auth' property");
       throw new Error("Firebase app does not have 'auth' property");
     }
 
@@ -44,11 +46,15 @@ export default function ResetPassword() {
       router.push("/signin");
       setEmail("");
     },
-    onError: (error: any) => {
-      const errorMessage =
-        "Error resetting password: " +
-        (error.message ?? "Unknown error occurred.");
-      console.error(errorMessage + "\nStackTrace: " + error.stack);
+    onError: (error: unknown) => {
+      if (typeof error === "string") {
+        console.error("Error resetting password: " + error);
+      } else if (error instanceof Error) {
+        const errorMessage =
+          "Error resetting password: " +
+          (error.message ?? "Unknown error occurred.");
+        console.error(errorMessage + "\nStackTrace: " + error.stack);
+      }
       Toast.show({
         type: "error",
         text1: "Error resetting password",

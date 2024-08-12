@@ -18,8 +18,10 @@ import { parseDate, validateFormInputs } from "../utilities/balance-utilities";
  */
 export const addOrUpdateTransaction = async (
     amount: string,
+    data: TransactionProps[] | undefined,
     date: string,
     description: string,
+    selectedTab: string,
     transactionId: string,
     setAmount: React.Dispatch<React.SetStateAction<string>>,
     setDate: React.Dispatch<React.SetStateAction<string>>,
@@ -59,24 +61,37 @@ export const addOrUpdateTransaction = async (
         const transactionsRef = db
             .collection("users")
             .doc(uid)
-            .collection("transactions");
+            .collection(selectedTab.toLowerCase());
 
         amount = Number(amount).toFixed(2);
-
-        const numericAmount = parseFloat(amount).toFixed(2);
-        if (isNaN(numericAmount as any)) {
+        console.log("amount: ", amount);
+        const numericAmount = Number(parseFloat(amount).toFixed(2));
+        console.log("numericAmount: ", numericAmount);
+        if (isNaN(numericAmount)) {
             Toast.show({
                 type: "error",
-                text1: "Invalid amount.",
+                text1: "Invalid transaction amount entry.",
                 text2: "Please enter a valid number.",
             });
             return;
         }
 
+        let updatedBalance = 0.00;
+        if (data && data.length > 0) {
+            updatedBalance = data.reduce((acc, transaction) => acc + Number(parseFloat(transaction.amount) + numericAmount),
+                0
+            );
+            console.log("updatedBalance: inIF ", updatedBalance);
+        } else {
+            updatedBalance = numericAmount;
+            console.log("updatedBalance: inElse ", updatedBalance);
+        }
+
         const transactionData: Omit<TransactionProps, "id"> = {
+            amount,
+            balance: updatedBalance,
             date: parseDate(date),
             description,
-            amount: numericAmount,
         };
 
         if (transactionId) {
@@ -88,6 +103,7 @@ export const addOrUpdateTransaction = async (
         setDate("");
         setDescription("");
         setTransactionId("");
+        updatedBalance = 0.00;
     } catch (error: unknown) {
         if (typeof error === "string") {
             Toast.show({
@@ -118,7 +134,7 @@ export const addOrUpdateTransaction = async (
  * Deletes a transaction from Firestore.
  * @param transactionId The ID of the transaction to delete.
  */
-export const deleteTransaction = async (transactionId: string) => {
+export const deleteTransaction = async (selectedTab: string, transactionId: string) => {
     try {
         const firebase = await getFireApp();
         if (!firebase) {
@@ -133,7 +149,7 @@ export const deleteTransaction = async (transactionId: string) => {
         const transactionsRef = db
             .collection("users")
             .doc(uid)
-            .collection("transactions");
+            .collection(selectedTab.toLowerCase());
 
         await transactionsRef.doc(transactionId).delete();
     } catch (error: unknown) {
@@ -162,7 +178,7 @@ export const deleteTransaction = async (transactionId: string) => {
  * Fetches transactions from Firestore.
  * @returns A promise that resolves to an array of transactions.
  */
-export const fetchTransactions = async (): Promise<TransactionProps[]> => {
+export const fetchTransactions = async (selectedTab: string): Promise<TransactionProps[]> => {
     let data: TransactionProps[] = [];
     try {
         const firebase = await getFireApp();
@@ -174,11 +190,12 @@ export const fetchTransactions = async (): Promise<TransactionProps[]> => {
         if (!uid) {
             throw new Error("User not authenticated");
         }
+        console.log("selectedTab: ", selectedTab);
 
         const transactionsRef = db
             .collection("users")
             .doc(uid)
-            .collection("transactions");
+            .collection(selectedTab.toLowerCase());
         const snapshot = await transactionsRef.orderBy("date", "desc").get();
         data = snapshot.docs.map((doc) => ({
             id: doc.id,

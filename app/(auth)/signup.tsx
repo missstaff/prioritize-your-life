@@ -27,7 +27,15 @@ export default function SignUp(): JSX.Element {
     }
 
     const firebase = await getFireApp();
-    if (!firebase) throw new Error("Firebase app not initialized");
+    if (!firebase) {
+      Toast.show({
+        type: "error",
+        text1: "There has been an error.",
+        text2: "Please try again.",
+      });
+      console.error("Firebase app not initialized");
+      throw new Error("Firebase app not initialized");
+    }
 
     const userCreds = await firebase
       .auth()
@@ -40,8 +48,7 @@ export default function SignUp(): JSX.Element {
     } else {
       Toast.show({
         type: "error",
-        text1: "Error signing in",
-        text2: "User not found.",
+        text1: "User not found.",
       });
     }
   };
@@ -57,15 +64,20 @@ export default function SignUp(): JSX.Element {
       setConfirmPassword("");
       queryClient.invalidateQueries({ queryKey: ["uid"] });
     },
-    onError: (error: any) => {
+    onError: (error: unknown) => {
+      if (typeof error === "string") {
+        console.error("Error signing up: " + error);
+      } else if (error instanceof Error) {
+        const errorMessage =
+          "Error signing up:" + (error.message ?? "Unknown error occurred");
+        console.error(errorMessage + "\nStackTrace: " + error);
+      }
       setIsAuthenticated(true);
-      const errorMessage =
-        "Error signing up:" + (error.message ?? "Unknown error occurred");
-      console.error(errorMessage + "\nStackTrace: " + error);
+  
       Toast.show({
         type: "error",
         text1: "Error signing up",
-        text2: errorMessage,
+        text2: "Please try again."
       });
     },
   });

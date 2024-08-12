@@ -19,7 +19,7 @@ import Toast from "react-native-toast-message";
 export default function TabLayout() {
   const colorScheme = useColorScheme();
   const { isAuthenticated, setIsAuthenticated, setUid } = useContext(AppContext);
-  const [modalVisible, setModalVisible] = useState(false);
+  const [isVisible, setIsVisible] = useState(false);
 
   const logout = async () => {
     const firebase = await getFireApp();
@@ -36,7 +36,7 @@ export default function TabLayout() {
       .signOut()
       .then(() => {
         console.log("User signed out");
-        setModalVisible(false);
+        setIsVisible(false);
         setIsAuthenticated(false);
         setUid("");
       });
@@ -45,12 +45,12 @@ export default function TabLayout() {
   return (
     <>
       <AppModal
-        onClose={() => setModalVisible(false)}
-        visible={modalVisible}
+        onClose={() => setIsVisible(false)}
+        visible={isVisible}
       >
         <AppThemedText style={styles.modalTitle}>Settings</AppThemedText>
         <AppThemedText type="link" onPress={logout} >Logout</AppThemedText>
-        <AppThemedText type="link" onPress={() => setModalVisible(false)}>
+        <AppThemedText type="link" onPress={() => setIsVisible(false)}>
           Close
         </AppThemedText>
       </AppModal>
@@ -70,7 +70,7 @@ export default function TabLayout() {
               name="settings"
               color="gray"
               size={24}
-              onPress={() => setModalVisible(true)}
+              onPress={() => setIsVisible(true)}
             />
           ),
 

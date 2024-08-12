@@ -30,7 +30,7 @@ export const formatDate = (timestamp: Date | Timestamp): string => {
 export const isValidDate = (date: string): boolean => {
   if (date.includes("-")) {
     date = date.replace(/-/g, "/");
-  } else if (date.length === 6) {
+  } else if (date.length === 8) {
     date = `${date.slice(0, 2)}/${date.slice(2, 4)}/${date.slice(4)}`;
   }
   const regex = /^(0[1-9]|1[0-2])\/(0[1-9]|[12][0-9]|3[01])\/\d{4}$/;
@@ -68,6 +68,8 @@ export const isValidDescription = (description: string): boolean => {
  * @returns `true` if the amount is valid, otherwise `false`.
  */
 export const isValidAmount = (amount: string): boolean => {
+  console.log("string not valid: ", amount);
+  console.log("type: ", typeof amount);
   const regex = /^-?\d+(\.\d+)?$/;
   const isValid = regex.test(amount);
   if (!isValid) {
@@ -77,6 +79,7 @@ export const isValidAmount = (amount: string): boolean => {
       text2: "Please enter a valid number.",
     });
   }
+  console.log("isValid: ", isValid);
   return isValid;
 };
 

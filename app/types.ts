@@ -20,17 +20,20 @@ export interface TransactionProps {
   date: Date;
   description: string;
   amount: string;
+  balance: number;
 };
 
 export interface TransactionModalContentProps {
   amount: string;
+  data: TransactionProps[] | undefined;
   date: string;
   description: string;
+  selectedTab: string;
   transactionId: string;
   setAmount: React.Dispatch<React.SetStateAction<string>>;
   setDate: React.Dispatch<React.SetStateAction<string>>;
   setDescription: React.Dispatch<React.SetStateAction<string>>;
-  setModalVisible: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsVisible: React.Dispatch<React.SetStateAction<boolean>>;
   setTransactionId: React.Dispatch<React.SetStateAction<string>>;
   refetch: () => void;
 };

@@ -29,8 +29,10 @@ export default function SignIn(): JSX.Element {
     if (!firebase) {
       Toast.show({
         type: "error",
-        text1: "There has been an error. Please try again.",
+        text1: "There has been an error.",
+        text2: "Please try again.",
       });
+      console.error("Firebase app not initialized");
       throw new Error("Firebase app not initialized");
     }
 
@@ -57,17 +59,21 @@ export default function SignIn(): JSX.Element {
       setUid(uid);
       router.push("/");
     },
-    onError: (error: any) => {
-      const errorMessage =
-        "Error logIng in: " + (error.message ?? "Unknown error occurred.");
-      Toast.show({
-        type: "error",
-        text1: "Error signing in.",
-        text2: errorMessage,
-      });
+    onError: (error: unknown) => {
+      if (typeof error === "string") {
+        console.error("Error signing in: " + error);
+      } else if (error instanceof Error) {
+        const errorMessage =
+          "Error signing in: " + (error.message ?? "Unknown error occurred.");
+        console.error(errorMessage + "\nStackTrace: " + error.stack);
+        Toast.show({
+          type: "error",
+          text1: "Error signing in.",
+          text2: "Please try again.",
+        });
+      }
     },
   });
-
   const onSubmit = () => {
     if (!validateFormInput(email, password)) {
       return;

@@ -1,192 +1,217 @@
-import React, { useState } from "react";
-import { useColorScheme, FlatList, View, Pressable } from "react-native";
+import React, { useEffect, useState } from "react";
+import { FlatList, Pressable, useColorScheme } from "react-native";
+import { router } from "expo-router";
 import { useQuery } from "@tanstack/react-query";
 import { ScaledSheet, s, vs } from "react-native-size-matters";
+import AppModal from "@/components/modal/Modal";
 import { AppThemedText } from "@/components/app_components/AppThemedText";
 import { AppThemedView } from "@/components/app_components/AppThemedView";
+import Column from "@/components/grid/Column";
+import LoadingSpinner from "@/components/LoadingSpinner";
+import Row from "@/components/grid/Row";
+import ShowIf from "@/components/ShowIf";
+import TransactionModalContent from "@/components/modal/modal_content/TransactionModalContent";
+import TabbedComponent from "@/components/TabbedComponent";
+import { fetchTransactions } from "./apis/api";
 import { formatDate, truncateString } from "./utilities/balance-utilities";
 import { TransactionProps } from "../types";
 import { COLORS } from "@/constants/Colors";
-import AppModal from "@/components/modal/Modal";
-import ShowIf from "@/components/ShowIf";
-import LoadingSpinner from "@/components/LoadingSpinner";
-import TransactionModalContent from "@/components/modal/modal_content/TransactionModalContent";
-import { fetchTransactions } from "./apis/api";
-import Row from "@/components/grid/Row";
-import Column from "@/components/grid/Column";
-import { router } from "expo-router";
+
 
 export default function Balance() {
   const colorScheme = useColorScheme();
   const [amount, setAmount] = useState("");
   const [date, setDate] = useState("");
   const [description, setDescription] = useState("");
-  const [modalVisible, setModalVisible] = useState(false);
+  const [isVisible, setIsVisible] = useState(false);
   const [transactionId, setTransactionId] = useState("");
+  const [selectedTab, setSelectedTab] = useState(0);
+  const tabsArr = ["Checking", "Savings"];
 
-  const {
-    refetch,
-    isPending,
-    isError,
-    data,
-    error,
-  } = useQuery<TransactionProps[]>({
+  const { refetch, isPending, isError, data, error } = useQuery<
+    TransactionProps[]
+  >({
     queryKey: ["transactions"],
-    queryFn: () => fetchTransactions(),
+    queryFn: () => fetchTransactions(tabsArr[selectedTab]),
     refetchOnMount: true,
   });
 
-  if(isError) {
-    return <AppThemedView style={{display: "flex", flexGrow: 1, flexDirection: "column", alignItems: "center", justifyContent: "center"}}>
-      <AppThemedText>Error: {error.message}</AppThemedText>
-      <AppThemedText type="link"  onPress={() => router.push("/")}>Home</AppThemedText>
-    </AppThemedView>
-  }
-  /**
-   * @todo
-   * if no transactions and no balance, disable the add transaction button
-   * if no balance show modal to add initial balance
-   * if balance show transactions and enable add transaction button
-   * first transaction should be the initial balance
-   * if no transactions and balance, show the balance
-   * if transactions, show the transactions
-   */
+  useEffect(() => {
+    refetch();
+  }, [selectedTab]);
 
+  const balance = data?.reduce((acc, curr) => acc + Number(curr.amount), 0);
+
+  if (isPending === true) {
+    return <LoadingSpinner />;
+  }
+
+  if (isError) {
+    return (
+      <AppThemedView
+        style={{
+          display: "flex",
+          flexGrow: 1,
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <AppThemedText>Error: {error.message}</AppThemedText>
+        <AppThemedText type="link" onPress={() => router.push("/")}>
+          Home
+        </AppThemedText>
+      </AppThemedView>
+    );
+  }
+
+  console.log("data: ", data);
   return (
-    <ShowIf
-      condition={isPending}
-      render={<LoadingSpinner />}
-      renderElse={
-        <ShowIf
-          condition={!isPending}
-          render={
-            <ShowIf
-              condition={!modalVisible}
-              render={
-                <AppThemedView style={styles.container}>
-                  <AppThemedView
-                    style={[
-                      styles.heading,
-                      {
-                        backgroundColor:
-                          colorScheme === "dark" ? COLORS.black : COLORS.white,
-                      },
-                    ]}
-                  >
-                    <AppThemedText type="title">Transactions</AppThemedText>
-                    <View
-                      style={{
-                        width: "100%",
-                        display: "flex",
-                        flexDirection: "row",
-                        justifyContent: "space-evenly",
-                        alignItems: "center",
-                        marginBottom: 20,
-                        marginTop: 20,
-                      }}
-                    >
-                      <AppThemedText>0</AppThemedText>
-                      <AppThemedText
-                        type="link"
-                        onPress={() => [setModalVisible(true)]}
+    <>
+      <AppThemedView
+        style={[
+          styles.container,
+          {
+            backgroundColor:
+              colorScheme === "dark" ? COLORS.black : COLORS.white,
+          },
+        ]}
+      >
+        <AppThemedText
+          style={{ textAlign: "center", paddingTop: 25 }}
+          type="title"
+        >
+          Transactions
+        </AppThemedText>
+        <TabbedComponent 
+        selectedTab={selectedTab}
+        setSelectedTab={setSelectedTab}
+        tabs={tabsArr}>
+          {tabsArr.map((tab, index) => (
+            <AppThemedView key={index}>
+              <AppThemedView
+                style={{
+                  width: "100%",
+                  display: "flex",
+                  flexDirection: "row",
+                  justifyContent: "space-around",
+                  alignItems: "center",
+                  marginBottom: 20,
+                  marginTop: 20,
+                }}
+              >
+                <AppThemedText>
+                  {!data?.length ? "$0.00" : "$" + balance?.toFixed(2)}
+                </AppThemedText>
+                <AppThemedText type="link" onPress={() => [setIsVisible(true)]}>
+                  Add Transaction
+                </AppThemedText>
+              </AppThemedView>
+              <Row>
+                <Column>
+                  <AppThemedText style={styles.tableHeader}>Date</AppThemedText>
+                </Column>
+                <Column>
+                  <AppThemedText style={styles.tableHeader}>
+                    Amount
+                  </AppThemedText>
+                </Column>
+                <Column>
+                  <AppThemedText style={styles.tableHeader}>
+                    Description
+                  </AppThemedText>
+                </Column>
+              </Row>
+              <ShowIf
+                condition={
+                  !isPending && !isError && !isVisible && data?.length > 0
+                }
+                render={
+                  <FlatList
+                    data={data}
+                    keyExtractor={(item) => item.id}
+                    renderItem={({ item }) => (
+                      <Pressable
+                        onPress={() => [
+                          setIsVisible(true),
+                          setAmount(item.amount),
+                          setDate(formatDate(item.date)),
+                          setDescription(item.description),
+                          setTransactionId(item.id),
+                        ]}
                       >
-                        Add Transaction
-                      </AppThemedText>
-                    </View>
-                    <ShowIf
-                      condition={data && data.length > 0 || modalVisible}
-                      render={
-                        <>
-                          <Row>
-                            <Column>
-                              <AppThemedText style={styles.tableHeader}>
-                                Date
-                              </AppThemedText>
-                            </Column>
-                            <Column>
-                              <AppThemedText style={styles.tableHeader}>
-                                Amount
-                              </AppThemedText>
-                            </Column>
-                            <Column>
-                              <AppThemedText style={styles.tableHeader}>
-                                Description
-                              </AppThemedText>
-                            </Column>
-                          </Row>
-                          <FlatList
-                            data={data}
-                            keyExtractor={(item) => item.id}
-                            renderItem={({ item }) => (
-                              <Pressable
-                                onPress={() => [
-                                  setModalVisible(true),
-                                  setAmount(item.amount),
-                                  setDate(formatDate(item.date)),
-                                  setDescription(item.description),
-                                  setTransactionId(item.id),
-                                ]}
-                              >
-                                <Row>
-                                  <Column>
-                                    <AppThemedText
-                                      style={[{ fontSize: s(12) }]}
-                                    >
-                                      {formatDate(item.date)}
-                                    </AppThemedText>
-                                  </Column>
-                                  <Column>
-                                    <AppThemedText
-                                      style={[{ fontSize: s(12) }]}
-                                    >
-                                      {parseFloat(item.amount).toFixed(2)}{" "}
-                                    </AppThemedText>
-                                  </Column>
-                                  <Column>
-                                    <AppThemedText style={{ fontSize: s(12) }}>
-                                      {truncateString(item.description, 12)}
-                                    </AppThemedText>
-                                  </Column>
-                                </Row>
-                              </Pressable>
-                            )}
-                          />
-                        </>
-                      }
-                    />
-                  </AppThemedView>
-                </AppThemedView>
-              }
-              renderElse={
-                <AppModal
-                  onClose={() => [
-                    setModalVisible(false),
-                    setAmount(""),
-                    setDate(""),
-                    setDescription(""),
-                    setTransactionId(""),
-                  ]}
-                  visible={modalVisible}
-                >
-                  <TransactionModalContent
-                    amount={amount}
-                    date={date}
-                    description={description}
-                    transactionId={transactionId}
-                    setAmount={setAmount}
-                    setDate={setDate}
-                    setDescription={setDescription}
-                    setModalVisible={setModalVisible}
-                    setTransactionId={setTransactionId}
-                    refetch={refetch}
+                        <Row>
+                          <Column>
+                            <AppThemedText style={[{ fontSize: s(12) }]}>
+                              {formatDate(item.date)}
+                            </AppThemedText>
+                          </Column>
+                          <Column>
+                            <AppThemedText style={[{ fontSize: s(12) }]}>
+                              {parseFloat(item.amount).toFixed(2)}{" "}
+                            </AppThemedText>
+                          </Column>
+                          <Column>
+                            <AppThemedText style={{ fontSize: s(12) }}>
+                              {truncateString(item.description, 12)}
+                            </AppThemedText>
+                          </Column>
+                        </Row>
+                      </Pressable>
+                    )}
                   />
-                </AppModal>
-              }
+                }
+                renderElse={
+                  <AppThemedView
+                    style={{
+                      height: "50%",
+                      alignItems: "center",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <AppThemedText style={{ textAlign: "center" }}>
+                      No transactions
+                    </AppThemedText>
+                  </AppThemedView>
+                }
+              />
+            </AppThemedView>
+          ))}
+        </TabbedComponent>
+      </AppThemedView>
+
+      <ShowIf
+        condition={!isPending && !isError && isVisible}
+        render={
+          <AppModal
+            onClose={() => [
+              setIsVisible(false),
+              setAmount(""),
+              setDate(""),
+              setDescription(""),
+              setTransactionId(""),
+              refetch(),
+            ]}
+            visible={isVisible}
+          >
+            <TransactionModalContent
+              amount={amount}
+              data={data}
+              date={date}
+              description={description}
+              selectedTab={tabsArr[selectedTab]}
+              transactionId={transactionId}
+              setAmount={setAmount}
+              setDate={setDate}
+              setDescription={setDescription}
+              setIsVisible={setIsVisible}
+              setTransactionId={setTransactionId}
+              refetch={refetch}
             />
-          }
-        />
-      }
-    />
+          </AppModal>
+        }
+      />
+    </>
   );
 }
 
@@ -195,22 +220,19 @@ export default function Balance() {
 }
 const styles = ScaledSheet.create({
   container: {
+    display: "flex",
+    flexGrow: 1,
     flexDirection: "column",
-    justifyContent: "center",
-    alignItems: "center",
-    paddingVertical: vs(20),
-  },
-  heading: {
     width: "100%",
     marginVertical: vs(5),
-    padding: s(20),
+    paddingVertical: s(10),
+    paddingHorizontal: s(5),
     borderRadius: s(10),
     shadowColor: COLORS.black,
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: s(5),
     elevation: 3,
-    alignItems: "center",
     height: "100%",
     maxHeight: "100%",
   },

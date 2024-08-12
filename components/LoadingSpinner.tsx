@@ -2,6 +2,7 @@ import { COLORS } from "@/constants/Colors";
 import React from "react";
 import { ActivityIndicator, View } from "react-native";
 import { s, ScaledSheet } from "react-native-size-matters";
+import { AppThemedView } from "./app_components/AppThemedView";
 
 type SizeType = number | "small" | "large";
 
@@ -15,9 +16,9 @@ export default function LoadingSpinner({
   color = COLORS.primary,
 }: LoadingSpinnerProps) {
   return (
-    <View style={styles.container}>
+    <AppThemedView style={styles.container}>
       <ActivityIndicator size={size} color={color} />
-    </View>
+    </AppThemedView>
   );
 }
 
