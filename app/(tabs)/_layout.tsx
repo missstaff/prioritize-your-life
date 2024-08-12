@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 import { StyleSheet } from "react-native";
 import { Tabs } from "expo-router";
-import { AppContext } from "@/store/app-context";
+import { AuthContext } from "@/store/app-context";
 import { TabBarIcon } from "@/components/navigation/TabBarIcon";
 import { COLORS, COLORTHEME } from "@/constants/Colors";
 import { useColorScheme } from "@/hooks/useColorScheme";
@@ -18,7 +18,7 @@ import Toast from "react-native-toast-message";
  */
 export default function TabLayout() {
   const colorScheme = useColorScheme();
-  const { isAuthenticated, setIsAuthenticated, setUid } = useContext(AppContext);
+  const { isAuthenticated, setIsAuthenticated, setUid } = useContext(AuthContext);
   const [isVisible, setIsVisible] = useState(false);
 
   const logout = async () => {

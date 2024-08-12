@@ -1,5 +1,5 @@
 // Define AppState type
-export interface AppState {
+export interface AuthState {
   isAuthenticated: boolean;
   uid: string;
 }
@@ -9,7 +9,7 @@ export type Action =
   | { type: "UID"; uid: string }
   | { type: "Authenticated"; isAuthenticated: boolean };
 
-export function appReducer(state: AppState, action: Action): AppState {
+export function authReducer(state: AuthState, action: Action): AuthState {
   switch (action.type) {
     case "Authenticated":
       return {

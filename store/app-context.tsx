@@ -1,5 +1,5 @@
 import React, { createContext, useReducer, ReactNode } from "react";
-import { appReducer, AppState, Action } from "./app-reducer";
+import { authReducer, AuthState, Action } from "./auth-reducer";
 
 /**
  * Represents the state of the application.
@@ -10,12 +10,12 @@ import { appReducer, AppState, Action } from "./app-reducer";
  */
 
 // Define context type
-interface AppContextType extends AppState {
+interface AppContextType extends AuthState {
   setIsAuthenticated: (isAuthenticated: boolean) => void;
   setUid: (uid: string | undefined) => void;
 }
 
-export const AppContext = createContext<AppContextType>({
+export const AuthContext = createContext<AppContextType>({
   isAuthenticated: false,
   uid: "",
   setIsAuthenticated: () => {},
@@ -27,8 +27,8 @@ interface AppContextProviderProps {
 }
 
 export const AppContextProvider = ({ children }: AppContextProviderProps) => {
-  const [state, dispatch] = useReducer<React.Reducer<AppState, Action>>(
-    appReducer,
+  const [state, dispatch] = useReducer<React.Reducer<AuthState, Action>>(
+    authReducer,
     {
       isAuthenticated: false,
       uid: "",
@@ -50,5 +50,5 @@ export const AppContextProvider = ({ children }: AppContextProviderProps) => {
     setUid,
   };
 
-  return <AppContext.Provider value={ctxValue}>{children}</AppContext.Provider>;
+  return <AuthContext.Provider value={ctxValue}>{children}</AuthContext.Provider>;
 };

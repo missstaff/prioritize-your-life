@@ -43,6 +43,6 @@ export function getFireApp() {
     }
     return firebase.app(firebaseConfig.appName);
   } catch (e) {
-    console.error("Failed to instantiate firebase app", e);
+    console.error("Failed to instantiate firebase app" + "\nError Message: " + e);
   }
 }

@@ -3,7 +3,7 @@ import Toast from "react-native-toast-message";
 import AppThemedTextInput from "@/components/app_components/AppThemedTextInput";
 import AppThemedTouchableOpacity from "@/components/app_components/AppThemedTouchableOpacity";
 import { isValidEmail, isValidPassword, validateFormInput } from "./utilities";
-import { AppContext } from "@/store/app-context";
+import { AuthContext } from "@/store/app-context";
 import { AppThemedView } from "@/components/app_components/AppThemedView";
 import { getFireApp } from "@/getFireApp";
 import LoadingSpinner from "@/components/LoadingSpinner";
@@ -17,7 +17,7 @@ import { styles } from "./styles";
  * A component that renders a sign-in form.
  */
 export default function SignIn(): JSX.Element {
-  const { setIsAuthenticated, setUid } = useContext(AppContext);
+  const { setIsAuthenticated, setUid } = useContext(AuthContext);
 
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");

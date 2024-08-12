@@ -5,7 +5,7 @@ import AppThemedTextInput from "@/components/app_components/AppThemedTextInput";
 import AppThemedTouchableOpacity from "@/components/app_components/AppThemedTouchableOpacity";
 import LoadingSpinner from "@/components/LoadingSpinner";
 import ShowIf from "@/components/ShowIf";
-import { AppContext } from "@/store/app-context";
+import { AuthContext } from "@/store/app-context";
 import { AppThemedView } from "@/components/app_components/AppThemedView";
 import { getFireApp } from "@/getFireApp";
 import { isValidEmail, validateFormInput, isValidPassword } from "./utilities";
@@ -15,7 +15,7 @@ import { styles } from "./styles";
 
 export default function SignUp(): JSX.Element {
   const queryClient = useQueryClient();
-  const { setIsAuthenticated, setUid } = useContext(AppContext);
+  const { setIsAuthenticated, setUid } = useContext(AuthContext);
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [confirmPassword, setConfirmPassword] = useState<string>("");

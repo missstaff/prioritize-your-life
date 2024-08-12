@@ -8,12 +8,12 @@ import { ScaledSheet, s, vs } from "react-native-size-matters";
 import { AppThemedText } from "@/components/app_components/AppThemedText";
 import { AppThemedView } from "@/components/app_components/AppThemedView";
 import SignIn from "../(auth)/signin";
-import { AppContext } from "../../store/app-context";
+import { AuthContext } from "@/store/app-context";
 import ShowIf from "@/components/ShowIf";
 import { COLORS } from "@/constants/Colors";
 
 const HomeScreen = () => {
-  const { isAuthenticated } = useContext(AppContext);
+  const { isAuthenticated } = useContext(AuthContext);
   const colorScheme = useColorScheme();
 
   return (
