@@ -8,36 +8,22 @@ import LoadingSpinner from "@/components/LoadingSpinner";
 import ShowIf from "@/components/ShowIf";
 import { AppThemedText } from "@/components/app_components/AppThemedText";
 import { AppThemedView } from "@/components/app_components/AppThemedView";
-import { getFireApp } from "@/getFireApp";
+import { handleResetPassword } from "./apis/api";
 import { isValidEmail } from "./utilities";
 import { styles } from "./styles";
 
 /**
- * A component that renders a password reset form.
+ * ResetPassword component.
+ *
+ * This component is responsible for rendering the reset password functionality.
+ * It allows the user to enter their email and reset their password.
+ *
+ * @returns JSX.Element
  */
 export default function ResetPassword() {
   const [email, setEmail] = useState<string>("");
-
-  const resetPassword = async () => {
-    const emailToLowerCase = email.toLocaleLowerCase();
-    if (!isValidEmail(emailToLowerCase)) {
-      return;
-    }
-    const firebase = await getFireApp();
-    if (!firebase) {
-      console.error("Firebase app not initialized");
-      throw new Error("Firebase app not initialized");
-    }
-    if (!("auth" in firebase)) {
-      console.error("Firebase app does not have 'auth' property");
-      throw new Error("Firebase app does not have 'auth' property");
-    }
-
-    await firebase.auth().sendPasswordResetEmail(emailToLowerCase);
-  };
-
   const mutation = useMutation({
-    mutationFn: resetPassword,
+    mutationFn: handleResetPassword,
     onSuccess: () => {
       Toast.show({
         type: "success",
@@ -46,15 +32,7 @@ export default function ResetPassword() {
       router.push("/signin");
       setEmail("");
     },
-    onError: (error: unknown) => {
-      if (typeof error === "string") {
-        console.error("Error resetting password: " + error);
-      } else if (error instanceof Error) {
-        const errorMessage =
-          "Error resetting password: " +
-          (error.message ?? "Unknown error occurred.");
-        console.error(errorMessage + "\nStackTrace: " + error.stack);
-      }
+    onError: () => {
       Toast.show({
         type: "error",
         text1: "Error resetting password",
@@ -83,7 +61,7 @@ export default function ResetPassword() {
           />
           <AppThemedTouchableOpacity
             disabled={!isValidEmail || mutation.status === "pending"}
-            onPress={() => mutation.mutate()}
+            onPress={() => mutation.mutate({ email })}
           >
             Reset Password
           </AppThemedTouchableOpacity>

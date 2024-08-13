@@ -1,4 +1,3 @@
-// Purpose: Contains utility functions for the auth module.
 import Toast from "react-native-toast-message";
 
 /**
@@ -40,45 +39,36 @@ export const isValidPassword = (password: string) => {
 };
 
 /**
- * Validates an email and password.
- * @param email The email to validate.
- * @param password The password to validate.
- * @returns True if the email and password are valid, false otherwise.
- */
-export const isEmailAndPasswordValid = (email: string, password: string) => {
-  if (!isValidEmail(email) && !isValidPassword(password)) {
-    Toast.show({
-      type: "error",
-      text1: "Invalid email and password.",
-      text2: "Please try again.",
-    });
-    return false;
-  }
-  return true;
-};
-
-/**
- * Validates the form input.
- * @param email The email to validate.
+ * Validates the input for the authentication form.
+ * @param email The email address to validate.
  * @param password The password to validate.
  * @param confirmPassword The password confirmation to validate.
- * @returns True if the form input is valid, false otherwise.
-  */
-export const validateFormInput = (
+ * @returns An object with the validation result.
+ */
+export const validateAuthFormInput = (
   email: string,
   password: string,
   confirmPassword: string = ""
 ) => {
-  if (!isEmailAndPasswordValid(email, password)) return false;
-  if (!isValidEmail(email)) return false;
-  if (!isValidPassword(password)) return false;
-  if (confirmPassword != "" && password != "" && confirmPassword !== password) {
-    Toast.show({
-      type: "error",
-      text1: "Passwords do not match.",
-      text2: "Please try again.",
-    });
-    return false;
+  if (!isValidEmail(email)) {
+    return {
+      isValid: false,
+      message: "Invalid email address",
+    };
   }
-  return true;
+  if (!isValidPassword(password)) {
+    return {
+      isValid: false,
+      message: "Invalid password",
+    };
+  }
+  if (confirmPassword !== "" && !isValidPassword(confirmPassword)) {
+    return {
+      isValid: false,
+      message: "Invalid password confirmation",
+    };
+  }
+  return {
+    isValid: true,
+  };
 };
