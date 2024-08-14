@@ -1,4 +1,4 @@
-// Define AppState type
+// Define AuthState type
 export interface AuthState {
   isAuthenticated: boolean;
   uid: string;

@@ -10,7 +10,7 @@ import {
   isValidDate,
   isValidDescription,
   validateFormInputs,
-} from "@/app/(tabs)/utilities/balance-utilities";
+} from "@/app/(tabs)/utilities/transactions-utilities";
 import { TransactionModalContentProps } from "@/app/types";
 import AppThemedTouchableOpacity from "@/components/app_components/AppThemedTouchableOpacity";
 import ShowIf from "@/components/ShowIf";

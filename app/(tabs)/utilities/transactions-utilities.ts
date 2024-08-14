@@ -1,8 +1,6 @@
 import Toast from "react-native-toast-message";
 import { Timestamp } from 'firebase/firestore';
 
-// Purpose: Contains utility/helper functions for the balance screen.
-
 
 /**
  * Formats a date object to a string in the format MM/DD/YYYY.
@@ -68,8 +66,6 @@ export const isValidDescription = (description: string): boolean => {
  * @returns `true` if the amount is valid, otherwise `false`.
  */
 export const isValidAmount = (amount: string): boolean => {
-  console.log("string not valid: ", amount);
-  console.log("type: ", typeof amount);
   const regex = /^-?\d+(\.\d+)?$/;
   const isValid = regex.test(amount);
   if (!isValid) {
@@ -96,10 +92,6 @@ export const validateFormInputs = (
   date: string,
   description: string
 ): boolean => {
-  // #TODO: Remove console.log statements
-  console.log("amount: ", amount);
-  console.log("date: ", date);
-  console.log("description: ", description);
   let isValid = false;
   if (
     isValidAmount(amount) &&
@@ -131,7 +123,6 @@ export const parseDate = (dateStr: string): Date => {
     year = Number(dateStr.slice(4, 8));
   }
 
-  // const parsedYear = year + 2000;
   const parsedDate = new Date(year, month - 1, day);
 
   return isNaN(parsedDate.getTime()) ? new Date() : parsedDate;

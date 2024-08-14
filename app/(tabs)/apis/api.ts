@@ -1,7 +1,7 @@
-import { TransactionProps } from "@/app/types";
+import { TransactionState } from "../../../store/transaction-reducer";
 import Toast from "react-native-toast-message";
 import { getFireApp } from "@/getFireApp";
-import { parseDate, validateFormInputs } from "../utilities/balance-utilities";
+import { parseDate, validateFormInputs } from "../utilities/transactions-utilities";
 
 // Purpose: tabs api request functions
 
@@ -18,7 +18,7 @@ import { parseDate, validateFormInputs } from "../utilities/balance-utilities";
  */
 export const addOrUpdateTransaction = async (
     amount: string,
-    data: TransactionProps[] | undefined,
+    data: TransactionState[] | undefined,
     date: string,
     description: string,
     selectedTab: string,
@@ -64,16 +64,9 @@ export const addOrUpdateTransaction = async (
             .collection(selectedTab.toLowerCase());
 
         amount = Number(amount).toFixed(2);
-        console.log("amount: ", amount);
         const numericAmount = Number(parseFloat(amount).toFixed(2));
-        console.log("numericAmount: ", numericAmount);
         if (isNaN(numericAmount)) {
-            Toast.show({
-                type: "error",
-                text1: "Invalid transaction amount entry.",
-                text2: "Please enter a valid number.",
-            });
-            return;
+            throw new Error("Amount is not a number.");
         }
 
         let updatedBalance = 0.00;
@@ -81,13 +74,11 @@ export const addOrUpdateTransaction = async (
             updatedBalance = data.reduce((acc, transaction) => acc + Number(parseFloat(transaction.amount) + numericAmount),
                 0
             );
-            console.log("updatedBalance: inIF ", updatedBalance);
         } else {
             updatedBalance = numericAmount;
-            console.log("updatedBalance: inElse ", updatedBalance);
         }
 
-        const transactionData: Omit<TransactionProps, "id"> = {
+        const transactionData: Omit<TransactionState, "id"> = {
             amount,
             balance: updatedBalance,
             date: parseDate(date),
@@ -104,39 +95,20 @@ export const addOrUpdateTransaction = async (
         setDescription("");
         setTransactionId("");
         updatedBalance = 0.00;
-    } catch (error: unknown) {
-        if (typeof error === "string") {
-            Toast.show({
-                type: "error",
-                text1: "Error saving transaction.",
-                text2: error,
-            });
-            console.error(error);
-        } else if (error instanceof Error) {
-            Toast.show({
-                type: "error",
-                text1: "Error saving transaction.",
-                text2: error.message,
-            });
-
-            console.error(
-                "Error adding or updating transaction(s) in Firebase: ",
-                error.message
-            );
-            console.error("StackTrace: ", error.stack);
-        } else {
-            console.error("An unknown error occurred.");
-        }
+    } catch (error: any) {
+        throw new Error("Error adding/updating transaction: " + error.message);
     }
 };
 
 /**
  * Deletes a transaction from Firestore.
+ * @param selectedTab The selected tab.
  * @param transactionId The ID of the transaction to delete.
- */
+ * @returns A promise that resolves when the transaction is deleted.
+ **/
 export const deleteTransaction = async (selectedTab: string, transactionId: string) => {
+    const firebase = await getFireApp();
     try {
-        const firebase = await getFireApp();
         if (!firebase) {
             throw new Error("Firebase app not initialized");
         }
@@ -145,32 +117,14 @@ export const deleteTransaction = async (selectedTab: string, transactionId: stri
         if (!uid) {
             throw new Error("User not authenticated");
         }
-
         const transactionsRef = db
             .collection("users")
             .doc(uid)
             .collection(selectedTab.toLowerCase());
 
         await transactionsRef.doc(transactionId).delete();
-    } catch (error: unknown) {
-        if (typeof error === "string") {
-            Toast.show({
-                type: "error",
-                text1: "Error deleting transaction.",
-                text2: error,
-            });
-            console.error(error);
-        } else if (error instanceof Error) {
-            Toast.show({
-                type: "error",
-                text1: "Error deleting transaction.",
-                text2: error.message,
-            });
-            console.error("Error deleting transaction: ", error.message);
-            console.error("StackTrace: ", error.stack);
-        } else {
-            console.error("An unknown error occurred.");
-        }
+    } catch (error: any) {
+        throw new Error("Error deleting transaction: " + error.message);
     }
 }
 
@@ -178,8 +132,8 @@ export const deleteTransaction = async (selectedTab: string, transactionId: stri
  * Fetches transactions from Firestore.
  * @returns A promise that resolves to an array of transactions.
  */
-export const fetchTransactions = async (selectedTab: string): Promise<TransactionProps[]> => {
-    let data: TransactionProps[] = [];
+export const fetchTransactions = async (selectedTab: string): Promise<TransactionState[]> => {
+    let data: TransactionState[] = [];
     try {
         const firebase = await getFireApp();
         if (!firebase) {
@@ -190,7 +144,6 @@ export const fetchTransactions = async (selectedTab: string): Promise<Transactio
         if (!uid) {
             throw new Error("User not authenticated");
         }
-        console.log("selectedTab: ", selectedTab);
 
         const transactionsRef = db
             .collection("users")
@@ -200,30 +153,13 @@ export const fetchTransactions = async (selectedTab: string): Promise<Transactio
         data = snapshot.docs.map((doc) => ({
             id: doc.id,
             ...doc.data(),
-        })) as TransactionProps[];
+        })) as TransactionState[];
 
         if (!data) {
             data = [];
         }
-    } catch (error: unknown) {
-        if (typeof error === 'string') {
-            Toast.show({
-                type: "error",
-                text1: "Error fetching transactions.",
-                text2: error,
-            });
-            console.error(error);
-        } else if (error instanceof Error) {
-            Toast.show({
-                type: "error",
-                text1: "Error fetching transactions.",
-                text2: error.message,
-            });
-            console.error("Error fetching transactions: ", error.message);
-            console.error("StackTrace: ", error.stack);
-        } else {
-            console.error("An unknown error occurred.");
-        }
+    } catch (error: any) {
+        throw new Error("Error fetching transactions: " + error.message);
     }
     return data;
 };

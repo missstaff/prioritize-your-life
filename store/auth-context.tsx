@@ -10,23 +10,23 @@ import { authReducer, AuthState, Action } from "./auth-reducer";
  */
 
 // Define context type
-interface AppContextType extends AuthState {
+interface AuthContextType extends AuthState {
   setIsAuthenticated: (isAuthenticated: boolean) => void;
   setUid: (uid: string | undefined) => void;
 }
 
-export const AuthContext = createContext<AppContextType>({
+export const AuthContext = createContext<AuthContextType>({
   isAuthenticated: false,
   uid: "",
   setIsAuthenticated: () => {},
   setUid: () => {},
 });
 
-interface AppContextProviderProps {
+interface AuthContextProviderProps {
   children: ReactNode;
 }
 
-export const AppContextProvider = ({ children }: AppContextProviderProps) => {
+export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
   const [state, dispatch] = useReducer<React.Reducer<AuthState, Action>>(
     authReducer,
     {
@@ -43,7 +43,7 @@ export const AppContextProvider = ({ children }: AppContextProviderProps) => {
     dispatch({ type: "UID", uid: uid || "" });
   };
 
-  const ctxValue: AppContextType = {
+  const ctxValue: AuthContextType = {
     isAuthenticated: state.isAuthenticated,
     uid: state.uid,
     setIsAuthenticated,

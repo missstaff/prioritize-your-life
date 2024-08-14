@@ -1,21 +1,20 @@
 import React, { useEffect, useState } from "react";
-import { FlatList, Pressable, useColorScheme } from "react-native";
+import { useColorScheme } from "react-native";
 import { router } from "expo-router";
 import { useQuery } from "@tanstack/react-query";
 import { ScaledSheet, s, vs } from "react-native-size-matters";
 import AppModal from "@/components/modal/Modal";
 import { AppThemedText } from "@/components/app_components/AppThemedText";
 import { AppThemedView } from "@/components/app_components/AppThemedView";
-import Column from "@/components/grid/Column";
 import LoadingSpinner from "@/components/LoadingSpinner";
-import Row from "@/components/grid/Row";
 import ShowIf from "@/components/ShowIf";
 import TransactionModalContent from "@/components/modal/modal_content/TransactionModalContent";
 import TabbedComponent from "@/components/TabbedComponent";
 import { fetchTransactions } from "./apis/api";
-import { formatDate, truncateString } from "./utilities/balance-utilities";
-import { TransactionProps } from "../types";
 import { COLORS } from "@/constants/Colors";
+import ListHeader from "@/components/flat-list/ListHeader";
+import { TransactionProps } from "../types";
+import ListTransactions from "@/components/flat-list/ListTransactions";
 
 
 export default function Balance() {
@@ -65,7 +64,6 @@ export default function Balance() {
     );
   }
 
-  console.log("data: ", data);
   return (
     <>
       <AppThemedView
@@ -107,58 +105,22 @@ export default function Balance() {
                   Add Transaction
                 </AppThemedText>
               </AppThemedView>
-              <Row>
-                <Column>
-                  <AppThemedText style={styles.tableHeader}>Date</AppThemedText>
-                </Column>
-                <Column>
-                  <AppThemedText style={styles.tableHeader}>
-                    Amount
-                  </AppThemedText>
-                </Column>
-                <Column>
-                  <AppThemedText style={styles.tableHeader}>
-                    Description
-                  </AppThemedText>
-                </Column>
-              </Row>
+              <ListHeader
+                styles={styles.tableHeader}
+                headings={["Date", "Amount", "Description"]}
+              />
               <ShowIf
                 condition={
                   !isPending && !isError && !isVisible && data?.length > 0
                 }
                 render={
-                  <FlatList
+                  <ListTransactions
                     data={data}
-                    keyExtractor={(item) => item.id}
-                    renderItem={({ item }) => (
-                      <Pressable
-                        onPress={() => [
-                          setIsVisible(true),
-                          setAmount(item.amount),
-                          setDate(formatDate(item.date)),
-                          setDescription(item.description),
-                          setTransactionId(item.id),
-                        ]}
-                      >
-                        <Row>
-                          <Column>
-                            <AppThemedText style={[{ fontSize: s(12) }]}>
-                              {formatDate(item.date)}
-                            </AppThemedText>
-                          </Column>
-                          <Column>
-                            <AppThemedText style={[{ fontSize: s(12) }]}>
-                              {parseFloat(item.amount).toFixed(2)}{" "}
-                            </AppThemedText>
-                          </Column>
-                          <Column>
-                            <AppThemedText style={{ fontSize: s(12) }}>
-                              {truncateString(item.description, 12)}
-                            </AppThemedText>
-                          </Column>
-                        </Row>
-                      </Pressable>
-                    )}
+                    setIsVisible={setIsVisible}
+                    setAmount={setAmount}
+                    setDate={setDate}
+                    setDescription={setDescription}
+                    setTransactionId={setTransactionId}
                   />
                 }
                 renderElse={

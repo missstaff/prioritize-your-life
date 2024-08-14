@@ -15,7 +15,7 @@ import {
   useColorScheme,
 } from "react-native";
 import NetInfo from "@react-native-community/netinfo";
-import { AppContextProvider } from "@/store/app-context";
+import { AuthContextProvider } from "@/store/auth-context";
 import {
   DarkTheme,
   DefaultTheme,
@@ -59,7 +59,7 @@ export default function RootLayoutNav() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <AppContextProvider>
+      <AuthContextProvider>
         <ThemeProvider
           value={colorScheme === "dark" ? DarkTheme : DefaultTheme}
         >
@@ -71,7 +71,7 @@ export default function RootLayoutNav() {
           <StatusBar style={"auto"} />
           <Toast />
         </ThemeProvider>
-      </AppContextProvider>
+      </AuthContextProvider>
     </QueryClientProvider>
   );
 }

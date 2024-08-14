@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 import { StyleSheet } from "react-native";
 import { Tabs } from "expo-router";
-import { AuthContext } from "@/store/app-context";
+import { AuthContext } from "@/store/auth-context";
 import { TabBarIcon } from "@/components/navigation/TabBarIcon";
 import { COLORS, COLORTHEME } from "@/constants/Colors";
 import { useColorScheme } from "@/hooks/useColorScheme";
