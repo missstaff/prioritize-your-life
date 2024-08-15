@@ -6,7 +6,7 @@ import {
   formatDate,
   truncateString,
 } from "@/app/(tabs)/utilities/transactions-utilities";
-import { s } from "react-native-size-matters";
+import { s, ScaledSheet } from "react-native-size-matters";
 import { TransactionProps } from "@/app/types";
 
 export interface ListTransactionsProps {
@@ -41,17 +41,17 @@ export default function ListTransactions({
         >
           <Row>
             <Column>
-              <AppThemedText style={[{ fontSize: s(12) }]}>
+              <AppThemedText style={styles.text}>
                 {formatDate(item.date)}
               </AppThemedText>
             </Column>
             <Column>
-              <AppThemedText style={[{ fontSize: s(12) }]}>
+              <AppThemedText style={styles.text}>
                 {parseFloat(item.amount).toFixed(2)}{" "}
               </AppThemedText>
             </Column>
             <Column>
-              <AppThemedText style={{ fontSize: s(12) }}>
+              <AppThemedText style={styles.text}>
                 {truncateString(item.description, 12)}
               </AppThemedText>
             </Column>
@@ -61,3 +61,9 @@ export default function ListTransactions({
     />
   );
 }
+
+const styles = ScaledSheet.create({
+    text: {
+        fontSize: s(12),
+    }
+});
