@@ -16,6 +16,7 @@ import ListHeader from "@/components/flat-list/ListHeader";
 import { TransactionState } from "@/store/transaction-reducer";
 import ListTransactions from "@/components/flat-list/ListTransactions";
 import { TransactionContext } from "@/store/transaction-context";
+import Toast from "react-native-toast-message";
 
 
 export default function Balance() {
@@ -157,6 +158,7 @@ export default function Balance() {
               setIsVisible={setIsVisible}
               refetch={refetch}
             />
+            <Toast />
           </AppModal>
         }
       />

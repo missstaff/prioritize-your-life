@@ -4,13 +4,13 @@ import {
   TextInput,
   TextStyle,
   TouchableOpacity,
-  View,
   ViewStyle,
 } from "react-native";
 import { ScaledSheet, s } from "react-native-size-matters";
 import { AppIcon } from "./AppIcon";
 import { COLORTHEME } from "@/constants/Colors";
 import { useThemeColor } from "@/hooks/useThemeColor";
+import { AppThemedView } from "./AppThemedView";
 
 interface AppThemedTextInputProps {
   iconName?: string;
@@ -48,7 +48,7 @@ export const AppThemedTextInput = ({
   const [isPasswordVisible, setIsPasswordVisible] = useState(!secureEntry);
   
   return (
-    <View style={[styles.inputContainer, containerStyle]}>
+    <AppThemedView style={[styles.inputContainer, containerStyle]}>
       <TextInput
         onBlur={(e) => {
           if (value.length > 0) checkValue(value);
@@ -79,7 +79,7 @@ export const AppThemedTextInput = ({
       )}
 
       {iconName && <AppIcon name={iconName} size={s(24)} color="#ccc" />}
-    </View>
+    </AppThemedView>
   );
 };
 
