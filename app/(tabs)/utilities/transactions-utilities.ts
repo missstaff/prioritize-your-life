@@ -7,17 +7,21 @@ import { Timestamp } from 'firebase/firestore';
  * @param timestamp The date object to format.
  * @returns A string representing the formatted date.
  */
-export const formatDate = (timestamp: Date | Timestamp): string => {
-  const date = timestamp instanceof Date ? timestamp : timestamp.toDate();
+// export const formatDate = (date: string): string => {
 
-  const pad = (num: number) => num.toString().padStart(2, '0');
+//   console.log("date: ", date);
+//   console.log(typeof date);
+//   const d = date.split("/");
+//   console.log("d: ", d);
 
-  const day = pad(date.getDate());
-  const month = pad(date.getMonth() + 1);
-  const year = date.getFullYear();
-  const formattedDate = `${month}/${day}/${year}`;
-  return formattedDate;
-};
+//   // const pad = (num: number) => num.toString().padStart(2, '0');
+
+//   // const day = pad(date.getDate());
+//   // const month = pad(date.getMonth() + 1);
+//   // const year = date.getFullYear();
+//   const formattedDate = `${12}/${12}/${2024}`;
+//   return formattedDate;
+// };
 
 
 /**
@@ -41,7 +45,7 @@ export const isValidDate = (date: string): boolean => {
     });
   }
 
-  return isValid;
+  return false;
 };
 
 /**
@@ -95,7 +99,7 @@ export const validateFormInputs = (
   let isValid = false;
   if (
     isValidAmount(amount) &&
-    isValidDate(date) &&
+    // isValidDate(date) &&
     isValidDescription(description)
   ) {
     isValid = true;

@@ -2,29 +2,26 @@ import { FlatList, Pressable } from "react-native";
 import Row from "../grid/Row";
 import Column from "../grid/Column";
 import { AppThemedText } from "../app_components/AppThemedText";
-import {
-  formatDate,
-  truncateString,
-} from "@/app/(tabs)/utilities/transactions-utilities";
+import { truncateString } from "@/app/(tabs)/utilities/transactions-utilities";
 import { s, ScaledSheet } from "react-native-size-matters";
-import { TransactionProps } from "@/app/types";
+import { TransactionState } from "@/store/transaction-reducer";
+import { useContext } from "react";
+import { TransactionContext } from "@/store/transaction-context";
+
 
 export interface ListTransactionsProps {
-  data: TransactionProps[] | undefined;
+  data: TransactionState[] | undefined;
   setIsVisible: React.Dispatch<React.SetStateAction<boolean>>;
-  setAmount: React.Dispatch<React.SetStateAction<string>>;
-  setDate: React.Dispatch<React.SetStateAction<string>>;
-  setDescription: React.Dispatch<React.SetStateAction<string>>;
-  setTransactionId: React.Dispatch<React.SetStateAction<string>>;
 }
 export default function ListTransactions({
   data,
   setIsVisible,
-  setAmount,
-  setDate,
-  setDescription,
-  setTransactionId,
 }: ListTransactionsProps) {
+  const transactionCtx = useContext(TransactionContext);
+  const { date, setAmount, setDate, setDescription, setTransactionId } = transactionCtx;
+
+  console.log("date: ", date);
+  
   return (
     <FlatList
       data={data}
@@ -34,7 +31,7 @@ export default function ListTransactions({
           onPress={() => [
             setIsVisible(true),
             setAmount(item.amount),
-            setDate(formatDate(item.date)),
+            setDate(item.date),
             setDescription(item.description),
             setTransactionId(item.id),
           ]}
@@ -42,7 +39,7 @@ export default function ListTransactions({
           <Row>
             <Column>
               <AppThemedText style={styles.text}>
-                {formatDate(item.date)}
+                {item.date}
               </AppThemedText>
             </Column>
             <Column>

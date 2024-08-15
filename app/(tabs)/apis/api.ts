@@ -23,10 +23,10 @@ export const addOrUpdateTransaction = async (
     description: string,
     selectedTab: string,
     transactionId: string,
-    setAmount: React.Dispatch<React.SetStateAction<string>>,
-    setDate: React.Dispatch<React.SetStateAction<string>>,
-    setDescription: React.Dispatch<React.SetStateAction<string>>,
-    setTransactionId: React.Dispatch<React.SetStateAction<string>>
+    setAmount: (amount: string) => void,
+    setDate: (date: string) => void,
+    setDescription: (description: string) => void,
+    setTransactionId: (id: string) => void
 ) => {
     if (!description || !amount || !date) {
         Toast.show({
@@ -81,7 +81,7 @@ export const addOrUpdateTransaction = async (
         const transactionData: Omit<TransactionState, "id"> = {
             amount,
             balance: updatedBalance,
-            date: parseDate(date),
+            date,
             description,
         };
 

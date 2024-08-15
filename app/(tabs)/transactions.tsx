@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useColorScheme } from "react-native";
 import { router } from "expo-router";
 import { useQuery } from "@tanstack/react-query";
@@ -13,22 +13,21 @@ import TabbedComponent from "@/components/TabbedComponent";
 import { fetchTransactions } from "./apis/api";
 import { COLORS } from "@/constants/Colors";
 import ListHeader from "@/components/flat-list/ListHeader";
-import { TransactionProps } from "../types";
+import { TransactionState } from "@/store/transaction-reducer";
 import ListTransactions from "@/components/flat-list/ListTransactions";
+import { TransactionContext } from "@/store/transaction-context";
 
 
 export default function Balance() {
   const colorScheme = useColorScheme();
-  const [amount, setAmount] = useState("");
-  const [date, setDate] = useState("");
-  const [description, setDescription] = useState("");
+  const transactionCtx = useContext(TransactionContext);
+  const { setAmount, setDate, setDescription, setTransactionId } = transactionCtx;
   const [isVisible, setIsVisible] = useState(false);
-  const [transactionId, setTransactionId] = useState("");
   const [selectedTab, setSelectedTab] = useState(0);
   const tabsArr = ["Checking", "Savings"];
 
   const { refetch, isPending, isError, data, error } = useQuery<
-    TransactionProps[]
+    TransactionState[]
   >({
     queryKey: ["transactions"],
     queryFn: () => fetchTransactions(tabsArr[selectedTab]),
@@ -117,10 +116,6 @@ export default function Balance() {
                   <ListTransactions
                     data={data}
                     setIsVisible={setIsVisible}
-                    setAmount={setAmount}
-                    setDate={setDate}
-                    setDescription={setDescription}
-                    setTransactionId={setTransactionId}
                   />
                 }
                 renderElse={
@@ -149,7 +144,7 @@ export default function Balance() {
             onClose={() => [
               setIsVisible(false),
               setAmount(""),
-              setDate(""),
+              setDate(new Date()),
               setDescription(""),
               setTransactionId(""),
               refetch(),
@@ -157,17 +152,9 @@ export default function Balance() {
             visible={isVisible}
           >
             <TransactionModalContent
-              amount={amount}
               data={data}
-              date={date}
-              description={description}
               selectedTab={tabsArr[selectedTab]}
-              transactionId={transactionId}
-              setAmount={setAmount}
-              setDate={setDate}
-              setDescription={setDescription}
               setIsVisible={setIsVisible}
-              setTransactionId={setTransactionId}
               refetch={refetch}
             />
           </AppModal>

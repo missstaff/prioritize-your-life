@@ -1,36 +1,60 @@
-// import React, { createContext, useReducer, ReactNode } from "react";
-// import { transactionReducer, TransactionState, Action } from "./transaction-reducer";
+import React, { createContext, useReducer, ReactNode, useContext } from "react";
+import { transactionReducer, TransactionState, Action } from "./transaction-reducer";
 
-// // Define context type
-// interface TransactionContextType {
-//   transactions: TransactionState[];
-//   setTransactions: (action: Action) => void; // Adjust type to accept Action
-// }
 
-// // Create context with default values
-// export const TransactionContext = createContext<TransactionContextType>({
-//   transactions: [],
-//   setTransactions: () => {},
-// });
+export interface TransactionContextType extends TransactionState {
+  setAmount: (amount: string) => void;
+  setDate: (date: string) => void;
+  setDescription: (description: string) => void;
+  setTransactionId: (id: string) => void;
+  setBalance: (balance: number) => void;
+}
 
-// interface TransactionContextProviderProps {
-//   children: ReactNode;
-// }
 
-// const TransactionContextProvider = ({ children }: TransactionContextProviderProps) => {
-//   const [state, dispatch] = useReducer(transactionReducer, [] as TransactionState[]);
-  
-//   // Function to update the transactions using dispatch
-//   const setTransactions = (action: Action) => {
-//     dispatch(action);
-//   };
+export const TransactionContext = createContext<TransactionContextType>({
+  id: '',
+  amount: '',
+  balance: 0,
+  date: "",
+  description: '',
+  setAmount: () => {},
+  setDate: () => {},
+  setDescription: () => {},
+  setTransactionId: () => {},
+  setBalance: () => {},
+});
 
-//   const ctxValue: TransactionContextType = {
-//     transactions: state,
-//     setTransactions,
-//   };
+interface TransactionContextProviderProps {
+  children: ReactNode;
+}
 
-//   return <TransactionContext.Provider value={ctxValue}>{children}</TransactionContext.Provider>;
-// };
 
-// export default TransactionContextProvider;
+export const TransactionContextProvider = ({ children }: TransactionContextProviderProps) => {
+  const [state, dispatch] = useReducer<React.Reducer<TransactionState, Action>>(
+    transactionReducer,
+    {
+      id: '',
+      amount: '',
+      balance: 0,
+      date: "",
+      description: '',
+    }
+  );
+
+  const setAmount = (amount: string) => dispatch({ type: 'Amount', amount });
+  const setDate = (date: string) => dispatch({ type: 'Date', date });
+  const setDescription = (description: string) => dispatch({ type: 'Description', description });
+  const setTransactionId = (id: string) => dispatch({ type: 'Id', id });
+  const setBalance = (balance: number) => dispatch({ type: 'Balance', balance });
+
+  const ctxValue: TransactionContextType = {
+    ...state,
+    setAmount,
+    setDate,
+    setDescription,
+    setTransactionId,
+    setBalance,
+  };
+
+  return <TransactionContext.Provider value={ctxValue}>{children}</TransactionContext.Provider>;
+};

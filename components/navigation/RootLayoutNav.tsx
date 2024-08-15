@@ -23,6 +23,7 @@ import {
 } from "@react-navigation/native";
 import Toast from "react-native-toast-message";
 import { StatusBar } from "expo-status-bar";
+import { TransactionContextProvider } from "@/store/transaction-context";
 
 // This function is called when the app state changes.
 function onAppStateChange(status: AppStateStatus) {
@@ -60,17 +61,19 @@ export default function RootLayoutNav() {
   return (
     <QueryClientProvider client={queryClient}>
       <AuthContextProvider>
-        <ThemeProvider
-          value={colorScheme === "dark" ? DarkTheme : DefaultTheme}
-        >
-          <Stack
-            screenOptions={{
-              headerShown: false,
-            }}
-          />
-          <StatusBar style={"auto"} />
-          <Toast />
-        </ThemeProvider>
+        <TransactionContextProvider>
+          <ThemeProvider
+            value={colorScheme === "dark" ? DarkTheme : DefaultTheme}
+          >
+            <Stack
+              screenOptions={{
+                headerShown: false,
+              }}
+            />
+            <StatusBar style={"auto"} />
+            <Toast />
+          </ThemeProvider>
+        </TransactionContextProvider>
       </AuthContextProvider>
     </QueryClientProvider>
   );

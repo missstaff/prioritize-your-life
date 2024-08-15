@@ -16,22 +16,27 @@ import AppThemedTouchableOpacity from "@/components/app_components/AppThemedTouc
 import ShowIf from "@/components/ShowIf";
 import { View } from "react-native";
 import Toast from "react-native-toast-message";
+import { useContext } from "react";
+import { TransactionContext } from "@/store/transaction-context";
 
 const TransactionModalContent = ({
-  amount,
   data,
-  date,
-  description,
   selectedTab,
-  setAmount,
-  transactionId,
-  setDate,
-  setDescription,
   setIsVisible,
-  setTransactionId,
   refetch,
 }: TransactionModalContentProps) => {
   const queryClient = useQueryClient();
+  const transactionsCtx = useContext(TransactionContext);
+  const {
+    amount,
+    date,
+    description,
+    setAmount,
+    setDate,
+    setDescription,
+    setTransactionId,
+    id: transactionId,
+  } = transactionsCtx;
 
   const handleResetState = () => {
     setIsVisible(false),
