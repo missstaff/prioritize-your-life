@@ -66,6 +66,8 @@ const TransactionModalContent = ({
     refetch();
   };
 
+
+
   const mutation = useMutation({
     mutationFn: () =>
       addOrUpdateTransaction(
@@ -136,7 +138,7 @@ const TransactionModalContent = ({
         placeholder="MM/DD/YY"
         secureEntry={false}
         setValue={setDate}
-        value={transactionId.length > 0 ? formatDate(date) :date}
+        value={typeof date === "object" ? formatDate(date) :date}
       />
       <AppThemedTextInput
         checkValue={isValidAmount}
