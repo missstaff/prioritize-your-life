@@ -46,7 +46,7 @@ export const AppThemedTextInput = ({
   );
   
   const [isPasswordVisible, setIsPasswordVisible] = useState(!secureEntry);
-    console.log("value: ", value);
+  
   return (
     <View style={[styles.inputContainer, containerStyle]}>
       <TextInput

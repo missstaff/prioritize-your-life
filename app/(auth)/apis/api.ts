@@ -2,14 +2,14 @@ import Toast from "react-native-toast-message";
 import { getFirebase } from "@/app/common/get-firebase";
 import { isValidEmail, validateAuthFormInput } from "../utilities";
 import {
-    handleResetPasswordProps,
+    HandleResetPasswordProps,
     SignInProps,
     SignUpProps,
 } from "@/app/types";
 
 export const handleResetPassword = async ({
     email,
-}: handleResetPasswordProps) => {
+}: HandleResetPasswordProps) => {
     if (!isValidEmail(email)) {
         throw new Error("Invalid email address.");
     }

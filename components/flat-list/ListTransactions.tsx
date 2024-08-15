@@ -19,8 +19,6 @@ export default function ListTransactions({
 }: ListTransactionsProps) {
   const transactionCtx = useContext(TransactionContext);
   const { date, setAmount, setDate, setDescription, setTransactionId } = transactionCtx;
-
-  console.log("date: ", date);
   
   return (
     <FlatList

@@ -22,7 +22,9 @@ export const transactionReducer = (state: TransactionState, action: Action): Tra
     case 'Balance':
       return { ...state, balance: action.balance };
     case 'Date':
-      return { ...state, date: action.date };
+      return { 
+        ...state, 
+        date: action.date };
     case 'Description':
       return { ...state, description: action.description };
     default:

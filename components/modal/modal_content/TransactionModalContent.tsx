@@ -6,6 +6,7 @@ import {
   deleteTransaction,
 } from "@/app/(tabs)/apis/api";
 import {
+  formatDate,
   isValidAmount,
   isValidDate,
   isValidDescription,
@@ -16,7 +17,7 @@ import AppThemedTouchableOpacity from "@/components/app_components/AppThemedTouc
 import ShowIf from "@/components/ShowIf";
 import { View } from "react-native";
 import Toast from "react-native-toast-message";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { TransactionContext } from "@/store/transaction-context";
 
 const TransactionModalContent = ({
@@ -135,7 +136,7 @@ const TransactionModalContent = ({
         placeholder="MM/DD/YY"
         secureEntry={false}
         setValue={setDate}
-        value={date}
+        value={transactionId.length > 0 ? formatDate(date) :date}
       />
       <AppThemedTextInput
         checkValue={isValidAmount}

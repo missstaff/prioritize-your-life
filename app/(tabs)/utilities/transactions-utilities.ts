@@ -1,10 +1,11 @@
+import { IsValidProps } from "@/app/types";
 import Toast from "react-native-toast-message";
 
 
 /**
  * Formats a Firestore Timestamp to a short date string (MM/DD).
  * @param timestamp The Firestore Timestamp to format.
- * @returns A formatted date string in MM/DD format.
+ * @returns A formatted date string in MM/DD/YY format.
  */
 export const formatDate = (timestamp: any): string => {
   const date = timestamp.toDate();
@@ -19,13 +20,13 @@ export const formatDate = (timestamp: any): string => {
  * @param date The date string to validate.
  * @returns `true` if the date is valid, otherwise `false`.
  */
-export const isValidDate = (date: string): boolean => {
+export const isValidDate = (date: string): IsValidProps => {
   if (date.length === 0) {
     Toast.show({
       type: "error",
       text1: "Please enter a date.",
     });
-    return false;
+    return { isValid: false, message: "Please enter a date." };
   }
   if (date.includes("-")) {
     date = date.replace(/-/g, "/");
@@ -41,9 +42,9 @@ export const isValidDate = (date: string): boolean => {
     Toast.show({
       type: "error",
       text1: "Invalid date.",
-      text2: "Please try again.",
+      text2: "Date must be in MM/DD/YY format.",
     });
-    return false;
+    return { isValid: false, message: "Date must be in MM/DD/YY format.", };
   }
 
   const [month, day, year] = date.split("/").map(Number);
@@ -56,25 +57,27 @@ export const isValidDate = (date: string): boolean => {
       text1: "Invalid year.",
       text2: "Year cannot be less than the current year.",
     });
-    return false;
+    return { isValid: false, message: "Year cannot be less than the current year." };
   }
 
-  return true;
+  return { isValid: true, message: "" };
 };
 /**
  * Validates the description to ensure it is a string with no more than 50 characters.
  * @param description The description string to validate.
  * @returns `true` if the description is valid, otherwise `false`.
  */
-export const isValidDescription = (description: string): boolean => {
+export const isValidDescription = (description: string): IsValidProps => {
   const isValid = description.length > 0
   if (!isValid) {
-    Toast.show({
-      type: "error",
-      text1: "Please try again.",
-    });
+      Toast.show({
+        type: "error",
+        text1: "A description is required",
+        text2: "Please try again.",
+      });
+    return { isValid: false, message: "A description is required" };
   }
-  return isValid;
+  return { isValid: true, message: "" };
 };
 
 /**
@@ -82,7 +85,7 @@ export const isValidDescription = (description: string): boolean => {
  * @param amount The amount string to validate.
  * @returns `true` if the amount is valid, otherwise `false`.
  */
-export const isValidAmount = (amount: string): boolean => {
+export const isValidAmount = (amount: string): IsValidProps => {
   const regex = /^-?\d+(\.\d+)?$/;
   const isValid = regex.test(amount);
   if (!isValid) {
@@ -91,9 +94,9 @@ export const isValidAmount = (amount: string): boolean => {
       text1: "Invalid entry.",
       text2: "Please enter a valid number.",
     });
+    return { isValid: false, message: "Please enter a valid number." };
   }
-  console.log("isValid: ", isValid);
-  return isValid;
+  return { isValid: true, message: "" };
 };
 
 
@@ -109,15 +112,31 @@ export const validateFormInputs = (
   date: string,
   description: string
 ): boolean => {
-  let isValid = false;
-  if (
-    isValidAmount(amount) &&
-    isValidDate(date) &&
-    isValidDescription(description)
-  ) {
-    isValid = true;
+  const amountValidation = isValidAmount(amount);
+  const dateValidation = isValidDate(date);
+  const descriptionValidation = isValidDescription(description);
+
+  if (!amountValidation.isValid) {
+    Toast.show({
+      type: "error",
+      text1: "Invalid entry.",
+      text2: amountValidation.message,
+    });
+  } else if (!dateValidation.isValid) {
+    Toast.show({
+      type: "error",
+      text1: "Invalid entry.",
+      text2: dateValidation.message,
+    });
+  } else if (!descriptionValidation.isValid) {
+    Toast.show({
+      type: "error",
+      text1: "Invalid entry.",
+      text2: descriptionValidation.message,
+    });
   }
-  return isValid;
+  console.log(amountValidation.isValid, dateValidation.isValid, descriptionValidation.isValid);
+  return amountValidation.isValid && dateValidation.isValid && descriptionValidation.isValid;
 };
 
 /**

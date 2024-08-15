@@ -144,7 +144,7 @@ export default function Balance() {
             onClose={() => [
               setIsVisible(false),
               setAmount(""),
-              setDate(new Date()),
+              setDate(""),
               setDescription(""),
               setTransactionId(""),
               refetch(),

@@ -1,8 +1,13 @@
 import { TransactionState } from "@/store/transaction-reducer";
 // import { UseMutationResult } from "@tanstack/react-query";
 
-export interface handleResetPasswordProps {
+export interface HandleResetPasswordProps {
   email: string;
+}
+
+export interface IsValidProps {
+  isValid: boolean;
+  message: string;
 }
 
 export interface RootStackParamList {
