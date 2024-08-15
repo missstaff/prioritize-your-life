@@ -1,28 +1,18 @@
 import Toast from "react-native-toast-message";
-import { Timestamp } from 'firebase/firestore';
 
 
 /**
- * Formats a date object to a string in the format MM/DD/YYYY.
- * @param timestamp The date object to format.
- * @returns A string representing the formatted date.
+ * Formats a Firestore Timestamp to a short date string (MM/DD).
+ * @param timestamp The Firestore Timestamp to format.
+ * @returns A formatted date string in MM/DD format.
  */
-// export const formatDate = (date: string): string => {
-
-//   console.log("date: ", date);
-//   console.log(typeof date);
-//   const d = date.split("/");
-//   console.log("d: ", d);
-
-//   // const pad = (num: number) => num.toString().padStart(2, '0');
-
-//   // const day = pad(date.getDate());
-//   // const month = pad(date.getMonth() + 1);
-//   // const year = date.getFullYear();
-//   const formattedDate = `${12}/${12}/${2024}`;
-//   return formattedDate;
-// };
-
+export const formatDate = (timestamp: any): string => {
+  const date = timestamp.toDate();
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+  const year = String(date.getFullYear()).slice(2);
+  return `${month}/${day}/${year}`;
+};
 
 /**
  * Validates the date to ensure it is in the format MM-DD-YY.
@@ -30,24 +20,47 @@ import { Timestamp } from 'firebase/firestore';
  * @returns `true` if the date is valid, otherwise `false`.
  */
 export const isValidDate = (date: string): boolean => {
+  if (date.length === 0) {
+    Toast.show({
+      type: "error",
+      text1: "Please enter a date.",
+    });
+    return false;
+  }
   if (date.includes("-")) {
     date = date.replace(/-/g, "/");
-  } else if (date.length === 8) {
+  } else if (date.length === 6) {
+
     date = `${date.slice(0, 2)}/${date.slice(2, 4)}/${date.slice(4)}`;
   }
-  const regex = /^(0[1-9]|1[0-2])\/(0[1-9]|[12][0-9]|3[01])\/\d{4}$/;
+
+  const regex = /^(0[1-9]|1[0-2])\/(0[1-9]|[12][0-9]|3[01])\/\d{2}$/;
   const isValid = regex.test(date);
+
   if (!isValid) {
     Toast.show({
       type: "error",
       text1: "Invalid date.",
       text2: "Please try again.",
     });
+    return false;
   }
 
-  return false;
-};
+  const [month, day, year] = date.split("/").map(Number);
+  const currentYear = new Date().getFullYear();
+  const formattedYear = Number(`${currentYear.toString().slice(0, 2)}${year}`);
 
+  if (formattedYear < currentYear) {
+    Toast.show({
+      type: "error",
+      text1: "Invalid year.",
+      text2: "Year cannot be less than the current year.",
+    });
+    return false;
+  }
+
+  return true;
+};
 /**
  * Validates the description to ensure it is a string with no more than 50 characters.
  * @param description The description string to validate.
@@ -99,7 +112,7 @@ export const validateFormInputs = (
   let isValid = false;
   if (
     isValidAmount(amount) &&
-    // isValidDate(date) &&
+    isValidDate(date) &&
     isValidDescription(description)
   ) {
     isValid = true;

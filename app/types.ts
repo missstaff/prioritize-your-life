@@ -31,6 +31,14 @@ export interface ToasterProps {
   title: string;
 }
 
+export interface TransactionProps {
+  amount: string;
+  balance: number;
+  date: Date;
+  description: string;
+  id: string;
+}
+
 export interface TransactionModalContentProps {
   data: TransactionState[] | undefined;
   selectedTab: string;

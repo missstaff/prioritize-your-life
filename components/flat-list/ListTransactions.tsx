@@ -2,7 +2,7 @@ import { FlatList, Pressable } from "react-native";
 import Row from "../grid/Row";
 import Column from "../grid/Column";
 import { AppThemedText } from "../app_components/AppThemedText";
-import { truncateString } from "@/app/(tabs)/utilities/transactions-utilities";
+import { formatDate, truncateString } from "@/app/(tabs)/utilities/transactions-utilities";
 import { s, ScaledSheet } from "react-native-size-matters";
 import { TransactionState } from "@/store/transaction-reducer";
 import { useContext } from "react";
@@ -39,7 +39,7 @@ export default function ListTransactions({
           <Row>
             <Column>
               <AppThemedText style={styles.text}>
-                {item.date}
+                {formatDate(item.date)}
               </AppThemedText>
             </Column>
             <Column>

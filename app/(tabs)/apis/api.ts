@@ -2,6 +2,7 @@ import { TransactionState } from "../../../store/transaction-reducer";
 import Toast from "react-native-toast-message";
 import { getFireApp } from "@/getFireApp";
 import { parseDate, validateFormInputs } from "../utilities/transactions-utilities";
+import { TransactionProps } from "@/app/types";
 
 // Purpose: tabs api request functions
 
@@ -78,10 +79,10 @@ export const addOrUpdateTransaction = async (
             updatedBalance = numericAmount;
         }
 
-        const transactionData: Omit<TransactionState, "id"> = {
+        const transactionData: Omit<TransactionProps, "id"> = {
             amount,
             balance: updatedBalance,
-            date,
+            date: parseDate(date),
             description,
         };
 
