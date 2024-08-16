@@ -8,7 +8,7 @@ import ShowIf from "@/components/ShowIf";
 import { AppThemedText } from "@/components/app_components/AppThemedText";
 import { TabBarIcon } from "@/components/navigation/TabBarIcon";
 import { AuthContext } from "@/store/auth-context";
-import { logout } from "./apis/api";
+import { logout } from "../(auth)/apis/api";
 import { useColorScheme } from "@/hooks/useColorScheme";
 import { COLORS, COLORTHEME } from "@/constants/Colors";
 

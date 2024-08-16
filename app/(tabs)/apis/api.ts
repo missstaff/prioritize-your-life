@@ -1,5 +1,4 @@
 import Toast from "react-native-toast-message";
-import { router } from "expo-router";
 import { getFireApp } from "@/getFireApp";
 import { TransactionState } from "../../../store/transaction-reducer";
 import { parseDate, validateFormInputs } from "../utilities/transactions-utilities";
@@ -162,27 +161,4 @@ export const fetchTransactions = async (selectedTab: string): Promise<Transactio
         throw new Error("Error fetching transactions: " + error.message);
     }
     return data;
-};
-
-export const logout = async (
-    setIsVisible: (isVisible: boolean) => void,
-    setIsAuthenticated: (isAuthenticated: boolean) => void,
-    setUid: (uid: string) => void
-) => {
-    const firebase = await getFireApp();
-    if (!firebase) {
-        throw new Error("Firebase app not initialized");
-    }
-
-    try {
-        await firebase
-            .auth()
-            .signOut();
-        setIsVisible(false);
-        setIsAuthenticated(false);
-        setUid("");
-        router.push("/");
-    } catch (error: any) {
-        throw new Error("Error logging out" + error.message ?? error);
-    }
 };

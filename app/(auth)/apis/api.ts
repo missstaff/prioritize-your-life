@@ -5,6 +5,8 @@ import {
     SignInProps,
     SignUpProps,
 } from "@/app/types";
+import { router } from "expo-router";
+// import { getFireApp } from "@/getFireApp";
 
 export const handleResetPassword = async ({
     email,
@@ -85,3 +87,27 @@ export const handleSignUp = async ({
     }
 
 };
+
+export const logout = async (
+    setIsVisible: (isVisible: boolean) => void,
+    setIsAuthenticated: (isAuthenticated: boolean) => void,
+    setUid: (uid: string) => void
+) => {
+    const firebase = await getFirebase();
+    if (!firebase) {
+        throw new Error("Firebase app not initialized");
+    }
+
+    try {
+        await firebase
+            .auth()
+            .signOut();
+        setIsVisible(false);
+        setIsAuthenticated(false);
+        setUid("");
+        router.push("/");
+    } catch (error: any) {
+        throw new Error("Error logging out" + error.message ?? error);
+    }
+};
+
