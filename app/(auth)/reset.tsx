@@ -32,10 +32,10 @@ export default function ResetPassword() {
       router.push("/signin");
       setEmail("");
     },
-    onError: () => {
+    onError: (error:any) => {
       Toast.show({
         type: "error",
-        text1: "Error resetting password",
+        text1: error.message,
         text2: "Please try again.",
       });
     },

@@ -135,6 +135,7 @@ export const validateFormInputs = (
       text2: descriptionValidation.message,
     });
   }
+
   return amountValidation.isValid && dateValidation.isValid && descriptionValidation.isValid;
 };
 

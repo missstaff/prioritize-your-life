@@ -10,6 +10,9 @@ import {
 export const handleResetPassword = async ({
     email,
 }: HandleResetPasswordProps) => {
+    if(email === "") {
+        throw new Error("Email is required.");
+    }
     if (!isValidEmail(email)) {
         throw new Error("Invalid email address.");
     }
@@ -17,7 +20,7 @@ export const handleResetPassword = async ({
         const firebase = await getFirebase();
         await firebase.auth().sendPasswordResetEmail(email);
     } catch (error: any) {
-        throw new Error("Error resetting password", error);
+        throw new Error("Error resetting password", error.message ?? error);
     }
 };
 
