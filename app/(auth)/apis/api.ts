@@ -26,29 +26,14 @@ export const handleResetPassword = async ({
 
 export const handleSignIn = async ({ email, password }: SignInProps) => {
     if (!email) {
-        Toast.show({
-            type: "error",
-            text1: "Email is required.",
-            text2: "Please try again.",
-        });
-        return;
+        throw new Error("Email is required.");
     }
     if (!password) {
-        Toast.show({
-            type: "error",
-            text1: "Password is required.",
-            text2: "Please try again.",
-        });
-        return;
+        throw new Error("Password is required.");
     }
     const { isValid, message } = validateAuthFormInput(email, password);
     if (!isValid) {
-        Toast.show({
-            type: "error",
-            text1: message,
-            text2: "Please try again.",
-        });
-        return;
+        throw new Error(message);
     }
     try {
         const firebase = await getFirebase();
@@ -60,7 +45,7 @@ export const handleSignIn = async ({ email, password }: SignInProps) => {
             return userCreds.user.uid;
         }
     } catch (error: any) {
-        throw new Error("Error signing in.", error);
+        throw new Error("Error signing in." + error.message  ?? error);
     }
 };
 

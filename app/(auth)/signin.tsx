@@ -40,7 +40,7 @@ export default function SignIn(): JSX.Element {
     onError: (error: any) => {
       Toast.show({
         type: "error",
-        text1: "Error signing in.",
+        text1: error.message,
         text2: "Please try again.",
       });
     },
