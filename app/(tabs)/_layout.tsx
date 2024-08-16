@@ -2,22 +2,23 @@ import React, { useContext, useState } from "react";
 import Toast from "react-native-toast-message";
 import { Tabs } from "expo-router";
 import { s, ScaledSheet } from "react-native-size-matters";
+import { useMutation } from "@tanstack/react-query";
 import AppModal from "@/components/modal/Modal";
+import ShowIf from "@/components/ShowIf";
 import { AppThemedText } from "@/components/app_components/AppThemedText";
 import { TabBarIcon } from "@/components/navigation/TabBarIcon";
 import { AuthContext } from "@/store/auth-context";
+import { logout } from "./apis/api";
 import { useColorScheme } from "@/hooks/useColorScheme";
 import { COLORS, COLORTHEME } from "@/constants/Colors";
-import { useMutation } from "@tanstack/react-query";
-import { logout } from "./apis/api";
-import ShowIf from "@/components/ShowIf";
+
 
 /**
  * Renders the layout for the tabs in the app.
  *
  * @returns The JSX element representing the tab layout.
  */
-export default function TabLayout() {
+export default function TabLayout(): JSX.Element {
   const colorScheme = useColorScheme();
   const { isAuthenticated, setIsAuthenticated, setUid } =
     useContext(AuthContext);

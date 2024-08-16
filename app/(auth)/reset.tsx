@@ -29,7 +29,7 @@ export default function ResetPassword() {
         type: "success",
         text1: "Password reset email sent.",
       });
-      router.push("/signin");
+      router.push("/");
       setEmail("");
     },
     onError: (error:any) => {
