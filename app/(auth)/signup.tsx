@@ -33,21 +33,13 @@ export default function SignUp(): JSX.Element {
       }
       queryClient.invalidateQueries({ queryKey: ["uid"] });
     },
-    onError: (error: unknown) => {
-      if (typeof error === "string") {
-        console.error("Error signing up: " + error);
-      } else if (error instanceof Error) {
-        const errorMessage =
-          "Error signing up:" + (error.message ?? "Unknown error occurred");
-        console.error(errorMessage + "\nStackTrace: " + error);
-      }
-
+    onError: (error: any) => {
       Toast.show({
         type: "error",
-        text1: "Error signing up",
+        text1: error.message,
         text2: "Please try again.",
       });
-    },
+    }
   });
 
   return (

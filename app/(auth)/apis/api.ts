@@ -1,6 +1,6 @@
 import Toast from "react-native-toast-message";
 import { getFirebase } from "@/app/common/get-firebase";
-import { isValidEmail, validateAuthFormInput } from "../utilities";
+import { isValidEmail, isValidPassword, validateAuthFormInput } from "../utilities";
 import {
     HandleResetPasswordProps,
     SignInProps,
@@ -54,34 +54,35 @@ export const handleSignUp = async ({
     confirmPassword,
     password,
 }: SignUpProps) => {
-    if (!confirmPassword || !password) {
-        Toast.show({
-            type: "error",
-            text1: "Password is required.",
-            text2: "Please try again.",
-        });
-        return;
+    if (!email) {
+        throw new Error("Email is required.");
+    }
+    if (!isValidEmail(email)) {
+        throw new Error("Invalid email address.");
+    }
+    if (!password) {
+        throw new Error("Password is required.");
+    }
+    if(!isValidPassword(password)) {
+        throw new Error("Invalid password");
+    }
+    if (!confirmPassword) {
+        throw new Error("Password confirmation is required.");
+    }
+    if(!isValidPassword(password)) {
+        throw new Error("Invalid password");
     }
     if (confirmPassword !== password) {
-        Toast.show({
-            type: "error",
-            text1: "Passwords do not match.",
-            text2: "Please try again.",
-        });
-        return;
+        throw new Error("Passwords do not match.");
     }
+    
     const { isValid, message } = validateAuthFormInput(
         email,
         password,
         confirmPassword
     );
     if (!isValid) {
-        Toast.show({
-            type: "error",
-            text1: message,
-            text2: "Please try again.",
-        });
-        return;
+        throw new Error(message);
     }
 
     try {
@@ -94,7 +95,7 @@ export const handleSignUp = async ({
             return userCreds.user.uid;
         }
     } catch (error: any) {
-        throw new Error("Error signing up.", error);
+        throw new Error("Error signing up." + error);
     }
 
 };
