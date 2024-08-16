@@ -176,12 +176,10 @@ export const logout = async (
     try {
         await firebase
             .auth()
-            .signOut()
-            .then(() => {
-                setIsVisible(false);
-                setIsAuthenticated(false);
-                setUid("");
-            });
+            .signOut();
+        setIsVisible(false);
+        setIsAuthenticated(false);
+        setUid("");
     } catch (error: any) {
         throw new Error("Error logging out" + error.message ?? error);
     }

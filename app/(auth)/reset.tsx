@@ -66,9 +66,9 @@ export default function ResetPassword() {
             Reset Password
           </AppThemedTouchableOpacity>
           <AppThemedText
-            onPress={() => router.push("/signup")}
+            onPress={() => router.push("/")}
             type="link"
-          ></AppThemedText>
+          >Signin</AppThemedText>
         </AppThemedView>
       }
     />
