@@ -4,8 +4,6 @@ import { getFireApp } from "@/getFireApp";
 import { parseDate, validateFormInputs } from "../utilities/transactions-utilities";
 import { TransactionProps } from "@/app/types";
 
-// Purpose: tabs api request functions
-
 /**
  * Adds or updates a transaction in Firestore.
  * @param amount The amount of the transaction.
@@ -163,4 +161,28 @@ export const fetchTransactions = async (selectedTab: string): Promise<Transactio
         throw new Error("Error fetching transactions: " + error.message);
     }
     return data;
+};
+
+export const logout = async (
+    setIsVisible: (isVisible: boolean) => void,
+    setIsAuthenticated: (isAuthenticated: boolean) => void,
+    setUid: (uid: string) => void
+) => {
+    const firebase = await getFireApp();
+    if (!firebase) {
+        throw new Error("Firebase app not initialized");
+    }
+
+    try {
+        await firebase
+            .auth()
+            .signOut()
+            .then(() => {
+                setIsVisible(false);
+                setIsAuthenticated(false);
+                setUid("");
+            });
+    } catch (error: any) {
+        throw new Error("Error logging out" + error.message ?? error);
+    }
 };
