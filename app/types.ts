@@ -1,13 +1,12 @@
 import { TransactionState } from "@/store/transaction-reducer";
-// import { UseMutationResult } from "@tanstack/react-query";
-
-export interface ResetPasswordProps {
-  email: string;
-}
 
 export interface IsValidProps {
   isValid: boolean;
   message: string;
+}
+
+export interface ResetPasswordProps {
+  email: string;
 }
 
 export interface RootStackParamList {
@@ -23,7 +22,7 @@ export interface SignInProps {
   password: string;
 }
 
-export interface SignUpProps extends SignInProps {
+export interface SignUpProps {
   email: string;
   password: string;
   confirmPassword: string;
@@ -36,6 +35,13 @@ export interface ToasterProps {
   title: string;
 }
 
+export interface TransactionModalContentProps {
+  data: TransactionState[] | undefined;
+  selectedTab: string;
+  setIsVisible: React.Dispatch<React.SetStateAction<boolean>>;
+  refetch: () => void;
+}
+
 export interface TransactionProps {
   amount: string;
   balance: number;
@@ -44,10 +50,6 @@ export interface TransactionProps {
   id: string;
 }
 
-export interface TransactionModalContentProps {
-  data: TransactionState[] | undefined;
-  selectedTab: string;
-  setIsVisible: React.Dispatch<React.SetStateAction<boolean>>;
-  refetch: () => void;
-}
+
+// import { UseMutationResult } from "@tanstack/react-query";
 // mutation: UseMutationResult<void, Error, void, unknown>;
