@@ -1,15 +1,14 @@
-import Toast from "react-native-toast-message";
 import { getFirebase } from "@/app/common/get-firebase";
-import { isValidEmail, isValidPassword, validateAuthFormInput } from "../utilities";
+import { isValidEmail, isValidPassword } from "../utilities";
 import {
-    HandleResetPasswordProps,
+    ResetPasswordProps,
     SignInProps,
     SignUpProps,
 } from "@/app/types";
 
 export const handleResetPassword = async ({
     email,
-}: HandleResetPasswordProps) => {
+}: ResetPasswordProps) => {
     if(email === "") {
         throw new Error("Email is required.");
     }
@@ -30,10 +29,6 @@ export const handleSignIn = async ({ email, password }: SignInProps) => {
     }
     if (!password) {
         throw new Error("Password is required.");
-    }
-    const { isValid, message } = validateAuthFormInput(email, password);
-    if (!isValid) {
-        throw new Error(message);
     }
     try {
         const firebase = await getFirebase();
@@ -75,15 +70,6 @@ export const handleSignUp = async ({
     if (confirmPassword !== password) {
         throw new Error("Passwords do not match.");
     }
-    
-    const { isValid, message } = validateAuthFormInput(
-        email,
-        password,
-        confirmPassword
-    );
-    if (!isValid) {
-        throw new Error(message);
-    }
 
     try {
         const firebase = await getFirebase();
@@ -95,7 +81,7 @@ export const handleSignUp = async ({
             return userCreds.user.uid;
         }
     } catch (error: any) {
-        throw new Error("Error signing up." + error);
+        throw new Error("Error signing up." + error.message ?? error);
     }
 
 };

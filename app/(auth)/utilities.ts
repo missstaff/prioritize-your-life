@@ -51,22 +51,13 @@ export const validateAuthFormInput = (
   confirmPassword: string = ""
 ) => {
   if (!isValidEmail(email)) {
-    return {
-      isValid: false,
-      message: "Invalid email address",
-    };
+    throw new Error("Invalid email");
   }
   if (!isValidPassword(password)) {
-    return {
-      isValid: false,
-      message: "Invalid password",
-    };
+    throw new Error("Invalid password");
   }
   if (confirmPassword !== "" && !isValidPassword(confirmPassword)) {
-    return {
-      isValid: false,
-      message: "Invalid password confirmation",
-    };
+    throw new Error("Invalid password confirmation");
   }
   return {
     isValid: true,
