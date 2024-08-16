@@ -1,15 +1,15 @@
 import React, { useContext, useState } from "react";
-import { StyleSheet } from "react-native";
+import Toast from "react-native-toast-message";
 import { Tabs } from "expo-router";
-import { AuthContext } from "@/store/auth-context";
-import { TabBarIcon } from "@/components/navigation/TabBarIcon";
-import { COLORS, COLORTHEME } from "@/constants/Colors";
-import { useColorScheme } from "@/hooks/useColorScheme";
+import { ms, s, ScaledSheet } from "react-native-size-matters";
 import AppModal from "@/components/modal/Modal";
 import { AppThemedText } from "@/components/app_components/AppThemedText";
-import AppThemedTouchableOpacity from "@/components/app_components/AppThemedTouchableOpacity";
+import { TabBarIcon } from "@/components/navigation/TabBarIcon";
+import { AuthContext } from "@/store/auth-context";
+import { useColorScheme } from "@/hooks/useColorScheme";
+import { COLORS, COLORTHEME } from "@/constants/Colors";
 import { getFireApp } from "@/getFireApp";
-import Toast from "react-native-toast-message";
+
 
 /**
  * Renders the layout for the tabs in the app.
@@ -49,7 +49,7 @@ export default function TabLayout() {
         visible={isVisible}
       >
         <AppThemedText style={styles.modalTitle}>Settings</AppThemedText>
-        <AppThemedText type="link" onPress={logout} >Logout</AppThemedText>
+        <AppThemedText type="link" onPress={() => logout()} >Logout</AppThemedText>
         <AppThemedText type="link" onPress={() => setIsVisible(false)}>
           Close
         </AppThemedText>
@@ -144,10 +144,11 @@ export default function TabLayout() {
   );
 }
 
-const styles = StyleSheet.create({
+const styles = ScaledSheet.create({
   modalTitle: {
-    fontSize: 20,
+    fontSize: s(20),
     fontWeight: "bold",
-    marginBottom: 20,
+    marginBottom: ms(20),
   },
 });
+

@@ -3,9 +3,9 @@ import Toast from "react-native-toast-message";
 
 
 /**
- * Formats a Firestore Timestamp to a short date string (MM/DD).
- * @param timestamp The Firestore Timestamp to format.
- * @returns A formatted date string in MM/DD/YY format.
+ * Formats a Firebase timestamp into a string representing a formatted date.
+ * @param timestamp - The timestamp to format.
+ * @returns The formatted date string in the format "MM/DD/YY".
  */
 export const formatDate = (timestamp: any): string => {
   const date = timestamp.toDate();
@@ -15,10 +15,11 @@ export const formatDate = (timestamp: any): string => {
   return `${month}/${day}/${year}`;
 };
 
+
 /**
- * Validates the date to ensure it is in the format MM-DD-YY.
- * @param date The date string to validate.
- * @returns `true` if the date is valid, otherwise `false`.
+ * Checks if a given date is valid.
+ * @param date - The date to be validated.
+ * @returns An object containing the validation result and an optional error message.
  */
 export const isValidDate = (date: string): IsValidProps => {
   if (date.length === 0) {
@@ -62,28 +63,30 @@ export const isValidDate = (date: string): IsValidProps => {
 
   return { isValid: true, message: "" };
 };
+
 /**
- * Validates the description to ensure it is a string with no more than 50 characters.
- * @param description The description string to validate.
- * @returns `true` if the description is valid, otherwise `false`.
+ * Checks if a description is valid.
+ * @param description - The description to validate.
+ * @returns An object indicating whether the description is valid and a corresponding message.
  */
 export const isValidDescription = (description: string): IsValidProps => {
   const isValid = description.length > 0
   if (!isValid) {
-      Toast.show({
-        type: "error",
-        text1: "A description is required",
-        text2: "Please try again.",
-      });
+    Toast.show({
+      type: "error",
+      text1: "A description is required",
+      text2: "Please try again.",
+    });
     return { isValid: false, message: "A description is required" };
   }
   return { isValid: true, message: "" };
 };
 
 /**
- * Validates the amount to ensure it is a string representing a number greater than 0.
- * @param amount The amount string to validate.
- * @returns `true` if the amount is valid, otherwise `false`.
+ * Checks if the given amount is valid.
+ * 
+ * @param amount - The amount to be validated.
+ * @returns An object indicating whether the amount is valid and a corresponding message.
  */
 export const isValidAmount = (amount: string): IsValidProps => {
   const regex = /^-?\d+(\.\d+)?$/;
@@ -99,13 +102,12 @@ export const isValidAmount = (amount: string): IsValidProps => {
   return { isValid: true, message: "" };
 };
 
-
 /**
- * Validates the form inputs to ensure they are valid.
- * @param amount The amount string to validate.
- * @param date The date string to validate.
- * @param description The description string to validate.
- * @returns `true` if the inputs are valid, otherwise `false`.
+ * Validates the form inputs for a transaction.
+ * @param amount - The amount of the transaction.
+ * @param date - The date of the transaction.
+ * @param description - The description of the transaction.
+ * @returns A boolean indicating whether the form inputs are valid.
  */
 export const validateFormInputs = (
   amount: string,
@@ -140,9 +142,9 @@ export const validateFormInputs = (
 };
 
 /**
- * Parses a date string in the formats MM/DD/YY, MM-DD-YY, MMDDYY to a Date object.
- * @param dateStr The date string to parse.
- * @returns A Date object representing the parsed date.
+ * Parses a date string and returns a Date object.
+ * @param dateStr - The date string to parse.
+ * @returns The parsed Date object.
  */
 export const parseDate = (dateStr: string): Date => {
   let month, day, year;
@@ -167,9 +169,9 @@ export const parseDate = (dateStr: string): Date => {
 
 /**
  * Truncates a string to a specified length.
- * @param str 
- * @param maxLength 
- * @returns A string truncated to the specified length.
+ * @param str - The string to truncate.
+ * @param maxLength - The maximum length of the truncated string.
+ * @returns The truncated string.
  */
 export const truncateString = (str: string, maxLength: number = 20) => {
   if (str.length > maxLength) {
