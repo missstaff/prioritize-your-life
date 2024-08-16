@@ -1,14 +1,13 @@
 import React, { useContext, useState } from "react";
 import Toast from "react-native-toast-message";
-import { router, Tabs } from "expo-router";
-import { ms, s, ScaledSheet } from "react-native-size-matters";
+import { Tabs } from "expo-router";
+import { s, ScaledSheet } from "react-native-size-matters";
 import AppModal from "@/components/modal/Modal";
 import { AppThemedText } from "@/components/app_components/AppThemedText";
 import { TabBarIcon } from "@/components/navigation/TabBarIcon";
 import { AuthContext } from "@/store/auth-context";
 import { useColorScheme } from "@/hooks/useColorScheme";
 import { COLORS, COLORTHEME } from "@/constants/Colors";
-import { getFireApp } from "@/getFireApp";
 import { useMutation } from "@tanstack/react-query";
 import { logout } from "./apis/api";
 import ShowIf from "@/components/ShowIf";
@@ -26,9 +25,6 @@ export default function TabLayout() {
 
   const mutation = useMutation({
     mutationFn: () => logout(setIsVisible, setIsAuthenticated, setUid),
-    onSuccess: () => {
-      router.push("/signin");
-    },
     onError: (error: any) => {
       Toast.show({
         type: "error",

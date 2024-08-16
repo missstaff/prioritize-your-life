@@ -3,6 +3,7 @@ import Toast from "react-native-toast-message";
 import { getFireApp } from "@/getFireApp";
 import { parseDate, validateFormInputs } from "../utilities/transactions-utilities";
 import { TransactionProps } from "@/app/types";
+import { router } from "expo-router";
 
 /**
  * Adds or updates a transaction in Firestore.
@@ -180,6 +181,7 @@ export const logout = async (
         setIsVisible(false);
         setIsAuthenticated(false);
         setUid("");
+        router.push("/");
     } catch (error: any) {
         throw new Error("Error logging out" + error.message ?? error);
     }
