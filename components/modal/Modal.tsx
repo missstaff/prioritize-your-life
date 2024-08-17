@@ -1,7 +1,6 @@
-import React from "react";
 import { Modal } from "react-native";
+import { ScaledSheet, s } from "react-native-size-matters";
 import { AppThemedView } from "../app_components/AppThemedView";
-import { s, ScaledSheet } from "react-native-size-matters";
 
 interface ModalProps {
   children: React.ReactNode;
@@ -9,6 +8,14 @@ interface ModalProps {
   visible: boolean;
 }
 
+/**
+ * AppModal component.
+ * @param {Object} props - The component props.
+ * @param {ReactNode} props.children - The content of the modal.
+ * @param {Function} props.onClose - The function to be called when the modal is closed.
+ * @param {boolean} props.visible - Determines whether the modal is visible or not.
+ * @returns {JSX.Element} The rendered AppModal component.
+ */
 const AppModal = ({ children, onClose, visible }: ModalProps) => {
   return (
     <Modal
@@ -30,15 +37,15 @@ export default AppModal;
 
 const styles = ScaledSheet.create({
   modalOverlay: {
-    flex: 1,
-    justifyContent: "center",
     alignItems: "center",
     backgroundColor: "rgba(0, 0, 0, 0.5)",
+    flex: 1,
+    justifyContent: "center",
   },
   modalContent: {
-    width: "90%",
-    padding: s(20),
-    borderRadius: s(10),
     alignItems: "center",
+    borderRadius: s(10),
+    padding: s(20),
+    width: "90%",
   },
 });

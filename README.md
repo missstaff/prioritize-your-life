@@ -105,10 +105,9 @@ A mobile application for managing personal budgets and finances, built with Reac
        }
        return firebase.app(firebaseConfig.appName);
      } catch (e) {
-       console.error("Failed to instantiate firebase app", e);
+       throw new Error ("Failed to instantiate firebase app", e);
      }
    }
-   ```
 
 5. **Run the app** 🚀
 

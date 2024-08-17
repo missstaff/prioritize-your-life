@@ -1,15 +1,14 @@
-import React from "react";
-
 /**
- * A component that renders a child component if a condition is met.
- * @param condition The condition to check.
- * @param render The component to render if the condition is met.
- * @param renderElse The component to render if the condition is not met.
+ * A component that conditionally renders content based on a given condition.
+ * @param {boolean} props.condition - The condition to evaluate.
+ * @param {React.ReactNode} props.render - The content to render if the condition is true.
+ * @param {React.ReactNode | null} [props.renderElse=null] - The content to render if the condition is false.
+ * @returns {React.ReactNode | null} The rendered content based on the condition.
  */
 export default function ShowIf({
   condition,
   render,
-  renderElse,
+  renderElse = null,
 }: {
   condition: boolean;
   render: React.ReactNode;

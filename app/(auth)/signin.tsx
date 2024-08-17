@@ -1,79 +1,50 @@
 import React, { useContext, useState } from "react";
 import Toast from "react-native-toast-message";
+import { router } from "expo-router";
+import { useMutation } from "@tanstack/react-query";
 import AppThemedTextInput from "@/components/app_components/AppThemedTextInput";
 import AppThemedTouchableOpacity from "@/components/app_components/AppThemedTouchableOpacity";
-import { isValidEmail, isValidPassword, validateFormInput } from "./utilities";
-import { AppContext } from "@/store/app-context";
-import { AppThemedView } from "@/components/app_components/AppThemedView";
-import { getFireApp } from "@/getFireApp";
 import LoadingSpinner from "@/components/LoadingSpinner";
 import ShowIf from "@/components/ShowIf";
 import { AppThemedText } from "@/components/app_components/AppThemedText";
-import { router } from "expo-router";
-import { useMutation } from "@tanstack/react-query";
+import { AppThemedView } from "@/components/app_components/AppThemedView";
+import { AuthContext } from "@/store/auth/auth-context";
+import { handleSignIn } from "./apis/api";
+import { isValidEmail, isValidPassword } from "./utilities";
 import { styles } from "./styles";
 
 /**
- * A component that renders a sign-in form.
+ * SignIn component.
+ *
+ * This component is responsible for rendering the sign in functionality.
+ * It allows the user to enter their email and password to sign in.
+ *
+ * @returns JSX.Element
  */
 export default function SignIn(): JSX.Element {
-  const { setIsAuthenticated, setUid } = useContext(AppContext);
-
+  const { setIsAuthenticated, setUid } = useContext(AuthContext);
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
-
-  const handleSignIn = async () => {
-    const emailToLower = email.toLocaleLowerCase();
-
-    const firebase = await getFireApp();
-    if (!firebase) {
-      Toast.show({
-        type: "error",
-        text1: "There has been an error. Please try again.",
-      });
-      throw new Error("Firebase app not initialized");
-    }
-
-    const userCreds = await firebase
-      .auth()
-      .signInWithEmailAndPassword(emailToLower, password);
-
-    if (userCreds) {
-      return userCreds.user.uid;
-    } else {
-      Toast.show({
-        type: "error",
-        text1: "User not found!",
-      });
-    }
-  };
 
   const mutation = useMutation({
     mutationFn: handleSignIn,
     onSuccess: (uid) => {
-      setEmail("");
-      setPassword("");
-      setIsAuthenticated(true);
-      setUid(uid);
-      router.push("/");
+      if (uid) {
+        setUid(uid);
+        setEmail("");
+        setPassword("");
+        setIsAuthenticated(true);
+        router.push("/");
+      }
     },
     onError: (error: any) => {
-      const errorMessage =
-        "Error logIng in: " + (error.message ?? "Unknown error occurred.");
       Toast.show({
         type: "error",
-        text1: "Error signing in.",
-        text2: errorMessage,
+        text1: error.message,
+        text2: "Please try again.",
       });
     },
   });
-
-  const onSubmit = () => {
-    if (!validateFormInput(email, password)) {
-      return;
-    }
-    mutation.mutate();
-  };
 
   return (
     <AppThemedView style={styles.container}>
@@ -99,7 +70,7 @@ export default function SignIn(): JSX.Element {
             />
             <AppThemedTouchableOpacity
               disabled={mutation.status === "pending"}
-              onPress={onSubmit}
+              onPress={() => mutation.mutate({ email, password })}
             >
               Sign In
             </AppThemedTouchableOpacity>

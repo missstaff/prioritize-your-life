@@ -9,6 +9,7 @@ import "@react-native-firebase/storage";
 
 import firebase from "@react-native-firebase/app";
 import { Platform } from "react-native";
+import Toast from "react-native-toast-message";
 
 /**
  * Gets the firebase app.
@@ -35,6 +36,10 @@ export function getFireApp() {
     } else if (Platform.OS === "web") {
       firebaseConfig.appId = process.env.EXPO_PUBLIC_WEB_APP_ID || "";
     } else {
+      Toast.show({
+        type: "error",
+        text1: "Platform not supported",
+      });
       throw new Error("Platform not supported");
     }
 
@@ -42,7 +47,19 @@ export function getFireApp() {
       return firebase.initializeApp(firebaseConfig, firebaseConfig.appName);
     }
     return firebase.app(firebaseConfig.appName);
-  } catch (e) {
-    console.error("Failed to instantiate firebase app", e);
+  } catch (e: unknown) {
+    if (typeof e === "string") {
+      throw new Error("Failed to instantiate firebase app" + "\nError Message: " + e);
+    } else if (e instanceof Error) {
+      throw new Error("Failed to instantiate firebase app" + "\nError Message: " + e.message + "\nStackTrace: " + e.stack);
+    }
+
+    Toast.show({
+      type: "error",
+      text1: "Failed to start app.",
+      text2: "Please try again.",
+    });
+
+    throw new Error("Failed to instantiate firebase app");
   }
 }

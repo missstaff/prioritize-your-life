@@ -1,56 +1,51 @@
 import React, { useContext, useState } from "react";
-import { StyleSheet } from "react-native";
-import { Tabs } from "expo-router";
-import { AppContext } from "@/store/app-context";
-import { TabBarIcon } from "@/components/navigation/TabBarIcon";
-import { COLORS, COLORTHEME } from "@/constants/Colors";
-import { useColorScheme } from "@/hooks/useColorScheme";
-import AppModal from "@/components/modal/Modal";
-import { AppThemedText } from "@/components/app_components/AppThemedText";
-import AppThemedTouchableOpacity from "@/components/app_components/AppThemedTouchableOpacity";
-import { getFireApp } from "@/getFireApp";
 import Toast from "react-native-toast-message";
+import { Tabs } from "expo-router";
+import { s, ScaledSheet } from "react-native-size-matters";
+import { useMutation } from "@tanstack/react-query";
+import AppModal from "@/components/modal/Modal";
+import ShowIf from "@/components/ShowIf";
+import { AppThemedText } from "@/components/app_components/AppThemedText";
+import { TabBarIcon } from "@/components/navigation/TabBarIcon";
+import { AuthContext } from "@/store/auth/auth-context";
+import { logout } from "../(auth)/apis/api";
+import { useColorScheme } from "@/hooks/useColorScheme";
+import { COLORS, COLORTHEME } from "@/constants/Colors";
+
 
 /**
  * Renders the layout for the tabs in the app.
  *
  * @returns The JSX element representing the tab layout.
  */
-export default function TabLayout() {
+export default function TabLayout(): JSX.Element {
   const colorScheme = useColorScheme();
-  const { isAuthenticated, setIsAuthenticated, setUid } = useContext(AppContext);
-  const [modalVisible, setModalVisible] = useState(false);
+  const { isAuthenticated, setIsAuthenticated, setUid } =
+    useContext(AuthContext);
+  const [isVisible, setIsVisible] = useState(false);
 
-  const logout = async () => {
-    const firebase = await getFireApp();
-    if (!firebase) {
+  const mutation = useMutation({
+    mutationFn: () => logout(setIsVisible, setIsAuthenticated, setUid),
+    onError: (error: any) => {
       Toast.show({
         type: "error",
-        text1: "There has been an error. Please try again.",
+        text1: error.message,
+        text2: "Please try again.",
       });
-      throw new Error("Firebase app not initialized");
-    }
-
-     await firebase
-      .auth()
-      .signOut()
-      .then(() => {
-        console.log("User signed out");
-        setModalVisible(false);
-        setIsAuthenticated(false);
-        setUid("");
-      });
-  }
+    },
+  });
 
   return (
     <>
-      <AppModal
-        onClose={() => setModalVisible(false)}
-        visible={modalVisible}
-      >
+      <AppModal onClose={() => setIsVisible(false)} visible={isVisible}>
         <AppThemedText style={styles.modalTitle}>Settings</AppThemedText>
-        <AppThemedText type="link" onPress={logout} >Logout</AppThemedText>
-        <AppThemedText type="link" onPress={() => setModalVisible(false)}>
+        <AppThemedText
+          type="link"
+          onPress={() => logout(setIsVisible, setIsAuthenticated, setUid)}
+        >
+          Logout
+        </AppThemedText>
+        <AppThemedText type="link" onPress={() => setIsVisible(false)}>
           Close
         </AppThemedText>
       </AppModal>
@@ -58,7 +53,7 @@ export default function TabLayout() {
         screenOptions={{
           tabBarInactiveTintColor: COLORTHEME[colorScheme ?? "light"].tint,
           tabBarActiveTintColor: COLORS.primary,
-          headerShown: true,
+          headerShown: isAuthenticated ? true : false,
           headerTitleAlign: "center",
           headerShadowVisible: true,
           tabBarStyle: {
@@ -66,11 +61,15 @@ export default function TabLayout() {
           },
 
           headerRight: () => (
-            <TabBarIcon
-              name="settings"
-              color="gray"
-              size={24}
-              onPress={() => setModalVisible(true)}
+            <ShowIf 
+              condition={isAuthenticated}
+              render={
+                <TabBarIcon
+                  name="settings"
+                  color={COLORTHEME[colorScheme ?? "light"].tint}
+                  onPress={() => setIsVisible(true)}
+                />
+              }
             />
           ),
 
@@ -92,9 +91,9 @@ export default function TabLayout() {
           }}
         />
         <Tabs.Screen
-          name="balance"
+          name="transactions"
           options={{
-            title: "Balance",
+            title: "Transactions",
             tabBarIcon: ({ color, focused }) => (
               <TabBarIcon
                 name={focused ? "cash" : "cash-outline"}
@@ -144,10 +143,9 @@ export default function TabLayout() {
   );
 }
 
-const styles = StyleSheet.create({
+const styles = ScaledSheet.create({
   modalTitle: {
-    fontSize: 20,
+    fontSize: s(20),
     fontWeight: "bold",
-    marginBottom: 20,
   },
 });
