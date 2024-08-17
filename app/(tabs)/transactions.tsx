@@ -27,7 +27,7 @@ export default function Transactions() {
   const { isVisible, selectedTab, setIsVisible, setSelectedTab } = appCtx;
   const tabsArr = ["Checking", "Savings"];
 
-  const { refetch, isPending, isError, data, error } = useQuery<
+  const { refetch, isPending, isError, data, error, isFetching, isLoading } = useQuery<
     TransactionState[]
   >({
     queryKey: ["transactions"],
@@ -41,7 +41,7 @@ export default function Transactions() {
 
   const balance = data?.reduce((acc, curr) => acc + Number(curr.amount), 0);
 
-  if (isPending === true) {
+  if (isPending === true || isLoading || isFetching) {
     return <LoadingSpinner />;
   }
 
