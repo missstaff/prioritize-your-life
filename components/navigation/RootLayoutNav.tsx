@@ -22,8 +22,8 @@ import {
   focusManager,
   onlineManager,
 } from "@tanstack/react-query";
-import { AuthContextProvider } from "@/store/auth-context";
-import { TransactionContextProvider } from "@/store/transaction-context";
+import { AuthContextProvider } from "@/store/auth/auth-context";
+import { TransactionContextProvider } from "@/store/transaction/transaction-context";
 
 /**
  * Handles the change in the application state.

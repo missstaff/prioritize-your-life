@@ -8,7 +8,7 @@ import LoadingSpinner from "@/components/LoadingSpinner";
 import ShowIf from "@/components/ShowIf";
 import { AppThemedText } from "@/components/app_components/AppThemedText";
 import { AppThemedView } from "@/components/app_components/AppThemedView";
-import { AuthContext } from "@/store/auth-context";
+import { AuthContext } from "@/store/auth/auth-context";
 import { handleSignIn } from "./apis/api";
 import { isValidEmail, isValidPassword } from "./utilities";
 import { styles } from "./styles";

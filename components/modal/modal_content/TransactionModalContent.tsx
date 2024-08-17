@@ -5,7 +5,7 @@ import AppThemedTouchableOpacity from "@/components/app_components/AppThemedTouc
 import ShowIf from "@/components/ShowIf";
 import { AppThemedText } from "@/components/app_components/AppThemedText";
 import { AppThemedView } from "@/components/app_components/AppThemedView";
-import { TransactionContext } from "@/store/transaction-context";
+import { TransactionContext } from "@/store/transaction/transaction-context";
 import {
   addOrUpdateTransaction,
   deleteTransaction,

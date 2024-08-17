@@ -4,8 +4,8 @@ import { ScaledSheet, s } from "react-native-size-matters";
 import Column from "../grid/Column";
 import Row from "../grid/Row";
 import { AppThemedText } from "../app_components/AppThemedText";
-import { TransactionState } from "@/store/transaction-reducer";
-import { TransactionContext } from "@/store/transaction-context";
+import { TransactionState } from "@/store/transaction/transaction-reducer";
+import { TransactionContext } from "@/store/transaction/transaction-context";
 import {
   formatDate,
   truncateString,

@@ -8,7 +8,7 @@ import { ScaledSheet, s, vs } from "react-native-size-matters";
 import { AppThemedText } from "@/components/app_components/AppThemedText";
 import { AppThemedView } from "@/components/app_components/AppThemedView";
 import SignIn from "../(auth)/signin";
-import { AuthContext } from "@/store/auth-context";
+import { AuthContext } from "@/store/auth/auth-context";
 import ShowIf from "@/components/ShowIf";
 import { COLORS } from "@/constants/Colors";
 

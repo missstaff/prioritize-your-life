@@ -1,6 +1,6 @@
 import Toast from "react-native-toast-message";
 import { getFireApp } from "@/getFireApp";
-import { TransactionState } from "../../../store/transaction-reducer";
+import { TransactionState } from "../../../store/transaction/transaction-reducer";
 import { parseDate, validateFormInputs } from "../utilities/transactions-utilities";
 import { TransactionProps } from "@/app/types";
 

@@ -7,7 +7,7 @@ import AppModal from "@/components/modal/Modal";
 import ShowIf from "@/components/ShowIf";
 import { AppThemedText } from "@/components/app_components/AppThemedText";
 import { TabBarIcon } from "@/components/navigation/TabBarIcon";
-import { AuthContext } from "@/store/auth-context";
+import { AuthContext } from "@/store/auth/auth-context";
 import { logout } from "../(auth)/apis/api";
 import { useColorScheme } from "@/hooks/useColorScheme";
 import { COLORS, COLORTHEME } from "@/constants/Colors";

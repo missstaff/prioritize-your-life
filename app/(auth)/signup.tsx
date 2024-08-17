@@ -5,7 +5,7 @@ import AppThemedTextInput from "@/components/app_components/AppThemedTextInput";
 import AppThemedTouchableOpacity from "@/components/app_components/AppThemedTouchableOpacity";
 import LoadingSpinner from "@/components/LoadingSpinner";
 import ShowIf from "@/components/ShowIf";
-import { AuthContext } from "@/store/auth-context";
+import { AuthContext } from "@/store/auth/auth-context";
 import { AppThemedView } from "@/components/app_components/AppThemedView";
 import { isValidEmail, isValidPassword } from "./utilities";
 import { useMutation, useQueryClient } from "@tanstack/react-query";

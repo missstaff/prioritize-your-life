@@ -1,4 +1,4 @@
-import { TransactionState } from "@/store/transaction-reducer";
+import { TransactionState } from "@/store/transaction/transaction-reducer";
 
 export interface IsValidProps {
   isValid: boolean;
@@ -27,7 +27,6 @@ export interface SignUpProps {
   password: string;
   confirmPassword: string;
 }
-
 
 
 export interface TransactionModalContentProps {
