@@ -2,25 +2,26 @@ import React, { useContext, useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { ScaledSheet, s, vs } from "react-native-size-matters";
 import AppModal from "@/components/modal/Modal";
+import ListHeader from "@/components/flat-list/ListHeader";
+import ListTransactions from "@/components/flat-list/ListTransactions";
+import LoadingSpinner from "@/components/LoadingSpinner";
+import OnError from "@/components/navigation/OnError";
+import ShowIf from "@/components/ShowIf";
+import Toast from "react-native-toast-message";
+import TabbedComponent from "@/components/TabbedComponent";
+import TransactionModalContent from "@/components/modal/modal_content/TransactionModalContent";
 import { AppThemedText } from "@/components/app_components/AppThemedText";
 import { AppThemedView } from "@/components/app_components/AppThemedView";
-import LoadingSpinner from "@/components/LoadingSpinner";
-import ShowIf from "@/components/ShowIf";
-import TransactionModalContent from "@/components/modal/modal_content/TransactionModalContent";
-import TabbedComponent from "@/components/TabbedComponent";
+import { TransactionContext } from "@/store/transaction-context";
+import { TransactionState } from "@/store/transaction-reducer";
 import { fetchTransactions } from "./apis/api";
 import { COLORS } from "@/constants/Colors";
-import ListHeader from "@/components/flat-list/ListHeader";
-import { TransactionState } from "@/store/transaction-reducer";
-import ListTransactions from "@/components/flat-list/ListTransactions";
-import { TransactionContext } from "@/store/transaction-context";
-import Toast from "react-native-toast-message";
-import OnError from "@/components/navigation/OnError";
 
 
 export default function Balance() {
   const transactionCtx = useContext(TransactionContext);
-  const { setAmount, setDate, setDescription, setTransactionId } = transactionCtx;
+  const { setAmount, setDate, setDescription, setTransactionId } =
+    transactionCtx;
   const [isVisible, setIsVisible] = useState(false);
   const [selectedTab, setSelectedTab] = useState(0);
   const tabsArr = ["Checking", "Savings"];
@@ -44,80 +45,71 @@ export default function Balance() {
   }
 
   if (isError) {
-    return (
-      <OnError error={error} />
-    );
+    return <OnError error={error} />;
   }
 
   return (
-    <AppThemedView style={{display: "flex", flex: 1}}>
-      <AppThemedView
-        style={[
-          styles.container,
-        ]}
+    <>
+      <AppThemedText
+        style={{ textAlign: "center", paddingTop: 25 }}
+        type="title"
       >
-        <AppThemedText
-          style={{ textAlign: "center", paddingTop: 25 }}
-          type="title"
-        >
-          Transactions
-        </AppThemedText>
-        <TabbedComponent 
+        Transactions
+      </AppThemedText>
+      <TabbedComponent
         selectedTab={selectedTab}
         setSelectedTab={setSelectedTab}
-        tabs={tabsArr}>
-          {tabsArr.map((tab, index) => (
-            <AppThemedView key={index}>
-              <AppThemedView
-                style={{
-                  width: "100%",
-                  display: "flex",
-                  flexDirection: "row",
-                  justifyContent: "space-around",
-                  alignItems: "center",
-                  marginBottom: 20,
-                  marginTop: 20,
-                }}
-              >
-                <AppThemedText>
-                  {!data?.length ? "$0.00" : "$" + balance?.toFixed(2)}
-                </AppThemedText>
-                <AppThemedText type="link" onPress={() => [setIsVisible(true)]}>
-                  Add Transaction
-                </AppThemedText>
-              </AppThemedView>
+        tabs={tabsArr}
+      >
+        {tabsArr.map((tab, index) => (
+          <AppThemedView
+            key={index}
+            style={{
+              width: "100%",
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "space-around",
+              alignItems: "center",
+              marginBottom: 20,
+              marginTop: 20,
+            }}
+          >
+            <AppThemedText>
+              {!data?.length ? "$0.00" : "$" + balance?.toFixed(2)}
+            </AppThemedText>
+            <AppThemedText type="link" onPress={() => [setIsVisible(true)]}>
+              Add Transaction
+            </AppThemedText>
+          </AppThemedView>
+        ))}
+      </TabbedComponent>
+      <ShowIf
+        condition={!isPending && !isError && !isVisible && data?.length > 0}
+        render={
+          <>
+            <AppThemedView style={[styles.container]}>
               <ListHeader
                 styles={styles.tableHeader}
                 headings={["Date", "Amount", "Description"]}
               />
-              <ShowIf
-                condition={
-                  !isPending && !isError && !isVisible && data?.length > 0
-                }
-                render={
-                  <ListTransactions
-                    data={data}
-                    setIsVisible={setIsVisible}
-                  />
-                }
-                renderElse={
-                  <AppThemedView
-                    style={{
-                      height: "50%",
-                      alignItems: "center",
-                      justifyContent: "center",
-                    }}
-                  >
-                    <AppThemedText style={{ textAlign: "center" }}>
-                      No transactions
-                    </AppThemedText>
-                  </AppThemedView>
-                }
-              />
+              <ListTransactions data={data} setIsVisible={setIsVisible} />
             </AppThemedView>
-          ))}
-        </TabbedComponent>
-      </AppThemedView>
+          </>
+        }
+        renderElse={
+          <AppThemedView
+            style={{
+              height: "50%",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <AppThemedText style={{ textAlign: "center" }}>
+              No transactions
+            </AppThemedText>
+          </AppThemedView>
+        }
+      />
 
       <ShowIf
         condition={!isPending && !isError && isVisible}
@@ -143,7 +135,7 @@ export default function Balance() {
           </AppModal>
         }
       />
-    </AppThemedView>
+    </>
   );
 }
 
@@ -153,11 +145,11 @@ export default function Balance() {
 const styles = ScaledSheet.create({
   container: {
     borderRadius: s(10),
-    // display: "flex",
-    // flexGrow: 1,
+    display: "flex",
+    flex: 1,
     flexDirection: "column",
-    // height: "100%",
-    // maxHeight: "100%",
+    height: "100%",
+    maxHeight: "100%",
     marginVertical: vs(5),
     paddingHorizontal: s(25),
     paddingVertical: s(10),
@@ -166,8 +158,6 @@ const styles = ScaledSheet.create({
     shadowOpacity: 0.1,
     shadowRadius: s(5),
     width: "100%",
-
-
   },
   tableHeader: {
     fontWeight: "bold",
