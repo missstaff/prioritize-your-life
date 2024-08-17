@@ -12,19 +12,19 @@ import TabbedComponent from "@/components/TabbedComponent";
 import TransactionModalContent from "@/components/modal/modal_content/TransactionModalContent";
 import { AppThemedText } from "@/components/app_components/AppThemedText";
 import { AppThemedView } from "@/components/app_components/AppThemedView";
+import { AppContext } from "@/store/app/app-context";
 import { TransactionContext } from "@/store/transaction/transaction-context";
 import { TransactionState } from "@/store/transaction/transaction-reducer";
 import { fetchTransactions } from "./apis/api";
 import { COLORS } from "@/constants/Colors";
 import Balance from "@/components/flat-list/Balance";
 
-
 export default function Transactions() {
   const transactionCtx = useContext(TransactionContext);
   const { setAmount, setDate, setDescription, setTransactionId } =
     transactionCtx;
-  const [isVisible, setIsVisible] = useState(false);
-  const [selectedTab, setSelectedTab] = useState(0);
+  const appCtx = useContext(AppContext);
+  const { isVisible, selectedTab, setIsVisible, setSelectedTab } = appCtx;
   const tabsArr = ["Checking", "Savings"];
 
   const { refetch, isPending, isError, data, error } = useQuery<
@@ -63,15 +63,13 @@ export default function Transactions() {
         tabs={tabsArr}
       >
         {tabsArr.map((tab, index) => (
-          <AppThemedView 
-            key={index}
-            style={styles.balanceContainer}>
+          <AppThemedView key={index} style={styles.balanceContainer}>
             <Balance
-            key={index}
-            balance={balance}
-            data={data}
-            setIsVisible={setIsVisible}
-          />
+              key={index}
+              balance={balance}
+              data={data}
+              setIsVisible={setIsVisible}
+            />
           </AppThemedView>
         ))}
       </TabbedComponent>

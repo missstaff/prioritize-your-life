@@ -32,7 +32,7 @@ export interface SignUpProps {
 export interface TransactionModalContentProps {
   data: TransactionState[] | undefined;
   selectedTab: string;
-  setIsVisible: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsVisible: (isVisible: boolean) => void;
   refetch: () => void;
 }
 

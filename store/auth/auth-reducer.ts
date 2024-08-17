@@ -1,10 +1,9 @@
-// Define AuthState type
+
 export interface AuthState {
   isAuthenticated: boolean;
   uid: string;
 }
 
-// Define action types
 export type Action =
   | { type: "UID"; uid: string }
   | { type: "Authenticated"; isAuthenticated: boolean };

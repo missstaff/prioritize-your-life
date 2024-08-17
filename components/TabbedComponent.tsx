@@ -8,7 +8,7 @@ interface TabbedComponentProps {
   children: React.ReactNode[];
   selectedTab: number;
   tabs: string[];
-  setSelectedTab: React.Dispatch<React.SetStateAction<number>>;
+  setSelectedTab: (selectedTab: number) => void;
 }
 
 /**

@@ -1,9 +1,10 @@
+import { TransactionState } from "@/store/transaction/transaction-reducer";
 import { AppThemedText } from "../app_components/AppThemedText";
 
 export interface AddTransactionProps {
   balance: number | undefined;
-  data: any;
-  setIsVisible: any;
+  data: TransactionState[] | undefined;
+  setIsVisible: (isVisible: boolean) => void;
 }
 
 export default function Balance({

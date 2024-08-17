@@ -24,7 +24,7 @@ import {
 } from "@tanstack/react-query";
 import { AuthContextProvider } from "@/store/auth/auth-context";
 import { TransactionContextProvider } from "@/store/transaction/transaction-context";
-
+import { AppContextProvider } from "@/store/app/app-context";
 /**
  * Handles the change in the application state.
  * @param status - The new state of the application.
@@ -66,7 +66,8 @@ export default function RootLayoutNav() {
   return (
     <QueryClientProvider client={queryClient}>
       <AuthContextProvider>
-        <TransactionContextProvider>
+       <AppContextProvider>
+       <TransactionContextProvider>
           <ThemeProvider
             value={colorScheme === "dark" ? DarkTheme : DefaultTheme}
           >
@@ -79,6 +80,7 @@ export default function RootLayoutNav() {
             <Toast />
           </ThemeProvider>
         </TransactionContextProvider>
+        </AppContextProvider>
       </AuthContextProvider>
     </QueryClientProvider>
   );

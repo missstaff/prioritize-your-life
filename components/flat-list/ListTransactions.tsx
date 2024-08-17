@@ -13,7 +13,7 @@ import {
 
 export interface ListTransactionsProps {
   data: TransactionState[] | undefined;
-  setIsVisible: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsVisible: (isVisible: boolean) => void;
 }
 /**
  * Renders a list of transactions.
