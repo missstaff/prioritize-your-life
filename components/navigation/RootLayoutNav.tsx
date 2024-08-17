@@ -1,4 +1,20 @@
+import React, { useEffect } from "react";
+import Toast from "react-native-toast-message";
+import NetInfo from "@react-native-community/netinfo";
+import {
+  AppState,
+  AppStateStatus,
+  Platform,
+  useColorScheme,
+} from "react-native";
+import {
+  DarkTheme,
+  DefaultTheme,
+  ThemeProvider,
+} from "@react-navigation/native";
 import { useReactNavigationDevTools } from "@dev-plugins/react-navigation";
+import { Stack, useNavigationContainerRef } from "expo-router";
+import { StatusBar } from "expo-status-bar";
 import { useReactQueryDevTools } from "@dev-plugins/react-query";
 import {
   QueryClient,
@@ -6,26 +22,13 @@ import {
   focusManager,
   onlineManager,
 } from "@tanstack/react-query";
-import { Stack, useNavigationContainerRef } from "expo-router";
-import { useEffect } from "react";
-import {
-  AppState,
-  AppStateStatus,
-  Platform,
-  useColorScheme,
-} from "react-native";
-import NetInfo from "@react-native-community/netinfo";
 import { AuthContextProvider } from "@/store/auth-context";
-import {
-  DarkTheme,
-  DefaultTheme,
-  ThemeProvider,
-} from "@react-navigation/native";
-import Toast from "react-native-toast-message";
-import { StatusBar } from "expo-status-bar";
 import { TransactionContextProvider } from "@/store/transaction-context";
 
-// This function is called when the app state changes.
+/**
+ * Handles the change in the application state.
+ * @param status - The new state of the application.
+ */
 function onAppStateChange(status: AppStateStatus) {
   if (Platform.OS !== "web") {
     focusManager.setFocused(status === "active");
@@ -33,9 +36,11 @@ function onAppStateChange(status: AppStateStatus) {
 }
 
 /**
- * RootLayoutNav component renders the root layout of the navigation in the finance app.
- * It sets up the necessary providers and configurations for React Navigation, React Query, and other dependencies.
- * It also handles app state changes and online/offline status using NetInfo.
+ * RootLayoutNav component.
+ * This component is responsible for rendering the root layout navigation.
+ * It sets up the necessary providers and configures the navigation stack.
+
+ * @returns The rendered RootLayoutNav component.
  */
 export default function RootLayoutNav() {
   const queryClient = new QueryClient();

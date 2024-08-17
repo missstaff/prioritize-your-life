@@ -25,9 +25,10 @@ export const isValidDate = (date: string): IsValidProps => {
   if (date.length === 0) {
     Toast.show({
       type: "error",
-      text1: "Please enter a date.",
+      text1: "A date is required.",
+      text2: "Please try again.",
     });
-    return { isValid: false, message: "Please enter a date." };
+    return { isValid: false, message: "A date is required." };
   }
   if (date.includes("-")) {
     date = date.replace(/-/g, "/");
@@ -42,8 +43,8 @@ export const isValidDate = (date: string): IsValidProps => {
   if (!isValid) {
     Toast.show({
       type: "error",
-      text1: "Invalid date.",
-      text2: "Date must be in MM/DD/YY format.",
+      text1: "Date must be in MM/DD/YY format.",
+      text2: "Please try again.",
     });
     return { isValid: false, message: "Date must be in MM/DD/YY format.", };
   }
@@ -55,8 +56,8 @@ export const isValidDate = (date: string): IsValidProps => {
   if (formattedYear < currentYear) {
     Toast.show({
       type: "error",
-      text1: "Invalid year.",
-      text2: "Year cannot be less than the current year.",
+      text1: "Year cannot be less than the current year.",
+      text2: "Please try again.",
     });
     return { isValid: false, message: "Year cannot be less than the current year." };
   }
@@ -74,10 +75,10 @@ export const isValidDescription = (description: string): IsValidProps => {
   if (!isValid) {
     Toast.show({
       type: "error",
-      text1: "A description is required",
+      text1: "A description is required.",
       text2: "Please try again.",
     });
-    return { isValid: false, message: "A description is required" };
+    return { isValid: false, message: "A description is required." };
   }
   return { isValid: true, message: "" };
 };
@@ -94,10 +95,10 @@ export const isValidAmount = (amount: string): IsValidProps => {
   if (!isValid) {
     Toast.show({
       type: "error",
-      text1: "Invalid entry.",
-      text2: "Please enter a valid number.",
+      text1: "Amount must be a number.",
+      text2: "Please try again.",  
     });
-    return { isValid: false, message: "Please enter a valid number." };
+    return { isValid: false, message: "Amount must be a number." };
   }
   return { isValid: true, message: "" };
 };
@@ -110,31 +111,31 @@ export const isValidAmount = (amount: string): IsValidProps => {
  * @returns A boolean indicating whether the form inputs are valid.
  */
 export const validateFormInputs = (
-  amount: string,
   date: string,
+  amount: string,
   description: string
 ): boolean => {
-  const amountValidation = isValidAmount(amount);
   const dateValidation = isValidDate(date);
+  const amountValidation = isValidAmount(amount);
   const descriptionValidation = isValidDescription(description);
 
-  if (!amountValidation.isValid) {
+  if (!dateValidation.isValid) {
     Toast.show({
       type: "error",
-      text1: "Invalid entry.",
-      text2: amountValidation.message,
+      text1: dateValidation.message,
+      text2: "Please try again.",
     });
-  } else if (!dateValidation.isValid) {
+  } else if (!amountValidation.isValid) {
     Toast.show({
       type: "error",
-      text1: "Invalid entry.",
-      text2: dateValidation.message,
+      text1: amountValidation.message,
+      text2: "Please try again.",
     });
   } else if (!descriptionValidation.isValid) {
     Toast.show({
       type: "error",
-      text1: "Invalid entry.",
-      text2: descriptionValidation.message,
+      text1: descriptionValidation.message,
+      text2: "Please try again.",
     });
   }
 

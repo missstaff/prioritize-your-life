@@ -1,6 +1,11 @@
+import { useContext } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { AppThemedText } from "@/components/app_components/AppThemedText";
 import AppThemedTextInput from "@/components/app_components/AppThemedTextInput";
+import AppThemedTouchableOpacity from "@/components/app_components/AppThemedTouchableOpacity";
+import ShowIf from "@/components/ShowIf";
+import { AppThemedText } from "@/components/app_components/AppThemedText";
+import { AppThemedView } from "@/components/app_components/AppThemedView";
+import { TransactionContext } from "@/store/transaction-context";
 import {
   addOrUpdateTransaction,
   deleteTransaction,
@@ -13,13 +18,15 @@ import {
   validateFormInputs,
 } from "@/app/(tabs)/utilities/transactions-utilities";
 import { TransactionModalContentProps } from "@/app/types";
-import AppThemedTouchableOpacity from "@/components/app_components/AppThemedTouchableOpacity";
-import ShowIf from "@/components/ShowIf";
-import { View } from "react-native";
-import Toast from "react-native-toast-message";
-import { useContext } from "react";
-import { TransactionContext } from "@/store/transaction-context";
 
+/**
+ * @param {TransactionModalContentProps} props - The props for the TransactionModalContent component.
+ * @param {string} props.data - The data for the transaction.
+ * @param {number} props.selectedTab - The index of the currently selected tab.
+ * @param {Function} props.setIsVisible - A function to set the visibility of the modal.
+ * @param {Function} props.refetch - A function to refetch the transactions.
+ * @returns {JSX.Element} The rendered TransactionModalContent component.
+ */
 const TransactionModalContent = ({
   data,
   selectedTab,
@@ -41,22 +48,17 @@ const TransactionModalContent = ({
 
   const handleResetState = () => {
     setIsVisible(false),
-      setAmount(""),
-      setDate(""),
-      setDescription(""),
-      setTransactionId(""),
-      refetch();
+    setAmount(""),
+    setDate(""),
+    setDescription(""),
+    setTransactionId(""),
+    refetch();
   };
+  
   const handleSubmit = () => {
-    if (validateFormInputs(amount, date, description)) {
+    if (validateFormInputs(date, amount, description)) {
       mutation.mutate();
       handleResetState();
-    } else {
-      Toast.show({
-        type: "error",
-        text1: "Invalid form data.",
-        text2: "Please try again.",
-      });
     }
   };
 
@@ -65,8 +67,6 @@ const TransactionModalContent = ({
     handleResetState();
     refetch();
   };
-
-
 
   const mutation = useMutation({
     mutationFn: () =>
@@ -86,28 +86,8 @@ const TransactionModalContent = ({
       setIsVisible(false);
       queryClient.invalidateQueries({ queryKey: ["transactions"] });
     },
-    onError: (error: unknown) => {
-      if (typeof error === "string") {
-        Toast.show({
-          type: "error",
-          text1: "Error saving transaction.",
-          text2: error,
-        });
-        console.error(
-          "Error saving transaction: " + error ?? "Unknown error occurred"
-        );
-      } else if (error instanceof Error) {
-        Toast.show({
-          type: "error",
-          text1: "Error saving transaction.",
-          text2: error.message,
-        });
-        const errorMessage =
-          "Error updating transactions: " +
-          (error.message ?? "Unknown error occurred");
-        console.error(errorMessage + " " + error.stack);
-        handleResetState();
-      }
+    onError: () => {
+      handleResetState();
     },
   });
 
@@ -116,7 +96,7 @@ const TransactionModalContent = ({
       <ShowIf
         condition={transactionId.length > 0}
         render={
-          <View
+          <AppThemedView
             style={{
               alignItems: "center",
               flexDirection: "row",
@@ -128,9 +108,11 @@ const TransactionModalContent = ({
             <AppThemedText type="link" onPress={() => handleDelete()}>
               Delete
             </AppThemedText>
-          </View>
+          </AppThemedView>
         }
-        renderElse={<View style={{ marginVertical: 25 }}></View>}
+        renderElse={
+          <AppThemedView style={{ marginVertical: 25 }}></AppThemedView>
+        }
       />
       <AppThemedTextInput
         checkValue={isValidDate}
@@ -138,7 +120,7 @@ const TransactionModalContent = ({
         placeholder="MM/DD/YY"
         secureEntry={false}
         setValue={setDate}
-        value={typeof date === "object" ? formatDate(date) :date}
+        value={typeof date === "object" ? formatDate(date) : date}
       />
       <AppThemedTextInput
         checkValue={isValidAmount}

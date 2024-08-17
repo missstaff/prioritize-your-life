@@ -1,6 +1,4 @@
 import React, { useContext, useEffect, useState } from "react";
-import { useColorScheme } from "react-native";
-import { router } from "expo-router";
 import { useQuery } from "@tanstack/react-query";
 import { ScaledSheet, s, vs } from "react-native-size-matters";
 import AppModal from "@/components/modal/Modal";
@@ -17,10 +15,10 @@ import { TransactionState } from "@/store/transaction-reducer";
 import ListTransactions from "@/components/flat-list/ListTransactions";
 import { TransactionContext } from "@/store/transaction-context";
 import Toast from "react-native-toast-message";
+import OnError from "@/components/navigation/OnError";
 
 
 export default function Balance() {
-  const colorScheme = useColorScheme();
   const transactionCtx = useContext(TransactionContext);
   const { setAmount, setDate, setDescription, setTransactionId } = transactionCtx;
   const [isVisible, setIsVisible] = useState(false);
@@ -47,32 +45,15 @@ export default function Balance() {
 
   if (isError) {
     return (
-      <AppThemedView
-        style={{
-          display: "flex",
-          flexGrow: 1,
-          flexDirection: "column",
-          alignItems: "center",
-          justifyContent: "center",
-        }}
-      >
-        <AppThemedText>Error: {error.message}</AppThemedText>
-        <AppThemedText type="link" onPress={() => router.push("/")}>
-          Home
-        </AppThemedText>
-      </AppThemedView>
+      <OnError error={error} />
     );
   }
 
   return (
-    <>
+    <AppThemedView style={{display: "flex", flex: 1}}>
       <AppThemedView
         style={[
           styles.container,
-          {
-            backgroundColor:
-              colorScheme === "dark" ? COLORS.black : COLORS.white,
-          },
         ]}
       >
         <AppThemedText
@@ -162,7 +143,7 @@ export default function Balance() {
           </AppModal>
         }
       />
-    </>
+    </AppThemedView>
   );
 }
 
@@ -171,21 +152,22 @@ export default function Balance() {
 }
 const styles = ScaledSheet.create({
   container: {
-    display: "flex",
-    flexGrow: 1,
-    flexDirection: "column",
-    width: "100%",
-    marginVertical: vs(5),
-    paddingVertical: s(10),
-    paddingHorizontal: s(5),
     borderRadius: s(10),
+    // display: "flex",
+    // flexGrow: 1,
+    flexDirection: "column",
+    // height: "100%",
+    // maxHeight: "100%",
+    marginVertical: vs(5),
+    paddingHorizontal: s(25),
+    paddingVertical: s(10),
     shadowColor: COLORS.black,
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: s(5),
-    elevation: 3,
-    height: "100%",
-    maxHeight: "100%",
+    width: "100%",
+
+
   },
   tableHeader: {
     fontWeight: "bold",

@@ -36,7 +36,6 @@ export function getFireApp() {
     } else if (Platform.OS === "web") {
       firebaseConfig.appId = process.env.EXPO_PUBLIC_WEB_APP_ID || "";
     } else {
-      console.error("Platform not supported");
       Toast.show({
         type: "error",
         text1: "Platform not supported",
@@ -50,9 +49,9 @@ export function getFireApp() {
     return firebase.app(firebaseConfig.appName);
   } catch (e: unknown) {
     if (typeof e === "string") {
-      console.error("Failed to instantiate firebase app" + "\nError Message: " + e);
+      throw new Error("Failed to instantiate firebase app" + "\nError Message: " + e);
     } else if (e instanceof Error) {
-      console.error("Failed to instantiate firebase app" + "\nError Message: " + e.message + "\nStackTrace: " + e.stack);
+      throw new Error("Failed to instantiate firebase app" + "\nError Message: " + e.message + "\nStackTrace: " + e.stack);
     }
 
     Toast.show({

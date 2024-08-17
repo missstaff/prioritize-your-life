@@ -7,14 +7,13 @@ export type ThemedViewProps = ViewProps & {
   lightColor?: string;
 };
 
+
 /**
- * AppThemedView component that renders a View with a background color based on the current theme.
- *
- * @param style - The style object to be applied to the View component.
- * @param lightColor - The background color to be used when the theme is set to light.
- * @param darkColor - The background color to be used when the theme is set to dark.
- * @param otherProps - Additional props to be spread onto the View component.
- * @returns The rendered ThemedView component.
+ * Renders a themed view component with customizable style and other props.
+ * @param {ThemedViewProps} props - The props for the AppThemedView component.
+ * @param {ViewStyle} props.style - The style object for the component.
+ * @param {any} props.otherProps - Other props to be spread on the component.
+ * @returns {JSX.Element} The rendered AppThemedView component.
  */
 export function AppThemedView({ style, ...otherProps }: ThemedViewProps) {
   const backgroundColor = useThemeColor(

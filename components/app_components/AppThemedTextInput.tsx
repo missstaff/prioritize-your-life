@@ -8,9 +8,9 @@ import {
 } from "react-native";
 import { ScaledSheet, s } from "react-native-size-matters";
 import { AppIcon } from "./AppIcon";
-import { COLORTHEME } from "@/constants/Colors";
-import { useThemeColor } from "@/hooks/useThemeColor";
 import { AppThemedView } from "./AppThemedView";
+import { useThemeColor } from "@/hooks/useThemeColor";
+import { COLORTHEME } from "@/constants/Colors";
 
 interface AppThemedTextInputProps {
   iconName?: string;
@@ -23,10 +23,20 @@ interface AppThemedTextInputProps {
   setValue: (value: string) => void;
 }
 
+
 /**
- * A themed text input component for the app.
- * @param props The component props.
- * @returns The rendered component.
+ * AppThemedTextInput component.
+ * 
+ * @param checkValue - Function to check the value of the input.
+ * @param iconName - Name of the icon to display.
+ * @param placeholder - Placeholder text for the input.
+ * @param secureEntry - Boolean indicating whether the input should be secure (password) or not.
+ * @param setValue - Function to set the value of the input.
+ * @param containerStyle - Additional styles for the input container.
+ * @param inputStyle - Additional styles for the input.
+ * @param value - Current value of the input.
+ * @param otherProps - Additional props to pass to the TextInput component.
+ * @returns The rendered AppThemedTextInput component.
  */
 export const AppThemedTextInput = ({
   checkValue,

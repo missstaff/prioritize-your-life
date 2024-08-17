@@ -36,7 +36,7 @@ export const addOrUpdateTransaction = async (
         return;
     }
 
-    if (!validateFormInputs(amount, date, description)) {
+    if (!validateFormInputs(date, amount, description)) {
         Toast.show({
             type: "error",
             text1: "Error adding/updating transaction.",

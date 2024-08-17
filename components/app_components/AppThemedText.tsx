@@ -14,7 +14,7 @@ export type ThemedTextProps = TextProps & {
  * @param darkColor - The color to be used when the theme is dark.
  * @param type - The type of text styling to be applied.
  * @param rest - Additional props to be passed to the text component.
- * @returns The ThemedText component.
+ * @returns {JSX.Element} The rendered AppThemedText component.
  */
 export function AppThemedText({
   style,

@@ -1,27 +1,48 @@
-import React from "react";
 import Toast from "react-native-toast-message";
-import { type ToasterProps } from "../app/types";
-import { Button } from "react-native";
+import AppThemedTouchableOpacity from "./app_components/AppThemedTouchableOpacity";
+
+export interface ToasterProps {
+  type: string;
+  text1: string;
+  text2?: string;
+  title: string;
+  onPress?: () => void;
+}
 
 /**
- * A component that renders a toast message.
+ * Toaster component.
+ * @param {ToasterProps} props - The props for the Toaster component.
+ * @returns {JSX.Element} The rendered Toaster component.
+ * @component
+ * @example
  */
-const Toaster: React.FC<ToasterProps> = ({ type, text1, text2, title }) => {
+const Toaster: React.FC<ToasterProps> = ({
+  onPress,
+  type,
+  text1,
+  text2,
+  title,
+}) => {
   const showToast = () => {
     Toast.show({
       type: type,
       text1: text1,
-      text2: text2
+      text2: text2,
     });
   };
 
-  {/*#TODO: Implement a styled component for the button.*/ }
+  const handleOnPress = () => {
+    showToast();
+    if (onPress) {
+      onPress();
+    }
+  };
+
   return (
-    <Button
-      title={title}
-      onPress={showToast}
-    />
-  )
+    <AppThemedTouchableOpacity onPress={handleOnPress}>
+      {title}
+    </AppThemedTouchableOpacity>
+  );
 };
 
 export default Toaster;

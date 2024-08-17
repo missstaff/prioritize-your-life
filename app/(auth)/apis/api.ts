@@ -6,7 +6,6 @@ import {
     SignUpProps,
 } from "@/app/types";
 import { router } from "expo-router";
-// import { getFireApp } from "@/getFireApp";
 
 export const handleResetPassword = async ({
     email,

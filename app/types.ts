@@ -28,12 +28,7 @@ export interface SignUpProps {
   confirmPassword: string;
 }
 
-export interface ToasterProps {
-  type: string;
-  text1: string;
-  text2?: string;
-  title: string;
-}
+
 
 export interface TransactionModalContentProps {
   data: TransactionState[] | undefined;
