@@ -16,9 +16,10 @@ import { TransactionContext } from "@/store/transaction-context";
 import { TransactionState } from "@/store/transaction-reducer";
 import { fetchTransactions } from "./apis/api";
 import { COLORS } from "@/constants/Colors";
+import Balance from "@/components/flat-list/Balance";
 
 
-export default function Balance() {
+export default function Transactions() {
   const transactionCtx = useContext(TransactionContext);
   const { setAmount, setDate, setDescription, setTransactionId } =
     transactionCtx;
@@ -62,24 +63,15 @@ export default function Balance() {
         tabs={tabsArr}
       >
         {tabsArr.map((tab, index) => (
-          <AppThemedView
+          <AppThemedView 
             key={index}
-            style={{
-              width: "100%",
-              display: "flex",
-              flexDirection: "row",
-              justifyContent: "space-around",
-              alignItems: "center",
-              marginBottom: 20,
-              marginTop: 20,
-            }}
-          >
-            <AppThemedText>
-              {!data?.length ? "$0.00" : "$" + balance?.toFixed(2)}
-            </AppThemedText>
-            <AppThemedText type="link" onPress={() => [setIsVisible(true)]}>
-              Add Transaction
-            </AppThemedText>
+            style={styles.balanceContainer}>
+            <Balance
+            key={index}
+            balance={balance}
+            data={data}
+            setIsVisible={setIsVisible}
+          />
           </AppThemedView>
         ))}
       </TabbedComponent>
@@ -139,10 +131,14 @@ export default function Balance() {
   );
 }
 
-{
-  /** move in to styles.ts */
-}
 const styles = ScaledSheet.create({
+  balanceContainer: {
+    alignItems: "center",
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-around",
+    width: "100%",
+  },
   container: {
     borderRadius: s(10),
     display: "flex",
