@@ -165,6 +165,8 @@ export const parseDate = (dateStr: string): Date => {
     year = Number(dateStr.slice(4, 8));
   }
 
+  year = 2000 + year;
+
   const parsedDate = new Date(year, month - 1, day);
 
   return isNaN(parsedDate.getTime()) ? new Date() : parsedDate;
