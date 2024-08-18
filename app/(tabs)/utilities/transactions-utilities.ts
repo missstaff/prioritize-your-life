@@ -22,6 +22,9 @@ export const formatDate = (timestamp: any): string => {
  * @returns An object containing the validation result and an optional error message.
  */
 export const isValidDate = (date: string): IsValidProps => {
+ if(typeof date === "object") {
+    date = formatDate(date);
+  }
   if (date.length === 0) {
     Toast.show({
       type: "error",

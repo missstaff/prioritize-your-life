@@ -1,7 +1,7 @@
 import Toast from "react-native-toast-message";
 import { getFireApp } from "@/getFireApp";
 import { TransactionState } from "../../../store/transaction/transaction-reducer";
-import { parseDate, validateFormInputs } from "../utilities/transactions-utilities";
+import { formatDate, parseDate, validateFormInputs } from "../utilities/transactions-utilities";
 import { TransactionProps } from "@/app/types";
 
 /**
@@ -80,7 +80,7 @@ export const addOrUpdateTransaction = async (
         const transactionData: Omit<TransactionProps, "id"> = {
             amount,
             balance: updatedBalance,
-            date: parseDate(date),
+            date: typeof date === "object" ? parseDate(formatDate(date)) : parseDate(date),
             description,
         };
 
