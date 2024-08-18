@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useMemo } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { ScaledSheet, s, vs } from "react-native-size-matters";
 import AppModal from "@/components/modal/Modal";
@@ -21,8 +21,7 @@ import Balance from "@/components/flat-list/Balance";
 
 export default function Transactions() {
   const transactionCtx = useContext(TransactionContext);
-  const { setAmount, setDate, setDescription, setTransactionId } =
-    transactionCtx;
+  const { setAmount, setDate, setDescription, setTransactionId } = transactionCtx;
   const appCtx = useContext(AppContext);
   const { isVisible, selectedTab, setIsVisible, setSelectedTab } = appCtx;
   const tabsArr = ["Checking", "Savings"];
@@ -30,7 +29,7 @@ export default function Transactions() {
   const { refetch, isPending, isError, data, error, isFetching, isLoading } = useQuery<
     TransactionState[]
   >({
-    queryKey: ["transactions"],
+    queryKey: ["transactions", tabsArr[selectedTab]],
     queryFn: () => fetchTransactions(tabsArr[selectedTab]),
     refetchOnMount: true,
   });
@@ -39,9 +38,12 @@ export default function Transactions() {
     refetch();
   }, [selectedTab]);
 
-  const balance = data?.reduce((acc, curr) => acc + Number(curr.amount), 0);
 
-  if (isPending === true || isLoading || isFetching) {
+  const balance = useMemo(() => {
+    return data?.reduce((acc, curr) => acc + Number(curr.amount), 0);
+  }, [data]);
+
+  if (isPending || isLoading || isFetching) {
     return <LoadingSpinner />;
   }
 
@@ -51,10 +53,7 @@ export default function Transactions() {
 
   return (
     <>
-      <AppThemedText
-        style={{ textAlign: "center", paddingTop: 25 }}
-        type="title"
-      >
+      <AppThemedText style={{ textAlign: "center", paddingTop: 25 }} type="title">
         Transactions
       </AppThemedText>
       <TabbedComponent
@@ -64,43 +63,27 @@ export default function Transactions() {
       >
         {tabsArr.map((tab, index) => (
           <AppThemedView key={index} style={styles.balanceContainer}>
-            <Balance
-              key={index}
-              balance={balance}
-              data={data}
-              setIsVisible={setIsVisible}
-            />
+            <Balance key={index} balance={balance} data={data} setIsVisible={setIsVisible} />
           </AppThemedView>
         ))}
       </TabbedComponent>
       <ShowIf
         condition={!isPending && !isError && !isVisible && data?.length > 0}
         render={
-          <>
-            <AppThemedView style={[styles.container]}>
-              <ListHeader
-                styles={styles.tableHeader}
-                headings={["Date", "Amount", "Description"]}
-              />
-              <ListTransactions data={data} setIsVisible={setIsVisible} />
-            </AppThemedView>
-          </>
+          <AppThemedView style={styles.container}>
+            <ListHeader
+              styles={styles.tableHeader}
+              headings={["Date", "Amount", "Description"]}
+            />
+            <ListTransactions data={data} setIsVisible={setIsVisible} />
+          </AppThemedView>
         }
         renderElse={
-          <AppThemedView
-            style={{
-              height: "50%",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            <AppThemedText style={{ textAlign: "center" }}>
-              No transactions
-            </AppThemedText>
+          <AppThemedView style={{ height: "50%", alignItems: "center", justifyContent: "center" }}>
+            <AppThemedText style={{ textAlign: "center" }}>No transactions</AppThemedText>
           </AppThemedView>
         }
       />
-
       <ShowIf
         condition={!isPending && !isError && isVisible}
         render={

@@ -51,8 +51,7 @@ const TransactionModalContent = ({
     setAmount(""),
     setDate(""),
     setDescription(""),
-    setTransactionId(""),
-    refetch();
+    setTransactionId("")
   };
   
   const handleSubmit = () => {
