@@ -1,8 +1,9 @@
-import Toast from "react-native-toast-message";
-import AppThemedTouchableOpacity from "./app_components/AppThemedTouchableOpacity";
+import React from 'react';
+import Toast from 'react-native-toast-message';
+import AppThemedTouchableOpacity from './app_components/AppThemedTouchableOpacity';
 
 export interface ToasterProps {
-  type: string;
+  type: 'success' | 'error' | 'info' | 'warning'; // Specific types for better validation
   text1: string;
   text2?: string;
   title: string;
@@ -25,9 +26,9 @@ const Toaster: React.FC<ToasterProps> = ({
 }) => {
   const showToast = () => {
     Toast.show({
-      type: type,
-      text1: text1,
-      text2: text2,
+      type,
+      text1,
+      text2,
     });
   };
 
@@ -39,7 +40,7 @@ const Toaster: React.FC<ToasterProps> = ({
   };
 
   return (
-    <AppThemedTouchableOpacity onPress={handleOnPress}>
+    <AppThemedTouchableOpacity onPress={handleOnPress} accessibilityLabel={title}>
       {title}
     </AppThemedTouchableOpacity>
   );

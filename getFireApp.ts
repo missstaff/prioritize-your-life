@@ -12,8 +12,9 @@ import { Platform } from "react-native";
 import Toast from "react-native-toast-message";
 
 /**
- * Gets the firebase app.
- * @returns The firebase app.
+ * Gets the Firebase app instance.
+ * @returns The Firebase app instance.
+ * @throws {Error} Throws an error if Firebase app instantiation fails.
  */
 export function getFireApp() {
   const firebaseConfig = {
@@ -39,27 +40,33 @@ export function getFireApp() {
       Toast.show({
         type: "error",
         text1: "Platform not supported",
+        text2: "Please use a supported platform.",
       });
       throw new Error("Platform not supported");
     }
 
-    if (!firebase.apps.find((app) => app.name === firebaseConfig.appName)) {
-      return firebase.initializeApp(firebaseConfig, firebaseConfig.appName);
+    const existingApp = firebase.apps.find((app) => app.name === firebaseConfig.appName);
+    if (existingApp) {
+      return existingApp;
     }
-    return firebase.app(firebaseConfig.appName);
-  } catch (e: unknown) {
-    if (typeof e === "string") {
-      throw new Error("Failed to instantiate firebase app" + "\nError Message: " + e);
-    } else if (e instanceof Error) {
-      throw new Error("Failed to instantiate firebase app" + "\nError Message: " + e.message + "\nStackTrace: " + e.stack);
+
+    return firebase.initializeApp(firebaseConfig, firebaseConfig.appName);
+  } catch (error) {
+    if (error instanceof Error) {
+      Toast.show({
+        type: "error",
+        text1: "Failed to start app",
+        text2: error.message,
+      });
+      throw new Error(`Failed to instantiate Firebase app: ${error.message}\nStackTrace: ${error.stack}`);
     }
 
     Toast.show({
       type: "error",
-      text1: "Failed to start app.",
+      text1: "Failed to start app",
       text2: "Please try again.",
     });
 
-    throw new Error("Failed to instantiate firebase app");
+    throw new Error("Failed to instantiate Firebase app");
   }
 }

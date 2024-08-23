@@ -105,9 +105,10 @@ A mobile application for managing personal budgets and finances, built with Reac
        }
        return firebase.app(firebaseConfig.appName);
      } catch (e) {
-       throw new Error ("Failed to instantiate firebase app", e);
+       throw new Error("Failed to instantiate firebase app", e);
      }
    }
+   ```
 
 5. **Run the app** 🚀
 
@@ -126,9 +127,11 @@ A mobile application for managing personal budgets and finances, built with Reac
    ```
 
    - Create a local development build using expo
-   ```
+
+   ````
    npx expo run:anroid
    ```sh
+   ````
 
 ## Usage ▶
 
@@ -155,7 +158,6 @@ A mobile application for managing personal budgets and finances, built with Reac
 6. **Promote Financial Literacy**
    - Access links to informative media to educate yourself about money management.
 
-
 ## Contributing ➕
 
 Contributions are welcome! If you have any improvements, bug fixes, or new features to add, follow these steps:
@@ -170,6 +172,7 @@ Contributions are welcome! If you have any improvements, bug fixes, or new featu
    git clone https://github.com/your-username/prioritize-your-life
    cd prioritize-your-life
    ```
+
 ````
 
 3. **Create a new branch**
@@ -210,3 +213,4 @@ For any questions or suggestions, feel free to open an issue or contact us at [s
 
 ### Special note at this time the iOS build has not been built. Building iOS will require some basic knowledge of native iOS development.
 ```
+````

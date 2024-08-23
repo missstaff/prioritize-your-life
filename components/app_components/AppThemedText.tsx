@@ -20,7 +20,7 @@ export function AppThemedText({
   style,
   type = "default",
   ...rest
-}: ThemedTextProps) {
+}: ThemedTextProps): JSX.Element {
   const color = useThemeColor(
     { light: COLORTHEME.light.text, dark: COLORTHEME.dark.text },
     "text"
@@ -49,8 +49,8 @@ const styles = ScaledSheet.create({
   },
   defaultSemiBold: {
     fontSize: s(16),
-    lineHeight: s(24),
     fontWeight: "600",
+    lineHeight: s(24),
   },
   title: {
     fontSize: s(32),
@@ -62,8 +62,8 @@ const styles = ScaledSheet.create({
     fontWeight: "bold",
   },
   link: {
-    lineHeight: s(30),
-    fontSize: s(16),
     color: COLORS.primary,
+    fontSize: s(16),
+    lineHeight: s(30),
   },
 });

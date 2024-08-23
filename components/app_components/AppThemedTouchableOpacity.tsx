@@ -2,6 +2,7 @@ import React from "react";
 import { ScaledSheet, s } from "react-native-size-matters";
 import {
   StyleProp,
+  TextStyle,
   TouchableOpacity,
   TouchableOpacityProps,
   ViewStyle,
@@ -11,7 +12,7 @@ import { COLORS } from "@/constants/Colors";
 
 export type ThemedAppThemedTouchableOpacity = TouchableOpacityProps & {
   children: React.ReactNode;
-  textStyles?: StyleProp<ViewStyle>;
+  textStyles?: StyleProp<TextStyle>;
   btnStyles?: StyleProp<ViewStyle>;
   onPress?: () => void;
 };

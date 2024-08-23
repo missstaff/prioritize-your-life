@@ -2,8 +2,14 @@ import * as React from "react";
 import renderer from "react-test-renderer";
 import LoadingSpinner from "../LoadingSpinner";
 
-it(`renders correctly`, () => {
-  const tree = renderer.create(<LoadingSpinner />).toJSON();
+describe("LoadingSpinner", () => {
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+  
+  it("renders correctly with the given props", () => {
+    const tree = renderer.create(<LoadingSpinner size="small" color="red" />).toJSON();
 
-  expect(tree).toMatchSnapshot();
+    expect(tree).toMatchSnapshot();
+  });
 });
