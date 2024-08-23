@@ -20,4 +20,5 @@ web-build/
 expo-env.d.ts
 # @end expo-cli
 
-./android/app/google-services.json
+# Exclude google-services.json file
+android/app/google-services.json
