@@ -1,7 +1,5 @@
-import { render, fireEvent } from "@testing-library/react-native";
-import { openBrowserAsync } from "expo-web-browser";
+import { render } from "@testing-library/react-native";
 import { AppThemedExternalLink } from "../AppThemedExternalLink";
-import { Platform } from "react-native";
 
 jest.mock("expo-web-browser", () => ({
   openBrowserAsync: jest.fn(),

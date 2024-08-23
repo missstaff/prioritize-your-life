@@ -44,11 +44,12 @@ export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
   };
 
   const ctxValue: AuthContextType = {
-    isAuthenticated: state.isAuthenticated,
-    uid: state.uid,
+    ...state,
     setIsAuthenticated,
     setUid,
   };
 
-  return <AuthContext.Provider value={ctxValue}>{children}</AuthContext.Provider>;
+  return (
+    <AuthContext.Provider value={ctxValue}>{children}</AuthContext.Provider>
+  );
 };

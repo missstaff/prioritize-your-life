@@ -1,10 +1,9 @@
 import React from 'react';
 import { render, fireEvent, screen } from '@testing-library/react-native';
-import { AppThemedTextInput } from '../AppThemedTextInput'; // Adjust import path as necessary
+import { AppThemedTextInput } from '../AppThemedTextInput'; 
 import { useThemeColor } from '@/hooks/useThemeColor';
 import { AppIcon } from '../AppIcon';
 
-// Mock the hooks and components used in the component
 jest.mock('@/hooks/useThemeColor', () => ({
   useThemeColor: jest.fn(),
 }));

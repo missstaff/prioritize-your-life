@@ -1,6 +1,4 @@
 import React, { useEffect } from "react";
-import Toast from "react-native-toast-message";
-import NetInfo from "@react-native-community/netinfo";
 import {
   AppState,
   AppStateStatus,
@@ -12,9 +10,6 @@ import {
   DefaultTheme,
   ThemeProvider,
 } from "@react-navigation/native";
-import { useReactNavigationDevTools } from "@dev-plugins/react-navigation";
-import { Stack, useNavigationContainerRef } from "expo-router";
-import { StatusBar } from "expo-status-bar";
 import { useReactQueryDevTools } from "@dev-plugins/react-query";
 import {
   QueryClient,
@@ -22,13 +17,16 @@ import {
   focusManager,
   onlineManager,
 } from "@tanstack/react-query";
+import { useReactNavigationDevTools } from "@dev-plugins/react-navigation";
+import { Stack, useNavigationContainerRef } from "expo-router";
+import { StatusBar } from "expo-status-bar";
+import Toast from "react-native-toast-message";
+import NetInfo from "@react-native-community/netinfo";
+import { AppContextProvider } from "@/store/app/app-context";
 import { AuthContextProvider } from "@/store/auth/auth-context";
 import { TransactionContextProvider } from "@/store/transaction/transaction-context";
-import { AppContextProvider } from "@/store/app/app-context";
-/**
- * Handles the change in the application state.
- * @param status - The new state of the application.
- */
+
+
 function onAppStateChange(status: AppStateStatus) {
   if (Platform.OS !== "web") {
     focusManager.setFocused(status === "active");
@@ -66,20 +64,20 @@ export default function RootLayoutNav() {
   return (
     <QueryClientProvider client={queryClient}>
       <AuthContextProvider>
-       <AppContextProvider>
-       <TransactionContextProvider>
-          <ThemeProvider
-            value={colorScheme === "dark" ? DarkTheme : DefaultTheme}
-          >
-            <Stack
-              screenOptions={{
-                headerShown: false,
-              }}
-            />
-            <StatusBar style={"auto"} />
-            <Toast />
-          </ThemeProvider>
-        </TransactionContextProvider>
+        <AppContextProvider>
+          <TransactionContextProvider>
+            <ThemeProvider
+              value={colorScheme === "dark" ? DarkTheme : DefaultTheme}
+            >
+              <Stack
+                screenOptions={{
+                  headerShown: false,
+                }}
+              />
+              <StatusBar style={"auto"} />
+              <Toast />
+            </ThemeProvider>
+          </TransactionContextProvider>
         </AppContextProvider>
       </AuthContextProvider>
     </QueryClientProvider>

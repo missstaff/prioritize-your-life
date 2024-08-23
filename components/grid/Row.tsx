@@ -1,18 +1,21 @@
+import React from 'react';
 import { ScaledSheet, s, vs } from "react-native-size-matters";
 import { AppThemedView } from "../app_components/AppThemedView";
+import { ViewProps } from 'react-native';
 
-interface RowProps {
+interface RowProps extends ViewProps {
   children: React.ReactNode;
 }
+
 /**
  * Renders a row component.
  * @param {RowProps} props - The props for the Row component.
  * @param {React.ReactNode} props.children - The children to be rendered inside the row.
  * @returns {JSX.Element} The rendered Row component.
  */
-const Row = ({ children, ...props }: RowProps) => {
+const Row = ({ children, ...props }: RowProps): JSX.Element => {
   return (
-    <AppThemedView style={styles.row} {...props}>
+    <AppThemedView testID="row" style={styles.row} {...props}>
       {children}
     </AppThemedView>
   );

@@ -20,10 +20,10 @@ export default function OnError(error: any) {
 
 const styles = ScaledSheet.create({
   container: {
+    alignItems: "center",
     display: "flex",
     flexGrow: 1,
     flexDirection: "column",
-    alignItems: "center",
     justifyContent: "center",
   },
   text: {

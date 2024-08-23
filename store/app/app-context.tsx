@@ -9,8 +9,8 @@ export interface AppContextType extends AppState {
 export const AppContext = createContext<AppContextType>({
     isVisible: false,
     selectedTab: 0,
-    setIsVisible: () => {},
-    setSelectedTab: () => {},
+    setIsVisible: () => { },
+    setSelectedTab: () => { },
 });
 
 export interface AppContextProviderProps {

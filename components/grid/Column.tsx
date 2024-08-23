@@ -12,7 +12,7 @@ interface ColumnProps {
  * @param {React.ReactNode} props.children - The children to be rendered inside the column.
  * @returns {JSX.Element} The rendered column component.
  */
-const Column = ({ children, inlineStyles, ...props }: ColumnProps) => {
+const Column = ({ children, inlineStyles, ...props }: ColumnProps): JSX.Element => {
   return (
     <AppThemedView style={[styles.column, inlineStyles]} {...props}>
       {children}

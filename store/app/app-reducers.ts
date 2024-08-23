@@ -7,7 +7,7 @@ export type Action =
     | { type: "Visible"; isVisible: boolean }
     | { type: "Tab"; selectedTab: number };
 
-    export function appReducer(state: AppState, action: Action): AppState {
+export function appReducer(state: AppState, action: Action): AppState {
     switch (action.type) {
         case "Visible":
             return {

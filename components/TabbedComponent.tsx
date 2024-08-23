@@ -25,7 +25,7 @@ const TabbedComponent: React.FC<TabbedComponentProps> = ({
   selectedTab,
   setSelectedTab,
   tabs,
-}) => {
+}: TabbedComponentProps): JSX.Element => {
   return (
     <>
       <AppThemedView style={styles.tabContainer}>

@@ -20,7 +20,7 @@ interface LoadingSpinnerProps {
 export default function LoadingSpinner({
   size = "large",
   color = COLORS.primary,
-}: LoadingSpinnerProps) {
+}: LoadingSpinnerProps): JSX.Element {
   return (
     <AppThemedView style={styles.container}>
       <ActivityIndicator size={size} color={color} />

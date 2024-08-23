@@ -1,9 +1,9 @@
-import React from 'react';
-import Toast from 'react-native-toast-message';
-import AppThemedTouchableOpacity from './app_components/AppThemedTouchableOpacity';
+import React from "react";
+import AppThemedTouchableOpacity from "./app_components/AppThemedTouchableOpacity";
+import Toast from "react-native-toast-message";
 
 export interface ToasterProps {
-  type: 'success' | 'error' | 'info' | 'warning'; // Specific types for better validation
+  type: "success" | "error" | "info" | "warning"; 
   text1: string;
   text2?: string;
   title: string;
