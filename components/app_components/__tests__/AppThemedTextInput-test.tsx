@@ -1,30 +1,33 @@
-import React from 'react';
-import { render, fireEvent, screen } from '@testing-library/react-native';
-import { AppThemedTextInput } from '../AppThemedTextInput'; 
-import { useThemeColor } from '@/hooks/useThemeColor';
-import { AppIcon } from '../AppIcon';
+import React from "react";
+import { render, fireEvent, screen } from "@testing-library/react-native";
+import { AppIcon } from "../AppIcon";
+import { AppThemedTextInput } from "../AppThemedTextInput";
+import { useThemeColor } from "@/hooks/useThemeColor";
 
-jest.mock('@/hooks/useThemeColor', () => ({
+jest.mock("@/hooks/useThemeColor", () => ({
   useThemeColor: jest.fn(),
 }));
-jest.mock('../AppIcon', () => ({
+
+jest.mock("../AppIcon", () => ({
   AppIcon: jest.fn(() => null),
 }));
 
-describe('AppThemedTextInput', () => {
-  const mockTextColor = '#000';
-  const mockBackgroundColor = '#fff';
+
+describe("AppThemedTextInput", () => {
   afterEach(() => {
     jest.clearAllMocks();
   });
-  
+
+  const mockTextColor = "#000";
+  const mockBackgroundColor = "#fff";
+
   beforeEach(() => {
     (useThemeColor as jest.Mock).mockImplementation((colors, key) => {
-      return key === 'text' ? mockTextColor : mockBackgroundColor;
+      return key === "text" ? mockTextColor : mockBackgroundColor;
     });
   });
 
-  it('renders correctly and matches snapshot', () => {
+  it("renders correctly and matches snapshot", () => {
     const { toJSON } = render(
       <AppThemedTextInput
         placeholder="Enter text"
@@ -37,7 +40,7 @@ describe('AppThemedTextInput', () => {
     expect(toJSON()).toMatchSnapshot();
   });
 
-  it('displays the placeholder text', () => {
+  it("displays the placeholder text", () => {
     render(
       <AppThemedTextInput
         placeholder="Enter text"
@@ -47,10 +50,10 @@ describe('AppThemedTextInput', () => {
         checkValue={() => {}}
       />
     );
-    expect(screen.getByPlaceholderText('Enter text')).toBeTruthy();
+    expect(screen.getByPlaceholderText("Enter text")).toBeTruthy();
   });
 
-  it('handles text input changes', () => {
+  it("handles text input changes", () => {
     const mockSetValue = jest.fn();
     render(
       <AppThemedTextInput
@@ -61,11 +64,11 @@ describe('AppThemedTextInput', () => {
         checkValue={() => {}}
       />
     );
-    fireEvent.changeText(screen.getByPlaceholderText('Enter text'), 'New text');
-    expect(mockSetValue).toHaveBeenCalledWith('New text');
+    fireEvent.changeText(screen.getByPlaceholderText("Enter text"), "New text");
+    expect(mockSetValue).toHaveBeenCalledWith("New text");
   });
 
-  it('calls checkValue on blur if value is not empty', () => {
+  it("calls checkValue on blur if value is not empty", () => {
     const mockCheckValue = jest.fn();
     render(
       <AppThemedTextInput
@@ -76,11 +79,11 @@ describe('AppThemedTextInput', () => {
         checkValue={mockCheckValue}
       />
     );
-    fireEvent(screen.getByPlaceholderText('Enter text'), 'blur');
-    expect(mockCheckValue).toHaveBeenCalledWith('Some value');
+    fireEvent(screen.getByPlaceholderText("Enter text"), "blur");
+    expect(mockCheckValue).toHaveBeenCalledWith("Some value");
   });
 
-  it('toggles password visibility when eye icon is pressed', () => {
+  it("toggles password visibility when eye icon is pressed", () => {
     const { getByTestId } = render(
       <AppThemedTextInput
         placeholder="Password"
@@ -91,16 +94,16 @@ describe('AppThemedTextInput', () => {
       />
     );
     // Initially, the icon should be "eye-off"
-    expect(getByTestId('passwordVisibilityToggle')).toBeTruthy();
-    fireEvent.press(getByTestId('passwordVisibilityToggle'));
+    expect(getByTestId("passwordVisibilityToggle")).toBeTruthy();
+    fireEvent.press(getByTestId("passwordVisibilityToggle"));
     // After pressing, the icon should toggle to "eye"
     expect(AppIcon).toHaveBeenCalledWith(
-      expect.objectContaining({ name: 'eye' }),
+      expect.objectContaining({ name: "eye" }),
       expect.anything()
     );
   });
 
-  it('renders an icon if iconName prop is provided', () => {
+  it("renders an icon if iconName prop is provided", () => {
     render(
       <AppThemedTextInput
         iconName="search"
@@ -112,7 +115,7 @@ describe('AppThemedTextInput', () => {
       />
     );
     expect(AppIcon).toHaveBeenCalledWith(
-      expect.objectContaining({ name: 'search' }),
+      expect.objectContaining({ name: "search" }),
       expect.anything()
     );
   });

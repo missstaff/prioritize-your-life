@@ -1,10 +1,11 @@
 import * as React from "react";
 import renderer from "react-test-renderer";
+import { View } from "react-native";
 import { AppThemedView } from "../AppThemedView";
 import { useThemeColor } from "@/hooks/useThemeColor";
-import { View } from "react-native";
 
 describe("AppThemedView Tests", () => {
+
   afterEach(() => {
     jest.clearAllMocks();
   });

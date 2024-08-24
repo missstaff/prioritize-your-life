@@ -3,6 +3,7 @@ import renderer from "react-test-renderer";
 import { AppIcon } from "../AppIcon";
 
 describe("AppIcon Tests", () => {
+  
   afterEach(() => {
     jest.clearAllMocks();
   });

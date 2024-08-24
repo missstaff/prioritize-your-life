@@ -1,0 +1,7 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`RootLayout matches snapshot when fonts are loaded 1`] = `
+<div>
+  Mocked RootLayoutNav
+</div>
+`;

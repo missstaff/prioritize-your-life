@@ -4,6 +4,7 @@ import { render, fireEvent } from "@testing-library/react-native";
 import AppModal from "../Modal";
 
 describe("TransactionAppModal", () => {
+  
   afterEach(() => {
     jest.clearAllMocks();
   });

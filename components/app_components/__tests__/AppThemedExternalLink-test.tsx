@@ -6,6 +6,7 @@ jest.mock("expo-web-browser", () => ({
 }));
 
 describe("AppThemedExternalLink", () => {
+  
   afterEach(() => {
     jest.clearAllMocks();
   });

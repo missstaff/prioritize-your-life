@@ -4,6 +4,7 @@ import { AppThemedText } from "../AppThemedText";
 import { useThemeColor } from "@/hooks/useThemeColor";
 
 describe("AppThemedText Tests", () => {
+  
   afterEach(() => {
     jest.clearAllMocks();
   });

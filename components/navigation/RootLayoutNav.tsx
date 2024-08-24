@@ -25,6 +25,7 @@ import NetInfo from "@react-native-community/netinfo";
 import { AppContextProvider } from "@/store/app/app-context";
 import { AuthContextProvider } from "@/store/auth/auth-context";
 import { TransactionContextProvider } from "@/store/transaction/transaction-context";
+import { AppThemedView } from "../app_components/AppThemedView";
 
 
 function onAppStateChange(status: AppStateStatus) {
@@ -62,7 +63,9 @@ export default function RootLayoutNav() {
   }, []);
 
   return (
-    <QueryClientProvider client={queryClient}>
+    <AppThemedView testID="root-layout-nav">
+    <QueryClientProvider 
+      client={queryClient}>
       <AuthContextProvider>
         <AppContextProvider>
           <TransactionContextProvider>
@@ -81,5 +84,6 @@ export default function RootLayoutNav() {
         </AppContextProvider>
       </AuthContextProvider>
     </QueryClientProvider>
+    </AppThemedView>
   );
 }
