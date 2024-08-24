@@ -13,9 +13,6 @@ describe("AppThemedExternalLink", () => {
   const mockHref = "https://example.com";
   const mockStyle = { fontSize: 16 };
 
-  beforeEach(() => {
-    jest.clearAllMocks();
-  });
 
   it("renders the external link component", () => {
     const { getByTestId } = render(

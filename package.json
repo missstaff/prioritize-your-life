@@ -1,9 +1,11 @@
 {
   "author": {
     "name": "Shawna (Miss) Staff",
-    "email": "shawnastaff@gmail.com"
+    "email": "shawnastaff@gmail.com",
+    "linkedin": "https://www.linkedin.com/in/shawnastaff/",
+    "github": "https://www.github.com/missstaff"
   },
-  "name": "finance-app",
+  "name": "prioritize-your-life",
   "main": "expo-router/entry",
   "version": "1.0.0",
   "scripts": {
