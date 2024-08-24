@@ -1,0 +1,7 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ShowIf Component renders correctly 1`] = `
+<Text>
+  Condition is true
+</Text>
+`;

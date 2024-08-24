@@ -14,13 +14,20 @@ describe("OnError", () => {
     jest.clearAllMocks();
   });
 
+  it("matches snapshot", () => {
+    const { toJSON } = render(
+      <OnError error={{ message: "Test error message" }} />
+    );
+    expect(toJSON()).toMatchSnapshot();
+  });
+
   it("renders the error message and Home link correctly", () => {
     const mockError = { message: "Test error message" };
 
     const { getByText } = render(<OnError error={mockError} />);
 
     //     // Check if the error message is rendered
-    expect(getByText(`Error: `)).toBeTruthy();
+    expect(getByText("Error: ")).toBeTruthy();
 
     //     // Check if the Home link is rendered
     const homeLink = getByText("Home");

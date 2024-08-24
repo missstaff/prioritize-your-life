@@ -9,6 +9,13 @@ describe("TabBarIcon", () => {
     jest.clearAllMocks();
   });
 
+  it("matches snapshot", () => {
+    const { toJSON } = render(
+      <TabBarIcon name="home" testID="icon" style={{ color: "red" }} />
+    );
+    expect(toJSON()).toMatchSnapshot();
+  });
+
   it("renders correctly with the given props", () => {
     const { getByTestId } = render(
       <TabBarIcon name="home" testID="icon" style={{ color: "red" }} />

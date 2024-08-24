@@ -6,9 +6,11 @@ describe("LoadingSpinner", () => {
   afterEach(() => {
     jest.clearAllMocks();
   });
-  
+
   it("renders correctly with the given props", () => {
-    const tree = renderer.create(<LoadingSpinner size="small" color="red" />).toJSON();
+    const tree = renderer
+      .create(<LoadingSpinner size="small" color="red" />)
+      .toJSON();
 
     expect(tree).toMatchSnapshot();
   });

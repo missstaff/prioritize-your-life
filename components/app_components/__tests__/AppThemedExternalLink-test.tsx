@@ -13,6 +13,12 @@ describe("AppThemedExternalLink", () => {
   const mockHref = "https://example.com";
   const mockStyle = { fontSize: 16 };
 
+  it("matches snapshot", () => {
+    const { toJSON } = render(
+      <AppThemedExternalLink href={mockHref} style={mockStyle} />
+    );
+    expect(toJSON()).toMatchSnapshot();
+  });
 
   it("renders the external link component", () => {
     const { getByTestId } = render(
@@ -21,5 +27,4 @@ describe("AppThemedExternalLink", () => {
     const externalLink = getByTestId("external-link");
     expect(externalLink).toBeDefined();
   });
-
 });
