@@ -18,8 +18,8 @@ interface AuthContextType extends AuthState {
 export const AuthContext = createContext<AuthContextType>({
   isAuthenticated: false,
   uid: "",
-  setIsAuthenticated: () => {},
-  setUid: () => {},
+  setIsAuthenticated: () => { },
+  setUid: () => { },
 });
 
 interface AuthContextProviderProps {
@@ -44,8 +44,7 @@ export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
   };
 
   const ctxValue: AuthContextType = {
-    isAuthenticated: state.isAuthenticated,
-    uid: state.uid,
+    ...state,
     setIsAuthenticated,
     setUid,
   };

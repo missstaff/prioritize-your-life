@@ -59,7 +59,5 @@ export function getFireApp() {
       text1: "Failed to start app.",
       text2: "Please try again.",
     });
-
-    throw new Error("Failed to instantiate firebase app");
   }
 }
