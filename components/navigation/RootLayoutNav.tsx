@@ -35,11 +35,13 @@ function onAppStateChange(status: AppStateStatus) {
   }
 }
 
+
 /**
  * RootLayoutNav component.
+ * 
  * This component is responsible for rendering the root layout navigation.
  * It sets up the necessary providers and configures the navigation stack.
-
+ * 
  * @returns The rendered RootLayoutNav component.
  */
 export default function RootLayoutNav() {

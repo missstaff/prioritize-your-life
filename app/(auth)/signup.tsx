@@ -13,6 +13,14 @@ import { AppThemedText } from "@/components/app_components/AppThemedText";
 import { styles } from "./styles";
 import { handleSignUp } from "./apis/api";
 
+/**
+ * SignUp component.
+ *
+ * This component is responsible for rendering the sign up functionality.
+ * It allows the user to enter their email and password to sign up.
+ *
+ * @returns JSX.Element
+ */
 export default function SignUp(): JSX.Element {
   const queryClient = useQueryClient();
   const { setIsAuthenticated, setUid } = useContext(AuthContext);

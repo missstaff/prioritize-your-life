@@ -13,8 +13,6 @@ export interface ToasterProps {
  * Toaster component.
  * @param {ToasterProps} props - The props for the Toaster component.
  * @returns {JSX.Element} The rendered Toaster component.
- * @component
- * @example
  */
 const Toaster: React.FC<ToasterProps> = ({
   onPress,

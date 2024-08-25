@@ -1,11 +1,11 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`AppThemedText Tests renders correctly 1`] = `
+exports[`AppThemedText Tests renders correctly with custom styles 1`] = `
 <Text
   style={
     [
       {
-        "color": "#ECEDEE",
+        "color": "#000000",
       },
       {
         "fontSize": 34.285714285714285,
@@ -15,15 +15,18 @@ exports[`AppThemedText Tests renders correctly 1`] = `
       undefined,
       undefined,
       undefined,
-      undefined,
+      {
+        "fontSize": 24,
+        "fontWeight": "bold",
+      },
     ]
   }
 >
-  Snapshot test!
+  Custom Styled Text
 </Text>
 `;
 
-exports[`AppThemedText Tests renders correctly with dark theme 1`] = `
+exports[`AppThemedText Tests renders correctly with default type and light theme 1`] = `
 <Text
   style={
     [
@@ -42,22 +45,94 @@ exports[`AppThemedText Tests renders correctly with dark theme 1`] = `
     ]
   }
 >
-  Snapshot test!
+  Default Text
 </Text>
 `;
 
-exports[`AppThemedText Tests renders correctly with light theme 1`] = `
+exports[`AppThemedText Tests renders correctly with defaultSemiBold type 1`] = `
+<Text
+  style={
+    [
+      {
+        "color": "#000000",
+      },
+      undefined,
+      undefined,
+      {
+        "fontSize": 34.285714285714285,
+        "fontWeight": "600",
+        "lineHeight": 51.42857142857143,
+      },
+      undefined,
+      undefined,
+      undefined,
+    ]
+  }
+>
+  SemiBold Text
+</Text>
+`;
+
+exports[`AppThemedText Tests renders correctly with link type 1`] = `
+<Text
+  style={
+    [
+      {
+        "color": "#000000",
+      },
+      undefined,
+      undefined,
+      undefined,
+      undefined,
+      {
+        "color": "#CD03EF",
+        "fontSize": 34.285714285714285,
+        "lineHeight": 64.28571428571428,
+      },
+      undefined,
+    ]
+  }
+>
+  Link Text
+</Text>
+`;
+
+exports[`AppThemedText Tests renders correctly with subtitle type 1`] = `
+<Text
+  style={
+    [
+      {
+        "color": "#000000",
+      },
+      undefined,
+      undefined,
+      undefined,
+      {
+        "fontSize": 42.857142857142854,
+        "fontWeight": "bold",
+      },
+      undefined,
+      undefined,
+    ]
+  }
+>
+  Subtitle Text
+</Text>
+`;
+
+exports[`AppThemedText Tests renders correctly with title type and dark theme 1`] = `
 <Text
   style={
     [
       {
         "color": "#ffffff",
       },
-      {
-        "fontSize": 34.285714285714285,
-        "lineHeight": 51.42857142857143,
-      },
       undefined,
+      {
+        "fontSize": 68.57142857142857,
+        "fontWeight": "bold",
+        "lineHeight": 68.57142857142857,
+      },
       undefined,
       undefined,
       undefined,
@@ -65,6 +140,6 @@ exports[`AppThemedText Tests renders correctly with light theme 1`] = `
     ]
   }
 >
-  Snapshot test!
+  Title Text
 </Text>
 `;

@@ -48,12 +48,12 @@ const TransactionModalContent = ({
 
   const handleResetState = () => {
     setIsVisible(false),
-    setAmount(""),
-    setDate(""),
-    setDescription(""),
-    setTransactionId("")
+      setAmount(""),
+      setDate(""),
+      setDescription(""),
+      setTransactionId("");
   };
-  
+
   const handleSubmit = () => {
     if (validateFormInputs(date, amount, description)) {
       mutation.mutate();

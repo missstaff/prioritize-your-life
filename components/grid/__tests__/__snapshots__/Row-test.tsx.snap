@@ -1,0 +1,22 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Row Component renders correctly with no children 1`] = `
+<View
+  style={
+    [
+      {
+        "backgroundColor": "#151718",
+      },
+      {
+        "alignItems": "center",
+        "display": "flex",
+        "flexDirection": "row",
+        "justifyContent": "flex-start",
+        "paddingHorizontal": 10.714285714285714,
+        "paddingVertical": 9.808823529411764,
+        "width": "100%",
+      },
+    ]
+  }
+/>
+`;

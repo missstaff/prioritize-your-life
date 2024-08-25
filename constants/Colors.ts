@@ -1,7 +1,3 @@
-/**
- * Below are the colors that are used in the app.
- */
-
 export const COLORS = {
   white: "#fff",
   offWhite: "#ECEDEE",

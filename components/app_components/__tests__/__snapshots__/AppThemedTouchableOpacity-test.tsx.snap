@@ -1,12 +1,12 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`AppThemedTouchableOpacity Tests renders correctly 1`] = `
+exports[`AppThemedTouchableOpacity Tests renders correctly when disabled 1`] = `
 <View
   accessibilityState={
     {
       "busy": undefined,
       "checked": undefined,
-      "disabled": undefined,
+      "disabled": true,
       "expanded": undefined,
       "selected": undefined,
     }
@@ -32,7 +32,7 @@ exports[`AppThemedTouchableOpacity Tests renders correctly 1`] = `
   style={
     {
       "alignItems": "center",
-      "backgroundColor": "blue",
+      "backgroundColor": "#CD03EF",
       "borderRadius": 10.714285714285714,
       "marginBottom": 21.428571428571427,
       "opacity": 1,
@@ -57,19 +57,19 @@ exports[`AppThemedTouchableOpacity Tests renders correctly 1`] = `
         undefined,
         [
           {
-            "color": "white",
+            "color": "#fff",
           },
           undefined,
         ],
       ]
     }
   >
-    Children Content
+    Disabled Button
   </Text>
 </View>
 `;
 
-exports[`AppThemedTouchableOpacity Tests renders correctly with dark theme 1`] = `
+exports[`AppThemedTouchableOpacity Tests renders correctly with custom styles 1`] = `
 <View
   accessibilityState={
     {
@@ -101,7 +101,7 @@ exports[`AppThemedTouchableOpacity Tests renders correctly with dark theme 1`] =
   style={
     {
       "alignItems": "center",
-      "backgroundColor": "blue",
+      "backgroundColor": "red",
       "borderRadius": 10.714285714285714,
       "marginBottom": 21.428571428571427,
       "opacity": 1,
@@ -114,7 +114,7 @@ exports[`AppThemedTouchableOpacity Tests renders correctly with dark theme 1`] =
     style={
       [
         {
-          "color": "#000000",
+          "color": "#ECEDEE",
         },
         {
           "fontSize": 34.285714285714285,
@@ -126,19 +126,21 @@ exports[`AppThemedTouchableOpacity Tests renders correctly with dark theme 1`] =
         undefined,
         [
           {
-            "color": "white",
+            "color": "#fff",
           },
-          undefined,
+          {
+            "fontSize": 20,
+          },
         ],
       ]
     }
   >
-    Children Content
+    Custom Button
   </Text>
 </View>
 `;
 
-exports[`AppThemedTouchableOpacity Tests renders correctly with light theme 1`] = `
+exports[`AppThemedTouchableOpacity Tests renders correctly with default props 1`] = `
 <View
   accessibilityState={
     {
@@ -159,7 +161,7 @@ exports[`AppThemedTouchableOpacity Tests renders correctly with light theme 1`] 
   }
   accessible={true}
   collapsable={false}
-  focusable={false}
+  focusable={true}
   onClick={[Function]}
   onResponderGrant={[Function]}
   onResponderMove={[Function]}
@@ -170,7 +172,7 @@ exports[`AppThemedTouchableOpacity Tests renders correctly with light theme 1`] 
   style={
     {
       "alignItems": "center",
-      "backgroundColor": "blue",
+      "backgroundColor": "#CD03EF",
       "borderRadius": 10.714285714285714,
       "marginBottom": 21.428571428571427,
       "opacity": 1,
@@ -183,7 +185,7 @@ exports[`AppThemedTouchableOpacity Tests renders correctly with light theme 1`] 
     style={
       [
         {
-          "color": "#ffffff",
+          "color": "#ECEDEE",
         },
         {
           "fontSize": 34.285714285714285,
@@ -195,14 +197,14 @@ exports[`AppThemedTouchableOpacity Tests renders correctly with light theme 1`] 
         undefined,
         [
           {
-            "color": "white",
+            "color": "#fff",
           },
           undefined,
         ],
       ]
     }
   >
-    Children Content
+    Click Me
   </Text>
 </View>
 `;

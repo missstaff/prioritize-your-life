@@ -3,6 +3,12 @@ import { AppThemedText } from "../app_components/AppThemedText";
 import { AppThemedView } from "../app_components/AppThemedView";
 import { ScaledSheet } from "react-native-size-matters";
 
+/**
+ * Renders an error message component.
+ * 
+ * @param error - The error object.
+ * @returns The rendered error message component.
+ */
 export default function OnError(error: any) {
     return (
         <AppThemedView

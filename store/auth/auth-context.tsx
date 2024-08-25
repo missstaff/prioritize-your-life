@@ -1,25 +1,25 @@
 import React, { createContext, useReducer, ReactNode } from "react";
 import { authReducer, AuthState, Action } from "./auth-reducer";
 
-/**
- * Represents the state of the application.
- * @property {boolean} isAuthenticated - Indicates whether the user is authenticated.
- * @property {string} uid - The user ID.
- * @property {function} setIsAuthenticated - Sets the value of isAuthenticated.
- * @property {function} setUid - Sets the value of uid.
- */
 
-// Define context type
 interface AuthContextType extends AuthState {
   setIsAuthenticated: (isAuthenticated: boolean) => void;
   setUid: (uid: string | undefined) => void;
 }
 
+/**
+ * The authentication context.
+ * @param isAuthenticated - Whether the user is authenticated.
+ * @param uid - The user ID.
+ * @param setIsAuthenticated - Function to set the authentication status.
+ * @param setUid - Function to set the user ID.
+ * @returns The authentication context.
+ */
 export const AuthContext = createContext<AuthContextType>({
   isAuthenticated: false,
   uid: "",
-  setIsAuthenticated: () => {},
-  setUid: () => {},
+  setIsAuthenticated: () => { },
+  setUid: () => { },
 });
 
 interface AuthContextProviderProps {
@@ -44,8 +44,7 @@ export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
   };
 
   const ctxValue: AuthContextType = {
-    isAuthenticated: state.isAuthenticated,
-    uid: state.uid,
+    ...state,
     setIsAuthenticated,
     setUid,
   };

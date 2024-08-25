@@ -10,7 +10,7 @@ import { router } from "expo-router";
 export const handleResetPassword = async ({
     email,
 }: ResetPasswordProps) => {
-    if(email === "") {
+    if (email === "") {
         throw new Error("Email is required.");
     }
     if (!isValidEmail(email)) {
@@ -18,21 +18,29 @@ export const handleResetPassword = async ({
     }
     try {
         const firebase = await getFirebase();
-        await firebase.auth().sendPasswordResetEmail(email);
+        if (firebase) {
+            await firebase.auth().sendPasswordResetEmail(email);
+        } else {
+            throw new Error("Firebase app not initialized");
+        }
     } catch (error: any) {
         throw new Error("Error resetting password", error.message ?? error);
     }
 };
 
 export const handleSignIn = async ({ email, password }: SignInProps) => {
-    if (!email) {
-        throw new Error("Email is required.");
-    }
-    if (!password) {
-        throw new Error("Password is required.");
-    }
     try {
+        if (!email) {
+            throw new Error("Email is required.");
+        }
+        if (!password) {
+            throw new Error("Password is required.");
+        }
         const firebase = await getFirebase();
+        if (!firebase) {
+            throw new Error("Firebase app not initialized");
+        }
+
         const userCreds = await firebase
             .auth()
             .signInWithEmailAndPassword(email, password);
@@ -41,7 +49,7 @@ export const handleSignIn = async ({ email, password }: SignInProps) => {
             return userCreds.user.uid;
         }
     } catch (error: any) {
-        throw new Error("Error signing in." + error.message  ?? error);
+        throw new Error("Error signing in." + error.message ?? error);
     }
 };
 
@@ -50,30 +58,32 @@ export const handleSignUp = async ({
     confirmPassword,
     password,
 }: SignUpProps) => {
-    if (!email) {
-        throw new Error("Email is required.");
-    }
-    if (!isValidEmail(email)) {
-        throw new Error("Invalid email address.");
-    }
-    if (!password) {
-        throw new Error("Password is required.");
-    }
-    if(!isValidPassword(password)) {
-        throw new Error("Invalid password");
-    }
-    if (!confirmPassword) {
-        throw new Error("Password confirmation is required.");
-    }
-    if(!isValidPassword(password)) {
-        throw new Error("Invalid password");
-    }
-    if (confirmPassword !== password) {
-        throw new Error("Passwords do not match.");
-    }
-
     try {
+        if (!email) {
+            throw new Error("Email is required.");
+        }
+        if (!isValidEmail(email)) {
+            throw new Error("Invalid email address.");
+        }
+        if (!password) {
+            throw new Error("Password is required.");
+        }
+        if (!isValidPassword(password)) {
+            throw new Error("Invalid password");
+        }
+        if (!confirmPassword) {
+            throw new Error("Password confirmation is required.");
+        }
+        if (!isValidPassword(password)) {
+            throw new Error("Invalid password");
+        }
+        if (confirmPassword !== password) {
+            throw new Error("Passwords do not match.");
+        }
         const firebase = await getFirebase();
+        if (!firebase) {
+            throw new Error("Firebase app not initialized");
+        }
         const userCreds = await firebase
             .auth()
             .createUserWithEmailAndPassword(email, password);
@@ -92,12 +102,11 @@ export const logout = async (
     setIsAuthenticated: (isAuthenticated: boolean) => void,
     setUid: (uid: string) => void
 ) => {
-    const firebase = await getFirebase();
-    if (!firebase) {
-        throw new Error("Firebase app not initialized");
-    }
-
     try {
+        const firebase = await getFirebase();
+        if (!firebase) {
+            throw new Error("Firebase app not initialized");
+        }
         await firebase
             .auth()
             .signOut();

@@ -28,7 +28,6 @@ export interface SignUpProps {
   confirmPassword: string;
 }
 
-
 export interface TransactionModalContentProps {
   data: TransactionState[] | undefined;
   selectedTab: string;
@@ -43,7 +42,6 @@ export interface TransactionProps {
   description: string;
   id: string;
 }
-
 
 // import { UseMutationResult } from "@tanstack/react-query";
 // mutation: UseMutationResult<void, Error, void, unknown>;

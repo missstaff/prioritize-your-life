@@ -1,6 +1,132 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`AppIcon Tests renders correctly 1`] = `
+exports[`AppIcon Tests renders correctly with a custom size 1`] = `
+<View
+  style={
+    [
+      {
+        "alignItems": "center",
+        "backgroundColor": "transparent",
+        "borderRadius": 100,
+        "display": "flex",
+        "flexDirection": "column",
+        "justifyContent": "center",
+        "padding": 5.357142857142857,
+      },
+      undefined,
+    ]
+  }
+>
+  <Text
+    allowFontScaling={false}
+    selectable={false}
+    style={
+      [
+        {
+          "color": undefined,
+          "fontSize": 32,
+        },
+        undefined,
+        {
+          "fontFamily": "ionicons",
+          "fontStyle": "normal",
+          "fontWeight": "normal",
+        },
+        {},
+      ]
+    }
+  >
+    
+  </Text>
+</View>
+`;
+
+exports[`AppIcon Tests renders correctly with a custom style 1`] = `
+<View
+  style={
+    [
+      {
+        "alignItems": "center",
+        "backgroundColor": "transparent",
+        "borderRadius": 100,
+        "display": "flex",
+        "flexDirection": "column",
+        "justifyContent": "center",
+        "padding": 5.357142857142857,
+      },
+      {
+        "backgroundColor": "blue",
+        "padding": 10,
+      },
+    ]
+  }
+>
+  <Text
+    allowFontScaling={false}
+    selectable={false}
+    style={
+      [
+        {
+          "color": undefined,
+          "fontSize": 60,
+        },
+        undefined,
+        {
+          "fontFamily": "ionicons",
+          "fontStyle": "normal",
+          "fontWeight": "normal",
+        },
+        {},
+      ]
+    }
+  >
+    
+  </Text>
+</View>
+`;
+
+exports[`AppIcon Tests renders correctly with custom color 1`] = `
+<View
+  style={
+    [
+      {
+        "alignItems": "center",
+        "backgroundColor": "transparent",
+        "borderRadius": 100,
+        "display": "flex",
+        "flexDirection": "column",
+        "justifyContent": "center",
+        "padding": 5.357142857142857,
+      },
+      undefined,
+    ]
+  }
+>
+  <Text
+    allowFontScaling={false}
+    selectable={false}
+    style={
+      [
+        {
+          "color": "red",
+          "fontSize": 60,
+        },
+        undefined,
+        {
+          "fontFamily": "ionicons",
+          "fontStyle": "normal",
+          "fontWeight": "normal",
+        },
+        {},
+      ]
+    }
+  >
+    
+  </Text>
+</View>
+`;
+
+exports[`AppIcon Tests renders correctly with default props 1`] = `
 <View
   style={
     [
@@ -18,5 +144,46 @@ exports[`AppIcon Tests renders correctly 1`] = `
   }
 >
   <Text />
+</View>
+`;
+
+exports[`AppIcon Tests renders with a different icon 1`] = `
+<View
+  style={
+    [
+      {
+        "alignItems": "center",
+        "backgroundColor": "transparent",
+        "borderRadius": 100,
+        "display": "flex",
+        "flexDirection": "column",
+        "justifyContent": "center",
+        "padding": 5.357142857142857,
+      },
+      undefined,
+    ]
+  }
+>
+  <Text
+    allowFontScaling={false}
+    selectable={false}
+    style={
+      [
+        {
+          "color": undefined,
+          "fontSize": 60,
+        },
+        undefined,
+        {
+          "fontFamily": "ionicons",
+          "fontStyle": "normal",
+          "fontWeight": "normal",
+        },
+        {},
+      ]
+    }
+  >
+    
+  </Text>
 </View>
 `;

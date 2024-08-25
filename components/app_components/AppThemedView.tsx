@@ -7,7 +7,6 @@ export type ThemedViewProps = ViewProps & {
   lightColor?: string;
 };
 
-
 /**
  * Renders a themed view component with customizable style and other props.
  * @param {ThemedViewProps} props - The props for the AppThemedView component.

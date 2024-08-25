@@ -23,20 +23,18 @@ interface AppThemedTextInputProps {
   setValue: (value: string) => void;
 }
 
-
 /**
- * AppThemedTextInput component.
- * 
- * @param checkValue - Function to check the value of the input.
- * @param iconName - Name of the icon to display.
- * @param placeholder - Placeholder text for the input.
- * @param secureEntry - Boolean indicating whether the input should be secure (password) or not.
- * @param setValue - Function to set the value of the input.
- * @param containerStyle - Additional styles for the input container.
- * @param inputStyle - Additional styles for the input.
- * @param value - Current value of the input.
- * @param otherProps - Additional props to pass to the TextInput component.
- * @returns The rendered AppThemedTextInput component.
+ * Represents a themed text input component.
+ * @param {AppThemedTextInputProps} props - The props for the themed text input component.
+ * @param {string} props.iconName - The name of the icon to display.
+ * @param {string} props.placeholder - The placeholder text for the input.
+ * @param {StyleProp<ViewStyle>} props.containerStyle - The custom style for the container.
+ * @param {StyleProp<TextStyle>} props.inputStyle - The custom style for the input.
+ * @param {boolean} props.secureEntry - Indicates if the input is a password field.
+ * @param {string} props.value - The value of the input.
+ * @param {(value: string) => void} props.checkValue - The function to check the value of the input.
+ * @param {(value: string) => void} props.setValue - The function to set the value of the input.
+ * @returns {JSX.Element} The themed text input component.
  */
 export const AppThemedTextInput = ({
   checkValue,
@@ -54,9 +52,9 @@ export const AppThemedTextInput = ({
     { light: COLORTHEME.light.background, dark: COLORTHEME.dark.background },
     "background"
   );
-  
+
   const [isPasswordVisible, setIsPasswordVisible] = useState(!secureEntry);
-  
+
   return (
     <AppThemedView style={[styles.inputContainer, containerStyle]}>
       <TextInput

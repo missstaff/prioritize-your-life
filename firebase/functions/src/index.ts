@@ -1,11 +1,11 @@
-import {generate} from "@genkit-ai/ai";
-import {configureGenkit} from "@genkit-ai/core";
-import {firebaseAuth} from "@genkit-ai/firebase/auth";
-import {onFlow} from "@genkit-ai/firebase/functions";
-import {geminiPro} from "@genkit-ai/googleai";
+import { generate } from "@genkit-ai/ai";
+import { configureGenkit } from "@genkit-ai/core";
+import { firebaseAuth } from "@genkit-ai/firebase/auth";
+import { onFlow } from "@genkit-ai/firebase/functions";
+import { geminiPro } from "@genkit-ai/googleai";
 import * as z from "zod";
-import {firebase} from "@genkit-ai/firebase";
-import {googleAI} from "@genkit-ai/googleai";
+import { firebase } from "@genkit-ai/firebase";
+import { googleAI } from "@genkit-ai/googleai";
 
 configureGenkit({
   plugins: [
