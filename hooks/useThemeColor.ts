@@ -2,10 +2,10 @@ import { useColorScheme } from "react-native";
 import { COLORTHEME } from "@/constants/Colors";
 
 /**
- * Get the color for the current theme
- * @param props - The props object
- * @param colorName - The color name
- * @returns The color for the current theme
+ * Retrieves the color for a component based on the theme.
+ * @param props The component props.
+ * @param colorName The color name.
+ * @returns The color for the component.
  */
 export function useThemeColor(
   props: { light?: string; dark?: string },

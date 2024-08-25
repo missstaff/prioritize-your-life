@@ -1,3 +1,6 @@
+import firebase from "@react-native-firebase/app";
+import { Platform } from "react-native";
+import Toast from "react-native-toast-message";
 import "@react-native-firebase/auth";
 import "@react-native-firebase/database";
 import "@react-native-firebase/dynamic-links";
@@ -7,13 +10,10 @@ import "@react-native-firebase/in-app-messaging";
 import "@react-native-firebase/messaging";
 import "@react-native-firebase/storage";
 
-import firebase from "@react-native-firebase/app";
-import { Platform } from "react-native";
-import Toast from "react-native-toast-message";
-
 /**
- * Gets the firebase app.
- * @returns The firebase app.
+ * Retrieves the Firebase app instance based on the platform and configuration.
+ * @returns The Firebase app instance.
+ * @throws Error if the platform is not supported or if there is an error instantiating the Firebase app.
  */
 export function getFireApp() {
   const firebaseConfig = {

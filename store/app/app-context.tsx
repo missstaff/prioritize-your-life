@@ -6,6 +6,14 @@ export interface AppContextType extends AppState {
   setSelectedTab: (selectedTab: number) => void;
 }
 
+/**
+ * The context for the app.
+ * @param isVisible - Whether the app is visible.
+ * @param selectedTab - The selected tab.
+ * @param setIsVisible - Function to set the visibility of the app.
+ * @param setSelectedTab - Function to set the selected tab.
+ * @returns The app context.
+ */
 export const AppContext = createContext<AppContextType>({
   isVisible: false,
   selectedTab: 0,

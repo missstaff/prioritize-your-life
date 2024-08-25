@@ -13,6 +13,12 @@ export type Action =
   | { type: "Date"; date: string }
   | { type: "Description"; description: string }
 
+/**
+ * Reducer function for managing transaction state.
+ * @param state - The current transaction state.
+ * @param action - The action object that describes the state change.
+ * @returns The updated transaction state.
+ */
 export const transactionReducer = (state: TransactionState, action: Action): TransactionState => {
   switch (action.type) {
     case "Id":

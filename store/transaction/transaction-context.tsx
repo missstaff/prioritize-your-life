@@ -13,6 +13,21 @@ export interface TransactionContextType extends TransactionState {
   setBalance: (balance: number) => void;
 }
 
+/**
+ * TransactionContext
+ * @template TransactionContextType - The type of the transaction context.
+ * @param {string} id - The transaction ID.
+ * @param {string} amount - The transaction amount.
+ * @param {number} balance - The transaction balance.
+ * @param {string} date - The transaction date.
+ * @param {string} description - The transaction description.
+ * @param {Function} setAmount - Function to set the transaction amount.
+ * @param {Function} setDate - Function to set the transaction date.
+ * @param {Function} setDescription - Function to set the transaction description.
+ * @param {Function} setTransactionId - Function to set the transaction ID.
+ * @param {Function} setBalance - Function to set the transaction balance.
+ * @returns The transaction context.
+ */
 export const TransactionContext = createContext<TransactionContextType>({
   id: "",
   amount: "",
