@@ -30,6 +30,8 @@ export const handleResetPassword = async ({
 
 export const handleSignIn = async ({ email, password }: SignInProps) => {
     try {
+        email = email.toLowerCase().trim();
+        password = password.trim();
         if (!email) {
             throw new Error("Email is required.");
         }

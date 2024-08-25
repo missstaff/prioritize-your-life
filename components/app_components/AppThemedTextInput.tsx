@@ -19,6 +19,7 @@ interface AppThemedTextInputProps {
   inputStyle?: StyleProp<TextStyle>;
   secureEntry: boolean;
   value: string;
+  keyboardType?: "default" | "numeric";
   checkValue: (value: string) => void;
   setValue: (value: string) => void;
 }
@@ -45,6 +46,7 @@ export const AppThemedTextInput = ({
   containerStyle,
   inputStyle,
   value,
+  keyboardType,
   ...otherProps
 }: AppThemedTextInputProps) => {
   const textColor = useThemeColor({}, "text");
@@ -58,6 +60,7 @@ export const AppThemedTextInput = ({
   return (
     <AppThemedView style={[styles.inputContainer, containerStyle]}>
       <TextInput
+        keyboardType={keyboardType}
         onBlur={(e) => {
           if (value.length > 0) checkValue(value);
         }}

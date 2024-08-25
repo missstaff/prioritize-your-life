@@ -60,6 +60,7 @@ export default function SignUp(): JSX.Element {
             <AppThemedTextInput
               checkValue={isValidEmail}
               iconName="mail"
+              keyboardType="default"
               placeholder="Email"
               secureEntry={false}
               setValue={setEmail}
@@ -67,6 +68,7 @@ export default function SignUp(): JSX.Element {
             />
             <AppThemedTextInput
               checkValue={isValidPassword}
+              keyboardType="default"
               placeholder="Password"
               secureEntry={true}
               setValue={setPassword}
@@ -74,6 +76,7 @@ export default function SignUp(): JSX.Element {
             />
             <AppThemedTextInput
               checkValue={isValidPassword}
+              keyboardType="default"
               placeholder="Confirm Password"
               secureEntry={true}
               setValue={setConfirmPassword}

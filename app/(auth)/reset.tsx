@@ -54,6 +54,7 @@ export default function ResetPassword() {
           <AppThemedTextInput
             checkValue={isValidEmail}
             iconName="mail"
+            keyboardType="default"
             placeholder="Email"
             secureEntry={false}
             setValue={setEmail}
