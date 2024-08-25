@@ -7,6 +7,14 @@ export interface AddTransactionProps {
   setIsVisible: (isVisible: boolean) => void;
 }
 
+/**
+ * Represents the balance component.
+ * @param {AddTransactionProps} props - The props for the balance component.
+ * @param {number | undefined} props.balance - The balance to be displayed.
+ * @param {TransactionState[] | undefined} props.data - The transaction data.
+ * @param {function} props.setIsVisible - The function to set the visibility of the component.
+ * @returns {JSX.Element} The rendered balance component.
+ */
 export default function Balance({
   balance,
   data,

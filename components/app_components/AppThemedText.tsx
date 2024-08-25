@@ -8,13 +8,12 @@ export type ThemedTextProps = TextProps & {
 };
 
 /**
- * A custom text component that applies theme-based styling.
- * @param style - The style object to be applied to the text component.
- * @param lightColor - The color to be used when the theme is light.
- * @param darkColor - The color to be used when the theme is dark.
- * @param type - The type of text styling to be applied.
- * @param rest - Additional props to be passed to the text component.
- * @returns {JSX.Element} The rendered AppThemedText component.
+ * Renders a themed text component.
+ * @param {ThemedTextProps} props - The component props.
+ * @param {string} props.type - The type of text to render.
+ * @param {React.CSSProperties} props.style - The custom style for the text.
+ * @param {React.HTMLAttributes<HTMLAnchorElement>} props.rest - Additional HTML attributes for the text.
+ * @returns {JSX.Element} The rendered themed text component.
  */
 export function AppThemedText({
   style,

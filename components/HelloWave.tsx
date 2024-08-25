@@ -9,7 +9,7 @@ import Animated, {
 
 import { AppThemedText } from "@/components/app_components/AppThemedText";
 
-// #ToDo: determine if this component will be used if so, write tests for it, else delete it
+// #TODO: determine if this component will be used if so, write tests for it, else delete it
 export function HelloWave() {
   const rotationAnimation = useSharedValue(0);
 

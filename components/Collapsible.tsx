@@ -7,6 +7,7 @@ import { AppThemedView } from "@/components/app_components/AppThemedView";
 import { COLORTHEME } from "@/constants/Colors";
 
 /**
+ * #TODO determine if using or delete this component
  * A collapsible component that can be used to hide and show content.
  * @param {PropsWithChildren} children - The content to be displayed when the component is expanded.
  * @returns {JSX.Element} A collapsible component.

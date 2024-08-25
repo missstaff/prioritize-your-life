@@ -17,7 +17,7 @@ type Props = PropsWithChildren<{
   headerBackgroundColor: { dark: string; light: string };
 }>;
 
-// #ToDo: determine if this component will be used if so, write tests for it, else delete it
+// #TODO: determine if this component will be used if so, write tests for it, else delete it
 export default function ParallaxScrollView({
   children,
   headerImage,
