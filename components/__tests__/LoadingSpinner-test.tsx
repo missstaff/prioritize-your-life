@@ -3,7 +3,7 @@ import renderer from "react-test-renderer";
 import LoadingSpinner from "../LoadingSpinner";
 
 describe("LoadingSpinner", () => {
-  afterEach(() => {
+  beforeEach(() => {
     jest.clearAllMocks();
   });
 

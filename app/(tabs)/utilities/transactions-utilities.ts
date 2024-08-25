@@ -181,7 +181,7 @@ export const parseDate = (dateStr: string): Date => {
  */
 export const truncateString = (str: string, maxLength: number = 20) => {
   if (str.length > maxLength) {
-    return str.substring(0, maxLength) + '...';
+    return str.substring(0, maxLength) + "...";
   }
   return str;
 };

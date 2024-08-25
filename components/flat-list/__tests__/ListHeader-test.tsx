@@ -17,7 +17,7 @@ jest.mock("../../app_components/AppThemedText", () => ({
 }));
 
 describe("ListHeader Component", () => {
-  afterEach(() => {
+  beforeEach(() => {
     jest.clearAllMocks();
   });
 

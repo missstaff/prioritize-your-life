@@ -2,7 +2,7 @@ import React, { createContext, useReducer, ReactNode } from "react";
 import { authReducer, AuthState, Action } from "./auth-reducer";
 
 
-interface AuthContextType extends AuthState {
+export interface AuthContextType extends AuthState {
   setIsAuthenticated: (isAuthenticated: boolean) => void;
   setUid: (uid: string | undefined) => void;
 }

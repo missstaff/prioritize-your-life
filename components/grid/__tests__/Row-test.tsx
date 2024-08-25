@@ -4,7 +4,7 @@ import { render } from "@testing-library/react-native";
 import Row from "../Row";
 
 describe("Row Component", () => {
-  afterEach(() => {
+  beforeEach(() => {
     jest.clearAllMocks();
   });
 

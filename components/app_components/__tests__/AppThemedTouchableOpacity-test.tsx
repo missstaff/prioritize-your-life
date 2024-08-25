@@ -5,7 +5,7 @@ import { TouchableOpacity } from "react-native";
 
 describe("AppThemedTouchableOpacity Tests", () => {
 
-  afterEach(() => {
+  beforeEach(() => {
     jest.clearAllMocks();
   });
 

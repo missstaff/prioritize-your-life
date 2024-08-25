@@ -4,7 +4,7 @@ import { render } from "@testing-library/react-native";
 import Column from "../Column";
 
 describe("Column Component", () => {
-  afterEach(() => {
+  beforeEach(() => {
     jest.clearAllMocks();
   });
 

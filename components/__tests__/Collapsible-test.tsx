@@ -4,7 +4,7 @@ import renderer from "react-test-renderer";
 import { Collapsible } from "../Collapsible";
 
 describe("Collapsible", () => {
-  afterEach(() => {
+  beforeEach(() => {
     jest.clearAllMocks();
   });
 

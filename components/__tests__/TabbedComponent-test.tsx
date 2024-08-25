@@ -5,7 +5,7 @@ import TabbedComponent from "@/components/TabbedComponent";
 import { AppThemedText } from "@/components/app_components/AppThemedText";
 
 describe("TabbedComponent", () => {
-  afterEach(() => {
+  beforeEach(() => {
     jest.clearAllMocks();
   });
 

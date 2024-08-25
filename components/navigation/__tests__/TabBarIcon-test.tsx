@@ -5,7 +5,7 @@ import { TabBarIcon } from "../TabBarIcon";
 jest.mock("@expo/vector-icons/Ionicons", () => "Ionicons");
 
 describe("TabBarIcon", () => {
-  afterEach(() => {
+  beforeEach(() => {
     jest.clearAllMocks();
   });
 

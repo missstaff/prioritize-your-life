@@ -47,7 +47,7 @@ export default function SignUp(): JSX.Element {
         text1: error.message,
         text2: "Please try again.",
       });
-    }
+    },
   });
 
   return (
