@@ -32,10 +32,14 @@ const AppThemedTouchableOpacity = ({
   onPress,
   textStyles,
   btnStyles,
-  disabled
+  disabled,
 }: ThemedAppThemedTouchableOpacity): JSX.Element => {
   return (
-    <TouchableOpacity disabled={disabled} onPress={onPress} style={[styles.button, btnStyles]}>
+    <TouchableOpacity
+      disabled={disabled}
+      onPress={onPress}
+      style={[styles.button, btnStyles]}
+    >
       <AppThemedText style={[styles.buttonText, textStyles]}>
         {children}
       </AppThemedText>

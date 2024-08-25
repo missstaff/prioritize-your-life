@@ -23,10 +23,9 @@ interface AppThemedTextInputProps {
   setValue: (value: string) => void;
 }
 
-
 /**
  * AppThemedTextInput component.
- * 
+ *
  * @param checkValue - Function to check the value of the input.
  * @param iconName - Name of the icon to display.
  * @param placeholder - Placeholder text for the input.
@@ -54,9 +53,9 @@ export const AppThemedTextInput = ({
     { light: COLORTHEME.light.background, dark: COLORTHEME.dark.background },
     "background"
   );
-  
+
   const [isPasswordVisible, setIsPasswordVisible] = useState(!secureEntry);
-  
+
   return (
     <AppThemedView style={[styles.inputContainer, containerStyle]}>
       <TextInput
