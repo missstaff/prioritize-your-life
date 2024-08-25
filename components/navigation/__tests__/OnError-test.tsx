@@ -10,7 +10,7 @@ jest.mock("expo-router", () => ({
 }));
 
 describe("OnError", () => {
-  afterEach(() => {
+  beforeEach(() => {
     jest.clearAllMocks();
   });
 

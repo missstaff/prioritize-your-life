@@ -10,7 +10,7 @@ jest.mock("../../app_components/AppThemedText", () => ({
 }));
 
 describe("Balance Component", () => {
-  afterEach(() => {
+  beforeEach(() => {
     jest.clearAllMocks();
   });
 

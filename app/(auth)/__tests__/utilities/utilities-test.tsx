@@ -5,6 +5,10 @@ import {
 } from "../../utilities";
 
 describe("isValidEmail", () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+  
   it("should return true for a valid email address", () => {
     expect(isValidEmail("test@example.com")).toBe(true);
   });

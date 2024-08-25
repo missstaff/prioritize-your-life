@@ -7,7 +7,7 @@ import { openBrowserAsync } from "expo-web-browser";
 import { useThemeColor } from "@/hooks/useThemeColor";
 
 describe("AppThemedExternalLink", () => {
-  afterEach(() => {
+  beforeEach(() => {
     jest.clearAllMocks();
   });
 

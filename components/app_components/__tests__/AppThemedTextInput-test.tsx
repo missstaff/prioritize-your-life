@@ -14,7 +14,7 @@ jest.mock("../AppIcon", () => ({
 
 
 describe("AppThemedTextInput", () => {
-  afterEach(() => {
+  beforeEach(() => {
     jest.clearAllMocks();
   });
 

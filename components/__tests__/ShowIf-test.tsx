@@ -5,7 +5,7 @@ import renderer from "react-test-renderer";
 import ShowIf from "@/components/ShowIf";
 
 describe("ShowIf Component", () => {
-  afterEach(() => {
+  beforeEach(() => {
     jest.clearAllMocks();
   });
 

@@ -4,7 +4,7 @@ import { AppIcon } from "../AppIcon";
 
 describe("AppIcon Tests", () => {
 
-  afterEach(() => {
+  beforeEach(() => {
     jest.clearAllMocks();
   });
 

@@ -6,7 +6,7 @@ import { useThemeColor } from "@/hooks/useThemeColor";
 
 describe("AppThemedView Tests", () => {
 
-  afterEach(() => {
+  beforeEach(() => {
     jest.clearAllMocks();
   });
 
