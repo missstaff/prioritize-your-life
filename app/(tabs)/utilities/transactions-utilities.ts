@@ -1,4 +1,5 @@
 import { IsValidProps } from "@/app/types";
+import { Timestamp } from "@react-native-firebase/firestore";
 import Toast from "react-native-toast-message";
 
 
@@ -7,11 +8,33 @@ import Toast from "react-native-toast-message";
  * @param timestamp - The timestamp to format.
  * @returns The formatted date string in the format "MM/DD/YY".
  */
+// export const formatDate = (timestamp: any): string => {
+//   const date = timestamp.toDate();
+//   const month = String(date.getMonth() + 1).padStart(2, "0");
+//   const day = String(date.getDate()).padStart(2, "0");
+//   const year = String(date.getFullYear()).slice(2);
+//   return `${month}/${day}/${year}`;
+// };
+
 export const formatDate = (timestamp: any): string => {
-  const date = timestamp.toDate();
+  let date: Date;
+
+  if (timestamp instanceof Timestamp) {
+    date = timestamp.toDate();
+  } else if (timestamp.seconds && timestamp.nanoseconds) {
+    // Handle plain timestamp object
+    date = new Date(timestamp.seconds * 1000);
+  } else if (timestamp instanceof Date) {
+    // Handle Date object directly
+    date = timestamp;
+  } else {
+    throw new Error("Invalid timestamp format");
+  }
+
   const month = String(date.getMonth() + 1).padStart(2, "0");
   const day = String(date.getDate()).padStart(2, "0");
-  const year = String(date.getFullYear()).slice(2);
+  const year = String(date.getFullYear());
+
   return `${month}/${day}/${year}`;
 };
 

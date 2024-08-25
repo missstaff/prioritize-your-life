@@ -32,7 +32,7 @@ export default function ResetPassword() {
       router.push("/");
       setEmail("");
     },
-    onError: (error:any) => {
+    onError: (error: any) => {
       Toast.show({
         type: "error",
         text1: error.message,
@@ -60,15 +60,15 @@ export default function ResetPassword() {
             value={email}
           />
           <AppThemedTouchableOpacity
+            testID="reset-password-button"
             disabled={!isValidEmail || mutation.status === "pending"}
             onPress={() => mutation.mutate({ email })}
           >
             Reset Password
           </AppThemedTouchableOpacity>
-          <AppThemedText
-            onPress={() => router.push("/")}
-            type="link"
-          >Signin</AppThemedText>
+          <AppThemedText onPress={() => router.push("/")} type="link">
+            Signin
+          </AppThemedText>
         </AppThemedView>
       }
     />

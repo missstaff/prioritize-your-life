@@ -1,0 +1,24 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Column Component renders correctly with no children 1`] = `
+<View
+  style={
+    [
+      {
+        "backgroundColor": "#151718",
+      },
+      [
+        {
+          "alignItems": "flex-start",
+          "display": "flex",
+          "flexDirection": "column",
+          "flexGrow": 1,
+          "justifyContent": "center",
+          "width": "33%",
+        },
+        undefined,
+      ],
+    ]
+  }
+/>
+`;

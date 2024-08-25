@@ -1,0 +1,425 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ListTransactions renders correctly 1`] = `
+<RCTScrollView
+  data={
+    [
+      {
+        "amount": "10.00",
+        "balance": 0,
+        "date": {
+          "nanoseconds": 0,
+          "seconds": 1704067200,
+        },
+        "description": "Transaction 1",
+        "id": "1",
+      },
+      {
+        "amount": "20.00",
+        "balance": 0,
+        "date": {
+          "nanoseconds": 0,
+          "seconds": 1704067200,
+        },
+        "description": "Transaction 2",
+        "id": "2",
+      },
+    ]
+  }
+  getItem={[Function]}
+  getItemCount={[Function]}
+  keyExtractor={[Function]}
+  onContentSizeChange={[Function]}
+  onLayout={[Function]}
+  onMomentumScrollBegin={[Function]}
+  onMomentumScrollEnd={[Function]}
+  onScroll={[Function]}
+  onScrollBeginDrag={[Function]}
+  onScrollEndDrag={[Function]}
+  removeClippedSubviews={false}
+  renderItem={[Function]}
+  scrollEnabled={true}
+  scrollEventThrottle={0.0001}
+  stickyHeaderIndices={[]}
+  viewabilityConfigCallbackPairs={[]}
+>
+  <View>
+    <View
+      onFocusCapture={[Function]}
+      onLayout={[Function]}
+      style={null}
+    >
+      <View
+        accessibilityState={
+          {
+            "busy": undefined,
+            "checked": undefined,
+            "disabled": undefined,
+            "expanded": undefined,
+            "selected": undefined,
+          }
+        }
+        accessibilityValue={
+          {
+            "max": undefined,
+            "min": undefined,
+            "now": undefined,
+            "text": undefined,
+          }
+        }
+        accessible={true}
+        collapsable={false}
+        focusable={true}
+        onBlur={[Function]}
+        onClick={[Function]}
+        onFocus={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+      >
+        <View
+          style={
+            [
+              {
+                "backgroundColor": "#151718",
+              },
+              {
+                "alignItems": "center",
+                "display": "flex",
+                "flexDirection": "row",
+                "justifyContent": "flex-start",
+                "paddingHorizontal": 10.714285714285714,
+                "paddingVertical": 9.808823529411764,
+                "width": "100%",
+              },
+            ]
+          }
+          testID="row"
+        >
+          <View
+            style={
+              [
+                {
+                  "backgroundColor": "#151718",
+                },
+                [
+                  {
+                    "alignItems": "flex-start",
+                    "display": "flex",
+                    "flexDirection": "column",
+                    "flexGrow": 1,
+                    "justifyContent": "center",
+                    "width": "33%",
+                  },
+                  undefined,
+                ],
+              ]
+            }
+          >
+            <Text
+              style={
+                [
+                  {
+                    "color": "#ECEDEE",
+                  },
+                  {
+                    "fontSize": 34.285714285714285,
+                    "lineHeight": 51.42857142857143,
+                  },
+                  undefined,
+                  undefined,
+                  undefined,
+                  undefined,
+                  {
+                    "fontSize": 25.714285714285715,
+                  },
+                ]
+              }
+            >
+              12/31/23
+            </Text>
+          </View>
+          <View
+            style={
+              [
+                {
+                  "backgroundColor": "#151718",
+                },
+                [
+                  {
+                    "alignItems": "flex-start",
+                    "display": "flex",
+                    "flexDirection": "column",
+                    "flexGrow": 1,
+                    "justifyContent": "center",
+                    "width": "33%",
+                  },
+                  undefined,
+                ],
+              ]
+            }
+          >
+            <Text
+              style={
+                [
+                  {
+                    "color": "#ECEDEE",
+                  },
+                  {
+                    "fontSize": 34.285714285714285,
+                    "lineHeight": 51.42857142857143,
+                  },
+                  undefined,
+                  undefined,
+                  undefined,
+                  undefined,
+                  {
+                    "fontSize": 25.714285714285715,
+                  },
+                ]
+              }
+            >
+              10.00
+               
+            </Text>
+          </View>
+          <View
+            style={
+              [
+                {
+                  "backgroundColor": "#151718",
+                },
+                [
+                  {
+                    "alignItems": "flex-start",
+                    "display": "flex",
+                    "flexDirection": "column",
+                    "flexGrow": 1,
+                    "justifyContent": "center",
+                    "width": "33%",
+                  },
+                  undefined,
+                ],
+              ]
+            }
+          >
+            <Text
+              style={
+                [
+                  {
+                    "color": "#ECEDEE",
+                  },
+                  {
+                    "fontSize": 34.285714285714285,
+                    "lineHeight": 51.42857142857143,
+                  },
+                  undefined,
+                  undefined,
+                  undefined,
+                  undefined,
+                  {
+                    "fontSize": 25.714285714285715,
+                  },
+                ]
+              }
+            >
+              Transaction ...
+            </Text>
+          </View>
+        </View>
+      </View>
+    </View>
+    <View
+      onFocusCapture={[Function]}
+      onLayout={[Function]}
+      style={null}
+    >
+      <View
+        accessibilityState={
+          {
+            "busy": undefined,
+            "checked": undefined,
+            "disabled": undefined,
+            "expanded": undefined,
+            "selected": undefined,
+          }
+        }
+        accessibilityValue={
+          {
+            "max": undefined,
+            "min": undefined,
+            "now": undefined,
+            "text": undefined,
+          }
+        }
+        accessible={true}
+        collapsable={false}
+        focusable={true}
+        onBlur={[Function]}
+        onClick={[Function]}
+        onFocus={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+      >
+        <View
+          style={
+            [
+              {
+                "backgroundColor": "#151718",
+              },
+              {
+                "alignItems": "center",
+                "display": "flex",
+                "flexDirection": "row",
+                "justifyContent": "flex-start",
+                "paddingHorizontal": 10.714285714285714,
+                "paddingVertical": 9.808823529411764,
+                "width": "100%",
+              },
+            ]
+          }
+          testID="row"
+        >
+          <View
+            style={
+              [
+                {
+                  "backgroundColor": "#151718",
+                },
+                [
+                  {
+                    "alignItems": "flex-start",
+                    "display": "flex",
+                    "flexDirection": "column",
+                    "flexGrow": 1,
+                    "justifyContent": "center",
+                    "width": "33%",
+                  },
+                  undefined,
+                ],
+              ]
+            }
+          >
+            <Text
+              style={
+                [
+                  {
+                    "color": "#ECEDEE",
+                  },
+                  {
+                    "fontSize": 34.285714285714285,
+                    "lineHeight": 51.42857142857143,
+                  },
+                  undefined,
+                  undefined,
+                  undefined,
+                  undefined,
+                  {
+                    "fontSize": 25.714285714285715,
+                  },
+                ]
+              }
+            >
+              12/31/23
+            </Text>
+          </View>
+          <View
+            style={
+              [
+                {
+                  "backgroundColor": "#151718",
+                },
+                [
+                  {
+                    "alignItems": "flex-start",
+                    "display": "flex",
+                    "flexDirection": "column",
+                    "flexGrow": 1,
+                    "justifyContent": "center",
+                    "width": "33%",
+                  },
+                  undefined,
+                ],
+              ]
+            }
+          >
+            <Text
+              style={
+                [
+                  {
+                    "color": "#ECEDEE",
+                  },
+                  {
+                    "fontSize": 34.285714285714285,
+                    "lineHeight": 51.42857142857143,
+                  },
+                  undefined,
+                  undefined,
+                  undefined,
+                  undefined,
+                  {
+                    "fontSize": 25.714285714285715,
+                  },
+                ]
+              }
+            >
+              20.00
+               
+            </Text>
+          </View>
+          <View
+            style={
+              [
+                {
+                  "backgroundColor": "#151718",
+                },
+                [
+                  {
+                    "alignItems": "flex-start",
+                    "display": "flex",
+                    "flexDirection": "column",
+                    "flexGrow": 1,
+                    "justifyContent": "center",
+                    "width": "33%",
+                  },
+                  undefined,
+                ],
+              ]
+            }
+          >
+            <Text
+              style={
+                [
+                  {
+                    "color": "#ECEDEE",
+                  },
+                  {
+                    "fontSize": 34.285714285714285,
+                    "lineHeight": 51.42857142857143,
+                  },
+                  undefined,
+                  undefined,
+                  undefined,
+                  undefined,
+                  {
+                    "fontSize": 25.714285714285715,
+                  },
+                ]
+              }
+            >
+              Transaction ...
+            </Text>
+          </View>
+        </View>
+      </View>
+    </View>
+  </View>
+</RCTScrollView>
+`;
