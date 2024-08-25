@@ -5,16 +5,21 @@ exports[`AppThemedTextInput Tests renders correctly 1`] = `
   style={
     [
       {
-        "alignItems": "center",
-        "borderColor": "#ccc",
-        "borderRadius": 10.714285714285714,
-        "borderWidth": 2.142857142857143,
-        "flexDirection": "row",
-        "marginBottom": 21.428571428571427,
-        "paddingHorizontal": 21.428571428571427,
-        "width": "80%",
+        "backgroundColor": "#151718",
       },
-      undefined,
+      [
+        {
+          "alignItems": "center",
+          "borderColor": "#ccc",
+          "borderRadius": 10.714285714285714,
+          "borderWidth": 2.142857142857143,
+          "flexDirection": "row",
+          "marginBottom": 21.428571428571427,
+          "paddingHorizontal": 21.428571428571427,
+          "width": "80%",
+        },
+        undefined,
+      ],
     ]
   }
 >
@@ -34,10 +39,7 @@ exports[`AppThemedTextInput Tests renders correctly 1`] = `
           "backgroundColor": "#151718",
           "color": undefined,
         },
-        {
-          "flex": 1,
-          "padding": 21.428571428571427,
-        },
+        undefined,
       ]
     }
     value=""
@@ -50,16 +52,21 @@ exports[`AppThemedTextInput Tests renders correctly with dark theme 1`] = `
   style={
     [
       {
-        "alignItems": "center",
-        "borderColor": "#ccc",
-        "borderRadius": 10.714285714285714,
-        "borderWidth": 2.142857142857143,
-        "flexDirection": "row",
-        "marginBottom": 21.428571428571427,
-        "paddingHorizontal": 21.428571428571427,
-        "width": "80%",
+        "backgroundColor": "#000000",
       },
-      undefined,
+      [
+        {
+          "alignItems": "center",
+          "borderColor": "#ccc",
+          "borderRadius": 10.714285714285714,
+          "borderWidth": 2.142857142857143,
+          "flexDirection": "row",
+          "marginBottom": 21.428571428571427,
+          "paddingHorizontal": 21.428571428571427,
+          "width": "80%",
+        },
+        undefined,
+      ],
     ]
   }
 >
@@ -79,10 +86,7 @@ exports[`AppThemedTextInput Tests renders correctly with dark theme 1`] = `
           "backgroundColor": "#000000",
           "color": "#000000",
         },
-        {
-          "flex": 1,
-          "padding": 21.428571428571427,
-        },
+        undefined,
       ]
     }
     value=""
@@ -95,16 +99,21 @@ exports[`AppThemedTextInput Tests renders correctly with light theme 1`] = `
   style={
     [
       {
-        "alignItems": "center",
-        "borderColor": "#ccc",
-        "borderRadius": 10.714285714285714,
-        "borderWidth": 2.142857142857143,
-        "flexDirection": "row",
-        "marginBottom": 21.428571428571427,
-        "paddingHorizontal": 21.428571428571427,
-        "width": "80%",
+        "backgroundColor": "#ffffff",
       },
-      undefined,
+      [
+        {
+          "alignItems": "center",
+          "borderColor": "#ccc",
+          "borderRadius": 10.714285714285714,
+          "borderWidth": 2.142857142857143,
+          "flexDirection": "row",
+          "marginBottom": 21.428571428571427,
+          "paddingHorizontal": 21.428571428571427,
+          "width": "80%",
+        },
+        undefined,
+      ],
     ]
   }
 >
@@ -124,10 +133,7 @@ exports[`AppThemedTextInput Tests renders correctly with light theme 1`] = `
           "backgroundColor": "#ffffff",
           "color": "#ffffff",
         },
-        {
-          "flex": 1,
-          "padding": 21.428571428571427,
-        },
+        undefined,
       ]
     }
     value=""

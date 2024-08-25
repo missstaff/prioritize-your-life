@@ -1,20 +1,25 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`renders correctly 1`] = `
+exports[`LoadingSpinner renders correctly with the given props 1`] = `
 <View
   style={
-    {
-      "alignItems": "center",
-      "display": "flex",
-      "flex": 1,
-      "flexDirection": "column",
-      "justifyContent": "center",
-    }
+    [
+      {
+        "backgroundColor": "#151718",
+      },
+      {
+        "alignItems": "center",
+        "display": "flex",
+        "flex": 1,
+        "flexDirection": "column",
+        "justifyContent": "center",
+      },
+    ]
   }
 >
   <ActivityIndicator
-    color="#0a7ea4"
-    size="large"
+    color="red"
+    size="small"
   />
 </View>
 `;

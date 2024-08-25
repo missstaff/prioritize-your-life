@@ -18,7 +18,6 @@ export function Collapsible({
   const [isOpen, setIsOpen] = useState(false);
   const theme = useColorScheme() ?? "light";
 
-  
   return (
     <AppThemedView>
       <TouchableOpacity
@@ -30,7 +29,9 @@ export function Collapsible({
         <Ionicons
           name={isOpen ? "chevron-down" : "chevron-forward-outline"}
           size={18}
-          color={theme === "light" ? COLORTHEME.light.icon : COLORTHEME.dark.icon}
+          color={
+            theme === "light" ? COLORTHEME.light.icon : COLORTHEME.dark.icon
+          }
         />
         <AppThemedText type="defaultSemiBold">{title}</AppThemedText>
       </TouchableOpacity>

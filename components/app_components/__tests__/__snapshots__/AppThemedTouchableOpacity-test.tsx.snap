@@ -32,7 +32,7 @@ exports[`AppThemedTouchableOpacity Tests renders correctly 1`] = `
   style={
     {
       "alignItems": "center",
-      "backgroundColor": "blue",
+      "backgroundColor": "#CD03EF",
       "borderRadius": 10.714285714285714,
       "marginBottom": 21.428571428571427,
       "opacity": 1,
@@ -57,7 +57,7 @@ exports[`AppThemedTouchableOpacity Tests renders correctly 1`] = `
         undefined,
         [
           {
-            "color": "white",
+            "color": "#fff",
           },
           undefined,
         ],
@@ -101,7 +101,7 @@ exports[`AppThemedTouchableOpacity Tests renders correctly with dark theme 1`] =
   style={
     {
       "alignItems": "center",
-      "backgroundColor": "blue",
+      "backgroundColor": "#CD03EF",
       "borderRadius": 10.714285714285714,
       "marginBottom": 21.428571428571427,
       "opacity": 1,
@@ -126,7 +126,7 @@ exports[`AppThemedTouchableOpacity Tests renders correctly with dark theme 1`] =
         undefined,
         [
           {
-            "color": "white",
+            "color": "#fff",
           },
           undefined,
         ],
@@ -170,7 +170,7 @@ exports[`AppThemedTouchableOpacity Tests renders correctly with light theme 1`] 
   style={
     {
       "alignItems": "center",
-      "backgroundColor": "blue",
+      "backgroundColor": "#CD03EF",
       "borderRadius": 10.714285714285714,
       "marginBottom": 21.428571428571427,
       "opacity": 1,
@@ -195,7 +195,7 @@ exports[`AppThemedTouchableOpacity Tests renders correctly with light theme 1`] 
         undefined,
         [
           {
-            "color": "white",
+            "color": "#fff",
           },
           undefined,
         ],
