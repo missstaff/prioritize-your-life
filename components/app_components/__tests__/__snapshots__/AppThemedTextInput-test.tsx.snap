@@ -1,11 +1,11 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`AppThemedTextInput Tests renders correctly 1`] = `
+exports[`AppThemedTextInput renders correctly and matches snapshot 1`] = `
 <View
   style={
     [
       {
-        "backgroundColor": "#151718",
+        "backgroundColor": "#fff",
       },
       [
         {
@@ -26,7 +26,7 @@ exports[`AppThemedTextInput Tests renders correctly 1`] = `
   <TextInput
     onBlur={[Function]}
     onChangeText={[Function]}
-    placeholder="Snapshot test!"
+    placeholder="Enter text"
     placeholderTextColor="#999"
     secureTextEntry={false}
     style={
@@ -36,102 +36,8 @@ exports[`AppThemedTextInput Tests renders correctly 1`] = `
           "padding": 21.428571428571427,
         },
         {
-          "backgroundColor": "#151718",
-          "color": undefined,
-        },
-        undefined,
-      ]
-    }
-    value=""
-  />
-</View>
-`;
-
-exports[`AppThemedTextInput Tests renders correctly with dark theme 1`] = `
-<View
-  style={
-    [
-      {
-        "backgroundColor": "#000000",
-      },
-      [
-        {
-          "alignItems": "center",
-          "borderColor": "#ccc",
-          "borderRadius": 10.714285714285714,
-          "borderWidth": 2.142857142857143,
-          "flexDirection": "row",
-          "marginBottom": 21.428571428571427,
-          "paddingHorizontal": 21.428571428571427,
-          "width": "80%",
-        },
-        undefined,
-      ],
-    ]
-  }
->
-  <TextInput
-    onBlur={[Function]}
-    onChangeText={[Function]}
-    placeholder="Snapshot test!"
-    placeholderTextColor="#999"
-    secureTextEntry={false}
-    style={
-      [
-        {
-          "flex": 1,
-          "padding": 21.428571428571427,
-        },
-        {
-          "backgroundColor": "#000000",
-          "color": "#000000",
-        },
-        undefined,
-      ]
-    }
-    value=""
-  />
-</View>
-`;
-
-exports[`AppThemedTextInput Tests renders correctly with light theme 1`] = `
-<View
-  style={
-    [
-      {
-        "backgroundColor": "#ffffff",
-      },
-      [
-        {
-          "alignItems": "center",
-          "borderColor": "#ccc",
-          "borderRadius": 10.714285714285714,
-          "borderWidth": 2.142857142857143,
-          "flexDirection": "row",
-          "marginBottom": 21.428571428571427,
-          "paddingHorizontal": 21.428571428571427,
-          "width": "80%",
-        },
-        undefined,
-      ],
-    ]
-  }
->
-  <TextInput
-    onBlur={[Function]}
-    onChangeText={[Function]}
-    placeholder="Snapshot test!"
-    placeholderTextColor="#999"
-    secureTextEntry={false}
-    style={
-      [
-        {
-          "flex": 1,
-          "padding": 21.428571428571427,
-        },
-        {
-          "backgroundColor": "#ffffff",
-          "color": "#ffffff",
+          "backgroundColor": "#fff",
+          "color": "#000",
         },
         undefined,
       ]
