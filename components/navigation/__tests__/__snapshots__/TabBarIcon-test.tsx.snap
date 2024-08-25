@@ -1,3 +1,19 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`renders correctly 1`] = `<Text />`;
+exports[`TabBarIcon matches snapshot 1`] = `
+<Ionicons
+  name="home"
+  size={28}
+  style={
+    [
+      {
+        "marginBottom": -3,
+      },
+      {
+        "color": "red",
+      },
+    ]
+  }
+  testID="icon"
+/>
+`;
