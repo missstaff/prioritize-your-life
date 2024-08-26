@@ -5,12 +5,14 @@ import {
   TextStyle,
   TouchableOpacity,
   ViewStyle,
+  Platform,
 } from "react-native";
 import { ScaledSheet, s } from "react-native-size-matters";
 import { AppIcon } from "./AppIcon";
 import { AppThemedView } from "./AppThemedView";
 import { useThemeColor } from "@/hooks/useThemeColor";
 import { COLORTHEME } from "@/constants/Colors";
+import { DateTimePickerAndroid } from '@react-native-community/datetimepicker';
 
 interface AppThemedTextInputProps {
   iconName?: string;
@@ -47,7 +49,7 @@ export const AppThemedTextInput = ({
   inputStyle,
   value,
   keyboardType,
-  ...otherProps
+  ...rest
 }: AppThemedTextInputProps) => {
   const textColor = useThemeColor({}, "text");
   let backgroundColor = useThemeColor(
@@ -56,6 +58,20 @@ export const AppThemedTextInput = ({
   );
 
   const [isPasswordVisible, setIsPasswordVisible] = useState(!secureEntry);
+
+  const handleCalendarPress = () => {
+    if (Platform.OS === 'android') {
+      DateTimePickerAndroid.open({
+        mode: 'date',
+        value: new Date(),
+        onChange: (event, selectedDate) => {
+          if (selectedDate) {
+            setValue(formatDate(selectedDate));
+          }
+        },
+      });
+    }
+  };
 
   return (
     <AppThemedView style={[styles.inputContainer, containerStyle]}>
@@ -74,7 +90,7 @@ export const AppThemedTextInput = ({
           inputStyle,
         ]}
         value={value}
-        {...otherProps}
+        {...rest}
       />
       {secureEntry && (
         <TouchableOpacity
@@ -89,7 +105,13 @@ export const AppThemedTextInput = ({
         </TouchableOpacity>
       )}
 
-      {iconName && <AppIcon name={iconName} size={s(24)} color="#ccc" />}
+      {iconName && (
+        <TouchableOpacity
+          onPress={() => iconName === "calendar" && handleCalendarPress()}
+        >
+          <AppIcon name={iconName} size={s(24)} color="#ccc" />
+        </TouchableOpacity>
+      )}
     </AppThemedView>
   );
 };
@@ -110,5 +132,13 @@ const styles = ScaledSheet.create({
     padding: s(10),
   },
 });
+
+const formatDate = (date: Date): string => {
+  // Format the date to your preferred format, e.g., MM/DD/YYYY
+  const day = String(date.getDate()).padStart(2, '0');
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const year = date.getFullYear();
+  return `${month}/${day}/${year}`;
+};
 
 export default AppThemedTextInput;

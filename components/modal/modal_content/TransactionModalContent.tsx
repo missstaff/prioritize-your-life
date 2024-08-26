@@ -46,6 +46,7 @@ const TransactionModalContent = ({
     id: transactionId,
   } = transactionsCtx;
 
+
   const handleResetState = () => {
     setIsVisible(false),
       setAmount(""),
@@ -135,10 +136,10 @@ const TransactionModalContent = ({
         checkValue={isValidDescription}
         placeholder="Description"
         secureEntry={false}
-        setValue={data && data.length > 0 ? setDescription : () => setDescription("Initial Balance")}
-        value={data && data.length > 0 ? description : "Initial Balance"}
+        setValue={setDescription}
+        value={description}
       />
-      <AppThemedTouchableOpacity onPress={() => handleSubmit()}>
+      <AppThemedTouchableOpacity onPress={handleSubmit}>
         Submit
       </AppThemedTouchableOpacity>
       <AppThemedText type="link" onPress={handleResetState}>

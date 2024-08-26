@@ -16,12 +16,13 @@ import { ScaledSheet, s } from "react-native-size-matters";
  * @returns {JSX.Element} The rendered AppIcon component.
  */
 export function AppIcon({
+  onPress,
   style,
   ...rest
 }: IconProps<ComponentProps<typeof Ionicons>["name"] | any>) {
   return (
     <View style={[styles.container, style]}>
-      <Ionicons size={s(28)} {...rest} />
+      <Ionicons onPress={onPress} size={s(28)} {...rest} />
     </View>
   );
 }

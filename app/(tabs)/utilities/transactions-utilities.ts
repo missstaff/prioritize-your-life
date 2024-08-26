@@ -35,28 +35,27 @@ export const isValidDate = (date: string): IsValidProps => {
   }
   if (date.includes("-")) {
     date = date.replace(/-/g, "/");
-  } else if (date.length === 6) {
+  } else if (date.length === 8) {
 
     date = `${date.slice(0, 2)}/${date.slice(2, 4)}/${date.slice(4)}`;
   }
 
-  const regex = /^(0[1-9]|1[0-2])\/(0[1-9]|[12][0-9]|3[01])\/\d{2}$/;
+  const regex = /^(0[1-9]|1[0-2])\/(0[1-9]|[12][0-9]|3[01])\/\d{4}$/;
   const isValid = regex.test(date);
 
   if (!isValid) {
     Toast.show({
       type: "error",
-      text1: "Date must be in MM/DD/YY format.",
+      text1: "Date must be in MM/DD/YYYY format.",
       text2: "Please try again.",
     });
-    return { isValid: false, message: "Date must be in MM/DD/YY format.", };
+    return { isValid: false, message: "Date must be in MM/DD/YYYY format.", };
   }
 
   const [month, day, year] = date.split("/").map(Number);
   const currentYear = new Date().getFullYear();
-  const formattedYear = Number(`${currentYear.toString().slice(0, 2)}${year}`);
 
-  if (formattedYear < currentYear) {
+  if (year < currentYear) {
     Toast.show({
       type: "error",
       text1: "Year cannot be less than the current year.",
