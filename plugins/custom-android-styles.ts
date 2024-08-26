@@ -1,27 +1,25 @@
-const { withAndroidStyles } = require('@expo/config-plugins');
+import { withAndroidStyles } from '@expo/config-plugins';
 
-const withCustomStyles = config => {
+export function withCustomStyles(config: any) {
     return withAndroidStyles(config, async config => {
         config.modResults = applyCustomStyles(config.modResults);
         return config;
     });
-};
+}
 
-function applyCustomStyles(styles) {
-    // Add items to the App Theme
-    const appTheme = styles.resources.style.find(style => style.$.name === 'AppTheme');
+function applyCustomStyles(styles: any) {
+    const appTheme = styles.resources.style.find((style: any) => style.$.name === 'AppTheme');
     if (appTheme) {
         appTheme.item.push({ _: '@style/Dialog.Theme', $: { name: 'android:datePickerDialogTheme' } });
         appTheme.item.push({ _: '@style/Dialog.Theme', $: { name: 'android:timePickerDialogTheme' } });
     }
 
-    // Add new style definition
     styles.resources.style.push({
         $: { name: 'Dialog.Theme', parent: 'Theme.AppCompat.Light.Dialog' },
-        item: [{ _: '#a7243a', $: { name: 'colorAccent' } }],
+        item: [{ _: '#CD03EF', $: { name: 'colorAccent' } }],
     });
 
     return styles;
 }
 
-module.exports = withCustomStyles;
+export default withCustomStyles;

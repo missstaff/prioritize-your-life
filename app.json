@@ -33,7 +33,7 @@
       "@react-native-firebase/app",
       "@react-native-firebase/auth",
       "@react-native-firebase/crashlytics",
-      "./plugins/custom-android-styles.js"
+      "./plugins/custom-android-styles.ts"
     ],
     "experiments": {
       "typedRoutes": true
