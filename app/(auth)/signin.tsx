@@ -54,21 +54,21 @@ export default function SignIn(): JSX.Element {
         renderElse={
           <>
             <AppThemedTextInput
-              checkValue={isValidEmail}
               iconName="mail"
               keyboardType="default"
               placeholder="Email"
               secureEntry={false}
-              setValue={setEmail}
               value={email}
+              checkValue={isValidEmail}
+              setValue={setEmail}
             />
             <AppThemedTextInput
-              checkValue={isValidPassword}
               keyboardType="default"
               placeholder="Password"
               secureEntry={true}
-              setValue={setPassword}
               value={password}
+              checkValue={isValidPassword}
+              setValue={setPassword}
             />
             <AppThemedTouchableOpacity
               disabled={mutation.status === "pending"}

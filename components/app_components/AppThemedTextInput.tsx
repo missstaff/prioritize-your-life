@@ -17,7 +17,7 @@ import { TransactionState } from "@/store/transaction/transaction-reducer";
 
 interface AppThemedTextInputProps {
   containerStyle?: StyleProp<ViewStyle>;
-  data: TransactionState[] | undefined;
+  data?: TransactionState[] | undefined;
   iconName?: string;
   inputStyle?: StyleProp<TextStyle>;
   keyboardType?: "default" | "numeric";
@@ -60,7 +60,6 @@ export const AppThemedTextInput = ({
     "background"
   );
 
-  console.log("data", data?.length);
   const [isPasswordVisible, setIsPasswordVisible] = useState(!secureEntry);
 
   const handleCalendarPress = () => {
@@ -144,7 +143,6 @@ const styles = ScaledSheet.create({
 });
 
 const formatDate = (date: Date): string => {
-  // Format the date to your preferred format, e.g., MM/DD/YYYY
   const day = String(date.getDate()).padStart(2, "0");
   const month = String(date.getMonth() + 1).padStart(2, "0");
   const year = date.getFullYear();
