@@ -118,11 +118,11 @@ export const AppThemedTextInput = ({
 
 const styles = ScaledSheet.create({
   inputContainer: {
-    flexDirection: "row",
     alignItems: "center",
     borderColor: "#ccc",
-    borderWidth: s(1),
     borderRadius: s(5),
+    borderWidth: s(1),
+    flexDirection: "row",
     marginBottom: s(10),
     paddingHorizontal: s(10),
     width: "80%",
