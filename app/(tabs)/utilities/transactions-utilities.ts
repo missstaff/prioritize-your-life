@@ -1,4 +1,5 @@
 import { IsValidProps } from "@/app/types";
+import { FirebaseFirestoreTypes } from "@react-native-firebase/firestore";
 import Toast from "react-native-toast-message";
 
 
@@ -8,7 +9,7 @@ import Toast from "react-native-toast-message";
  * @returns The formatted date string in the format "MM/DD/YY".
  */
 export const formatDate = (timestamp: any): string => {
-  const date = timestamp.toDate();
+  const date = (timestamp as FirebaseFirestoreTypes.Timestamp).toDate();
   const month = String(date.getMonth() + 1).padStart(2, "0");
   const day = String(date.getDate()).padStart(2, "0");
   const year = String(date.getFullYear()).slice(2);
@@ -178,7 +179,7 @@ export const parseDate = (dateStr: string): Date => {
  * @param maxLength - The maximum length of the truncated string.
  * @returns The truncated string.
  */
-export const truncateString = (str: string, maxLength: number = 20) => {
+export const truncateString = (str: string, maxLength: number = 25) => {
   if (str.length > maxLength) {
     return str.substring(0, maxLength) + "...";
   }

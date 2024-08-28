@@ -7,21 +7,23 @@ import {
   ViewStyle,
   Platform,
 } from "react-native";
+import { DateTimePickerAndroid } from "@react-native-community/datetimepicker";
 import { ScaledSheet, s } from "react-native-size-matters";
 import { AppIcon } from "./AppIcon";
 import { AppThemedView } from "./AppThemedView";
 import { useThemeColor } from "@/hooks/useThemeColor";
 import { COLORTHEME } from "@/constants/Colors";
-import { DateTimePickerAndroid } from '@react-native-community/datetimepicker';
+import { TransactionState } from "@/store/transaction/transaction-reducer";
 
 interface AppThemedTextInputProps {
-  iconName?: string;
-  placeholder: string;
   containerStyle?: StyleProp<ViewStyle>;
+  data: TransactionState[] | undefined;
+  iconName?: string;
   inputStyle?: StyleProp<TextStyle>;
+  keyboardType?: "default" | "numeric";
+  placeholder: string;
   secureEntry: boolean;
   value: string;
-  keyboardType?: "default" | "numeric";
   checkValue: (value: string) => void;
   setValue: (value: string) => void;
 }
@@ -40,15 +42,16 @@ interface AppThemedTextInputProps {
  * @returns {JSX.Element} The themed text input component.
  */
 export const AppThemedTextInput = ({
-  checkValue,
+  containerStyle,
+  data,
+  inputStyle,
   iconName,
+  keyboardType,
   placeholder,
   secureEntry,
-  setValue,
-  containerStyle,
-  inputStyle,
   value,
-  keyboardType,
+  checkValue,
+  setValue,
   ...rest
 }: AppThemedTextInputProps) => {
   const textColor = useThemeColor({}, "text");
@@ -57,12 +60,13 @@ export const AppThemedTextInput = ({
     "background"
   );
 
+  console.log("data", data?.length);
   const [isPasswordVisible, setIsPasswordVisible] = useState(!secureEntry);
 
   const handleCalendarPress = () => {
-    if (Platform.OS === 'android') {
+    if (Platform.OS === "android") {
       DateTimePickerAndroid.open({
-        mode: 'date',
+        mode: "date",
         value: new Date(),
         onChange: (event, selectedDate) => {
           if (selectedDate) {
@@ -80,7 +84,13 @@ export const AppThemedTextInput = ({
         onBlur={(e) => {
           if (value.length > 0) checkValue(value);
         }}
-        onChangeText={(text) => setValue(text)}
+        onChangeText={(text) => {
+          if (!data?.length && placeholder === "Description") {
+            setValue("Initial Balance");
+          } else {
+            setValue(text);
+          }
+        }}
         placeholder={placeholder}
         placeholderTextColor="#999"
         secureTextEntry={!isPasswordVisible}
@@ -135,8 +145,8 @@ const styles = ScaledSheet.create({
 
 const formatDate = (date: Date): string => {
   // Format the date to your preferred format, e.g., MM/DD/YYYY
-  const day = String(date.getDate()).padStart(2, '0');
-  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, "0");
+  const month = String(date.getMonth() + 1).padStart(2, "0");
   const year = date.getFullYear();
   return `${month}/${day}/${year}`;
 };

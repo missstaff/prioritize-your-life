@@ -60,7 +60,7 @@ export default function ListTransactions({
             </Column>
             <Column>
               <AppThemedText style={styles.text}>
-                {truncateString(item.description, 12)}
+                {item.description.length <= 15 ? item.description : truncateString(item.description, 12)}
               </AppThemedText>
             </Column>
           </Row>
