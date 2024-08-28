@@ -2,7 +2,7 @@ import React from "react";
 import { Platform } from "react-native";
 import { render, fireEvent } from "@testing-library/react-native";
 import renderer, { act } from "react-test-renderer";
-import { AppThemedExternalLink } from "../AppThemedExternalLink";
+import  AppThemedExternalLink from "../AppThemedExternalLink";
 import { openBrowserAsync } from "expo-web-browser";
 import { useThemeColor } from "@/hooks/useThemeColor";
 

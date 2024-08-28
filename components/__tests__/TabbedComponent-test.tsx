@@ -2,7 +2,7 @@ import React from "react";
 import { render, fireEvent } from "@testing-library/react-native";
 import renderer from "react-test-renderer";
 import TabbedComponent from "@/components/TabbedComponent";
-import { AppThemedText } from "@/components/app_components/AppThemedText";
+import AppThemedText from "@/components/app_components/AppThemedText";
 
 describe("TabbedComponent", () => {
   beforeEach(() => {

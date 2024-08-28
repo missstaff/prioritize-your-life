@@ -1,7 +1,7 @@
 import * as React from "react";
 import renderer from "react-test-renderer";
 import { View } from "react-native";
-import { AppThemedView } from "../AppThemedView";
+import AppThemedView  from "../AppThemedView";
 import { useThemeColor } from "@/hooks/useThemeColor";
 
 describe("AppThemedView Tests", () => {

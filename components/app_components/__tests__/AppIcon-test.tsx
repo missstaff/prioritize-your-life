@@ -1,6 +1,6 @@
 import React from "react";
 import renderer from "react-test-renderer";
-import { AppIcon } from "../AppIcon";
+import AppIcon from "../AppIcon";
 
 describe("AppIcon Tests", () => {
 

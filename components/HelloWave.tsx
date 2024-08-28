@@ -7,7 +7,7 @@ import Animated, {
   withSequence,
 } from "react-native-reanimated";
 
-import { AppThemedText } from "@/components/app_components/AppThemedText";
+import AppThemedText from "@/components/app_components/AppThemedText";
 
 // #TODO: determine if this component will be used if so, write tests for it, else delete it
 export function HelloWave() {

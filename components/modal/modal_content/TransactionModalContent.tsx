@@ -3,8 +3,8 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import AppThemedTextInput from "@/components/app_components/AppThemedTextInput";
 import AppThemedTouchableOpacity from "@/components/app_components/AppThemedTouchableOpacity";
 import ShowIf from "@/components/ShowIf";
-import { AppThemedText } from "@/components/app_components/AppThemedText";
-import { AppThemedView } from "@/components/app_components/AppThemedView";
+import AppThemedText from "@/components/app_components/AppThemedText";
+import AppThemedView from "@/components/app_components/AppThemedView";
 import { TransactionContext } from "@/store/transaction/transaction-context";
 import {
   addOrUpdateTransaction,
@@ -117,14 +117,14 @@ const TransactionModalContent = ({
         iconName="calendar"
         data={data}
         keyboardType="numeric"
-        placeholder="MM/DD/YY"
+        placeholder="MM/DD/YYYY"
         secureEntry={false}
         value={typeof date === "object" ? formatDate(date) : date}
         checkValue={isValidDate}
         setValue={setDate}
       />
       <AppThemedTextInput
-              data={data}
+        data={data}
         keyboardType="numeric"
         placeholder="Amount"
         secureEntry={false}
@@ -133,7 +133,7 @@ const TransactionModalContent = ({
         setValue={setAmount}
       />
       <AppThemedTextInput
-              data={data}
+        data={data}
         keyboardType="default"
         placeholder="Description"
         secureEntry={false}

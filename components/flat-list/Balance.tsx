@@ -1,5 +1,5 @@
 import { TransactionState } from "@/store/transaction/transaction-reducer";
-import { AppThemedText } from "../app_components/AppThemedText";
+import AppThemedText from "../app_components/AppThemedText";
 
 export interface AddTransactionProps {
   balance: number | undefined;

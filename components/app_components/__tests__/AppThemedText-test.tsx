@@ -1,6 +1,6 @@
 import React from "react";
 import renderer from "react-test-renderer";
-import { AppThemedText } from "../AppThemedText";
+import AppThemedText from "../AppThemedText";
 import { useThemeColor } from "@/hooks/useThemeColor";
 
 describe("AppThemedText Tests", () => {

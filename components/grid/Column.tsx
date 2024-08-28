@@ -1,5 +1,5 @@
 import { ScaledSheet } from "react-native-size-matters";
-import { AppThemedView } from "../app_components/AppThemedView";
+import AppThemedView  from "../app_components/AppThemedView";
 
 interface ColumnProps {
   children: React.ReactNode;

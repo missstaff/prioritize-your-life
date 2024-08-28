@@ -14,7 +14,7 @@ export type ThemedViewProps = ViewProps & {
  * @param {any} props.otherProps - Other props to be spread on the component.
  * @returns {JSX.Element} The rendered AppThemedView component.
  */
-export function AppThemedView({ style, ...otherProps }: ThemedViewProps) {
+export default function AppThemedView({ style, ...otherProps }: ThemedViewProps) {
   const backgroundColor = useThemeColor(
     { light: COLORTHEME.light.background, dark: COLORTHEME.dark.background },
     "background"

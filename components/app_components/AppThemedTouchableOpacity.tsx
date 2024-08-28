@@ -7,7 +7,7 @@ import {
   TouchableOpacityProps,
   ViewStyle,
 } from "react-native";
-import { AppThemedText } from "./AppThemedText";
+import AppThemedText from "./AppThemedText";
 import { COLORS } from "@/constants/Colors";
 
 export type ThemedAppThemedTouchableOpacity = TouchableOpacityProps & {
@@ -47,7 +47,6 @@ const AppThemedTouchableOpacity = ({
   );
 };
 
-export default AppThemedTouchableOpacity;
 
 const styles = ScaledSheet.create({
   button: {
@@ -62,3 +61,5 @@ const styles = ScaledSheet.create({
     color: COLORS.white,
   },
 });
+
+export default AppThemedTouchableOpacity;

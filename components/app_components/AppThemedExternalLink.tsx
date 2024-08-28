@@ -17,7 +17,7 @@ type Props = Omit<ComponentProps<typeof Link>, "href"> & {
  * @param {React.HTMLAttributes<HTMLAnchorElement>} props.rest - Additional HTML attributes for the link.
  * @returns {JSX.Element} The rendered themed external link component.
  */
-export function AppThemedExternalLink({ href, style, ...rest }: Props) {
+export default function AppThemedExternalLink({ href, style, ...rest }: Props) {
   const color = useThemeColor(
     { light: COLORTHEME.light.background, dark: COLORTHEME.dark.background },
     "background"

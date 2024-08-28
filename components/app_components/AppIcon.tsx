@@ -15,7 +15,7 @@ import { ScaledSheet, s } from "react-native-size-matters";
  * @param {string} props.rest - The rest of the props to pass to the Ionicons component.
  * @returns {JSX.Element} The rendered AppIcon component.
  */
-export function AppIcon({
+export default function AppIcon({
   onPress,
   style,
   ...rest

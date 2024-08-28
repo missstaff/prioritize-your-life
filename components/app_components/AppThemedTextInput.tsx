@@ -9,8 +9,8 @@ import {
 } from "react-native";
 import { DateTimePickerAndroid } from "@react-native-community/datetimepicker";
 import { ScaledSheet, s } from "react-native-size-matters";
-import { AppIcon } from "./AppIcon";
-import { AppThemedView } from "./AppThemedView";
+import AppIcon from "./AppIcon";
+import AppThemedView  from "./AppThemedView";
 import { useThemeColor } from "@/hooks/useThemeColor";
 import { COLORTHEME } from "@/constants/Colors";
 import { TransactionState } from "@/store/transaction/transaction-reducer";
@@ -41,7 +41,7 @@ interface AppThemedTextInputProps {
  * @param {(value: string) => void} props.setValue - The function to set the value of the input.
  * @returns {JSX.Element} The themed text input component.
  */
-export const AppThemedTextInput = ({
+const AppThemedTextInput = ({
   containerStyle,
   data,
   inputStyle,

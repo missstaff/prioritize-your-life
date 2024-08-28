@@ -1,17 +1,17 @@
 import React, { useContext, useState } from "react";
 import Toast from "react-native-toast-message";
 import { router } from "expo-router";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import AppThemedText from "@/components/app_components/AppThemedText";
 import AppThemedTextInput from "@/components/app_components/AppThemedTextInput";
 import AppThemedTouchableOpacity from "@/components/app_components/AppThemedTouchableOpacity";
+import AppThemedView  from "@/components/app_components/AppThemedView";
 import LoadingSpinner from "@/components/LoadingSpinner";
 import ShowIf from "@/components/ShowIf";
 import { AuthContext } from "@/store/auth/auth-context";
-import { AppThemedView } from "@/components/app_components/AppThemedView";
 import { isValidEmail, isValidPassword } from "./utilities";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { AppThemedText } from "@/components/app_components/AppThemedText";
-import { styles } from "./styles";
 import { handleSignUp } from "./apis/api";
+import { styles } from "./styles";
 
 /**
  * SignUp component.

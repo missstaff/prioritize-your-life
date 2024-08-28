@@ -15,7 +15,7 @@ export type ThemedTextProps = TextProps & {
  * @param {React.HTMLAttributes<HTMLAnchorElement>} props.rest - Additional HTML attributes for the text.
  * @returns {JSX.Element} The rendered themed text component.
  */
-export function AppThemedText({
+export default function AppThemedText({
   style,
   type = "default",
   ...rest
@@ -48,8 +48,8 @@ const styles = ScaledSheet.create({
   },
   defaultSemiBold: {
     fontSize: s(16),
-    lineHeight: s(24),
     fontWeight: "600",
+    lineHeight: s(24),
   },
   title: {
     fontSize: s(32),
@@ -61,8 +61,8 @@ const styles = ScaledSheet.create({
     fontWeight: "bold",
   },
   link: {
-    lineHeight: s(30),
-    fontSize: s(16),
     color: COLORS.primary,
+    fontSize: s(16),
+    lineHeight: s(30),
   },
 });

@@ -2,8 +2,8 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import { PropsWithChildren, useState } from "react";
 import { StyleSheet, TouchableOpacity, useColorScheme } from "react-native";
 
-import { AppThemedText } from "@/components/app_components/AppThemedText";
-import { AppThemedView } from "@/components/app_components/AppThemedView";
+import AppThemedText from "@/components/app_components/AppThemedText";
+import AppThemedView  from "@/components/app_components/AppThemedView";
 import { COLORTHEME } from "@/constants/Colors";
 
 /**

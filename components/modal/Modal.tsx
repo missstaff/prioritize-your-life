@@ -1,6 +1,6 @@
 import { Modal } from "react-native";
 import { ScaledSheet, s } from "react-native-size-matters";
-import { AppThemedView } from "../app_components/AppThemedView";
+import AppThemedView  from "../app_components/AppThemedView";
 
 interface ModalProps {
   children: React.ReactNode;

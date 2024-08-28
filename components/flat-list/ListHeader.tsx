@@ -1,10 +1,10 @@
+import AppThemedText from "../app_components/AppThemedText";
 import Column from "../grid/Column";
 import Row from "../grid/Row";
-import { AppThemedText } from "../app_components/AppThemedText";
 
 export interface ListHeaderProps {
-  styles: {};
   headings: string[];
+  styles: {};
 }
 
 /**
