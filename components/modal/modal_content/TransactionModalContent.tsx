@@ -114,31 +114,34 @@ const TransactionModalContent = ({
         }
       />
       <AppThemedTextInput
-        keyboardType="numeric"
-        checkValue={isValidDate}
         iconName="calendar"
+        data={data}
+        keyboardType="numeric"
         placeholder="MM/DD/YY"
         secureEntry={false}
-        setValue={setDate}
         value={typeof date === "object" ? formatDate(date) : date}
+        checkValue={isValidDate}
+        setValue={setDate}
       />
       <AppThemedTextInput
+              data={data}
         keyboardType="numeric"
-        checkValue={isValidAmount}
         placeholder="Amount"
         secureEntry={false}
-        setValue={setAmount}
         value={amount}
+        checkValue={isValidAmount}
+        setValue={setAmount}
       />
       <AppThemedTextInput
+              data={data}
         keyboardType="default"
-        checkValue={isValidDescription}
         placeholder="Description"
         secureEntry={false}
-        setValue={data && data.length > 0 ? setDescription : () => setDescription("Initial Balance")}
-        value={data && data.length > 0 ? description : "Initial Balance"}
+        value={description}
+        checkValue={isValidDescription}
+        setValue={setDescription}
       />
-      <AppThemedTouchableOpacity onPress={() => handleSubmit()}>
+      <AppThemedTouchableOpacity onPress={handleSubmit}>
         Submit
       </AppThemedTouchableOpacity>
       <AppThemedText type="link" onPress={handleResetState}>

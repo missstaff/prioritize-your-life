@@ -52,13 +52,13 @@ export default function ResetPassword() {
       renderElse={
         <AppThemedView style={styles.container}>
           <AppThemedTextInput
-            checkValue={isValidEmail}
             iconName="mail"
             keyboardType="default"
             placeholder="Email"
             secureEntry={false}
-            setValue={setEmail}
             value={email}
+            checkValue={isValidEmail}
+            setValue={setEmail}
           />
           <AppThemedTouchableOpacity
             disabled={!isValidEmail || mutation.status === "pending"}

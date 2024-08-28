@@ -5,21 +5,25 @@ import {
   TextStyle,
   TouchableOpacity,
   ViewStyle,
+  Platform,
 } from "react-native";
+import { DateTimePickerAndroid } from "@react-native-community/datetimepicker";
 import { ScaledSheet, s } from "react-native-size-matters";
 import { AppIcon } from "./AppIcon";
 import { AppThemedView } from "./AppThemedView";
 import { useThemeColor } from "@/hooks/useThemeColor";
 import { COLORTHEME } from "@/constants/Colors";
+import { TransactionState } from "@/store/transaction/transaction-reducer";
 
 interface AppThemedTextInputProps {
-  iconName?: string;
-  placeholder: string;
   containerStyle?: StyleProp<ViewStyle>;
+  data?: TransactionState[] | undefined;
+  iconName?: string;
   inputStyle?: StyleProp<TextStyle>;
+  keyboardType?: "default" | "numeric";
+  placeholder: string;
   secureEntry: boolean;
   value: string;
-  keyboardType?: "default" | "numeric";
   checkValue: (value: string) => void;
   setValue: (value: string) => void;
 }
@@ -38,16 +42,17 @@ interface AppThemedTextInputProps {
  * @returns {JSX.Element} The themed text input component.
  */
 export const AppThemedTextInput = ({
-  checkValue,
+  containerStyle,
+  data,
+  inputStyle,
   iconName,
+  keyboardType,
   placeholder,
   secureEntry,
-  setValue,
-  containerStyle,
-  inputStyle,
   value,
-  keyboardType,
-  ...otherProps
+  checkValue,
+  setValue,
+  ...rest
 }: AppThemedTextInputProps) => {
   const textColor = useThemeColor({}, "text");
   let backgroundColor = useThemeColor(
@@ -57,6 +62,20 @@ export const AppThemedTextInput = ({
 
   const [isPasswordVisible, setIsPasswordVisible] = useState(!secureEntry);
 
+  const handleCalendarPress = () => {
+    if (Platform.OS === "android") {
+      DateTimePickerAndroid.open({
+        mode: "date",
+        value: new Date(),
+        onChange: (event, selectedDate) => {
+          if (selectedDate) {
+            setValue(formatDate(selectedDate));
+          }
+        },
+      });
+    }
+  };
+
   return (
     <AppThemedView style={[styles.inputContainer, containerStyle]}>
       <TextInput
@@ -64,7 +83,13 @@ export const AppThemedTextInput = ({
         onBlur={(e) => {
           if (value.length > 0) checkValue(value);
         }}
-        onChangeText={(text) => setValue(text)}
+        onChangeText={(text) => {
+          if (!data?.length && placeholder === "Description") {
+            setValue("Initial Balance");
+          } else {
+            setValue(text);
+          }
+        }}
         placeholder={placeholder}
         placeholderTextColor="#999"
         secureTextEntry={!isPasswordVisible}
@@ -74,7 +99,7 @@ export const AppThemedTextInput = ({
           inputStyle,
         ]}
         value={value}
-        {...otherProps}
+        {...rest}
       />
       {secureEntry && (
         <TouchableOpacity
@@ -89,18 +114,24 @@ export const AppThemedTextInput = ({
         </TouchableOpacity>
       )}
 
-      {iconName && <AppIcon name={iconName} size={s(24)} color="#ccc" />}
+      {iconName && (
+        <TouchableOpacity
+          onPress={() => iconName === "calendar" && handleCalendarPress()}
+        >
+          <AppIcon name={iconName} size={s(24)} color="#ccc" />
+        </TouchableOpacity>
+      )}
     </AppThemedView>
   );
 };
 
 const styles = ScaledSheet.create({
   inputContainer: {
-    flexDirection: "row",
     alignItems: "center",
     borderColor: "#ccc",
-    borderWidth: s(1),
     borderRadius: s(5),
+    borderWidth: s(1),
+    flexDirection: "row",
     marginBottom: s(10),
     paddingHorizontal: s(10),
     width: "80%",
@@ -110,5 +141,12 @@ const styles = ScaledSheet.create({
     padding: s(10),
   },
 });
+
+const formatDate = (date: Date): string => {
+  const day = String(date.getDate()).padStart(2, "0");
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const year = date.getFullYear();
+  return `${month}/${day}/${year}`;
+};
 
 export default AppThemedTextInput;
