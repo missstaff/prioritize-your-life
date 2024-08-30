@@ -52,7 +52,7 @@ export default function Transactions() {
   }
 
   return (
-    <>
+    <AppThemedView style={{display:"flex", flexDirection: "column", height:"100%", width: "100%"}}>
       <AppThemedText style={{ textAlign: "center", paddingTop: 25 }} type="title">
         Transactions
       </AppThemedText>
@@ -80,7 +80,8 @@ export default function Transactions() {
         }
         renderElse={
           <AppThemedView style={{ height: "50%", alignItems: "center", justifyContent: "center" }}>
-            <AppThemedText style={{ textAlign: "center" }}>No transactions</AppThemedText>
+            <AppThemedText>No transactions</AppThemedText>
+            <AppThemedText type="link" onPress={() => setIsVisible(true)} >Add Transaction</AppThemedText>
           </AppThemedView>
         }
       />
@@ -108,7 +109,7 @@ export default function Transactions() {
           </AppModal>
         }
       />
-    </>
+    </AppThemedView>
   );
 }
 

@@ -1,5 +1,6 @@
 import AppThemedText from "@/components/app_components/AppThemedText";
 import AppThemedView from "@/components/app_components/AppThemedView";
+import ShowIf from "@/components/ShowIf";
 import TabbedComponent from "@/components/TabbedComponent";
 import { AppContext } from "@/store/app/app-context";
 import { useContext } from "react";
@@ -18,7 +19,7 @@ export default function Goals() {
   //   return <OnError error={error} />;
   // }
   return (
-    <AppThemedView>
+    <AppThemedView style={{ display: "flex", flexDirection: "column", height: "100%", width: "100%"}}>
       <AppThemedText
         style={{ textAlign: "center", paddingTop: 25 }}
         type="title"
@@ -32,9 +33,15 @@ export default function Goals() {
         tabs={tabsArr}
       >
         {tabsArr.map((tab, index) => (
-          <AppThemedView key={index}>
-            <AppThemedText>{tab}</AppThemedText>
-          </AppThemedView>
+          <ShowIf
+            condition={false}
+            render={<AppThemedText>{tab}</AppThemedText>}
+            renderElse={
+              <AppThemedView style={{height: "50%", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" }}>
+                <AppThemedText type="default">No Goals Found</AppThemedText>
+                <AppThemedText type="link">Add a goal</AppThemedText>
+              </AppThemedView>
+            } />
         ))}
       </TabbedComponent>
     </AppThemedView>

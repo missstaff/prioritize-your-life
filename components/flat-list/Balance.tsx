@@ -1,5 +1,7 @@
 import { TransactionState } from "@/store/transaction/transaction-reducer";
 import AppThemedText from "../app_components/AppThemedText";
+import ShowIf from "../ShowIf";
+import AppThemedView from "../app_components/AppThemedView";
 
 export interface AddTransactionProps {
   balance: number | undefined;
@@ -25,9 +27,17 @@ export default function Balance({
       <AppThemedText>
         {!data?.length ? "$0.00" : "$" + balance?.toFixed(2)}
       </AppThemedText>
-      <AppThemedText type="link" onPress={() => [setIsVisible(true)]}>
-        Add Transaction
-      </AppThemedText>
+      <ShowIf
+        condition={data && data?.length > 0}
+        render={
+          <AppThemedText type="link" onPress={() => [setIsVisible(true)]}>
+            Add Transaction
+          </AppThemedText>
+        }
+        renderElse={
+         <AppThemedView></AppThemedView>
+        }
+      />
     </>
   );
 }

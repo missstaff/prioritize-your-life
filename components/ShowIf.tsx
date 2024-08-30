@@ -10,7 +10,7 @@ export default function ShowIf({
   render,
   renderElse = null,
 }: {
-  condition: boolean;
+  condition: boolean | undefined;
   render: React.ReactNode;
   renderElse?: React.ReactNode | null;
 }) {

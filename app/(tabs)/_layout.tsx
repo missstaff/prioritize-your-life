@@ -60,6 +60,7 @@ export default function TabLayout(): JSX.Element {
             display: isAuthenticated ? "flex" : "none",
           },
           headerTitle: "",
+          // headerTransparent: true,
 
           headerRight: () => (
             <ShowIf 
