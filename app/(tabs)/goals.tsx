@@ -1,14 +1,19 @@
 import AppThemedText from "@/components/app_components/AppThemedText";
+import AppThemedTouchableOpacity from "@/components/app_components/AppThemedTouchableOpacity";
 import AppThemedView from "@/components/app_components/AppThemedView";
+import AppModal from "@/components/modal/Modal";
+import { GoalsModalContent } from "@/components/modal/modal_content/GoalsModalContent";
 import ShowIf from "@/components/ShowIf";
 import TabbedComponent from "@/components/TabbedComponent";
 import { AppContext } from "@/store/app/app-context";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { ScaledSheet } from "react-native-size-matters";
+import Toast from "react-native-toast-message";
 
 export default function Goals() {
   const appCtx = useContext(AppContext);
   const { selectedTab, setSelectedTab } = appCtx;
+  const [isVisible, setIsVisible] = useState(false);
   const tabsArr = ["Long Term", "Short Term"];
 
   // if (isPending || isLoading || isFetching) {
@@ -19,12 +24,19 @@ export default function Goals() {
   //   return <OnError error={error} />;
   // }
   return (
-    <AppThemedView style={{ display: "flex", flexDirection: "column", height: "100%", width: "100%"}}>
+    <AppThemedView
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        height: "100%",
+        width: "100%",
+      }}
+    >
       <AppThemedText
         style={{ textAlign: "center", paddingTop: 25 }}
         type="title"
       >
-        Save
+        Goals
       </AppThemedText>
 
       <TabbedComponent
@@ -34,16 +46,53 @@ export default function Goals() {
       >
         {tabsArr.map((tab, index) => (
           <ShowIf
+            key={index}
             condition={false}
             render={<AppThemedText>{tab}</AppThemedText>}
             renderElse={
-              <AppThemedView style={{height: "50%", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" }}>
-                <AppThemedText type="default">No Goals Found</AppThemedText>
-                <AppThemedText type="link">Add a goal</AppThemedText>
+              <AppThemedView
+                style={{
+                  height: "50%",
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                <AppThemedText style={{ paddingBottom: 10 }} type="default">
+                  No Goals Found
+                </AppThemedText>
+                <AppThemedView>
+                  <AppThemedTouchableOpacity onPress={() => setIsVisible(true)}>
+                    Add Goal
+                  </AppThemedTouchableOpacity>
+                </AppThemedView>
               </AppThemedView>
-            } />
+            }
+          />
         ))}
       </TabbedComponent>
+
+      <ShowIf
+        condition={isVisible}
+        render={
+          <AppModal
+            onClose={() => [
+              setIsVisible(false),
+              // setAmount(""),
+              // setDate(""),
+              // setDescription(""),
+              // setTransactionId(""),
+              // refetch(),
+            ]}
+            visible={isVisible}
+          >
+            <GoalsModalContent setIsVisible={setIsVisible} />
+
+            <Toast />
+          </AppModal>
+        }
+      />
     </AppThemedView>
   );
 }

@@ -47,11 +47,11 @@ const TransactionModalContent = ({
   } = transactionsCtx;
 
   const handleResetState = () => {
-    setIsVisible(false),
-      setAmount(""),
-      setDate(""),
-      setDescription(""),
-      setTransactionId("");
+    setIsVisible(false);
+    setAmount("");
+    setDate("");
+    setDescription("");
+    setTransactionId("");
   };
 
   const handleSubmit = () => {

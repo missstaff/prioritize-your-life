@@ -8,7 +8,6 @@ import {
 
 export interface GoalContextType extends GoalState {
     setCurrentBalance: (currentBalance: number) => void;
-    setCommitting: (committing: string) => void;
     setDescription: (description: string) => void;
     setExpectedEndDate: (expectedEndDate: string) => void;
     setGoal: (goal: string) => void;
@@ -16,6 +15,7 @@ export interface GoalContextType extends GoalState {
     setIsLongTerm: (isLongTerm: boolean) => void;
     setLastTransactionDate: (lastTransactionDate: string) => void;
     setName: (name: string) => void;
+    setPledge: (committing: string) => void;
     setStartDate: (startDate: string) => void;
     setStartingBalance: (startingBalance: string) => void;
     setTransactions: (transactions: GoalTransactionState[]) => void;
@@ -24,7 +24,6 @@ export interface GoalContextType extends GoalState {
 export const GoalContext = createContext<GoalContextType>({
     id: "",
     currentBalance: 0,
-    committing: "",
     description: "",
     expectedEndDate: "",
     goal: "",
@@ -32,11 +31,11 @@ export const GoalContext = createContext<GoalContextType>({
     isLongTerm: false,
     lastTransactionDate: "",
     name: "",
+    pledge: "",
     startDate: "",
     startingBalance: "",
     transactions: [],
     setCurrentBalance: () => {},
-    setCommitting: () => {},
     setDescription: () => {},
     setExpectedEndDate: () => {},
     setGoal: () => {},
@@ -44,6 +43,7 @@ export const GoalContext = createContext<GoalContextType>({
     setIsLongTerm: () => {},
     setLastTransactionDate: () => {},
     setName: () => {},
+    setPledge: () => {},
     setStartDate: () => {},
     setStartingBalance: () => {},
     setTransactions: () => {},
@@ -61,7 +61,6 @@ export const GoalContextProvider = ({
         {
             id: "",
             currentBalance: 0,
-            committing: "",
             description: "",
             expectedEndDate: "",
             goal: "",
@@ -69,6 +68,7 @@ export const GoalContextProvider = ({
             isLongTerm: false,
             lastTransactionDate: "",
             name: "",
+            pledge: "",
             startDate: "",
             startingBalance: "",
             transactions: [],
@@ -77,8 +77,6 @@ export const GoalContextProvider = ({
 
     const setCurrentBalance = (currentBalance: number) =>
         dispatch({ type: "CurrentBalance", currentBalance });
-    const setCommitting = (committing: string) =>
-        dispatch({ type: "Committing", committing });
     const setDescription = (description: string) =>
         dispatch({ type: "Description", description });
     const setExpectedEndDate = (expectedEndDate: string) =>
@@ -91,6 +89,8 @@ export const GoalContextProvider = ({
     const setLastTransactionDate = (lastTransactionDate: string) =>
         dispatch({ type: "LastTransactionDate", lastTransactionDate });
     const setName = (name: string) => dispatch({ type: "Name", name });
+    const setPledge = (pledge: string) =>
+        dispatch({ type: "Pledge", pledge });
     const setStartDate = (startDate: string) =>
         dispatch({ type: "StartDate", startDate });
     const setStartingBalance = (startingBalance: string) =>
@@ -103,7 +103,6 @@ export const GoalContextProvider = ({
             value={{
                 ...state,
                 setCurrentBalance,
-                setCommitting,
                 setDescription,
                 setExpectedEndDate,
                 setGoal,
@@ -111,6 +110,7 @@ export const GoalContextProvider = ({
                 setIsLongTerm,
                 setLastTransactionDate,
                 setName,
+                setPledge,
                 setStartDate,
                 setStartingBalance,
                 setTransactions,

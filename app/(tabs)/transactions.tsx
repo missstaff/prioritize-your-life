@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useMemo } from "react";
+import React, { useContext, useEffect, useMemo, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { ScaledSheet, s, vs } from "react-native-size-matters";
 import AppModal from "@/components/modal/Modal";
@@ -18,12 +18,14 @@ import { TransactionState } from "@/store/transaction/transaction-reducer";
 import { fetchTransactions } from "./apis/transaction-apis";
 import { COLORS } from "@/constants/Colors";
 import Balance from "@/components/flat-list/Balance";
+import AppThemedTouchableOpacity from "@/components/app_components/AppThemedTouchableOpacity";
 
 export default function Transactions() {
   const transactionCtx = useContext(TransactionContext);
   const { setAmount, setDate, setDescription, setTransactionId } = transactionCtx;
   const appCtx = useContext(AppContext);
-  const { isVisible, selectedTab, setIsVisible, setSelectedTab } = appCtx;
+  const { selectedTab, setSelectedTab } = appCtx;
+  const [ isVisible, setIsVisible ] = useState(false);
   const tabsArr = ["Checking", "Savings"];
 
   const { refetch, isPending, isError, data, error, isFetching, isLoading } = useQuery<
@@ -80,8 +82,10 @@ export default function Transactions() {
         }
         renderElse={
           <AppThemedView style={{ height: "50%", alignItems: "center", justifyContent: "center" }}>
-            <AppThemedText>No transactions</AppThemedText>
-            <AppThemedText type="link" onPress={() => setIsVisible(true)} >Add Transaction</AppThemedText>
+             <AppThemedText style={{paddingBottom: 10}} type="default">No Transactions Found</AppThemedText>
+           <AppThemedView>
+           <AppThemedTouchableOpacity onPress={() => setIsVisible(true)}>Add Transaction</AppThemedTouchableOpacity>
+           </AppThemedView>
           </AppThemedView>
         }
       />

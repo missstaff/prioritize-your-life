@@ -7,24 +7,24 @@ export interface GoalTransactionState {
 
 export interface GoalState {
   id: string;
-  currentBalance: number;
-  committing: string;
-  description: string;
-  expectedEndDate: string;
-  goal: string;
-  howOften: string;
-  isLongTerm: boolean;
-  lastTransactionDate: string;
-  name: string;
-  startDate: string;
+  currentBalance: number; //calculated
+  pledge?: string; //optional and not in initial modal
+  description: string; 
+  expectedEndDate: string; 
+  goal: string; 
+  howOften?: string; //optional and not in initial modal
+  isLongTerm: boolean; //set based on tab
+  lastTransactionDate: string; //calculated-eish!
+  name: string; 
+  startDate: string; // editable but will populate as the day created in the app
   startingBalance: string
-  transactions: GoalTransactionState[];
+  transactions: GoalTransactionState[]; //this is where new transactions will be added ??
 }
 
 export type Action =
   | { type: "Id"; id: string }
   | { type: "CurrentBalance"; currentBalance: number }
-  | { type: "Committing"; committing: string }
+  | { type: "Pledge"; pledge: string }
   | { type: "Description"; description: string }
   | { type: "ExpectedEndDate"; expectedEndDate: string }
   | { type: "Goal"; goal: string }
@@ -42,8 +42,8 @@ export const goalReducer = (state: GoalState, action: Action): GoalState => {
       return { ...state, id: action.id };
     case "CurrentBalance":
       return { ...state, currentBalance: action.currentBalance };
-    case "Committing":
-      return { ...state, committing: action.committing };
+    case "Pledge":
+      return { ...state, pledge: action.pledge };
     case "Description":
       return { ...state, description: action.description };
     case "ExpectedEndDate":

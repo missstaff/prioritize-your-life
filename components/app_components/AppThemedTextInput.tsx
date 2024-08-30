@@ -17,7 +17,7 @@ import { TransactionState } from "@/store/transaction/transaction-reducer";
 
 interface AppThemedTextInputProps {
   containerStyle?: StyleProp<ViewStyle>;
-  data?: TransactionState[] | undefined;
+  data?: any[] | undefined;
   iconName?: string;
   inputStyle?: StyleProp<TextStyle>;
   keyboardType?: "default" | "numeric";
