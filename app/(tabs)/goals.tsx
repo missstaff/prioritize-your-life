@@ -5,7 +5,7 @@ import { AppContext } from "@/store/app/app-context";
 import { useContext } from "react";
 import { ScaledSheet } from "react-native-size-matters";
 
-export default function Save() {
+export default function Goals() {
   const appCtx = useContext(AppContext);
   const { selectedTab, setSelectedTab } = appCtx;
   const tabsArr = ["Long Term", "Short Term"];

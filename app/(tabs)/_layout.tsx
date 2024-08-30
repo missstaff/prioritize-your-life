@@ -128,9 +128,9 @@ export default function TabLayout(): JSX.Element {
           }}
         />
         <Tabs.Screen
-          name="save"
+          name="goals"
           options={{
-            title: "Save",
+            title: "Goals",
             tabBarIcon: ({ color, focused }) => (
               <TabBarIcon
                 name={focused ? "wallet" : "wallet-outline"}
