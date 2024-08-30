@@ -59,6 +59,7 @@ export default function TabLayout(): JSX.Element {
           tabBarStyle: {
             display: isAuthenticated ? "flex" : "none",
           },
+          headerTitle: "",
 
           headerRight: () => (
             <ShowIf 
@@ -129,7 +130,7 @@ export default function TabLayout(): JSX.Element {
         <Tabs.Screen
           name="save"
           options={{
-            title: "Plan",
+            title: "Save",
             tabBarIcon: ({ color, focused }) => (
               <TabBarIcon
                 name={focused ? "wallet" : "wallet-outline"}
