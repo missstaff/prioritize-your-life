@@ -9,7 +9,7 @@ import { TransactionContext } from "@/store/transaction/transaction-context";
 import {
   addOrUpdateTransaction,
   deleteTransaction,
-} from "@/app/(tabs)/apis/api";
+} from "@/app/(tabs)/apis/transaction-apis";
 import {
   formatDate,
   isValidAmount,
