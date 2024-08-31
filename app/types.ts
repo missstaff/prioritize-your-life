@@ -1,5 +1,22 @@
+import { GoalTransactionState } from "@/store/goals/goal-reducer";
 import { TransactionState } from "@/store/transaction/transaction-reducer";
+import { Timestamp } from "@react-native-firebase/firestore";
 
+export interface GoalProps {
+  id: string;
+  currentBalance: number; 
+  pledge?: number; 
+  description: string; 
+  expectedEndDate: Timestamp; 
+  goal: number; 
+  howOften?: string; 
+  isLongTerm: boolean; 
+  lastTransactionDate: Timestamp; 
+  name: string; 
+  startDate: Timestamp; 
+  startingBalance: number;
+  transactions: GoalTransactionState[]; 
+}
 export interface IsValidProps {
   isValid: boolean;
   message: string;

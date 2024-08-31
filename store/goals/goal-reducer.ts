@@ -1,8 +1,10 @@
+import { Timestamp } from "@google-cloud/firestore";
+
 export interface GoalTransactionState {
-  id: string;
-  amount: string;
+  id: number;
+  amount: number;
   balance: number;
-  date: string;
+  date: Timestamp;
 }
 
 export interface GoalState {

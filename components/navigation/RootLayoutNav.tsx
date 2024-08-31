@@ -25,6 +25,7 @@ import {
 import { AuthContextProvider } from "@/store/auth/auth-context";
 import { TransactionContextProvider } from "@/store/transaction/transaction-context";
 import { AppContextProvider } from "@/store/app/app-context";
+import { GoalContextProvider } from "@/store/goals/goal-context";
 /**
  * Handles the change in the application state.
  * @param status - The new state of the application.
@@ -70,7 +71,8 @@ export default function RootLayoutNav() {
       <AuthContextProvider>
        <AppContextProvider>
        <TransactionContextProvider>
-          <ThemeProvider
+         <GoalContextProvider>
+         <ThemeProvider
             value={colorScheme === "dark" ? DarkTheme : DefaultTheme}
           >
             <Stack
@@ -81,6 +83,7 @@ export default function RootLayoutNav() {
             <StatusBar style={"auto"} />
             <Toast />
           </ThemeProvider>
+         </GoalContextProvider>
         </TransactionContextProvider>
         </AppContextProvider>
       </AuthContextProvider>

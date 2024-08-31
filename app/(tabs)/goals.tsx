@@ -14,7 +14,7 @@ export default function Goals() {
   const appCtx = useContext(AppContext);
   const { selectedTab, setSelectedTab } = appCtx;
   const [isVisible, setIsVisible] = useState(false);
-  const tabsArr = ["Long Term", "Short Term"];
+  const tabsArr = ["longTerm", "shortTerm"];
 
   // if (isPending || isLoading || isFetching) {
   //   return <LoadingSpinner />;
@@ -87,7 +87,7 @@ export default function Goals() {
             ]}
             visible={isVisible}
           >
-            <GoalsModalContent setIsVisible={setIsVisible} />
+            <GoalsModalContent selectedTab={tabsArr[selectedTab]} setIsVisible={setIsVisible} />
 
             <Toast />
           </AppModal>

@@ -1,3 +1,4 @@
+import { addOrUpdateGoal } from "@/app/(tabs)/apis/goal-apis";
 import {
   formatDate,
   isValidAmount,
@@ -10,9 +11,15 @@ import AppThemedTouchableOpacity from "@/components/app_components/AppThemedTouc
 import AppThemedView from "@/components/app_components/AppThemedView";
 import ShowIf from "@/components/ShowIf";
 import { GoalContext } from "@/store/goals/goal-context";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useContext } from "react";
 
-const GoalsModalContent = ({ setIsVisible }: { setIsVisible: Function }
+const GoalsModalContent = ({ 
+  selectedTab,
+  setIsVisible }: 
+  { 
+    selectedTab: string,
+    setIsVisible: (isVisible: boolean) => void}
 ) => {
   const goalsContext = useContext(GoalContext);
   const {
@@ -20,38 +27,69 @@ const GoalsModalContent = ({ setIsVisible }: { setIsVisible: Function }
     expectedEndDate,
     goal,
     name,
-    pledge,
     startingBalance,
+    transactions,
     setDescription,
     setExpectedEndDate,
     setGoal,
     setName,
-    setPledge,
     setStartingBalance,
   } = goalsContext;
 
+  const queryClient = useQueryClient();
 
   const handleResetState = () => {
     setIsVisible(false);
-    //   setAmount(""),
-    //   setDate(""),
-    //   setDescription(""),
-    //   setTransactionId("");
+    setDescription("");
+    setExpectedEndDate("");
+    setGoal("");
+    setName("");
+    setStartingBalance("");
+
   };
 
   const handleSubmit = () => {
     // if (validateFormInputs(date, amount, description)) {
-    //   mutation.mutate();
-    //   handleResetState();
+      mutation.mutate();
+      handleResetState();
     // }
   };
 
   const handleDelete = () => {
-    // deleteTransaction(selectedTab, transactionId);
-    // handleResetState();
+    // deleteTransaction(selectedTab, goalId);
+    handleResetState();
     // refetch();
   };
 
+  const mutation = useMutation({
+    mutationFn: () => addOrUpdateGoal(
+    
+      // goalId,
+    // description,
+    // expectedEndDate,
+    // goal,
+    // name,
+    // startDate,
+    // startingBalance,
+    // transactions,
+    // setDescription,
+    // setExpectedEndDate,
+    // setGoal,
+    // setName,
+    // setStartingBalance,
+    // setStartDate,
+    // setTransactions
+    goalsContext,
+    selectedTab
+      ),
+    onSuccess: async () => {
+      setIsVisible(false);
+      queryClient.invalidateQueries({ queryKey: ["goals"] });
+    },
+    onError: () => {
+      handleResetState();
+    },
+  });
 
   return (
     <>
@@ -82,18 +120,18 @@ const GoalsModalContent = ({ setIsVisible }: { setIsVisible: Function }
         }
       />
       <AppThemedTextInput
-        data={[]}
+        data={transactions}
         keyboardType="default"
         placeholder="Goal Name"
         secureEntry={false}
         value={name}
-        checkValue={isValidDescription}
+        checkValue={() => {}}
         setValue={setName}
       />
       <AppThemedTextInput
         data={[]}
         keyboardType="default"
-        placeholder=" Goal Description"
+        placeholder="Description"
         secureEntry={false}
         value={description}
         checkValue={isValidDescription}
@@ -128,10 +166,10 @@ const GoalsModalContent = ({ setIsVisible }: { setIsVisible: Function }
         setValue={setExpectedEndDate}
       />
 
-      <AppThemedTouchableOpacity onPress={handleSubmit}>
+      <AppThemedTouchableOpacity onPress={() => handleSubmit()}>
         Submit
       </AppThemedTouchableOpacity>
-      <AppThemedText type="link" onPress={handleResetState}>
+      <AppThemedText type="link" onPress={() => handleResetState()}>
         Close
       </AppThemedText>
     </>
