@@ -93,7 +93,7 @@ export default function TabLayout(): JSX.Element {
           }}
         />
         <Tabs.Screen
-          name="transactions"
+          name="transactions/index"
           options={{
             title: "Transactions",
             tabBarIcon: ({ color, focused }) => (
@@ -129,7 +129,7 @@ export default function TabLayout(): JSX.Element {
           }}
         />
         <Tabs.Screen
-          name="goals"
+          name="goals/index"
           options={{
             title: "Goals",
             tabBarIcon: ({ color, focused }) => (

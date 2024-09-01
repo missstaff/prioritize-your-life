@@ -44,6 +44,8 @@ export interface RootStackParamList {
   signup: undefined;
   reset: undefined;
   auth: undefined;
+  goals: undefined;
+  goalsDetails: { id: string };
 }
 
 export interface SignInProps {

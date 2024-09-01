@@ -11,14 +11,14 @@ import { useQuery } from "@tanstack/react-query";
 import { useContext, useEffect, useState } from "react";
 import { s, ScaledSheet, vs } from "react-native-size-matters";
 import Toast from "react-native-toast-message";
-import { fetchGoalById, fetchGoals } from "./apis/goal-apis";
+import { fetchGoalById, fetchGoals } from "../apis/goal-apis";
 import LoadingSpinner from "@/components/LoadingSpinner";
 import OnError from "@/components/navigation/OnError";
-import { GoalProps } from "../types";
+import { GoalProps } from "../../types";
 import ListHeader from "@/components/flat-list/ListHeader";
 import ListTransactions from "@/components/flat-list/List";
 import { COLORS } from "@/constants/Colors";
-import { formatDate } from "./utilities/transactions-utilities";
+import { formatDate } from "../utilities/transactions-utilities";
 import { Href, router } from "expo-router";
 
 export default function Goals() {
@@ -53,6 +53,7 @@ export default function Goals() {
     console.log(item);
     const goal = await fetchGoalById(item.id);
     console.log("goal", goal);
+    router.push(`../../(sreens)/goal/[id]`);
   };
 
   if (isPending || isLoading || isFetching) {
@@ -97,8 +98,6 @@ export default function Goals() {
                   queryFn={fetchGoals}
                   queryKey={["goals", "goals" + tabsArr[selectedTab]]}
                   handleOnPress={handleOnPress}
-                  // handleSetItem={handleSetItem}
-                  // setIsVisible={setIsVisible}
                 />
               </AppThemedView>
             }

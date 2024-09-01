@@ -15,7 +15,7 @@ import TransactionModalContent from "@/components/modal/modal_content/Transactio
 import { AppContext } from "@/store/app/app-context";
 import { TransactionContext } from "@/store/transaction/transaction-context";
 import { TransactionState } from "@/store/transaction/transaction-reducer";
-import { fetchTransactions } from "./apis/transaction-apis";
+import { fetchTransactions } from "../apis/transaction-apis";
 import { COLORS } from "@/constants/Colors";
 import Balance from "@/components/flat-list/Balance";
 import AppThemedTouchableOpacity from "@/components/app_components/AppThemedTouchableOpacity";
