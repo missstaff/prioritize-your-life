@@ -6,23 +6,64 @@ import { GoalsModalContent } from "@/components/modal/modal_content/GoalsModalCo
 import ShowIf from "@/components/ShowIf";
 import TabbedComponent from "@/components/TabbedComponent";
 import { AppContext } from "@/store/app/app-context";
-import { useContext, useState } from "react";
-import { ScaledSheet } from "react-native-size-matters";
+import { GoalContext, GoalContextType } from "@/store/goals/goal-context";
+import { useQuery } from "@tanstack/react-query";
+import { useContext, useEffect, useState } from "react";
+import { s, ScaledSheet, vs } from "react-native-size-matters";
 import Toast from "react-native-toast-message";
+import { fetchGoals } from "./apis/goal-apis";
+import LoadingSpinner from "@/components/LoadingSpinner";
+import OnError from "@/components/navigation/OnError";
+import { GoalProps } from "../types";
+import ListHeader from "@/components/flat-list/ListHeader";
+import ListTransactions from "@/components/flat-list/List";
+import { COLORS } from "@/constants/Colors";
+import { formatDate } from "./utilities/transactions-utilities";
 
 export default function Goals() {
   const appCtx = useContext(AppContext);
   const { selectedTab, setSelectedTab } = appCtx;
+  const goalCtx = useContext<GoalContextType>(GoalContext);
   const [isVisible, setIsVisible] = useState(false);
-  const tabsArr = ["longTerm", "shortTerm"];
+  const tabsArr = ["Long Term", "Short Term"];
 
-  // if (isPending || isLoading || isFetching) {
-  //   return <LoadingSpinner />;
-  // }
+  const { refetch, isPending, isError, data, error, isFetching, isLoading } = useQuery<
+    GoalProps[]
+  >({
+    queryKey: ["goals", "goals" + tabsArr[selectedTab]],
+    queryFn: () => fetchGoals(),
+    refetchOnMount: true,
+  });
 
-  // if (isError) {
-  //   return <OnError error={error} />;
-  // }
+  useEffect(() => {
+    refetch();
+  }, [selectedTab]);
+
+  const handleClose = () => {
+    setIsVisible(false);
+    goalCtx.setDescription("");
+    goalCtx.setExpectedEndDate("");
+    goalCtx.setGoal("");
+    goalCtx.setName("");
+    goalCtx.setStartingBalance("");
+    refetch();
+  }
+
+  const handleSetItem = (item: GoalProps) => {
+    goalCtx.setDescription(item.description);
+    goalCtx.setExpectedEndDate(formatDate(item.expectedEndDate));
+    goalCtx.setGoal(item.goal.toString());
+    goalCtx.setName(item.name);
+    goalCtx.setStartingBalance(item.startingBalance.toString());
+  }
+
+  if (isPending || isLoading || isFetching) {
+    return <LoadingSpinner />;
+  }
+
+  if (isError) {
+    return <OnError error={error} />;
+  }
   return (
     <AppThemedView
       style={{
@@ -47,8 +88,19 @@ export default function Goals() {
         {tabsArr.map((tab, index) => (
           <ShowIf
             key={index}
-            condition={false}
-            render={<AppThemedText>{tab}</AppThemedText>}
+            condition={data && data.length > 0}
+            render={<AppThemedView style={styles.container}>
+            <ListHeader
+              styles={styles.tableHeader}
+              headings={["Name", "Balance", "Progress"]}
+            />
+            <ListTransactions 
+            queryFn={fetchGoals} 
+            queryKey={["goals", "goals" + tabsArr[selectedTab]]} 
+            handleSetItem={handleSetItem} 
+            setIsVisible={setIsVisible} 
+            />
+          </AppThemedView>}
             renderElse={
               <AppThemedView
                 style={{
@@ -77,14 +129,7 @@ export default function Goals() {
         condition={isVisible}
         render={
           <AppModal
-            onClose={() => [
-              setIsVisible(false),
-              // setAmount(""),
-              // setDate(""),
-              // setDescription(""),
-              // setTransactionId(""),
-              // refetch(),
-            ]}
+            onClose={handleClose}
             visible={isVisible}
           >
             <GoalsModalContent selectedTab={tabsArr[selectedTab]} setIsVisible={setIsVisible} />
@@ -96,5 +141,24 @@ export default function Goals() {
     </AppThemedView>
   );
 }
-
-const styles = ScaledSheet.create({});
+const styles = ScaledSheet.create({
+  container: {
+    borderRadius: s(10),
+    display: "flex",
+    flex: 1,
+    flexDirection: "column",
+    height: "100%",
+    maxHeight: "100%",
+    marginVertical: vs(5),
+    paddingHorizontal: s(25),
+    paddingVertical: s(10),
+    shadowColor: COLORS.black,
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: s(5),
+    width: "100%",
+  },
+  tableHeader: {
+    fontWeight: "bold",
+  },
+});

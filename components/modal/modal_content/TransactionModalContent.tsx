@@ -11,7 +11,6 @@ import {
   deleteTransaction,
 } from "@/app/(tabs)/apis/transaction-apis";
 import {
-  formatDate,
   isValidAmount,
   isValidDate,
   isValidDescription,
@@ -35,52 +34,35 @@ const TransactionModalContent = ({
 }: TransactionModalContentProps) => {
   const queryClient = useQueryClient();
   const transactionsCtx = useContext(TransactionContext);
-  const {
-    amount,
-    date,
-    description,
-    setAmount,
-    setDate,
-    setDescription,
-    setTransactionId,
-    id: transactionId,
-  } = transactionsCtx;
 
   const handleResetState = () => {
     setIsVisible(false);
-    setAmount("");
-    setDate("");
-    setDescription("");
-    setTransactionId("");
+    transactionsCtx.setAmount("");
+    transactionsCtx.setDate("");
+    transactionsCtx.setDescription("");
+    transactionsCtx.setTransactionId("");
   };
 
   const handleSubmit = () => {
-    if (validateFormInputs(date, amount, description)) {
+    if (validateFormInputs(
+      transactionsCtx.date, 
+      transactionsCtx.amount, 
+      transactionsCtx.description)
+    ) {
       mutation.mutate();
       handleResetState();
     }
   };
 
   const handleDelete = () => {
-    deleteTransaction(selectedTab, transactionId);
+    deleteTransaction(selectedTab, transactionsCtx.id);
     handleResetState();
     refetch();
   };
 
   const mutation = useMutation({
     mutationFn: () =>
-      addOrUpdateTransaction(
-        amount,
-        data,
-        date,
-        description,
-        selectedTab,
-        transactionId,
-        setAmount,
-        setDate,
-        setDescription,
-        setTransactionId
-      ),
+      addOrUpdateTransaction(data, selectedTab, transactionsCtx),
     onSuccess: async () => {
       setIsVisible(false);
       queryClient.invalidateQueries({ queryKey: ["transactions"] });
@@ -93,7 +75,7 @@ const TransactionModalContent = ({
   return (
     <>
       <ShowIf
-        condition={transactionId.length > 0}
+        condition={transactionsCtx.id.length > 0}
         render={
           <AppThemedView
             style={{
@@ -119,27 +101,27 @@ const TransactionModalContent = ({
         keyboardType="numeric"
         placeholder="MM/DD/YYYY"
         secureEntry={false}
-        value={typeof date === "object" ? formatDate(date) : date}
+        value={transactionsCtx.date}
         checkValue={isValidDate}
-        setValue={setDate}
+        setValue={transactionsCtx.setDate}
       />
       <AppThemedTextInput
         data={data}
         keyboardType="numeric"
         placeholder="Amount"
         secureEntry={false}
-        value={amount}
+        value={transactionsCtx.amount.toString()}
         checkValue={isValidAmount}
-        setValue={setAmount}
+        setValue={transactionsCtx.setAmount}
       />
       <AppThemedTextInput
         data={data}
         keyboardType="default"
         placeholder="Description"
         secureEntry={false}
-        value={description}
+        value={transactionsCtx.description}
         checkValue={isValidDescription}
-        setValue={setDescription}
+        setValue={transactionsCtx.setDescription}
       />
       <AppThemedTouchableOpacity onPress={handleSubmit}>
         Submit

@@ -146,40 +146,15 @@ export const validateFormInputs = (
 };
 
 /**
- * Parses a date string and returns a Date object.
- * @param dateStr - The date string to parse.
- * @returns The parsed Date object.
- */
-export const parseDate = (dateStr: string): Date => {
-  let month, day, year;
-  if (dateStr.includes("/")) {
-    [month, day, year] = dateStr.split("/").map(Number);
-  } else if (dateStr.includes("-")) {
-    [month, day, year] = dateStr.split("-").map(Number);
-  } else {
-    if (dateStr.length !== 6) {
-      return new Date();
-    }
-    month = Number(dateStr.slice(0, 2));
-    day = Number(dateStr.slice(2, 4));
-    year = Number(dateStr.slice(4, 8));
-  }
-
-  year = 2000 + year;
-
-  const parsedDate = new Date(year, month - 1, day);
-
-  return isNaN(parsedDate.getTime()) ? new Date() : parsedDate;
-};
-
-
-/**
  * Truncates a string to a specified length.
  * @param str - The string to truncate.
  * @param maxLength - The maximum length of the truncated string.
  * @returns The truncated string.
  */
-export const truncateString = (str: string, maxLength: number = 25) => {
+export const truncateString = (str: string | undefined, maxLength: number = 25) => {
+  if (!str) {
+    return "";
+  }
   if (str.length > maxLength) {
     return str.substring(0, maxLength) + "...";
   }

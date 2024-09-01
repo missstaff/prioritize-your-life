@@ -1,3 +1,5 @@
+import { formatDate } from "@/app/(tabs)/utilities/transactions-utilities";
+
 export interface TransactionState {
   id: string;
   amount: string;
@@ -30,7 +32,7 @@ export const transactionReducer = (state: TransactionState, action: Action): Tra
     case "Date":
       return {
         ...state,
-        date: action.date
+        date: action.date,
       };
     case "Description":
       return { ...state, description: action.description };

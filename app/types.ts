@@ -53,9 +53,9 @@ export interface TransactionModalContentProps {
 }
 
 export interface TransactionProps {
-  amount: string;
+  amount: number;
   balance: number;
-  date: Date;
+  date: Timestamp;
   description: string;
   id: string;
 }

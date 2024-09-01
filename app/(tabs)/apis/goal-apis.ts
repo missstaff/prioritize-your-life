@@ -1,6 +1,7 @@
 import { GoalProps } from "@/app/types";
+import { convertToTimestamp } from "@/common/utilities";
 import { getFireApp } from "@/getFireApp";
-import { GoalContextType } from "@/store/goals/goal-context";
+import { GoalContext, GoalContextType } from "@/store/goals/goal-context";
 import { GoalState, GoalTransactionState } from "@/store/goals/goal-reducer";
 import { Timestamp } from "@react-native-firebase/firestore";
 import { s } from "react-native-size-matters";
@@ -44,15 +45,13 @@ export const addOrUpdateGoal = async (
             .collection("users")
             .doc(uid)
             .collection("goals");
-
-        console.log("Running addOrUpdateGoal");
       
         let currentBalance = 0.00;
-        // if (goalsContext.transactions && goalsContext.transactions.length > 0) {
-        //     currentBalance = goalsContext.transactions.reduce((acc, transaction) => acc + Number(parseFloat(transaction.amount)),
-        //         0
-        //     );
-        // }
+        if (goalsContext.transactions && goalsContext.transactions.length > 0) {
+            currentBalance = parseFloat(goalsContext.transactions.reduce((acc, transaction) => acc + transaction.amount,
+            0
+        ).toFixed(2));
+        }
         
         if(goalsContext.startDate === "") {
             goalsContext.setStartDate(new Date().toISOString());
@@ -67,21 +66,16 @@ export const addOrUpdateGoal = async (
             date: new Timestamp(new Date().getTime() / 1000, 0),
         };
 
-        const x = goalsContext.transactions.concat(goalTransaction)
-        goalsContext.setTransactions(x);
-
-        let date = new Date(goalsContext.expectedEndDate);
-
         const transactionData: Omit<GoalProps, "id"> = {
             currentBalance: 0,
             description: goalsContext.description,
-            expectedEndDate:new Timestamp(new Date().getTime() / 1000, 0),
+            expectedEndDate: convertToTimestamp(goalsContext.expectedEndDate),
             goal: parseFloat(goalsContext.goal),
             name: goalsContext.name,
             startDate: new Timestamp(new Date().getTime() / 1000, 0),
             startingBalance: parseFloat(goalsContext.startingBalance),
-            transactions : [...goalsContext.transactions, goalTransaction],
-            isLongTerm: selectedTab === "longTerm",
+            transactions :  [...goalsContext.transactions, goalTransaction],
+            isLongTerm: selectedTab === "Long Term",
             lastTransactionDate:new Timestamp(new Date().getTime() / 1000, 0),
         };
 
@@ -90,13 +84,13 @@ export const addOrUpdateGoal = async (
         } else {
             await transactionsRef.add(transactionData);
         }
-        // goalsContext.setDescription("");
-        // goalsContext.setExpectedEndDate("");
-        // goalsContext.setGoal("");
-        // goalsContext.setName("");
-        // goalsContext.setStartDate("");
-        // goalsContext.setStartingBalance("");
-        // goalsContext.setTransactions([]);
+        goalsContext.setDescription("");
+        goalsContext.setExpectedEndDate("");
+        goalsContext.setGoal("");
+        goalsContext.setName("");
+        goalsContext.setStartDate("");
+        goalsContext.setStartingBalance("");
+        goalsContext.setTransactions([]);
 
     } catch (error: any) {
         throw new Error("Error adding/updating a savings goal: " + error.message);
@@ -127,34 +121,34 @@ export const addOrUpdateGoal = async (
 // }
 
 
-// export const fetchTransactions = async (selectedTab: string): Promise<TransactionState[]> => {
-//     let data: TransactionState[] = [];
-//     try {
-//         const firebase = await getFireApp();
-//         if (!firebase) {
-//             throw new Error("Firebase app not initialized");
-//         }
-//         const db = firebase.firestore();
-//         const uid = firebase.auth().currentUser?.uid;
-//         if (!uid) {
-//             throw new Error("User not authenticated");
-//         }
+export const fetchGoals = async (): Promise<GoalProps[]> => {
+    let data: GoalProps[] = [];
+    try {
+        const firebase = await getFireApp();
+        if (!firebase) {
+            throw new Error("Firebase app not initialized");
+        }
+        const db = firebase.firestore();
+        const uid = firebase.auth().currentUser?.uid;
+        if (!uid) {
+            throw new Error("User not authenticated");
+        }
 
-//         const transactionsRef = db
-//             .collection("users")
-//             .doc(uid)
-//             .collection(selectedTab.toLowerCase());
-//         const snapshot = await transactionsRef.orderBy("date", "desc").get();
-//         data = snapshot.docs.map((doc) => ({
-//             id: doc.id,
-//             ...doc.data(),
-//         })) as TransactionState[];
+        const transactionsRef = db
+            .collection("users")
+            .doc(uid)
+            .collection("goals");
+        const snapshot = await transactionsRef.orderBy("startDate", "desc").get();
+        data = snapshot.docs.map((doc) => ({
+            id: doc.id,
+            ...doc.data(),
+        })) as GoalProps[];
 
-//         if (!data) {
-//             data = [];
-//         }
-//     } catch (error: any) {
-//         throw new Error("Error fetching transactions: " + error.message);
-//     }
-//     return data;
-// };
+        if (!data) {
+            data = [];
+        }
+    } catch (error: any) {
+        throw new Error("Error fetching goals: " + error.message);
+    }
+    return data;
+};

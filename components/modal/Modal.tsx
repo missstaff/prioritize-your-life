@@ -21,7 +21,7 @@ const AppModal = ({ children, onClose, visible }: ModalProps) => {
     <Modal
       animationType="slide"
       aria-label="Settings Modal"
-      onRequestClose={onClose}
+      onRequestClose={() => onClose()}
       transparent={true}
       visible={visible}
       role="dialog"

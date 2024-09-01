@@ -3,9 +3,9 @@ import { useQuery } from "@tanstack/react-query";
 import { ScaledSheet, s, vs } from "react-native-size-matters";
 import AppModal from "@/components/modal/Modal";
 import AppThemedText from "@/components/app_components/AppThemedText";
-import AppThemedView  from "@/components/app_components/AppThemedView";
+import AppThemedView from "@/components/app_components/AppThemedView";
 import ListHeader from "@/components/flat-list/ListHeader";
-import ListTransactions from "@/components/flat-list/ListTransactions";
+import ListTransactions from "@/components/flat-list/List";
 import LoadingSpinner from "@/components/LoadingSpinner";
 import OnError from "@/components/navigation/OnError";
 import ShowIf from "@/components/ShowIf";
@@ -22,23 +22,39 @@ import AppThemedTouchableOpacity from "@/components/app_components/AppThemedTouc
 
 export default function Transactions() {
   const transactionCtx = useContext(TransactionContext);
-  const { setAmount, setDate, setDescription, setTransactionId } = transactionCtx;
+  const { setAmount, setDate, setDescription, setTransactionId } =
+    transactionCtx;
   const appCtx = useContext(AppContext);
   const { selectedTab, setSelectedTab } = appCtx;
-  const [ isVisible, setIsVisible ] = useState(false);
+  const [isVisible, setIsVisible] = useState(false);
   const tabsArr = ["Checking", "Savings"];
 
-  const { refetch, isPending, isError, data, error, isFetching, isLoading } = useQuery<
-    TransactionState[]
-  >({
-    queryKey: ["transactions", tabsArr[selectedTab]],
-    queryFn: () => fetchTransactions(tabsArr[selectedTab]),
-    refetchOnMount: true,
-  });
+  const { refetch, isPending, isError, data, error, isFetching, isLoading } =
+    useQuery<TransactionState[]>({
+      queryKey: ["transactions", "transactions " + tabsArr[selectedTab]],
+      queryFn: () => fetchTransactions(tabsArr[selectedTab]),
+      refetchOnMount: true,
+    });
 
   useEffect(() => {
     refetch();
   }, [selectedTab]);
+
+  const handleClose = () => {
+    setIsVisible(false);
+    setAmount("");
+    setDate("");
+    setDescription("");
+    setTransactionId("");
+    refetch();
+  };
+
+  const handleSetItem = (item: TransactionState) => {
+    setAmount(item.amount);
+    setDate(item.date);
+    setDescription(item.description);
+    setTransactionId(item.id);
+  }
 
 
   const balance = useMemo(() => {
@@ -54,8 +70,18 @@ export default function Transactions() {
   }
 
   return (
-    <AppThemedView style={{display:"flex", flexDirection: "column", height:"100%", width: "100%"}}>
-      <AppThemedText style={{ textAlign: "center", paddingTop: 25 }} type="title">
+    <AppThemedView
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        height: "100%",
+        width: "100%",
+      }}
+    >
+      <AppThemedText
+        style={{ textAlign: "center", paddingTop: 25 }}
+        type="title"
+      >
         Transactions
       </AppThemedText>
       <TabbedComponent
@@ -65,7 +91,12 @@ export default function Transactions() {
       >
         {tabsArr.map((tab, index) => (
           <AppThemedView key={index} style={styles.balanceContainer}>
-            <Balance key={index} balance={balance} data={data} setIsVisible={setIsVisible} />
+            <Balance
+              key={index}
+              balance={balance}
+              data={data}
+              setIsVisible={setIsVisible}
+            />
           </AppThemedView>
         ))}
       </TabbedComponent>
@@ -77,32 +108,37 @@ export default function Transactions() {
               styles={styles.tableHeader}
               headings={["Date", "Amount", "Description"]}
             />
-            <ListTransactions data={data} setIsVisible={setIsVisible} />
+            <ListTransactions
+              queryFn={() => fetchTransactions(tabsArr[selectedTab])}
+              queryKey={["transactions", "transactions " + tabsArr[selectedTab]]}
+              setIsVisible={setIsVisible}
+              handleSetItem={handleSetItem}
+            />
           </AppThemedView>
         }
         renderElse={
-          <AppThemedView style={{ height: "50%", alignItems: "center", justifyContent: "center" }}>
-             <AppThemedText style={{paddingBottom: 10}} type="default">No Transactions Found</AppThemedText>
-           <AppThemedView>
-           <AppThemedTouchableOpacity onPress={() => setIsVisible(true)}>Add Transaction</AppThemedTouchableOpacity>
-           </AppThemedView>
+          <AppThemedView
+            style={{
+              height: "50%",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <AppThemedText style={{ paddingBottom: 10 }} type="default">
+              No Transactions Found
+            </AppThemedText>
+            <AppThemedView>
+              <AppThemedTouchableOpacity onPress={() => setIsVisible(true)}>
+                Add Transaction
+              </AppThemedTouchableOpacity>
+            </AppThemedView>
           </AppThemedView>
         }
       />
       <ShowIf
         condition={!isPending && !isError && isVisible}
         render={
-          <AppModal
-            onClose={() => [
-              setIsVisible(false),
-              setAmount(""),
-              setDate(""),
-              setDescription(""),
-              setTransactionId(""),
-              refetch(),
-            ]}
-            visible={isVisible}
-          >
+          <AppModal onClose={handleClose} visible={isVisible}>
             <TransactionModalContent
               data={data}
               selectedTab={tabsArr[selectedTab]}

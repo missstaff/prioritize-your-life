@@ -1,8 +1,10 @@
 import Toast from "react-native-toast-message";
 import { getFireApp } from "@/getFireApp";
 import { TransactionState } from "../../../store/transaction/transaction-reducer";
-import { formatDate, parseDate, validateFormInputs } from "../utilities/transactions-utilities";
+import { formatDate, validateFormInputs } from "../utilities/transactions-utilities";
 import { TransactionProps } from "@/app/types";
+import { TransactionContextType } from "@/store/transaction/transaction-context";
+import { convertToTimestamp } from "@/common/utilities";
 
 /**
  * Adds or updates a transaction in Firestore.
@@ -16,18 +18,15 @@ import { TransactionProps } from "@/app/types";
  * @param setTransactionId A function to set the transaction ID state.
  */
 export const addOrUpdateTransaction = async (
-    amount: string,
     data: TransactionState[] | undefined,
-    date: string,
-    description: string,
     selectedTab: string,
-    transactionId: string,
-    setAmount: (amount: string) => void,
-    setDate: (date: string) => void,
-    setDescription: (description: string) => void,
-    setTransactionId: (id: string) => void
+    transactionsCtx: TransactionContextType
 ) => {
-    if (!description || !amount || !date) {
+    if (
+        !transactionsCtx.description ||
+        !transactionsCtx.amount ||
+        !transactionsCtx.date
+    ) {
         Toast.show({
             type: "error",
             text1: "Error adding/updating transaction.",
@@ -36,7 +35,13 @@ export const addOrUpdateTransaction = async (
         return;
     }
 
-    if (!validateFormInputs(date, amount, description)) {
+    if (
+        !validateFormInputs(
+            transactionsCtx.date,
+            transactionsCtx.amount,
+            transactionsCtx.description
+        )
+    ) {
         Toast.show({
             type: "error",
             text1: "Error adding/updating transaction.",
@@ -62,38 +67,41 @@ export const addOrUpdateTransaction = async (
             .doc(uid)
             .collection(selectedTab.toLowerCase());
 
-        amount = Number(amount).toFixed(2);
-        const numericAmount = Number(parseFloat(amount).toFixed(2));
+        transactionsCtx.amount = Number(transactionsCtx.amount).toFixed(2);
+        const numericAmount = Number(parseFloat(transactionsCtx.amount).toFixed(2));
         if (isNaN(numericAmount)) {
             throw new Error("Amount is not a number.");
         }
 
-        let updatedBalance = 0.00;
+        let updatedBalance = 0.0;
         if (data && data.length > 0) {
-            updatedBalance = data.reduce((acc, transaction) => acc + Number(parseFloat(transaction.amount) + numericAmount),
+            updatedBalance = data.reduce(
+                (acc, transaction) =>
+                    acc + Number(parseFloat(transaction.amount) + numericAmount),
                 0
             );
         } else {
             updatedBalance = numericAmount;
         }
 
+        const newDD = convertToTimestamp(transactionsCtx.date);
         const transactionData: Omit<TransactionProps, "id"> = {
-            amount,
+            amount: numericAmount,
             balance: updatedBalance,
-            date: typeof date === "object" ? parseDate(formatDate(date)) : parseDate(date),
-            description,
+            date: newDD,
+            description: transactionsCtx.description,
         };
 
-        if (transactionId) {
-            await transactionsRef.doc(transactionId).update(transactionData);
+        if (transactionsCtx.id) {
+            await transactionsRef.doc(transactionsCtx.id).update(transactionData);
         } else {
             await transactionsRef.add(transactionData);
         }
-        setAmount("");
-        setDate("");
-        setDescription("");
-        setTransactionId("");
-        updatedBalance = 0.00;
+        transactionsCtx.setAmount("");
+        transactionsCtx.setDate("");
+        transactionsCtx.setDescription("");
+        transactionsCtx.setTransactionId("");
+        updatedBalance = 0.0;
     } catch (error: any) {
         throw new Error("Error adding/updating transaction: " + error.message);
     }
@@ -105,7 +113,10 @@ export const addOrUpdateTransaction = async (
  * @param transactionId The ID of the transaction to delete.
  * @returns A promise that resolves when the transaction is deleted.
  **/
-export const deleteTransaction = async (selectedTab: string, transactionId: string) => {
+export const deleteTransaction = async (
+    selectedTab: string,
+    transactionId: string
+) => {
     const firebase = await getFireApp();
     try {
         if (!firebase) {
@@ -125,13 +136,15 @@ export const deleteTransaction = async (selectedTab: string, transactionId: stri
     } catch (error: any) {
         throw new Error("Error deleting transaction: " + error.message);
     }
-}
+};
 
 /**
  * Fetches transactions from Firestore.
  * @returns A promise that resolves to an array of transactions.
  */
-export const fetchTransactions = async (selectedTab: string): Promise<TransactionState[]> => {
+export const fetchTransactions = async (
+    selectedTab: string
+): Promise<TransactionState[]> => {
     let data: TransactionState[] = [];
     try {
         const firebase = await getFireApp();
@@ -159,6 +172,10 @@ export const fetchTransactions = async (selectedTab: string): Promise<Transactio
         }
     } catch (error: any) {
         throw new Error("Error fetching transactions: " + error.message);
+    }
+
+    for(const transaction of data) {
+        transaction.date = formatDate(transaction.date);
     }
     return data;
 };
