@@ -13,6 +13,7 @@ export interface GoalProps {
   isLongTerm: boolean; 
   lastTransactionDate: Timestamp; 
   name: string; 
+  progress: number;
   startDate: Timestamp; 
   startingBalance: number;
   transactions: GoalTransactionState[]; 
@@ -20,6 +21,17 @@ export interface GoalProps {
 export interface IsValidProps {
   isValid: boolean;
   message: string;
+}
+
+export interface ListItemProps {
+  item: {
+    amount?: string;
+    currentBalance?: number;
+    date?: string;
+    description?: string;
+    name: string;
+    progress?: number;
+  };
 }
 
 export interface ResetPasswordProps {

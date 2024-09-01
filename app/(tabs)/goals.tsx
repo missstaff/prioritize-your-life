@@ -11,7 +11,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useContext, useEffect, useState } from "react";
 import { s, ScaledSheet, vs } from "react-native-size-matters";
 import Toast from "react-native-toast-message";
-import { fetchGoals } from "./apis/goal-apis";
+import { fetchGoalById, fetchGoals } from "./apis/goal-apis";
 import LoadingSpinner from "@/components/LoadingSpinner";
 import OnError from "@/components/navigation/OnError";
 import { GoalProps } from "../types";
@@ -19,6 +19,7 @@ import ListHeader from "@/components/flat-list/ListHeader";
 import ListTransactions from "@/components/flat-list/List";
 import { COLORS } from "@/constants/Colors";
 import { formatDate } from "./utilities/transactions-utilities";
+import { Href, router } from "expo-router";
 
 export default function Goals() {
   const appCtx = useContext(AppContext);
@@ -27,13 +28,12 @@ export default function Goals() {
   const [isVisible, setIsVisible] = useState(false);
   const tabsArr = ["Long Term", "Short Term"];
 
-  const { refetch, isPending, isError, data, error, isFetching, isLoading } = useQuery<
-    GoalProps[]
-  >({
-    queryKey: ["goals", "goals" + tabsArr[selectedTab]],
-    queryFn: () => fetchGoals(),
-    refetchOnMount: true,
-  });
+  const { refetch, isPending, isError, data, error, isFetching, isLoading } =
+    useQuery<GoalProps[]>({
+      queryKey: ["goals", "goals" + tabsArr[selectedTab]],
+      queryFn: () => fetchGoals(),
+      refetchOnMount: true,
+    });
 
   useEffect(() => {
     refetch();
@@ -47,15 +47,13 @@ export default function Goals() {
     goalCtx.setName("");
     goalCtx.setStartingBalance("");
     refetch();
-  }
+  };
 
-  const handleSetItem = (item: GoalProps) => {
-    goalCtx.setDescription(item.description);
-    goalCtx.setExpectedEndDate(formatDate(item.expectedEndDate));
-    goalCtx.setGoal(item.goal.toString());
-    goalCtx.setName(item.name);
-    goalCtx.setStartingBalance(item.startingBalance.toString());
-  }
+  const handleOnPress = async (item: GoalProps) => {
+    console.log(item);
+    const goal = await fetchGoalById(item.id);
+    console.log("goal", goal);
+  };
 
   if (isPending || isLoading || isFetching) {
     return <LoadingSpinner />;
@@ -89,18 +87,21 @@ export default function Goals() {
           <ShowIf
             key={index}
             condition={data && data.length > 0}
-            render={<AppThemedView style={styles.container}>
-            <ListHeader
-              styles={styles.tableHeader}
-              headings={["Name", "Balance", "Progress"]}
-            />
-            <ListTransactions 
-            queryFn={fetchGoals} 
-            queryKey={["goals", "goals" + tabsArr[selectedTab]]} 
-            handleSetItem={handleSetItem} 
-            setIsVisible={setIsVisible} 
-            />
-          </AppThemedView>}
+            render={
+              <AppThemedView style={styles.container}>
+                <ListHeader
+                  styles={styles.tableHeader}
+                  headings={["Name", "Balance", "Progress"]}
+                />
+                <ListTransactions
+                  queryFn={fetchGoals}
+                  queryKey={["goals", "goals" + tabsArr[selectedTab]]}
+                  handleOnPress={handleOnPress}
+                  // handleSetItem={handleSetItem}
+                  // setIsVisible={setIsVisible}
+                />
+              </AppThemedView>
+            }
             renderElse={
               <AppThemedView
                 style={{
@@ -128,11 +129,11 @@ export default function Goals() {
       <ShowIf
         condition={isVisible}
         render={
-          <AppModal
-            onClose={handleClose}
-            visible={isVisible}
-          >
-            <GoalsModalContent selectedTab={tabsArr[selectedTab]} setIsVisible={setIsVisible} />
+          <AppModal onClose={handleClose} visible={isVisible}>
+            <GoalsModalContent
+              selectedTab={tabsArr[selectedTab]}
+              setIsVisible={setIsVisible}
+            />
 
             <Toast />
           </AppModal>

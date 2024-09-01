@@ -5,6 +5,8 @@ import Row from "../grid/Row";
 import Column from "../grid/Column";
 import { truncateString } from "@/app/(tabs)/utilities/transactions-utilities";
 import ShowIf from "../ShowIf";
+import GoalItem from "./GoalItem";
+import TransactionItem from "./TransactionItem";
 
 interface ListItemProps {
   item: {
@@ -15,66 +17,23 @@ interface ListItemProps {
     name: string;
     progress?: number;
   };
-  handleSetItem: (item: any) => void;
-  setIsVisible: (isVisible: boolean) => void;
+  onPress: (item: any) => void;
 }
 
-const ListItem = ({ item, handleSetItem, setIsVisible }: ListItemProps) => {
+const ListItem = ({ item, onPress }: ListItemProps) => {
   return (
     item && (
       <Pressable
-        onPress={() => [
-          handleSetItem && handleSetItem(item),
-          setIsVisible(true),
-        ]}
+        onPress={() => onPress(item)}
       >
-        <Row>
-          <Column>
-            <ShowIf
-              condition={item.date !== undefined}
-              render={
-                <AppThemedText style={styles.text}>{item.date}</AppThemedText>
-              }
-              renderElse={
-                <AppThemedText style={styles.text}>{item.name}</AppThemedText>
-              }
-            />
-          </Column>
-          <Column>
-            <ShowIf
-              condition={item.amount !== undefined}
-              render={
-                <AppThemedText style={styles.text}>{item.amount}</AppThemedText>
-              }
-              renderElse={
-                <AppThemedText style={styles.text}>
-                  {item.currentBalance}
-                </AppThemedText>
-              }
-            />
-          </Column>
-          <Column>
-            <ShowIf
-              condition={item.progress !== undefined}
-              render={
-                <AppThemedText style={styles.text}>{item.progress}</AppThemedText>
-              }
-              renderElse={
-                <AppThemedText style={styles.text}>
-                  {truncateString(item.description)}
-                </AppThemedText>
-              }
-            />
-          </Column>
-        </Row>
+        <ShowIf
+          condition={item.currentBalance !== undefined}
+          render={<GoalItem item={item} />}
+          renderElse={<TransactionItem item={item} />}
+        />
       </Pressable>
     )
   );
 };
 
-const styles = ScaledSheet.create({
-  text: {
-    fontSize: s(12),
-  },
-});
 export default ListItem;

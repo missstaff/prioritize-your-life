@@ -49,7 +49,8 @@ export default function Transactions() {
     refetch();
   };
 
-  const handleSetItem = (item: TransactionState) => {
+  const handleOnPress = (item: TransactionState) => {
+    setIsVisible(true);
     setAmount(item.amount);
     setDate(item.date);
     setDescription(item.description);
@@ -111,8 +112,7 @@ export default function Transactions() {
             <ListTransactions
               queryFn={() => fetchTransactions(tabsArr[selectedTab])}
               queryKey={["transactions", "transactions " + tabsArr[selectedTab]]}
-              setIsVisible={setIsVisible}
-              handleSetItem={handleSetItem}
+              handleOnPress={handleOnPress}
             />
           </AppThemedView>
         }

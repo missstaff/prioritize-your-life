@@ -3,17 +3,19 @@ import ListItem from "./ListItem";
 import { useQuery } from "@tanstack/react-query";
 
 export interface ListTransactionsProps {
-  handleSetItem: (item: any) => void;
+  // handleSetItem: (item: any) => void;
   queryKey: string  | string[];
   queryFn: () => Promise<any[]>;
-  setIsVisible: (isVisible: boolean) => void;
+  // setIsVisible: (isVisible: boolean) => void;
+  handleOnPress: (item: any) => void;
 }
 
 export default function ListTransactions({
-  handleSetItem,
+  // handleSetItem,
+  handleOnPress,
   queryKey,
   queryFn,
-  setIsVisible,
+  // setIsVisible,
 }: ListTransactionsProps) {
   const { refetch, isPending, isError, data, error, isFetching, isLoading } =
     useQuery<any[]>({
@@ -30,8 +32,9 @@ export default function ListTransactions({
       renderItem={({ item }) => (
         <ListItem
           item={item}
-          handleSetItem={handleSetItem}
-          setIsVisible={setIsVisible}
+          onPress={handleOnPress}
+          // handleSetItem={handleSetItem}
+          // setIsVisible={setIsVisible}
         />
       )}
     />

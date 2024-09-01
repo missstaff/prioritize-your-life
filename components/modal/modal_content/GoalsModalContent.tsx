@@ -22,29 +22,16 @@ const GoalsModalContent = ({
     setIsVisible: (isVisible: boolean) => void}
 ) => {
   const goalsContext = useContext(GoalContext);
-  const {
-    description,
-    expectedEndDate,
-    goal,
-    name,
-    startingBalance,
-    transactions,
-    setDescription,
-    setExpectedEndDate,
-    setGoal,
-    setName,
-    setStartingBalance,
-  } = goalsContext;
 
   const queryClient = useQueryClient();
 
   const handleResetState = () => {
     setIsVisible(false);
-    setDescription("");
-    setExpectedEndDate("");
-    setGoal("");
-    setName("");
-    setStartingBalance("");
+    goalsContext.setDescription("");
+    goalsContext.setExpectedEndDate("");
+    goalsContext.setGoal("");
+    goalsContext.setName("");
+    goalsContext.setStartingBalance("");
 
   };
 
@@ -63,22 +50,6 @@ const GoalsModalContent = ({
 
   const mutation = useMutation({
     mutationFn: () => addOrUpdateGoal(
-    
-      // goalId,
-    // description,
-    // expectedEndDate,
-    // goal,
-    // name,
-    // startDate,
-    // startingBalance,
-    // transactions,
-    // setDescription,
-    // setExpectedEndDate,
-    // setGoal,
-    // setName,
-    // setStartingBalance,
-    // setStartDate,
-    // setTransactions
     goalsContext,
     selectedTab
       ),
@@ -120,40 +91,40 @@ const GoalsModalContent = ({
         }
       />
       <AppThemedTextInput
-        data={transactions}
+        data={goalsContext.transactions}
         keyboardType="default"
         placeholder="Goal Name"
         secureEntry={false}
-        value={name}
+        value={goalsContext.name}
         checkValue={() => {}}
-        setValue={setName}
+        setValue={goalsContext.setName}
       />
       <AppThemedTextInput
         data={[]}
         keyboardType="default"
         placeholder="Description"
         secureEntry={false}
-        value={description}
+        value={goalsContext.description}
         checkValue={isValidDescription}
-        setValue={setDescription}
+        setValue={goalsContext.setDescription}
       />
       <AppThemedTextInput
         data={[]}
         keyboardType="numeric"
         placeholder="Goal Amount"
         secureEntry={false}
-        value={goal}
+        value={goalsContext.goal}
         checkValue={isValidAmount}
-        setValue={setGoal}
+        setValue={goalsContext.setGoal}
       />
       <AppThemedTextInput
         data={[]}
         keyboardType="numeric"
         placeholder="Starting Balance"
         secureEntry={false}
-        value={startingBalance}
+        value={goalsContext.startingBalance}
         checkValue={isValidAmount}
-        setValue={setStartingBalance}
+        setValue={goalsContext.setStartingBalance}
       />
       <AppThemedTextInput
         iconName="calendar"
@@ -161,9 +132,9 @@ const GoalsModalContent = ({
         keyboardType="numeric"
         placeholder="End Date"
         secureEntry={false}
-        value={expectedEndDate}
+        value={goalsContext.expectedEndDate}
         checkValue={isValidDate}
-        setValue={setExpectedEndDate}
+        setValue={goalsContext.setExpectedEndDate}
       />
 
       <AppThemedTouchableOpacity onPress={() => handleSubmit()}>

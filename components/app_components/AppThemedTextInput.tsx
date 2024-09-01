@@ -84,11 +84,7 @@ const AppThemedTextInput = ({
           if (value.length > 0) checkValue(value);
         }}
         onChangeText={(text) => {
-          if (!data?.length && placeholder === "Description") {
-            setValue("Initial Balance");
-          } else {
-            setValue(text);
-          }
+          setValue(text);
         }}
         placeholder={placeholder}
         placeholderTextColor="#999"

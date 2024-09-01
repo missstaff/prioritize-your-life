@@ -47,17 +47,20 @@ export const addOrUpdateGoal = async (
             .collection("goals");
       
         let currentBalance = 0.00;
-        if (goalsContext.transactions && goalsContext.transactions.length > 0) {
-            currentBalance = parseFloat(goalsContext.transactions.reduce((acc, transaction) => acc + transaction.amount,
-            0
-        ).toFixed(2));
+       // use reduce function to get the current balance
+        if(goalsContext.transactions.length > 0) {
+            currentBalance = goalsContext.transactions.reduce((acc, transaction) => {
+                return acc + transaction.amount;
+            }, 0);
+        }else{
+            currentBalance = parseFloat(goalsContext.startingBalance);
         }
+
+        console.log("currentBalance", currentBalance);
         
         if(goalsContext.startDate === "") {
             goalsContext.setStartDate(new Date().toISOString());
         }
-
-        
 
         const goalTransaction: GoalTransactionState ={
             id: goalsContext.transactions.length + 1,
@@ -67,11 +70,12 @@ export const addOrUpdateGoal = async (
         };
 
         const transactionData: Omit<GoalProps, "id"> = {
-            currentBalance: 0,
+            currentBalance: currentBalance,
             description: goalsContext.description,
             expectedEndDate: convertToTimestamp(goalsContext.expectedEndDate),
             goal: parseFloat(goalsContext.goal),
             name: goalsContext.name,
+            progress: currentBalance/parseFloat(goalsContext.goal) * 100,
             startDate: new Timestamp(new Date().getTime() / 1000, 0),
             startingBalance: parseFloat(goalsContext.startingBalance),
             transactions :  [...goalsContext.transactions, goalTransaction],
@@ -149,6 +153,38 @@ export const fetchGoals = async (): Promise<GoalProps[]> => {
         }
     } catch (error: any) {
         throw new Error("Error fetching goals: " + error.message);
+    }
+    return data;
+};
+
+export const fetchGoalById = async (goalId: string): Promise<GoalProps> => {
+    let data: GoalProps = {} as GoalProps;
+    try {
+        const firebase = await getFireApp();
+        if (!firebase) {
+            throw new Error("Firebase app not initialized");
+        }
+        const db = firebase.firestore();
+        const uid = firebase.auth().currentUser?.uid;
+        if (!uid) {
+            throw new Error("User not authenticated");
+        }
+
+        const transactionsRef = db
+            .collection("users")
+            .doc(uid)
+            .collection("goals");
+        const snapshot = await transactionsRef.doc(goalId).get();
+        data = {
+            id: snapshot.id,
+            ...snapshot.data(),
+        } as GoalProps;
+
+        if (!data) {
+            data = {} as GoalProps;
+        }
+    } catch (error: any) {
+        throw new Error("Error fetching goal by id: " + error.message);
     }
     return data;
 };
