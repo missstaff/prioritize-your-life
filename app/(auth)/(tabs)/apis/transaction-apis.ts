@@ -83,8 +83,9 @@ export const addOrUpdateTransaction = async (
         } else {
             updatedBalance = numericAmount;
         }
+    
 
-        const newDD = convertToTimestamp(transactionsCtx.date);
+        const newDD = typeof transactionsCtx.date === "string" ? convertToTimestamp(transactionsCtx.date) : transactionsCtx.date;
         const transactionData: Omit<TransactionProps, "id"> = {
             amount: numericAmount,
             balance: updatedBalance,
@@ -174,8 +175,8 @@ export const fetchTransactions = async (
         throw new Error("Error fetching transactions: " + error.message);
     }
 
-    for(const transaction of data) {
-        formatTimestamp(transaction.date);
-    }
+    // for(const transaction of data) {
+    //     formatTimestamp(transaction.date);
+    // }
     return data;
 };

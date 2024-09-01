@@ -75,11 +75,7 @@ const TransactionModalContent = ({
       handleResetState();
     },
   });
-  console.log(
-    "transactionsCtx",
-    transactionsCtx.date,
-    typeof transactionsCtx.date
-  );
+  
   return (
     <>
       <ShowIf

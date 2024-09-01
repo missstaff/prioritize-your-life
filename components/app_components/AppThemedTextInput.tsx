@@ -94,6 +94,7 @@ const AppThemedTextInput = ({
           { backgroundColor: backgroundColor, color: textColor },
           inputStyle,
         ]}
+        defaultValue={value}
         value={value}
         {...rest}
       />
