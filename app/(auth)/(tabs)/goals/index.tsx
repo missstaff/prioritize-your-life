@@ -18,7 +18,6 @@ import { GoalProps } from "../../../types";
 import ListHeader from "@/components/flat-list/ListHeader";
 import ListTransactions from "@/components/flat-list/List";
 import { COLORS } from "@/constants/Colors";
-import { formatDate } from "../utilities/transactions-utilities";
 import { Href, router,useLocalSearchParams } from "expo-router";
 
 export default function Goals() {

@@ -18,3 +18,7 @@ export const convertToTimestamp = (dateString: string): Timestamp => {
 
     return firestoreTimestamp;
 };
+
+export const formatDateString = (dateString: string ): string => {
+    return dateString.substring(0, 6) + "20" + dateString.substring(6, 8);
+}

@@ -1,5 +1,3 @@
-import { formatDate } from "@/app/(auth)/(tabs)/utilities/transactions-utilities";
-
 export interface TransactionState {
   id: string;
   amount: string;

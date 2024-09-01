@@ -1,9 +1,4 @@
 import { Pressable } from "react-native";
-import { s, ScaledSheet } from "react-native-size-matters";
-import AppThemedText from "../app_components/AppThemedText";
-import Row from "../grid/Row";
-import Column from "../grid/Column";
-import { truncateString } from "@/app/(auth)/(tabs)/utilities/transactions-utilities";
 import ShowIf from "../ShowIf";
 import GoalItem from "./GoalItem";
 import TransactionItem from "./TransactionItem";

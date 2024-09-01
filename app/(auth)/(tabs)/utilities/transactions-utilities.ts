@@ -8,7 +8,7 @@ import Toast from "react-native-toast-message";
  * @param timestamp - The timestamp to format.
  * @returns The formatted date string in the format "MM/DD/YY".
  */
-export const formatDate = (timestamp: any): string => {
+export const formatTimestamp = (timestamp: any): string => {
   const date = (timestamp as FirebaseFirestoreTypes.Timestamp).toDate();
   const month = String(date.getMonth() + 1).padStart(2, "0");
   const day = String(date.getDate()).padStart(2, "0");
@@ -24,8 +24,9 @@ export const formatDate = (timestamp: any): string => {
  */
 export const isValidDate = (date: string): IsValidProps => {
  if(typeof date === "object") {
-    date = formatDate(date);
+    date = formatTimestamp(date);
   }
+
   if (date.length === 0) {
     Toast.show({
       type: "error",

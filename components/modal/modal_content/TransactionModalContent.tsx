@@ -11,12 +11,14 @@ import {
   deleteTransaction,
 } from "@/app/(auth)/(tabs)/apis/transaction-apis";
 import {
+  formatTimestamp,
   isValidAmount,
   isValidDate,
   isValidDescription,
   validateFormInputs,
 } from "@/app/(auth)/(tabs)/utilities/transactions-utilities";
 import { TransactionModalContentProps } from "@/app/types";
+import { formatDateString } from "@/common/utilities";
 
 /**
  * @param {TransactionModalContentProps} props - The props for the TransactionModalContent component.
@@ -44,10 +46,12 @@ const TransactionModalContent = ({
   };
 
   const handleSubmit = () => {
-    if (validateFormInputs(
-      transactionsCtx.date, 
-      transactionsCtx.amount, 
-      transactionsCtx.description)
+    if (
+      validateFormInputs(
+        transactionsCtx.date,
+        transactionsCtx.amount,
+        transactionsCtx.description
+      )
     ) {
       mutation.mutate();
       handleResetState();
@@ -71,7 +75,11 @@ const TransactionModalContent = ({
       handleResetState();
     },
   });
-
+  console.log(
+    "transactionsCtx",
+    transactionsCtx.date,
+    typeof transactionsCtx.date
+  );
   return (
     <>
       <ShowIf
@@ -101,7 +109,11 @@ const TransactionModalContent = ({
         keyboardType="numeric"
         placeholder="MM/DD/YYYY"
         secureEntry={false}
-        value={transactionsCtx.date}
+        value={
+          typeof transactionsCtx.date === "object"
+            ? formatDateString(formatTimestamp(transactionsCtx.date))
+            : transactionsCtx.date
+        }
         checkValue={isValidDate}
         setValue={transactionsCtx.setDate}
       />

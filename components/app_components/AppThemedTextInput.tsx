@@ -10,7 +10,7 @@ import {
 import { DateTimePickerAndroid } from "@react-native-community/datetimepicker";
 import { ScaledSheet, s } from "react-native-size-matters";
 import AppIcon from "./AppIcon";
-import AppThemedView  from "./AppThemedView";
+import AppThemedView from "./AppThemedView";
 import { useThemeColor } from "@/hooks/useThemeColor";
 import { COLORTHEME } from "@/constants/Colors";
 import { TransactionState } from "@/store/transaction/transaction-reducer";
@@ -112,6 +112,7 @@ const AppThemedTextInput = ({
 
       {iconName && (
         <TouchableOpacity
+          disabled={iconName !== "calendar"}
           onPress={() => iconName === "calendar" && handleCalendarPress()}
         >
           <AppIcon name={iconName} size={s(24)} color="#ccc" />
