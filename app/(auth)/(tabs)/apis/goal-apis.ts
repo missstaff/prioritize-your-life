@@ -123,7 +123,7 @@ export const addOrUpdateGoal = async (
 // }
 
 
-export const fetchGoals = async (): Promise<GoalProps[]> => {
+export const fetchGoals = async (selectedTab: string): Promise<GoalProps[]> => {
     let data: GoalProps[] = [];
     try {
         const firebase = await getFireApp();
@@ -145,6 +145,11 @@ export const fetchGoals = async (): Promise<GoalProps[]> => {
             id: doc.id,
             ...doc.data(),
         })) as GoalProps[];
+
+        const isLongTerm = selectedTab === "Long Term";
+        data = data.filter((goal) => {
+            return goal.isLongTerm === isLongTerm;
+        });
 
         if (!data) {
             data = [];

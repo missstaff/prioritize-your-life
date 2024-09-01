@@ -1,6 +1,8 @@
 import { FlatList } from "react-native";
 import ListItem from "./ListItem";
 import { useQuery } from "@tanstack/react-query";
+import LoadingSpinner from "../LoadingSpinner";
+import OnError from "../navigation/OnError";
 
 export interface ListTransactionsProps {
   handleOnPress: (item: any) => void;
@@ -19,6 +21,14 @@ export default function ListTransactions({
       queryFn: () => queryFn(),
       refetchOnMount: true,
     });
+
+    if(isError) {
+      return <OnError error={error} />;
+    }
+
+    if(isPending || isLoading || isFetching) {
+      return <LoadingSpinner />;
+    }
     
   return (
     <FlatList

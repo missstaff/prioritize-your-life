@@ -4,7 +4,7 @@ import Column from "../grid/Column";
 import Row from "../grid/Row";
 import { s, ScaledSheet } from "react-native-size-matters";
 import { ListItemProps } from "@/app/types";
-
+import ShowIf from "../ShowIf";
 
 export default function GoalItem({ item }: ListItemProps) {
   return (

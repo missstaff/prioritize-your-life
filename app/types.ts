@@ -29,6 +29,7 @@ export interface ListItemProps {
     currentBalance?: number;
     date?: string;
     description?: string;
+    isLongTerm?: boolean;
     name: string;
     progress?: number;
   };
