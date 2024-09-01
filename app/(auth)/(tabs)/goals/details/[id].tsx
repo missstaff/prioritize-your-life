@@ -1,10 +1,13 @@
 import AppThemedText from "@/components/app_components/AppThemedText";
 import AppThemedView from "@/components/app_components/AppThemedView";
 import { COLORS } from "@/constants/Colors";
+import { useLocalSearchParams } from "expo-router";
 import { s, ScaledSheet, vs } from "react-native-size-matters";
 
 
 export default function Details() {
+    const { id } = useLocalSearchParams();
+
     return (
         <AppThemedView
         style={{

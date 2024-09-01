@@ -1,4 +1,4 @@
-import { formatDate } from "@/app/(tabs)/utilities/transactions-utilities";
+import { formatDate } from "@/app/(auth)/(tabs)/utilities/transactions-utilities";
 
 export interface TransactionState {
   id: string;

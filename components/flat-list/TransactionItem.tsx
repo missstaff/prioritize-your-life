@@ -1,4 +1,4 @@
-import { truncateString } from "@/app/(tabs)/utilities/transactions-utilities";
+import { truncateString } from "@/app/(auth)/(tabs)/utilities/transactions-utilities";
 import AppThemedText from "../app_components/AppThemedText";
 import Column from "../grid/Column";
 import Row from "../grid/Row";

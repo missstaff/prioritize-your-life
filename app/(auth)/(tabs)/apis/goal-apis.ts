@@ -55,8 +55,6 @@ export const addOrUpdateGoal = async (
         }else{
             currentBalance = parseFloat(goalsContext.startingBalance);
         }
-
-        console.log("currentBalance", currentBalance);
         
         if(goalsContext.startDate === "") {
             goalsContext.setStartDate(new Date().toISOString());

@@ -14,14 +14,15 @@ import Toast from "react-native-toast-message";
 import { fetchGoalById, fetchGoals } from "../apis/goal-apis";
 import LoadingSpinner from "@/components/LoadingSpinner";
 import OnError from "@/components/navigation/OnError";
-import { GoalProps } from "../../types";
+import { GoalProps } from "../../../types";
 import ListHeader from "@/components/flat-list/ListHeader";
 import ListTransactions from "@/components/flat-list/List";
 import { COLORS } from "@/constants/Colors";
 import { formatDate } from "../utilities/transactions-utilities";
-import { Href, router } from "expo-router";
+import { Href, router,useLocalSearchParams } from "expo-router";
 
 export default function Goals() {
+  const { id } = useLocalSearchParams();
   const appCtx = useContext(AppContext);
   const { selectedTab, setSelectedTab } = appCtx;
   const goalCtx = useContext<GoalContextType>(GoalContext);
@@ -51,9 +52,7 @@ export default function Goals() {
 
   const handleOnPress = async (item: GoalProps) => {
     console.log(item);
-    const goal = await fetchGoalById(item.id);
-    console.log("goal", goal);
-    router.push(`../../(sreens)/goal/[id]`);
+    router.push(`../../goals/details/[${item.id}]`);
   };
 
   if (isPending || isLoading || isFetching) {

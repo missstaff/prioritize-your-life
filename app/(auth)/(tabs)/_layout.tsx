@@ -8,7 +8,7 @@ import ShowIf from "@/components/ShowIf";
 import AppThemedText from "@/components/app_components/AppThemedText";
 import { TabBarIcon } from "@/components/navigation/TabBarIcon";
 import { AuthContext } from "@/store/auth/auth-context";
-import { logout } from "../(auth)/apis/api";
+import { logout } from "../apis/api";
 import { useColorScheme } from "@/hooks/useColorScheme";
 import { COLORS, COLORTHEME } from "@/constants/Colors";
 
@@ -138,6 +138,13 @@ export default function TabLayout(): JSX.Element {
                 color={color}
               />
             ),
+          }}
+        />
+
+<Tabs.Screen
+          name="goals/details/[id]"
+          options={{
+            href: null
           }}
         />
       </Tabs>

@@ -1,10 +1,10 @@
-import { addOrUpdateGoal } from "@/app/(tabs)/apis/goal-apis";
+import { addOrUpdateGoal } from "@/app/(auth)/(tabs)/apis/goal-apis";
 import {
   formatDate,
   isValidAmount,
   isValidDate,
   isValidDescription,
-} from "@/app/(tabs)/utilities/transactions-utilities";
+} from "@/app/(auth)/(tabs)/utilities/transactions-utilities";
 import AppThemedText from "@/components/app_components/AppThemedText";
 import AppThemedTextInput from "@/components/app_components/AppThemedTextInput";
 import AppThemedTouchableOpacity from "@/components/app_components/AppThemedTouchableOpacity";

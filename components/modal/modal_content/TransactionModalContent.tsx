@@ -9,13 +9,13 @@ import { TransactionContext } from "@/store/transaction/transaction-context";
 import {
   addOrUpdateTransaction,
   deleteTransaction,
-} from "@/app/(tabs)/apis/transaction-apis";
+} from "@/app/(auth)/(tabs)/apis/transaction-apis";
 import {
   isValidAmount,
   isValidDate,
   isValidDescription,
   validateFormInputs,
-} from "@/app/(tabs)/utilities/transactions-utilities";
+} from "@/app/(auth)/(tabs)/utilities/transactions-utilities";
 import { TransactionModalContentProps } from "@/app/types";
 
 /**
