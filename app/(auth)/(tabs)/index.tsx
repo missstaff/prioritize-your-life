@@ -7,7 +7,7 @@ import {
 import { ScaledSheet, s, vs } from "react-native-size-matters";
 import AppThemedText from "@/components/app_components/AppThemedText";
 import AppThemedView  from "@/components/app_components/AppThemedView";
-import SignIn from "../signin";
+import SignIn from "..";
 import { AuthContext } from "@/store/auth/auth-context";
 import ShowIf from "@/components/ShowIf";
 import { COLORS } from "@/constants/Colors";
@@ -19,9 +19,8 @@ const HomeScreen = () => {
   return (
     <SafeAreaView style={styles.container}>
       <ShowIf
-        condition={!isAuthenticated}
-        render={<SignIn />}
-        renderElse={
+        condition={isAuthenticated}
+        render={
           <ScrollView contentContainerStyle={styles.scrollViewContent}>
             <AppThemedView
               style={[

@@ -34,7 +34,7 @@ export default function SignIn(): JSX.Element {
         setEmail("");
         setPassword("");
         setIsAuthenticated(true);
-        router.push("/");
+        router.push("/(tabs)");
       }
     },
     onError: (error: any) => {

@@ -2,7 +2,7 @@ import React from "react";
 import { render, fireEvent } from "@testing-library/react-native";
 import { useMutation } from "@tanstack/react-query";
 import { router } from "expo-router";
-import SignIn from "../../signin";
+import SignIn from "../..";
 import { AuthContext, AuthContextType } from "@/store/auth/auth-context";
 
 jest.mock("@tanstack/react-query", () => ({
