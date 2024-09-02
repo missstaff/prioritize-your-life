@@ -9,18 +9,18 @@ export interface GoalTransactionState {
 
 export interface GoalState {
   id: string;
-  currentBalance: number; //calculated
-  pledge?: string; //optional and not in initial modal
-  description: string; 
-  expectedEndDate: string; 
-  goal: string; 
-  howOften?: string; //optional and not in initial modal
-  isLongTerm: boolean; //set based on tab
-  lastTransactionDate: string; //calculated-eish!
-  name: string; 
-  startDate: string; // editable but will populate as the day created in the app
+  currentBalance: number;
+  pledge?: string;
+  description: string;
+  expectedEndDate: string;
+  goal: string;
+  howOften?: string;
+  isLongTerm: boolean;
+  lastTransactionDate: string;
+  name: string;
+  startDate: string;
   startingBalance: string
-  transactions: GoalTransactionState[]; //this is where new transactions will be added ??
+  transactions: GoalTransactionState[];
 }
 
 export type Action =

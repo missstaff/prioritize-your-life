@@ -1,9 +1,7 @@
 import { Pressable } from "react-native";
-import ShowIf from "../ShowIf";
 import GoalItem from "./GoalItem";
+import ShowIf from "../ShowIf";
 import TransactionItem from "./TransactionItem";
-import { useContext } from "react";
-import { AppContext } from "@/store/app/app-context";
 
 interface ListItemProps {
   item: {
@@ -11,29 +9,26 @@ interface ListItemProps {
     currentBalance?: number;
     date?: string;
     description?: string;
+    isLongTerm?: boolean;
     name: string;
     progress?: number;
-    isLongTerm?: boolean;
   };
   onPress: (item: any) => void;
 }
 
 const ListItem = ({ item, onPress }: ListItemProps) => {
-  const appCtx = useContext(AppContext);
-  const { selectedTab } = appCtx;
   return (
     <ShowIf
       condition={item !== null}
       render={
-        <Pressable
-          onPress={() => onPress(item)}
-        >
+        <Pressable onPress={() => onPress(item)}>
           <ShowIf
             condition={item.currentBalance !== undefined}
             render={<GoalItem item={item} />}
             renderElse={<TransactionItem item={item} />}
           />
-        </Pressable>}
+        </Pressable>
+      }
     />
   );
 };

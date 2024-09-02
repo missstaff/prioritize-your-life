@@ -1,6 +1,6 @@
 import { Modal } from "react-native";
 import { ScaledSheet, s } from "react-native-size-matters";
-import AppThemedView  from "../app_components/AppThemedView";
+import AppThemedView from "../app_components/AppThemedView";
 
 interface ModalProps {
   children: React.ReactNode;
@@ -8,14 +8,6 @@ interface ModalProps {
   visible: boolean;
 }
 
-/**
- * AppModal component.
- * @param {Object} props - The component props.
- * @param {ReactNode} props.children - The content of the modal.
- * @param {Function} props.onClose - The function to be called when the modal is closed.
- * @param {boolean} props.visible - Determines whether the modal is visible or not.
- * @returns {JSX.Element} The rendered AppModal component.
- */
 const AppModal = ({ children, onClose, visible }: ModalProps) => {
   return (
     <Modal

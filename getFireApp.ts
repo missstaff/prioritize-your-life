@@ -10,11 +10,7 @@ import "@react-native-firebase/in-app-messaging";
 import "@react-native-firebase/messaging";
 import "@react-native-firebase/storage";
 
-/**
- * Retrieves the Firebase app instance based on the platform and configuration.
- * @returns The Firebase app instance.
- * @throws Error if the platform is not supported or if there is an error instantiating the Firebase app.
- */
+
 export function getFireApp() {
   const firebaseConfig = {
     apiKey: process.env.EXPO_PUBLIC_API_KEY || "",

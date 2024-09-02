@@ -1,7 +1,7 @@
 import { Timestamp } from "@react-native-firebase/firestore";
 
 
-export const convertToTimestamp = (dateString: string): Timestamp => {
+export const convertToFirestoreTimestamp = (dateString: string): Timestamp => {
     const normalizedDate = dateString.replace(/[-/]/g, "");
 
     if (normalizedDate.length !== 8) {

@@ -13,10 +13,10 @@ import { s, ScaledSheet, vs } from "react-native-size-matters";
 import Toast from "react-native-toast-message";
 import { fetchGoalById, fetchGoals } from "../apis/goal-apis";
 import LoadingSpinner from "@/components/LoadingSpinner";
-import OnError from "@/components/navigation/OnError";
+import OnError from "@/components/OnError";
 import { GoalProps } from "../../../types";
 import ListHeader from "@/components/flat-list/ListHeader";
-import ListTransactions from "@/components/flat-list/List";
+import List from "@/components/flat-list/List";
 import { COLORS } from "@/constants/Colors";
 import { router, useLocalSearchParams } from "expo-router";
 
@@ -91,7 +91,7 @@ export default function Goals() {
                   styles={styles.tableHeader}
                   headings={["Name", "Balance", "Progress"]}
                 />
-                <ListTransactions
+                <List
                   queryFn={() => fetchGoals(tabsArr[selectedTab])}
                   queryKey={["goals", "goals" + tabsArr[selectedTab]]}
                   handleOnPress={handleOnPress}

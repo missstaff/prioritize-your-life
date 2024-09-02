@@ -7,19 +7,11 @@ export type ThemedTextProps = TextProps & {
   type?: "default" | "title" | "defaultSemiBold" | "subtitle" | "link";
 };
 
-/**
- * Renders a themed text component.
- * @param {ThemedTextProps} props - The component props.
- * @param {string} props.type - The type of text to render.
- * @param {React.CSSProperties} props.style - The custom style for the text.
- * @param {React.HTMLAttributes<HTMLAnchorElement>} props.rest - Additional HTML attributes for the text.
- * @returns {JSX.Element} The rendered themed text component.
- */
-export default function AppThemedText({
+const AppThemedText = ({
   style,
   type = "default",
   ...rest
-}: ThemedTextProps) {
+}: ThemedTextProps) => {
   const color = useThemeColor(
     { light: COLORTHEME.light.text, dark: COLORTHEME.dark.text },
     "text"
@@ -39,7 +31,7 @@ export default function AppThemedText({
       {...rest}
     />
   );
-}
+};
 
 const styles = ScaledSheet.create({
   default: {
@@ -66,3 +58,5 @@ const styles = ScaledSheet.create({
     lineHeight: s(30),
   },
 });
+
+export default AppThemedText;

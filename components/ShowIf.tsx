@@ -1,11 +1,4 @@
-/**
- * A component that conditionally renders content based on a given condition.
- * @param {boolean} props.condition - The condition to evaluate.
- * @param {React.ReactNode} props.render - The content to render if the condition is true.
- * @param {React.ReactNode | null} [props.renderElse=null] - The content to render if the condition is false.
- * @returns {React.ReactNode | null} The rendered content based on the condition.
- */
-export default function ShowIf({
+const ShowIf = ({
   condition,
   render,
   renderElse = null,
@@ -13,7 +6,7 @@ export default function ShowIf({
   condition: boolean | undefined;
   render: React.ReactNode;
   renderElse?: React.ReactNode | null;
-}) {
+}) => {
   if (condition) {
     return <>{render}</>;
   }
@@ -21,4 +14,6 @@ export default function ShowIf({
     return <>{renderElse}</>;
   }
   return null;
-}
+};
+
+export default ShowIf;

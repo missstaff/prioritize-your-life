@@ -28,19 +28,6 @@ interface AppThemedTextInputProps {
   setValue: (value: string) => void;
 }
 
-/**
- * Represents a themed text input component.
- * @param {AppThemedTextInputProps} props - The props for the themed text input component.
- * @param {string} props.iconName - The name of the icon to display.
- * @param {string} props.placeholder - The placeholder text for the input.
- * @param {StyleProp<ViewStyle>} props.containerStyle - The custom style for the container.
- * @param {StyleProp<TextStyle>} props.inputStyle - The custom style for the input.
- * @param {boolean} props.secureEntry - Indicates if the input is a password field.
- * @param {string} props.value - The value of the input.
- * @param {(value: string) => void} props.checkValue - The function to check the value of the input.
- * @param {(value: string) => void} props.setValue - The function to set the value of the input.
- * @returns {JSX.Element} The themed text input component.
- */
 const AppThemedTextInput = ({
   containerStyle,
   data,

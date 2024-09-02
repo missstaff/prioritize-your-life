@@ -7,15 +7,7 @@ export interface ListHeaderProps {
   styles: {};
 }
 
-/**
- * Renders the header component for a list.
- *
- * @param {Object} props - The component props.
- * @param {Object} props.styles - The styles for the header component.
- * @param {Array<string>} props.headings - The headings to be displayed in the header.
- * @returns {JSX.Element} The rendered header component.
- */
-export default function ListHeader({ styles, headings }: ListHeaderProps) {
+const ListHeader = ({ styles, headings }: ListHeaderProps) => {
   return (
     <Row>
       {headings.map((heading, index) => (
@@ -25,4 +17,6 @@ export default function ListHeader({ styles, headings }: ListHeaderProps) {
       ))}
     </Row>
   );
-}
+};
+
+export default ListHeader;

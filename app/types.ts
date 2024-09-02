@@ -41,12 +41,12 @@ export interface ResetPasswordProps {
 
 export interface RootStackParamList {
   index: undefined;
-  login: undefined;
-  signup: undefined;
-  reset: undefined;
-  auth: undefined;
-  goals: undefined;
-  goalsDetails: { id: string };
+  // login: undefined;
+  // signup: undefined;
+  // reset: undefined;
+  // auth: undefined;
+  // goals: undefined;
+  // goalsDetails: { id: string };
 }
 
 export interface SignInProps {

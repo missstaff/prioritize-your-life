@@ -4,7 +4,7 @@ import { TransactionState } from "../../../../store/transaction/transaction-redu
 import { formatTimestamp, validateFormInputs } from "../utilities/transactions-utilities";
 import { TransactionProps } from "@/app/types";
 import { TransactionContextType } from "@/store/transaction/transaction-context";
-import { convertToTimestamp } from "@/common/utilities";
+import { convertToFirestoreTimestamp } from "@/common/utilities";
 
 /**
  * Adds or updates a transaction in Firestore.
@@ -85,7 +85,7 @@ export const addOrUpdateTransaction = async (
         }
     
 
-        const newDD = typeof transactionsCtx.date === "string" ? convertToTimestamp(transactionsCtx.date) : transactionsCtx.date;
+        const newDD = typeof transactionsCtx.date === "string" ? convertToFirestoreTimestamp(transactionsCtx.date) : transactionsCtx.date;
         const transactionData: Omit<TransactionProps, "id"> = {
             amount: numericAmount,
             balance: updatedBalance,

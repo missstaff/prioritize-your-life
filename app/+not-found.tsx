@@ -1,13 +1,8 @@
 import { Link, Stack } from "expo-router";
 import { ScaledSheet, s, vs } from "react-native-size-matters";
 import AppThemedText from "@/components/app_components/AppThemedText";
-import AppThemedView  from "@/components/app_components/AppThemedView";
+import AppThemedView from "@/components/app_components/AppThemedView";
 
-/**
- * Renders the NotFoundScreen component.
- *
- * @returns JSX.Element
- */
 export default function NotFoundScreen() {
   return (
     <>

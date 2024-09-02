@@ -1,24 +1,24 @@
 import React, { useContext, useEffect, useMemo, useState } from "react";
+import Toast from "react-native-toast-message";
 import { useQuery } from "@tanstack/react-query";
 import { ScaledSheet, s, vs } from "react-native-size-matters";
 import AppModal from "@/components/modal/Modal";
 import AppThemedText from "@/components/app_components/AppThemedText";
+import AppThemedTouchableOpacity from "@/components/app_components/AppThemedTouchableOpacity";
 import AppThemedView from "@/components/app_components/AppThemedView";
 import ListHeader from "@/components/flat-list/ListHeader";
-import ListTransactions from "@/components/flat-list/List";
+import Balance from "@/components/flat-list/Balance";
+import List from "@/components/flat-list/List";
 import LoadingSpinner from "@/components/LoadingSpinner";
-import OnError from "@/components/navigation/OnError";
+import OnError from "@/components/OnError";
 import ShowIf from "@/components/ShowIf";
-import Toast from "react-native-toast-message";
 import TabbedComponent from "@/components/TabbedComponent";
 import TransactionModalContent from "@/components/modal/modal_content/TransactionModalContent";
 import { AppContext } from "@/store/app/app-context";
 import { TransactionContext } from "@/store/transaction/transaction-context";
-import { TransactionState } from "@/store/transaction/transaction-reducer";
 import { fetchTransactions } from "../apis/transaction-apis";
+import { TransactionState } from "@/store/transaction/transaction-reducer";
 import { COLORS } from "@/constants/Colors";
-import Balance from "@/components/flat-list/Balance";
-import AppThemedTouchableOpacity from "@/components/app_components/AppThemedTouchableOpacity";
 
 export default function Transactions() {
   const transactionCtx = useContext(TransactionContext);
@@ -55,8 +55,7 @@ export default function Transactions() {
     setDate(item.date);
     setDescription(item.description);
     setTransactionId(item.id);
-  }
-
+  };
 
   const balance = useMemo(() => {
     return data?.reduce((acc, curr) => acc + Number(curr.amount), 0);
@@ -109,9 +108,12 @@ export default function Transactions() {
               styles={styles.tableHeader}
               headings={["Date", "Amount", "Description"]}
             />
-            <ListTransactions
+            <List
               queryFn={() => fetchTransactions(tabsArr[selectedTab])}
-              queryKey={["transactions", "transactions " + tabsArr[selectedTab]]}
+              queryKey={[
+                "transactions",
+                "transactions " + tabsArr[selectedTab],
+              ]}
               handleOnPress={handleOnPress}
             />
           </AppThemedView>

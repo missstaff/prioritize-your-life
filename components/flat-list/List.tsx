@@ -1,20 +1,16 @@
 import { FlatList } from "react-native";
-import ListItem from "./ListItem";
 import { useQuery } from "@tanstack/react-query";
+import ListItem from "./ListItem";
 import LoadingSpinner from "../LoadingSpinner";
-import OnError from "../navigation/OnError";
+import OnError from "../OnError";
 
-export interface ListTransactionsProps {
+export interface ListProps {
   handleOnPress: (item: any) => void;
-  queryKey: string  | string[];
+  queryKey: string | string[];
   queryFn: () => Promise<any[]>;
 }
 
-export default function ListTransactions({
-  handleOnPress,
-  queryKey,
-  queryFn,
-}: ListTransactionsProps) {
+const List = ({ handleOnPress, queryKey, queryFn }: ListProps) => {
   const { refetch, isPending, isError, data, error, isFetching, isLoading } =
     useQuery<any[]>({
       queryKey: [queryKey],
@@ -22,25 +18,24 @@ export default function ListTransactions({
       refetchOnMount: true,
     });
 
-    if(isError) {
-      return <OnError error={error} />;
-    }
+  if (isError) {
+    return <OnError error={error} />;
+  }
 
-    if(isPending || isLoading || isFetching) {
-      return <LoadingSpinner />;
-    }
-    
+  if (isPending || isLoading || isFetching) {
+    return <LoadingSpinner />;
+  }
+
   return (
     <FlatList
       scrollEnabled={true}
       data={data}
       keyExtractor={(item) => item.id}
       renderItem={({ item }) => (
-        <ListItem
-          item={item}
-          onPress={handleOnPress}
-        />
+        <ListItem item={item} onPress={handleOnPress} />
       )}
     />
   );
-}
+};
+
+export default List;

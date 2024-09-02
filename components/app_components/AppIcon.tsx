@@ -5,16 +5,6 @@ import { type ComponentProps } from "react";
 import { View } from "react-native";
 import { ScaledSheet, s } from "react-native-size-matters";
 
-
-/**
- * Renders an application icon.
- *
- * @component
- * @param {object} props - The component props.
- * @param {object} props.style - The style object to apply to the container view.
- * @param {string} props.rest - The rest of the props to pass to the Ionicons component.
- * @returns {JSX.Element} The rendered AppIcon component.
- */
 export default function AppIcon({
   onPress,
   style,

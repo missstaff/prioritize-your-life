@@ -9,11 +9,6 @@ export interface ToasterProps {
   onPress?: () => void;
 }
 
-/**
- * Toaster component.
- * @param {ToasterProps} props - The props for the Toaster component.
- * @returns {JSX.Element} The rendered Toaster component.
- */
 const Toaster: React.FC<ToasterProps> = ({
   onPress,
   type,

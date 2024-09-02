@@ -1,5 +1,5 @@
 import { GoalProps } from "@/app/types";
-import { convertToTimestamp } from "@/common/utilities";
+import { convertToFirestoreTimestamp } from "@/common/utilities";
 import { getFireApp } from "@/getFireApp";
 import { GoalContext, GoalContextType } from "@/store/goals/goal-context";
 import { GoalState, GoalTransactionState } from "@/store/goals/goal-reducer";
@@ -70,7 +70,7 @@ export const addOrUpdateGoal = async (
         const transactionData: Omit<GoalProps, "id"> = {
             currentBalance: currentBalance,
             description: goalsContext.description,
-            expectedEndDate: convertToTimestamp(goalsContext.expectedEndDate),
+            expectedEndDate: convertToFirestoreTimestamp(goalsContext.expectedEndDate),
             goal: parseFloat(goalsContext.goal),
             name: goalsContext.name,
             progress: currentBalance/parseFloat(goalsContext.goal) * 100,

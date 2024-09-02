@@ -1,25 +1,25 @@
-import { addOrUpdateGoal } from "@/app/(auth)/(tabs)/apis/goal-apis";
-import {
-  isValidAmount,
-  isValidDate,
-  isValidDescription,
-} from "@/app/(auth)/(tabs)/utilities/transactions-utilities";
+import { useContext } from "react";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import AppThemedText from "@/components/app_components/AppThemedText";
 import AppThemedTextInput from "@/components/app_components/AppThemedTextInput";
 import AppThemedTouchableOpacity from "@/components/app_components/AppThemedTouchableOpacity";
 import AppThemedView from "@/components/app_components/AppThemedView";
 import ShowIf from "@/components/ShowIf";
 import { GoalContext } from "@/store/goals/goal-context";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useContext } from "react";
+import { addOrUpdateGoal } from "@/app/(auth)/(tabs)/apis/goal-apis";
+import {
+  isValidAmount,
+  isValidDate,
+  isValidDescription,
+} from "@/app/(auth)/(tabs)/utilities/transactions-utilities";
 
-const GoalsModalContent = ({ 
+const GoalsModalContent = ({
   selectedTab,
-  setIsVisible }: 
-  { 
-    selectedTab: string,
-    setIsVisible: (isVisible: boolean) => void}
-) => {
+  setIsVisible,
+}: {
+  selectedTab: string;
+  setIsVisible: (isVisible: boolean) => void;
+}) => {
   const goalsContext = useContext(GoalContext);
 
   const queryClient = useQueryClient();
@@ -31,13 +31,12 @@ const GoalsModalContent = ({
     goalsContext.setGoal("");
     goalsContext.setName("");
     goalsContext.setStartingBalance("");
-
   };
 
   const handleSubmit = () => {
     // if (validateFormInputs(date, amount, description)) {
-      mutation.mutate();
-      handleResetState();
+    mutation.mutate();
+    handleResetState();
     // }
   };
 
@@ -48,10 +47,7 @@ const GoalsModalContent = ({
   };
 
   const mutation = useMutation({
-    mutationFn: () => addOrUpdateGoal(
-    goalsContext,
-    selectedTab
-      ),
+    mutationFn: () => addOrUpdateGoal(goalsContext, selectedTab),
     onSuccess: async () => {
       setIsVisible(false);
       queryClient.invalidateQueries({ queryKey: ["goals"] });

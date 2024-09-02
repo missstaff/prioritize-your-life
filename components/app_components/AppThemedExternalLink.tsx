@@ -9,15 +9,7 @@ type Props = Omit<ComponentProps<typeof Link>, "href"> & {
   href: Href<string | object>;
 };
 
-/**
- * Renders a themed external link component.
- * @param {Props} props - The component props.
- * @param {string} props.href - The URL of the external link.
- * @param {React.CSSProperties} props.style - The custom style for the link.
- * @param {React.HTMLAttributes<HTMLAnchorElement>} props.rest - Additional HTML attributes for the link.
- * @returns {JSX.Element} The rendered themed external link component.
- */
-export default function AppThemedExternalLink({ href, style, ...rest }: Props) {
+const AppThemedExternalLink = ({ href, style, ...rest }: Props) => {
   const color = useThemeColor(
     { light: COLORTHEME.light.background, dark: COLORTHEME.dark.background },
     "background"
@@ -38,4 +30,6 @@ export default function AppThemedExternalLink({ href, style, ...rest }: Props) {
       style={[{ color }, style]}
     />
   );
-}
+};
+
+export default AppThemedExternalLink;
