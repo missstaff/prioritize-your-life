@@ -2,8 +2,8 @@ import { getFirebase } from "@/app/common/get-firebase";
 import { isValidEmail, isValidPassword } from "../utilities";
 import {
     ResetPasswordProps,
-    SignInProps,
-    SignUpProps,
+    SigninProps,
+    SignupProps,
 } from "@/app/types";
 import { router } from "expo-router";
 
@@ -28,7 +28,7 @@ export const handleResetPassword = async ({
     }
 };
 
-export const handleSignIn = async ({ email, password }: SignInProps) => {
+export const handleSignIn = async ({ email, password }: SigninProps) => {
     try {
         email = email.toLowerCase().trim();
         password = password.trim();
@@ -59,7 +59,7 @@ export const handleSignUp = async ({
     email,
     confirmPassword,
     password,
-}: SignUpProps) => {
+}: SignupProps) => {
     try {
         if (!email) {
             throw new Error("Email is required.");

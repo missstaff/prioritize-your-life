@@ -5,17 +5,17 @@ import { type ComponentProps } from "react";
 import { View } from "react-native";
 import { ScaledSheet, s } from "react-native-size-matters";
 
-export default function AppIcon({
+const AppIcon = ({
   onPress,
   style,
   ...rest
-}: IconProps<ComponentProps<typeof Ionicons>["name"] | any>) {
+}: IconProps<ComponentProps<typeof Ionicons>["name"] | any>) => {
   return (
     <View style={[styles.container, style]}>
       <Ionicons onPress={onPress} size={s(28)} {...rest} />
     </View>
   );
-}
+};
 
 const styles = ScaledSheet.create({
   container: {
@@ -28,3 +28,5 @@ const styles = ScaledSheet.create({
     padding: s(2.5),
   },
 });
+
+export default AppIcon;

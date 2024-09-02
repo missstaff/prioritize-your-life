@@ -21,8 +21,7 @@ import { TransactionContext } from "@/store/transaction/transaction-context";
 import { fetchTransactions } from "../apis/transaction-apis";
 import { TransactionState } from "@/store/transaction/transaction-reducer";
 
-
-export default function Transactions() {
+const Transactions = () => {
   const transactionCtx = useContext(TransactionContext);
   const { setAmount, setDate, setDescription, setTransactionId } =
     transactionCtx;
@@ -33,14 +32,11 @@ export default function Transactions() {
 
   const { refetch, isPending, isError, data, error, isFetching, isLoading } =
     useQuery<TransactionState[]>({
-      queryKey: ["transactions", "transactions " + tabsArr[selectedTab]],
+      queryKey: ["transactions ", "transactions " + tabsArr[selectedTab]],
       queryFn: () => fetchTransactions(tabsArr[selectedTab]),
       refetchOnMount: true,
+      refetchOnWindowFocus: true,
     });
-
-  useEffect(() => {
-    refetch();
-  }, [selectedTab]);
 
   const handleClose = () => {
     setIsVisible(false);
@@ -81,10 +77,7 @@ export default function Transactions() {
           width: "100%",
         }}
       >
-        <AppThemedText
-          style={{ textAlign: "center", paddingTop: 25 }}
-          type="title"
-        >
+        <AppThemedText style={{ textAlign: "center" }} type="title">
           Transactions
         </AppThemedText>
         <TabbedComponent
@@ -105,15 +98,10 @@ export default function Transactions() {
           condition={!isPending && !isError && !isVisible && data?.length > 0}
           render={
             <ListWrapper>
-              <ListHeader
-                headings={["Date", "Amount", "Description"]}
-              />
+              <ListHeader headings={["Date", "Amount", "Description"]} />
               <List
                 queryFn={() => fetchTransactions(tabsArr[selectedTab])}
-                queryKey={[
-                  "transactions",
-                  "transactions " + tabsArr[selectedTab],
-                ]}
+                queryKey={["transactions","transactions " + tabsArr[selectedTab]]}
                 handleOnPress={handleOnPress}
               />
             </ListWrapper>
@@ -140,5 +128,6 @@ export default function Transactions() {
       <StatusBar style="auto" />
     </SafeAreaView>
   );
-}
+};
 
+export default Transactions;

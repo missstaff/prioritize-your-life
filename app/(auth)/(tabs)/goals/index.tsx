@@ -5,7 +5,6 @@ import { StatusBar } from "expo-status-bar";
 import { useQuery } from "@tanstack/react-query";
 import { router, useLocalSearchParams } from "expo-router";
 import AppThemedText from "@/components/app_components/AppThemedText";
-import AppThemedTouchableOpacity from "@/components/app_components/AppThemedTouchableOpacity";
 import AppThemedView from "@/components/app_components/AppThemedView";
 import AppModal from "@/components/modal/Modal";
 import Balance from "@/components/Balance";
@@ -14,12 +13,12 @@ import LoadingSpinner from "@/components/LoadingSpinner";
 import List from "@/components/flat-list/List";
 import ListHeader from "@/components/flat-list/ListHeader";
 import ListWrapper from "@/components/flat-list/ListWrapper";
+import NoListItems from "@/components/flat-list/item/NoListItems";
 import OnError from "@/components/OnError";
 import ShowIf from "@/components/ShowIf";
 import { GoalContext, GoalContextType } from "@/store/goals/goal-context";
 import { fetchGoalById, fetchGoals } from "../apis/goal-apis";
 import { GoalProps } from "../../../types";
-import NoListItems from "@/components/flat-list/item/NoListItems";
 
 const Goals = () => {
   const { id } = useLocalSearchParams();
@@ -69,11 +68,12 @@ const Goals = () => {
         }}
       >
         <AppThemedText
-          style={{ textAlign: "center", paddingTop: 25 }}
+          style={{ textAlign: "center"}}
           type="title"
         >
           Goals
         </AppThemedText>
+
         <Balance balance={0.0} data={[]} setIsVisible={setIsVisible} />
 
         <ShowIf

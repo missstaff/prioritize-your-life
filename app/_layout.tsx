@@ -7,7 +7,7 @@ import RootLayoutNav from "@/components/navigation/RootLayoutNav";
 
 SplashScreen.preventAutoHideAsync();
 
-export default function RootLayout() {
+const RootLayout = () => {
   const [loaded, fontError] = useFonts({
     SpaceMono: require("../assets/fonts/SpaceMono-Regular.ttf"),
     ...FontAwesome.font,
@@ -28,4 +28,6 @@ export default function RootLayout() {
   }
 
   return <RootLayoutNav />;
-}
+};
+
+export default RootLayout;

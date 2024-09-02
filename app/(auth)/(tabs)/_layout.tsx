@@ -1,18 +1,18 @@
 import React, { useContext, useState } from "react";
 import Toast from "react-native-toast-message";
 import { Tabs } from "expo-router";
-import { s, ScaledSheet } from "react-native-size-matters";
+import { ScaledSheet, s } from "react-native-size-matters";
 import { useMutation } from "@tanstack/react-query";
 import AppModal from "@/components/modal/Modal";
-import ShowIf from "@/components/ShowIf";
 import AppThemedText from "@/components/app_components/AppThemedText";
-import { TabBarIcon } from "@/components/navigation/TabBarIcon";
+import ShowIf from "@/components/ShowIf";
+import TabBarIcon from "@/components/navigation/TabBarIcon";
 import { AuthContext } from "@/store/auth/auth-context";
 import { logout } from "../apis/api";
 import { useColorScheme } from "@/hooks/useColorScheme";
 import { COLORS, COLORTHEME } from "@/constants/Colors";
 
-export default function TabLayout(): JSX.Element {
+const TabLayout = (): JSX.Element =>{
   const colorScheme = useColorScheme();
   const { isAuthenticated, setIsAuthenticated, setUid } =
     useContext(AuthContext);
@@ -35,7 +35,7 @@ export default function TabLayout(): JSX.Element {
         <AppThemedText style={styles.modalTitle}>Settings</AppThemedText>
         <AppThemedText
           type="link"
-          onPress={() => logout(setIsVisible, setIsAuthenticated, setUid)}
+          onPress={() => mutation.mutate()}
         >
           Logout
         </AppThemedText>
@@ -152,3 +152,5 @@ const styles = ScaledSheet.create({
     fontWeight: "bold",
   },
 });
+
+export default TabLayout;

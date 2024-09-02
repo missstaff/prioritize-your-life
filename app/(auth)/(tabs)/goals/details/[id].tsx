@@ -1,12 +1,13 @@
+import { StatusBar } from "expo-status-bar";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { ScaledSheet, s, vs } from "react-native-size-matters";
+import { useLocalSearchParams } from "expo-router";
 import AppThemedText from "@/components/app_components/AppThemedText";
 import AppThemedView from "@/components/app_components/AppThemedView";
 import { COLORS } from "@/constants/Colors";
-import { useLocalSearchParams } from "expo-router";
-import { StatusBar } from "expo-status-bar";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { s, ScaledSheet, vs } from "react-native-size-matters";
 
-export default function Details() {
+
+const Details = () => {
   const { id } = useLocalSearchParams();
 
   return (
@@ -71,3 +72,5 @@ const styles = ScaledSheet.create({
     textAlign: "center",
   },
 });
+
+export default Details;

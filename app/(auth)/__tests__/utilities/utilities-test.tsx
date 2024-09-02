@@ -1,7 +1,7 @@
 import {
   isValidEmail,
   isValidPassword,
-  validateAuthFormInput,
+  validateAuthFormInputs,
 } from "../../utilities";
 
 describe("isValidEmail", () => {
@@ -28,27 +28,27 @@ describe("isValidPassword", () => {
   });
 });
 
-describe("validateAuthFormInput", () => {
+describe("validateAuthFormInputs", () => {
   it("should throw an error for an invalid email", () => {
     expect(() => {
-      validateAuthFormInput("invalid_email", "Password123!");
+      validateAuthFormInputs("invalid_email", "Password123!");
     }).toThrow("Invalid email");
   });
 
   it("should throw an error for an invalid password", () => {
     expect(() => {
-      validateAuthFormInput("test@example.com", "weakpassword");
+      validateAuthFormInputs("test@example.com", "weakpassword");
     }).toThrow("Invalid password");
   });
 
   it("should throw an error for an invalid password confirmation", () => {
     expect(() => {
-      validateAuthFormInput("test@example.com", "Password123!", "weakpassword");
+      validateAuthFormInputs("test@example.com", "Password123!", "weakpassword");
     }).toThrow("Invalid password confirmation");
   });
 
   it("should return an object with isValid set to true for valid input", () => {
-    expect(validateAuthFormInput("test@example.com", "Password123!")).toEqual({
+    expect(validateAuthFormInputs("test@example.com", "Password123!")).toEqual({
       isValid: true,
     });
   });

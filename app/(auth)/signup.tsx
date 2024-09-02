@@ -1,4 +1,6 @@
 import React, { useContext, useState } from "react";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { StatusBar } from "expo-status-bar";
 import Toast from "react-native-toast-message";
 import { router } from "expo-router";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -9,11 +11,9 @@ import AppThemedView from "@/components/app_components/AppThemedView";
 import LoadingSpinner from "@/components/LoadingSpinner";
 import ShowIf from "@/components/ShowIf";
 import { AuthContext } from "@/store/auth/auth-context";
-import { isValidEmail, isValidPassword } from "./utilities";
 import { handleSignUp } from "./apis/api";
+import { isValidEmail, isValidPassword } from "./utilities";
 import { styles } from "./styles";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { StatusBar } from "expo-status-bar";
 
 const Signup = (): JSX.Element => {
   const queryClient = useQueryClient();

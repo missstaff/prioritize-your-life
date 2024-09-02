@@ -69,7 +69,9 @@ const TransactionModalContent = ({
       addOrUpdateTransaction(data, selectedTab, transactionsCtx),
     onSuccess: async () => {
       setIsVisible(false);
-      queryClient.invalidateQueries({ queryKey: ["transactions"] });
+      console.log("selectedTab.", selectedTab);
+      queryClient.invalidateQueries({ queryKey: ["transactions " + selectedTab] });
+      refetch();
     },
     onError: () => {
       handleResetState();

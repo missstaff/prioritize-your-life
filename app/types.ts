@@ -49,12 +49,12 @@ export interface RootStackParamList {
   // goalsDetails: { id: string };
 }
 
-export interface SignInProps {
+export interface SigninProps {
   email: string;
   password: string;
 }
 
-export interface SignUpProps {
+export interface SignupProps {
   email: string;
   password: string;
   confirmPassword: string;

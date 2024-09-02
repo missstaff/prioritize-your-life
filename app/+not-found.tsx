@@ -3,7 +3,7 @@ import { ScaledSheet, s, vs } from "react-native-size-matters";
 import AppThemedText from "@/components/app_components/AppThemedText";
 import AppThemedView from "@/components/app_components/AppThemedView";
 
-export default function NotFoundScreen() {
+const NotFoundScreen = () => {
   return (
     <>
       <Stack.Screen options={{ title: "Oops!" }} />
@@ -15,7 +15,7 @@ export default function NotFoundScreen() {
       </AppThemedView>
     </>
   );
-}
+};
 
 const styles = ScaledSheet.create({
   container: {
@@ -29,3 +29,5 @@ const styles = ScaledSheet.create({
     paddingVertical: vs(15),
   },
 });
+
+export default NotFoundScreen;

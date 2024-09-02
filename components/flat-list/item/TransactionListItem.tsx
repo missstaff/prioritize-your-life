@@ -2,7 +2,6 @@ import { s, ScaledSheet } from "react-native-size-matters";
 import AppThemedText from "../../app_components/AppThemedText";
 import Column from "../../grid/Column";
 import Row from "../../grid/Row";
-import ShowIf from "../../ShowIf";
 import {
   formatTimestamp,
   truncateString,
@@ -18,15 +17,11 @@ const TransactionListItem: React.FC<ListItemProps> = ({ item }) => {
         </AppThemedText>
       </Column>
       <Column>
-        <AppThemedText style={styles.text}>{item.amount}</AppThemedText>
+        <AppThemedText style={styles.text}>
+          {Number(item.amount).toFixed(2)}
+        </AppThemedText>
       </Column>
       <Column>
-        <ShowIf
-          condition={item.progress !== undefined}
-          render={
-            <AppThemedText style={styles.text}>{item.progress}%</AppThemedText>
-          }
-        />
         <AppThemedText style={styles.text}>
           {truncateString(item.description)}
         </AppThemedText>

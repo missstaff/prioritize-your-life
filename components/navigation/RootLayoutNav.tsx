@@ -33,7 +33,7 @@ function onAppStateChange(status: AppStateStatus) {
   }
 }
 
-export default function RootLayoutNav() {
+const RootLayoutNav = () => {
   const queryClient = new QueryClient();
   const colorScheme = useColorScheme();
   const navigationRef = useNavigationContainerRef();
@@ -75,3 +75,5 @@ export default function RootLayoutNav() {
     </QueryClientProvider>
   );
 }
+
+export default RootLayoutNav;

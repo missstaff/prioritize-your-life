@@ -8,7 +8,7 @@ import Animated, {
   useScrollViewOffset,
 } from "react-native-reanimated";
 
-import AppThemedView  from "@/components/app_components/AppThemedView";
+import AppThemedView from "@/components/app_components/AppThemedView";
 
 const HEADER_HEIGHT = 250;
 
@@ -18,11 +18,11 @@ type Props = PropsWithChildren<{
 }>;
 
 // #TODO: determine if this component will be used if so, write tests for it, else delete it
-export default function ParallaxScrollView({
+const ParallaxScrollView = ({
   children,
   headerImage,
   headerBackgroundColor,
-}: Props) {
+}: Props) => {
   const colorScheme = useColorScheme() ?? "light";
   const scrollRef = useAnimatedRef<Animated.ScrollView>();
   const scrollOffset = useScrollViewOffset(scrollRef);
@@ -64,7 +64,7 @@ export default function ParallaxScrollView({
       </Animated.ScrollView>
     </AppThemedView>
   );
-}
+};
 
 const styles = ScaledSheet.create({
   container: {
@@ -81,3 +81,5 @@ const styles = ScaledSheet.create({
     overflow: "hidden",
   },
 });
+
+export default ParallaxScrollView;
