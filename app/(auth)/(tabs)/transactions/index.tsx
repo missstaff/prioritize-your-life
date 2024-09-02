@@ -1,15 +1,17 @@
 import React, { useContext, useEffect, useMemo, useState } from "react";
 import Toast from "react-native-toast-message";
 import { useQuery } from "@tanstack/react-query";
-import { ScaledSheet, s, vs } from "react-native-size-matters";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { StatusBar } from "expo-status-bar";
 import AppModal from "@/components/modal/Modal";
 import AppThemedText from "@/components/app_components/AppThemedText";
-import AppThemedTouchableOpacity from "@/components/app_components/AppThemedTouchableOpacity";
 import AppThemedView from "@/components/app_components/AppThemedView";
 import ListHeader from "@/components/flat-list/ListHeader";
-import Balance from "@/components/flat-list/Balance";
+import Balance from "@/components/Balance";
 import List from "@/components/flat-list/List";
+import ListWrapper from "@/components/flat-list/ListWrapper";
 import LoadingSpinner from "@/components/LoadingSpinner";
+import NoListItems from "@/components/flat-list/item/NoListItems";
 import OnError from "@/components/OnError";
 import ShowIf from "@/components/ShowIf";
 import TabbedComponent from "@/components/TabbedComponent";
@@ -18,7 +20,7 @@ import { AppContext } from "@/store/app/app-context";
 import { TransactionContext } from "@/store/transaction/transaction-context";
 import { fetchTransactions } from "../apis/transaction-apis";
 import { TransactionState } from "@/store/transaction/transaction-reducer";
-import { COLORS } from "@/constants/Colors";
+
 
 export default function Transactions() {
   const transactionCtx = useContext(TransactionContext);
@@ -70,116 +72,73 @@ export default function Transactions() {
   }
 
   return (
-    <AppThemedView
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        height: "100%",
-        width: "100%",
-      }}
-    >
-      <AppThemedText
-        style={{ textAlign: "center", paddingTop: 25 }}
-        type="title"
+    <SafeAreaView style={{ flex: 1 }}>
+      <AppThemedView
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          height: "100%",
+          width: "100%",
+        }}
       >
-        Transactions
-      </AppThemedText>
-      <TabbedComponent
-        selectedTab={selectedTab}
-        setSelectedTab={setSelectedTab}
-        tabs={tabsArr}
-      >
-        {tabsArr.map((tab, index) => (
-          <AppThemedView key={index} style={styles.balanceContainer}>
+        <AppThemedText
+          style={{ textAlign: "center", paddingTop: 25 }}
+          type="title"
+        >
+          Transactions
+        </AppThemedText>
+        <TabbedComponent
+          selectedTab={selectedTab}
+          setSelectedTab={setSelectedTab}
+          tabs={tabsArr}
+        >
+          {tabsArr.map((tab, index) => (
             <Balance
               key={index}
               balance={balance}
               data={data}
               setIsVisible={setIsVisible}
             />
-          </AppThemedView>
-        ))}
-      </TabbedComponent>
-      <ShowIf
-        condition={!isPending && !isError && !isVisible && data?.length > 0}
-        render={
-          <AppThemedView style={styles.container}>
-            <ListHeader
-              styles={styles.tableHeader}
-              headings={["Date", "Amount", "Description"]}
-            />
-            <List
-              queryFn={() => fetchTransactions(tabsArr[selectedTab])}
-              queryKey={[
-                "transactions",
-                "transactions " + tabsArr[selectedTab],
-              ]}
-              handleOnPress={handleOnPress}
-            />
-          </AppThemedView>
-        }
-        renderElse={
-          <AppThemedView
-            style={{
-              height: "50%",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            <AppThemedText style={{ paddingBottom: 10 }} type="default">
-              No Transactions Found
-            </AppThemedText>
-            <AppThemedView>
-              <AppThemedTouchableOpacity onPress={() => setIsVisible(true)}>
-                Add Transaction
-              </AppThemedTouchableOpacity>
-            </AppThemedView>
-          </AppThemedView>
-        }
-      />
-      <ShowIf
-        condition={!isPending && !isError && isVisible}
-        render={
-          <AppModal onClose={handleClose} visible={isVisible}>
-            <TransactionModalContent
-              data={data}
-              selectedTab={tabsArr[selectedTab]}
-              setIsVisible={setIsVisible}
-              refetch={refetch}
-            />
-            <Toast />
-          </AppModal>
-        }
-      />
-    </AppThemedView>
+          ))}
+        </TabbedComponent>
+        <ShowIf
+          condition={!isPending && !isError && !isVisible && data?.length > 0}
+          render={
+            <ListWrapper>
+              <ListHeader
+                headings={["Date", "Amount", "Description"]}
+              />
+              <List
+                queryFn={() => fetchTransactions(tabsArr[selectedTab])}
+                queryKey={[
+                  "transactions",
+                  "transactions " + tabsArr[selectedTab],
+                ]}
+                handleOnPress={handleOnPress}
+              />
+            </ListWrapper>
+          }
+          renderElse={
+            <NoListItems setIsVisible={setIsVisible} type="Transaction" />
+          }
+        />
+        <ShowIf
+          condition={!isPending && !isError && isVisible}
+          render={
+            <AppModal onClose={handleClose} visible={isVisible}>
+              <TransactionModalContent
+                data={data}
+                selectedTab={tabsArr[selectedTab]}
+                setIsVisible={setIsVisible}
+                refetch={refetch}
+              />
+              <Toast />
+            </AppModal>
+          }
+        />
+      </AppThemedView>
+      <StatusBar style="auto" />
+    </SafeAreaView>
   );
 }
 
-const styles = ScaledSheet.create({
-  balanceContainer: {
-    alignItems: "center",
-    display: "flex",
-    flexDirection: "row",
-    justifyContent: "space-around",
-    width: "100%",
-  },
-  container: {
-    borderRadius: s(10),
-    display: "flex",
-    flex: 1,
-    flexDirection: "column",
-    height: "100%",
-    maxHeight: "100%",
-    marginVertical: vs(5),
-    paddingHorizontal: s(25),
-    paddingVertical: s(10),
-    shadowColor: COLORS.black,
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: s(5),
-    width: "100%",
-  },
-  tableHeader: {
-    fontWeight: "bold",
-  },
-});

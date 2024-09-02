@@ -1,11 +1,11 @@
 import { s, ScaledSheet } from "react-native-size-matters";
-import AppThemedText from "../app_components/AppThemedText";
-import Column from "../grid/Column";
-import Row from "../grid/Row";
+import AppThemedText from "../../app_components/AppThemedText";
+import Column from "../../grid/Column";
+import Row from "../../grid/Row";
 import { truncateString } from "@/app/(auth)/(tabs)/utilities/transactions-utilities";
 import { ListItemProps } from "@/app/types";
 
-const GoalItem = ({ item }: ListItemProps) => {
+const GoalListItem = ({ item }: ListItemProps) => {
   return (
     <Row>
       <Column>
@@ -33,4 +33,4 @@ const styles = ScaledSheet.create({
   },
 });
 
-export default GoalItem;
+export default GoalListItem;

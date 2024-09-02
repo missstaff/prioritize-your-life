@@ -1,7 +1,7 @@
 import { Pressable } from "react-native";
-import GoalItem from "./GoalItem";
-import ShowIf from "../ShowIf";
-import TransactionItem from "./TransactionItem";
+import GoalListItem from "./GoalListItem";
+import ShowIf from "../../ShowIf";
+import TransactionListItem from "./TransactionListItem";
 
 interface ListItemProps {
   item: {
@@ -24,8 +24,8 @@ const ListItem = ({ item, onPress }: ListItemProps) => {
         <Pressable onPress={() => onPress(item)}>
           <ShowIf
             condition={item.currentBalance !== undefined}
-            render={<GoalItem item={item} />}
-            renderElse={<TransactionItem item={item} />}
+            render={<GoalListItem item={item} />}
+            renderElse={<TransactionListItem item={item} />}
           />
         </Pressable>
       }

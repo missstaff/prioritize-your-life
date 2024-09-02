@@ -13,11 +13,9 @@ import {
   isValidDescription,
 } from "@/app/(auth)/(tabs)/utilities/transactions-utilities";
 
-const GoalsModalContent = ({
-  selectedTab,
+const GoalModalContent = ({
   setIsVisible,
 }: {
-  selectedTab: string;
   setIsVisible: (isVisible: boolean) => void;
 }) => {
   const goalsContext = useContext(GoalContext);
@@ -47,7 +45,7 @@ const GoalsModalContent = ({
   };
 
   const mutation = useMutation({
-    mutationFn: () => addOrUpdateGoal(goalsContext, selectedTab),
+    mutationFn: () => addOrUpdateGoal(goalsContext),
     onSuccess: async () => {
       setIsVisible(false);
       queryClient.invalidateQueries({ queryKey: ["goals"] });
@@ -141,4 +139,5 @@ const GoalsModalContent = ({
     </>
   );
 };
-export { GoalsModalContent };
+
+export default GoalModalContent;

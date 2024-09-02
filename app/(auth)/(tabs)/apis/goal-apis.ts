@@ -9,7 +9,6 @@ import { s } from "react-native-size-matters";
 
 export const addOrUpdateGoal = async (
     goalsContext: GoalContextType,
-    selectedTab: string,
 ) => {
     // if (!description || !amount || !date) {
     //     Toast.show({
@@ -77,7 +76,7 @@ export const addOrUpdateGoal = async (
             startDate: new Timestamp(new Date().getTime() / 1000, 0),
             startingBalance: parseFloat(goalsContext.startingBalance),
             transactions :  [...goalsContext.transactions, goalTransaction],
-            isLongTerm: selectedTab === "Long Term",
+            isLongTerm: true,
             lastTransactionDate:new Timestamp(new Date().getTime() / 1000, 0),
         };
 
@@ -123,7 +122,7 @@ export const addOrUpdateGoal = async (
 // }
 
 
-export const fetchGoals = async (selectedTab: string): Promise<GoalProps[]> => {
+export const fetchGoals = async (): Promise<GoalProps[]> => {
     let data: GoalProps[] = [];
     try {
         const firebase = await getFireApp();
@@ -145,11 +144,6 @@ export const fetchGoals = async (selectedTab: string): Promise<GoalProps[]> => {
             id: doc.id,
             ...doc.data(),
         })) as GoalProps[];
-
-        const isLongTerm = selectedTab === "Long Term";
-        data = data.filter((goal) => {
-            return goal.isLongTerm === isLongTerm;
-        });
 
         if (!data) {
             data = [];

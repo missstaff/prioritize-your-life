@@ -12,12 +12,6 @@ import { logout } from "../apis/api";
 import { useColorScheme } from "@/hooks/useColorScheme";
 import { COLORS, COLORTHEME } from "@/constants/Colors";
 
-
-/**
- * Renders the layout for the tabs in the app.
- *
- * @returns The JSX element representing the tab layout.
- */
 export default function TabLayout(): JSX.Element {
   const colorScheme = useColorScheme();
   const { isAuthenticated, setIsAuthenticated, setUid } =
@@ -63,7 +57,7 @@ export default function TabLayout(): JSX.Element {
           // headerTransparent: true,
 
           headerRight: () => (
-            <ShowIf 
+            <ShowIf
               condition={isAuthenticated}
               render={
                 <TabBarIcon
@@ -141,10 +135,10 @@ export default function TabLayout(): JSX.Element {
           }}
         />
 
-<Tabs.Screen
+        <Tabs.Screen
           name="goals/details/[id]"
           options={{
-            href: null
+            href: null,
           }}
         />
       </Tabs>

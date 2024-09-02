@@ -5,23 +5,17 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import AppThemedText from "@/components/app_components/AppThemedText";
 import AppThemedTextInput from "@/components/app_components/AppThemedTextInput";
 import AppThemedTouchableOpacity from "@/components/app_components/AppThemedTouchableOpacity";
-import AppThemedView  from "@/components/app_components/AppThemedView";
+import AppThemedView from "@/components/app_components/AppThemedView";
 import LoadingSpinner from "@/components/LoadingSpinner";
 import ShowIf from "@/components/ShowIf";
 import { AuthContext } from "@/store/auth/auth-context";
 import { isValidEmail, isValidPassword } from "./utilities";
 import { handleSignUp } from "./apis/api";
 import { styles } from "./styles";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { StatusBar } from "expo-status-bar";
 
-/**
- * SignUp component.
- *
- * This component is responsible for rendering the sign up functionality.
- * It allows the user to enter their email and password to sign up.
- *
- * @returns JSX.Element
- */
-export default function SignUp(): JSX.Element {
+const Signup = (): JSX.Element => {
   const queryClient = useQueryClient();
   const { setIsAuthenticated, setUid } = useContext(AuthContext);
   const [email, setEmail] = useState<string>("");
@@ -51,51 +45,56 @@ export default function SignUp(): JSX.Element {
   });
 
   return (
-    <AppThemedView style={styles.container}>
-      <ShowIf
-        condition={mutation.status === "pending"}
-        render={<LoadingSpinner />}
-        renderElse={
-          <>
-            <AppThemedTextInput
-              iconName="mail"
-              keyboardType="default"
-              placeholder="Email"
-              secureEntry={false}
-              value={email}
-              setValue={setEmail}
-              checkValue={isValidEmail}
-            />
-            <AppThemedTextInput
-              keyboardType="default"
-              placeholder="Password"
-              secureEntry={true}
-              value={password}
-              checkValue={isValidPassword}
-              setValue={setPassword}
-            />
-            <AppThemedTextInput
-              keyboardType="default"
-              placeholder="Confirm Password"
-              secureEntry={true}
-              value={confirmPassword}
-              checkValue={isValidPassword}
-              setValue={setConfirmPassword}
-            />
-            <AppThemedTouchableOpacity
-              disabled={mutation.status === "pending"}
-              onPress={() =>
-                mutation.mutate({ email, confirmPassword, password })
-              }
-            >
-              Sign Up
-            </AppThemedTouchableOpacity>
-            <AppThemedText type="link" onPress={() => router.push("/")}>
-              Sign In
-            </AppThemedText>
-          </>
-        }
-      />
-    </AppThemedView>
+    <SafeAreaView style={{ flex: 1 }}>
+      <AppThemedView style={styles.container}>
+        <ShowIf
+          condition={mutation.status === "pending"}
+          render={<LoadingSpinner />}
+          renderElse={
+            <>
+              <AppThemedTextInput
+                iconName="mail"
+                keyboardType="default"
+                placeholder="Email"
+                secureEntry={false}
+                value={email}
+                setValue={setEmail}
+                checkValue={isValidEmail}
+              />
+              <AppThemedTextInput
+                keyboardType="default"
+                placeholder="Password"
+                secureEntry={true}
+                value={password}
+                checkValue={isValidPassword}
+                setValue={setPassword}
+              />
+              <AppThemedTextInput
+                keyboardType="default"
+                placeholder="Confirm Password"
+                secureEntry={true}
+                value={confirmPassword}
+                checkValue={isValidPassword}
+                setValue={setConfirmPassword}
+              />
+              <AppThemedTouchableOpacity
+                disabled={mutation.status === "pending"}
+                onPress={() =>
+                  mutation.mutate({ email, confirmPassword, password })
+                }
+              >
+                Sign Up
+              </AppThemedTouchableOpacity>
+              <AppThemedText type="link" onPress={() => router.push("/")}>
+                Sign In
+              </AppThemedText>
+            </>
+          }
+        />
+      </AppThemedView>
+      <StatusBar style="auto" />
+    </SafeAreaView>
   );
-}
+};
+
+export default Signup;

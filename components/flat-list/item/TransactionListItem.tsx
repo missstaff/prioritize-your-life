@@ -1,15 +1,15 @@
 import { s, ScaledSheet } from "react-native-size-matters";
-import AppThemedText from "../app_components/AppThemedText";
-import Column from "../grid/Column";
-import Row from "../grid/Row";
-import ShowIf from "../ShowIf";
+import AppThemedText from "../../app_components/AppThemedText";
+import Column from "../../grid/Column";
+import Row from "../../grid/Row";
+import ShowIf from "../../ShowIf";
 import {
   formatTimestamp,
   truncateString,
 } from "@/app/(auth)/(tabs)/utilities/transactions-utilities";
 import { ListItemProps } from "@/app/types";
 
-const TransactionItem: React.FC<ListItemProps> = ({ item }) => {
+const TransactionListItem: React.FC<ListItemProps> = ({ item }) => {
   return (
     <Row>
       <Column>
@@ -41,4 +41,4 @@ const styles = ScaledSheet.create({
   },
 });
 
-export default TransactionItem;
+export default TransactionListItem;

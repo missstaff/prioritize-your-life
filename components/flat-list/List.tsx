@@ -1,6 +1,6 @@
 import { FlatList } from "react-native";
 import { useQuery } from "@tanstack/react-query";
-import ListItem from "./ListItem";
+import ListItem from "./item/ListItem";
 import LoadingSpinner from "../LoadingSpinner";
 import OnError from "../OnError";
 

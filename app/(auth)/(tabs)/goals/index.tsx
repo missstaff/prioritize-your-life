@@ -1,43 +1,37 @@
+import React, { useContext, useEffect, useState } from "react";
+import Toast from "react-native-toast-message";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { StatusBar } from "expo-status-bar";
+import { useQuery } from "@tanstack/react-query";
+import { router, useLocalSearchParams } from "expo-router";
 import AppThemedText from "@/components/app_components/AppThemedText";
 import AppThemedTouchableOpacity from "@/components/app_components/AppThemedTouchableOpacity";
 import AppThemedView from "@/components/app_components/AppThemedView";
 import AppModal from "@/components/modal/Modal";
-import { GoalsModalContent } from "@/components/modal/modal_content/GoalsModalContent";
-import ShowIf from "@/components/ShowIf";
-import TabbedComponent from "@/components/TabbedComponent";
-import { AppContext } from "@/store/app/app-context";
-import { GoalContext, GoalContextType } from "@/store/goals/goal-context";
-import { useQuery } from "@tanstack/react-query";
-import { useContext, useEffect, useState } from "react";
-import { s, ScaledSheet, vs } from "react-native-size-matters";
-import Toast from "react-native-toast-message";
-import { fetchGoalById, fetchGoals } from "../apis/goal-apis";
+import Balance from "@/components/Balance";
+import GoalModalContent from "@/components/modal/modal_content/GoalModalContent";
 import LoadingSpinner from "@/components/LoadingSpinner";
-import OnError from "@/components/OnError";
-import { GoalProps } from "../../../types";
-import ListHeader from "@/components/flat-list/ListHeader";
 import List from "@/components/flat-list/List";
-import { COLORS } from "@/constants/Colors";
-import { router, useLocalSearchParams } from "expo-router";
+import ListHeader from "@/components/flat-list/ListHeader";
+import ListWrapper from "@/components/flat-list/ListWrapper";
+import OnError from "@/components/OnError";
+import ShowIf from "@/components/ShowIf";
+import { GoalContext, GoalContextType } from "@/store/goals/goal-context";
+import { fetchGoalById, fetchGoals } from "../apis/goal-apis";
+import { GoalProps } from "../../../types";
+import NoListItems from "@/components/flat-list/item/NoListItems";
 
-export default function Goals() {
+const Goals = () => {
   const { id } = useLocalSearchParams();
-  const appCtx = useContext(AppContext);
-  const { selectedTab, setSelectedTab } = appCtx;
   const goalCtx = useContext<GoalContextType>(GoalContext);
   const [isVisible, setIsVisible] = useState(false);
-  const tabsArr = ["Long Term", "Short Term"];
 
   const { refetch, isPending, isError, data, error, isFetching, isLoading } =
     useQuery<GoalProps[]>({
-      queryKey: ["goals", "goals" + tabsArr[selectedTab]],
-      queryFn: () => fetchGoals(tabsArr[selectedTab]),
+      queryKey: ["goals"],
+      queryFn: () => fetchGoals(),
       refetchOnMount: true,
     });
-
-  useEffect(() => {
-    refetch();
-  }, [selectedTab]);
 
   const handleClose = () => {
     setIsVisible(false);
@@ -53,6 +47,10 @@ export default function Goals() {
     router.push(`../../goals/details/[${item.id}]`);
   };
 
+  useEffect(() => {
+    refetch();
+  }, []);
+
   if (isPending || isLoading || isFetching) {
     return <LoadingSpinner />;
   }
@@ -61,101 +59,53 @@ export default function Goals() {
     return <OnError error={error} />;
   }
   return (
-    <AppThemedView
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        height: "100%",
-        width: "100%",
-      }}
-    >
-      <AppThemedText
-        style={{ textAlign: "center", paddingTop: 25 }}
-        type="title"
+    <SafeAreaView style={{ flex: 1 }}>
+      <AppThemedView
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          height: "100%",
+          width: "100%",
+        }}
       >
-        Goals
-      </AppThemedText>
+        <AppThemedText
+          style={{ textAlign: "center", paddingTop: 25 }}
+          type="title"
+        >
+          Goals
+        </AppThemedText>
+        <Balance balance={0.0} data={[]} setIsVisible={setIsVisible} />
 
-      <TabbedComponent
-        selectedTab={selectedTab}
-        setSelectedTab={setSelectedTab}
-        tabs={tabsArr}
-      >
-        {tabsArr.map((tab, index) => (
-          <ShowIf
-            key={index}
-            condition={data && data.length > 0}
-            render={
-              <AppThemedView style={styles.container}>
-                <ListHeader
-                  styles={styles.tableHeader}
-                  headings={["Name", "Balance", "Progress"]}
-                />
-                <List
-                  queryFn={() => fetchGoals(tabsArr[selectedTab])}
-                  queryKey={["goals", "goals" + tabsArr[selectedTab]]}
-                  handleOnPress={handleOnPress}
-                />
-              </AppThemedView>
-            }
-            renderElse={
-              <AppThemedView
-                style={{
-                  height: "50%",
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-              >
-                <AppThemedText style={{ paddingBottom: 10 }} type="default">
-                  No Goals Found
-                </AppThemedText>
-                <AppThemedView>
-                  <AppThemedTouchableOpacity onPress={() => setIsVisible(true)}>
-                    Add Goal
-                  </AppThemedTouchableOpacity>
-                </AppThemedView>
-              </AppThemedView>
-            }
-          />
-        ))}
-      </TabbedComponent>
+        <ShowIf
+          condition={data && data.length > 0}
+          render={
+            <ListWrapper>
+              <ListHeader headings={["Name", "Balance", "Progress"]} />
+              <List
+                queryFn={() => fetchGoals()}
+                queryKey={["goals"]}
+                handleOnPress={handleOnPress}
+              />
+            </ListWrapper>
+          }
+          renderElse={
+           <NoListItems setIsVisible={setIsVisible} type="Goal"/>
+          }
+        />
 
-      <ShowIf
-        condition={isVisible}
-        render={
-          <AppModal onClose={handleClose} visible={isVisible}>
-            <GoalsModalContent
-              selectedTab={tabsArr[selectedTab]}
-              setIsVisible={setIsVisible}
-            />
-
-            <Toast />
-          </AppModal>
-        }
-      />
-    </AppThemedView>
+        <ShowIf
+          condition={isVisible}
+          render={
+            <AppModal onClose={handleClose} visible={isVisible}>
+              <GoalModalContent setIsVisible={setIsVisible} />
+              <Toast />
+            </AppModal>
+          }
+        />
+      </AppThemedView>
+      <StatusBar style="auto" />
+    </SafeAreaView>
   );
-}
-const styles = ScaledSheet.create({
-  container: {
-    borderRadius: s(10),
-    display: "flex",
-    flex: 1,
-    flexDirection: "column",
-    height: "100%",
-    maxHeight: "100%",
-    marginVertical: vs(5),
-    paddingHorizontal: s(25),
-    paddingVertical: s(10),
-    shadowColor: COLORS.black,
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: s(5),
-    width: "100%",
-  },
-  tableHeader: {
-    fontWeight: "bold",
-  },
-});
+};
+
+export default Goals;
