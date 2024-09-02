@@ -1,11 +1,10 @@
-import React, { useContext, useEffect, useMemo, useState } from "react";
+import React, { useContext, useMemo, useState } from "react";
 import Toast from "react-native-toast-message";
 import { useQuery } from "@tanstack/react-query";
-import { SafeAreaView } from "react-native-safe-area-context";
 import { StatusBar } from "expo-status-bar";
 import AppModal from "@/components/modal/Modal";
+import AppThemedSafeAreaView from "@/components/app_components/AppThemedSafeAreaView";
 import AppThemedText from "@/components/app_components/AppThemedText";
-import AppThemedView from "@/components/app_components/AppThemedView";
 import ListHeader from "@/components/flat-list/ListHeader";
 import Balance from "@/components/Balance";
 import List from "@/components/flat-list/List";
@@ -68,65 +67,62 @@ const Transactions = () => {
   }
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
-      <AppThemedView
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          height: "100%",
-          width: "100%",
-        }}
+    <AppThemedSafeAreaView>
+      <AppThemedText
+        style={{ textAlign: "center", paddingTop: 10, paddingBottom: 2.5 }}
+        type="title"
       >
-        <AppThemedText style={{ textAlign: "center" }} type="title">
-          Transactions
-        </AppThemedText>
-        <TabbedComponent
-          selectedTab={selectedTab}
-          setSelectedTab={setSelectedTab}
-          tabs={tabsArr}
-        >
-          {tabsArr.map((tab, index) => (
-            <Balance
-              key={index}
-              balance={balance}
-              data={data}
-              setIsVisible={setIsVisible}
+        Transactions
+      </AppThemedText>
+      <TabbedComponent
+        selectedTab={selectedTab}
+        setSelectedTab={setSelectedTab}
+        tabs={tabsArr}
+      >
+        {tabsArr.map((tab, index) => (
+          <Balance
+            key={index}
+            balance={balance}
+            data={data}
+            setIsVisible={setIsVisible}
+          />
+        ))}
+      </TabbedComponent>
+      <ShowIf
+        condition={data?.length > 0}
+        render={
+          <ListWrapper>
+            <ListHeader headings={["Date", "Amount", "Description"]} />
+            <List
+              queryFn={() => fetchTransactions(tabsArr[selectedTab])}
+              queryKey={[
+                "transactions",
+                "transactions " + tabsArr[selectedTab],
+              ]}
+              handleOnPress={handleOnPress}
             />
-          ))}
-        </TabbedComponent>
-        <ShowIf
-          condition={!isPending && !isError && !isVisible && data?.length > 0}
-          render={
-            <ListWrapper>
-              <ListHeader headings={["Date", "Amount", "Description"]} />
-              <List
-                queryFn={() => fetchTransactions(tabsArr[selectedTab])}
-                queryKey={["transactions","transactions " + tabsArr[selectedTab]]}
-                handleOnPress={handleOnPress}
-              />
-            </ListWrapper>
-          }
-          renderElse={
-            <NoListItems setIsVisible={setIsVisible} type="Transaction" />
-          }
-        />
-        <ShowIf
-          condition={!isPending && !isError && isVisible}
-          render={
-            <AppModal onClose={handleClose} visible={isVisible}>
-              <TransactionModalContent
-                data={data}
-                selectedTab={tabsArr[selectedTab]}
-                setIsVisible={setIsVisible}
-                refetch={refetch}
-              />
-              <Toast />
-            </AppModal>
-          }
-        />
-      </AppThemedView>
+          </ListWrapper>
+        }
+        renderElse={
+          <NoListItems setIsVisible={setIsVisible} type="Transaction" />
+        }
+      />
+      <ShowIf
+        condition={!isPending && !isError && isVisible}
+        render={
+          <AppModal onClose={handleClose} visible={isVisible}>
+            <TransactionModalContent
+              data={data}
+              selectedTab={tabsArr[selectedTab]}
+              setIsVisible={setIsVisible}
+              refetch={refetch}
+            />
+            <Toast />
+          </AppModal>
+        }
+      />
       <StatusBar style="auto" />
-    </SafeAreaView>
+    </AppThemedSafeAreaView>
   );
 };
 

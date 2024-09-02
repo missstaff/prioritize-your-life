@@ -4,13 +4,14 @@ import { SafeAreaView, ScrollView, useColorScheme } from "react-native";
 import { ScaledSheet, s, vs } from "react-native-size-matters";
 import AppThemedText from "@/components/app_components/AppThemedText";
 import AppThemedView from "@/components/app_components/AppThemedView";
-import { COLORS } from "@/constants/Colors";
+import { COLORS, COLORTHEME } from "@/constants/Colors";
+import AppThemedSafeAreaView from "@/components/app_components/AppThemedSafeAreaView";
 
 const HomeScreen = () => {
   const colorScheme = useColorScheme();
 
   return (
-    <SafeAreaView style={styles.container}>
+    <AppThemedSafeAreaView>
       <ScrollView contentContainerStyle={styles.scrollViewContent}>
         <AppThemedView
           style={[
@@ -79,14 +80,11 @@ const HomeScreen = () => {
         </AppThemedView>
       </ScrollView>
       <StatusBar style="auto" />
-    </SafeAreaView>
+    </AppThemedSafeAreaView>
   );
 };
 
 const styles = ScaledSheet.create({
-  container: {
-    flex: 1,
-  },
   scrollViewContent: {
     flexGrow: 1,
     justifyContent: "center",

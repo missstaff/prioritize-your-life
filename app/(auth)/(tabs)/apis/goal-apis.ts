@@ -44,24 +44,24 @@ export const addOrUpdateGoal = async (
             .collection("users")
             .doc(uid)
             .collection("goals");
-      
+
         let currentBalance = 0.00;
-       // use reduce function to get the current balance
-        if(goalsContext.transactions.length > 0) {
+        // use reduce function to get the current balance
+        if (goalsContext.transactions.length > 0) {
             currentBalance = goalsContext.transactions.reduce((acc, transaction) => {
                 return acc + transaction.amount;
             }, 0);
-        }else{
+        } else {
             currentBalance = parseFloat(goalsContext.startingBalance);
         }
-        
-        if(goalsContext.startDate === "") {
+
+        if (goalsContext.startDate === "") {
             goalsContext.setStartDate(new Date().toISOString());
         }
 
-        const goalTransaction: GoalTransactionState ={
+        const goalTransaction: GoalTransactionState = {
             id: goalsContext.transactions.length + 1,
-            amount:  (parseFloat(goalsContext.startingBalance)) ?? 0.00,
+            amount: (parseFloat(goalsContext.startingBalance)) ?? 0.00,
             balance: currentBalance,
             date: new Timestamp(new Date().getTime() / 1000, 0),
         };
@@ -72,12 +72,12 @@ export const addOrUpdateGoal = async (
             expectedEndDate: convertToFirestoreTimestamp(goalsContext.expectedEndDate),
             goal: parseFloat(goalsContext.goal),
             name: goalsContext.name,
-            progress: currentBalance/parseFloat(goalsContext.goal) * 100,
+            progress: currentBalance / parseFloat(goalsContext.goal) * 100,
             startDate: new Timestamp(new Date().getTime() / 1000, 0),
             startingBalance: parseFloat(goalsContext.startingBalance),
-            transactions :  [...goalsContext.transactions, goalTransaction],
+            transactions: [...goalsContext.transactions, goalTransaction],
             isLongTerm: true,
-            lastTransactionDate:new Timestamp(new Date().getTime() / 1000, 0),
+            lastTransactionDate: new Timestamp(new Date().getTime() / 1000, 0),
         };
 
         if (goalsContext.id) {
@@ -167,21 +167,18 @@ export const fetchGoalById = async (goalId: string): Promise<GoalProps> => {
             throw new Error("User not authenticated");
         }
 
-        const transactionsRef = db
-            .collection("users")
-            .doc(uid)
-            .collection("goals");
-        const snapshot = await transactionsRef.doc(goalId).get();
+        const docRef = db
+        .collection('users')
+        .doc(uid)
+        .collection('goals');
+        const doc = await docRef.get();
         data = {
-            id: snapshot.id,
-            ...snapshot.data(),
+            id: doc.docs[0].id,
+            ...doc.docs[0].data(),
         } as GoalProps;
-
-        if (!data) {
-            data = {} as GoalProps;
-        }
     } catch (error: any) {
         throw new Error("Error fetching goal by id: " + error.message);
     }
+
     return data;
 };

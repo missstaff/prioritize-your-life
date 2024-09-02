@@ -12,6 +12,7 @@ import {
   isValidDate,
   isValidDescription,
 } from "@/app/(auth)/(tabs)/utilities/transactions-utilities";
+import { View } from "react-native";
 
 const GoalModalContent = ({
   setIsVisible,
@@ -60,7 +61,7 @@ const GoalModalContent = ({
       <ShowIf
         condition={true} //transactionId.length > 0
         render={
-          <AppThemedView
+          <View
             style={{
               alignItems: "center",
               flexDirection: "row",
@@ -77,7 +78,7 @@ const GoalModalContent = ({
             >
               Delete
             </AppThemedText>
-          </AppThemedView>
+          </View>
         }
         renderElse={
           <AppThemedView style={{ marginVertical: 25 }}></AppThemedView>

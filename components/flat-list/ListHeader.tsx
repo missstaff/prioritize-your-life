@@ -1,19 +1,21 @@
-import { ScaledSheet } from "react-native-size-matters";
 import AppThemedText from "../app_components/AppThemedText";
 import Column from "../grid/Column";
 import Row from "../grid/Row";
+import { TextStyle, ViewStyle } from "react-native";
 
 export interface ListHeaderProps {
   headings: string[];
-  style?: {};
+  colStyles?: ViewStyle;
+  rowStyles?: ViewStyle;
+  textStyles?: TextStyle;
 }
 
-const ListHeader = ({ style, headings }: ListHeaderProps) => {
+const ListHeader = ({ headings, colStyles, textStyles, rowStyles  }: ListHeaderProps) => {
   return (
-    <Row>
+    <Row style={rowStyles}>
       {headings.map((heading, index) => (
-        <Column key={index}>
-          <AppThemedText style={[styles.tableHeader, style]}>
+        <Column colStyles={colStyles} key={index}>
+          <AppThemedText style={textStyles} type="defaultSemiBold">
             {heading}
           </AppThemedText>
         </Column>
@@ -22,10 +24,5 @@ const ListHeader = ({ style, headings }: ListHeaderProps) => {
   );
 };
 
-const styles = ScaledSheet.create({
-  tableHeader: {
-    fontWeight: "bold",
-  },
-});
 
 export default ListHeader;

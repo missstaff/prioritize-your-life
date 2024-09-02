@@ -1,37 +1,37 @@
 import { TransactionState } from "@/store/transaction/transaction-reducer";
 import AppThemedText from "./app_components/AppThemedText";
 import ShowIf from "./ShowIf";
-import AppThemedView from "./app_components/AppThemedView";
 import { ScaledSheet } from "react-native-size-matters";
+import { View } from "react-native";
 
 export interface AddTransactionProps {
-  balance: number | undefined;
-  data: TransactionState[] | undefined;
+  balance?: number | undefined;
+  data: any[] | undefined;
   setIsVisible: (isVisible: boolean) => void;
 }
 
 const Balance = ({ balance, data, setIsVisible }: AddTransactionProps) => {
   return (
-    <AppThemedView style={styles.container}>
+    <View style={styles.container}>
       <ShowIf
-        condition={data && data?.length > 0}
+        condition={data && data?.length > 0 && balance !== undefined}
         render={
           <AppThemedText type="default">
             {`$${balance?.toFixed(2)}`}
           </AppThemedText>
         }
-        renderElse={<AppThemedView></AppThemedView>}
+        renderElse={<View></View>}
       />
       <ShowIf
         condition={data && data?.length > 0}
         render={
           <AppThemedText type="link" onPress={() => [setIsVisible(true)]}>
-            Add Transaction
+            Add {data && data[0].goal ? "Goal" : "Transaction"}
           </AppThemedText>
         }
-        renderElse={<AppThemedView></AppThemedView>}
+        renderElse={<View></View>}
       />
-    </AppThemedView>
+    </View>
   );
 };
 

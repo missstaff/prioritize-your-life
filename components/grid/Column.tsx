@@ -1,16 +1,16 @@
 import { ScaledSheet } from "react-native-size-matters";
-import AppThemedView from "../app_components/AppThemedView";
+import { View, ViewStyle } from "react-native";
 
 interface ColumnProps {
   children: React.ReactNode;
-  inlineStyles?: object;
+  colStyles?: ViewStyle;
 }
 
-const Column = ({ children, inlineStyles, ...props }: ColumnProps) => {
+const Column = ({ children, colStyles, ...props }: ColumnProps) => {
   return (
-    <AppThemedView style={[styles.column, inlineStyles]} {...props}>
+    <View style={[styles.column, colStyles]} {...props}>
       {children}
-    </AppThemedView>
+    </View>
   );
 };
 

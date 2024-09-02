@@ -19,6 +19,7 @@ import {
 } from "@/app/(auth)/(tabs)/utilities/transactions-utilities";
 import { TransactionModalContentProps } from "@/app/types";
 import { formatDateString } from "@/common/utilities";
+import { View } from "react-native";
 
 /**
  * @param {TransactionModalContentProps} props - The props for the TransactionModalContent component.
@@ -69,7 +70,6 @@ const TransactionModalContent = ({
       addOrUpdateTransaction(data, selectedTab, transactionsCtx),
     onSuccess: async () => {
       setIsVisible(false);
-      console.log("selectedTab.", selectedTab);
       queryClient.invalidateQueries({ queryKey: ["transactions " + selectedTab] });
       refetch();
     },
@@ -83,7 +83,7 @@ const TransactionModalContent = ({
       <ShowIf
         condition={transactionsCtx.id.length > 0}
         render={
-          <AppThemedView
+          <View
             style={{
               alignItems: "center",
               flexDirection: "row",
@@ -95,7 +95,7 @@ const TransactionModalContent = ({
             <AppThemedText type="link" onPress={() => handleDelete()}>
               Delete
             </AppThemedText>
-          </AppThemedView>
+          </View>
         }
         renderElse={
           <AppThemedView style={{ marginVertical: 25 }}></AppThemedView>

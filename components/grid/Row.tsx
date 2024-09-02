@@ -1,15 +1,16 @@
 import { ScaledSheet, s, vs } from "react-native-size-matters";
-import AppThemedView from "../app_components/AppThemedView";
+import { View, ViewStyle } from "react-native";
 
 interface RowProps {
   children: React.ReactNode;
+  style?: ViewStyle;
 }
 
-const Row = ({ children, ...props }: RowProps) => {
+const Row = ({ children, style, ...props }: RowProps) => {
   return (
-    <AppThemedView style={styles.row} {...props}>
+    <View style={[styles.row, style]} {...props}>
       {children}
-    </AppThemedView>
+    </View>
   );
 };
 

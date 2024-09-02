@@ -49,12 +49,15 @@ const TabLayout = (): JSX.Element =>{
           tabBarActiveTintColor: COLORS.primary,
           headerShown: isAuthenticated ? true : false,
           headerTitleAlign: "center",
-          headerShadowVisible: true,
+          // headerShadowVisible: true,
           tabBarStyle: {
             display: isAuthenticated ? "flex" : "none",
           },
           headerTitle: "",
-          // headerTransparent: true,
+          headerTransparent: false,
+          headerStyle: {
+            backgroundColor: COLORTHEME[colorScheme ?? "light"].background,
+          },
 
           headerRight: () => (
             <ShowIf

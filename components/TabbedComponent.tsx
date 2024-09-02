@@ -1,7 +1,6 @@
-import { Pressable } from "react-native";
+import { Pressable, View } from "react-native";
 import { ScaledSheet, s, vs } from "react-native-size-matters";
 import AppThemedText from "@/components/app_components/AppThemedText";
-import AppThemedView from "./app_components/AppThemedView";
 import { COLORS } from "@/constants/Colors";
 
 interface TabbedComponentProps {
@@ -19,7 +18,7 @@ const TabbedComponent: React.FC<TabbedComponentProps> = ({
 }) => {
   return (
     <>
-      <AppThemedView style={styles.tabContainer}>
+      <View style={styles.tabContainer}>
         {tabs.map((tab, index) => (
           <Pressable key={index} onPress={() => setSelectedTab(index)}>
             <AppThemedText
@@ -29,7 +28,7 @@ const TabbedComponent: React.FC<TabbedComponentProps> = ({
             </AppThemedText>
           </Pressable>
         ))}
-      </AppThemedView>
+      </View>
       {children[selectedTab]}
     </>
   );

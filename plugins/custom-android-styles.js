@@ -18,7 +18,7 @@ function applyCustomStyles(styles) {
     // Add new style definition
     styles.resources.style.push({
         $: { name: 'Dialog.Theme', parent: 'Theme.AppCompat.Light.Dialog' },
-        item: [{ _: '#CD03EF', $: { name: 'colorAccent' } }],
+        item: [{ _: '#00C2A8', $: { name: 'colorAccent' } }],
     });
 
     return styles;

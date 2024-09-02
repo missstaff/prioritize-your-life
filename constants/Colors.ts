@@ -5,7 +5,7 @@ export const COLORS = {
   darkGray: "#333",
   mediumGray: "#687076",
   lightGray: "#9BA1A6",
-  primary: "#CD03EF",
+  primary: "#00C2A8",
   red: "#FF0000",
 };
 
@@ -20,7 +20,7 @@ export const COLORTHEME = {
   },
   dark: {
     text: COLORS.offWhite,
-    background: "#151718",
+    background: "#000",
     tint: COLORS.white,
     icon: COLORS.lightGray,
     tabIconDefault: COLORS.lightGray,

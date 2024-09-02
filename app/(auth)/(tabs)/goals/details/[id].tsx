@@ -4,52 +4,125 @@ import { ScaledSheet, s, vs } from "react-native-size-matters";
 import { useLocalSearchParams } from "expo-router";
 import AppThemedText from "@/components/app_components/AppThemedText";
 import AppThemedView from "@/components/app_components/AppThemedView";
+import { fetchGoalById } from "../../apis/goal-apis";
 import { COLORS } from "@/constants/Colors";
-
+import { useQuery } from "@tanstack/react-query";
+import { GoalProps } from "@/app/types";
+import LoadingSpinner from "@/components/LoadingSpinner";
+import OnError from "@/components/OnError";
+import ShowIf from "@/components/ShowIf";
+import ListWrapper from "@/components/flat-list/ListWrapper";
+import ListHeader from "@/components/flat-list/ListHeader";
+import List from "@/components/flat-list/List";
+import NoListItems from "@/components/flat-list/item/NoListItems";
+import { formatTimestamp } from "../../utilities/transactions-utilities";
+import { useState } from "react";
+import { useColorScheme } from "react-native";
 
 const Details = () => {
+  const colorScheme = useColorScheme();
   const { id } = useLocalSearchParams();
+  const [isVisible, setIsVisible] = useState(false);
 
+  const { refetch, isPending, isError, data, error, isFetching, isLoading } =
+    useQuery<GoalProps>({
+      queryKey: ["goal", "goal " + id],
+      queryFn: () => fetchGoalById(id as string),
+      refetchOnMount: true,
+    });
+
+  if (isPending || isLoading || isFetching) {
+    return <LoadingSpinner />;
+  }
+
+  if (isError) {
+    return <OnError error={error} />;
+  }
+
+  console.log("records", data.currentBalance);
   return (
     <SafeAreaView style={{ flex: 1 }}>
+      <AppThemedText style={{ textAlign: "center", paddingTop: 10, paddingBottom: 2.5 }} type="title">
+        {data.name}
+      </AppThemedText>
+
+      <AppThemedView style={{display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center"}}>
       <AppThemedView
+          style={[
+            styles.section,
+            {
+              backgroundColor:
+                colorScheme === "dark" ? COLORS.mediumGray : COLORS.white,
+            },
+          ]}
+        >
+          <AppThemedText style={styles.sectionTitle} type="defaultSemiBold">
+            {data.name} Progress
+          </AppThemedText>
+          <AppThemedText style={styles.text}>
+            Enter and view your account balances here.
+          </AppThemedText>
+        </AppThemedView>
+
+      </AppThemedView>
+      <ShowIf
+        condition={data.transactions.length > 0}
+        render={
+          <ListWrapper>
+            <AppThemedText type="subtitle" style={{ textAlign: "center"}}>
+              Contribution Record
+            </AppThemedText>
+            <ListHeader headings={["Date", "Amount", "Progress"]} />
+            {data.transactions.map((transaction, index) => {
+              return (
+                <AppThemedView key={index}>
+                  <AppThemedText type="default">
+                    {formatTimestamp(transaction.date)}
+                  </AppThemedText>
+                  <AppThemedText type="default">{transaction.amount}</AppThemedText>
+                  <AppThemedText type="default">10</AppThemedText>
+                </AppThemedView>
+              );
+            })}
+          </ListWrapper>
+        }
+        renderElse={<NoListItems setIsVisible={setIsVisible} type="Goal" />}
+      />
+      {/* <AppThemedView
         style={{
           display: "flex",
           flexDirection: "column",
           height: "100%",
           width: "100%",
         }}
-      >
-        <AppThemedText
-          style={{ textAlign: "center", paddingTop: 25 }}
+      > */}
+      {/* <AppThemedText
+          style={{ textAlign: "center" }}
           type="title"
         >
-          Goal Details
-        </AppThemedText>
-        <AppThemedView style={[styles.section]}>
-          <AppThemedText style={styles.sectionTitle}>
-            Goal Details
-          </AppThemedText>
+          {data.name}
+        </AppThemedText> */}
+
+      {/* <AppThemedView style={[styles.section]}>
           <AppThemedText style={styles.text}>
             View details about your goal here.
           </AppThemedText>
-        </AppThemedView>
-      </AppThemedView>
+        </AppThemedView> */}
+
+      {/* <AppThemedView style={[styles.section]}> */}
+      {/* <AppThemedText style={styles.text}>
+            View details about your goal here.
+          </AppThemedText> */}
+
+      {/* </AppThemedView>
+      </AppThemedView> */}
+
       <StatusBar style="auto" />
     </SafeAreaView>
   );
-}
+};
 
 const styles = ScaledSheet.create({
-  container: {
-    flex: 1,
-  },
-  scrollViewContent: {
-    flexGrow: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    paddingVertical: vs(20),
-  },
   section: {
     width: "90%",
     marginVertical: vs(10),
@@ -63,13 +136,13 @@ const styles = ScaledSheet.create({
     alignItems: "center",
   },
   sectionTitle: {
-    fontSize: s(18),
-    fontWeight: "bold",
-    marginBottom: vs(10),
+    // fontSize: s(18),
+    // fontWeight: "bold",
+    // marginBottom: vs(10),
   },
   text: {
-    fontSize: s(16),
-    textAlign: "center",
+    // fontSize: s(16),
+    // textAlign: "center",
   },
 });
 

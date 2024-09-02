@@ -1,20 +1,23 @@
 import { router } from "expo-router";
 import { ScaledSheet } from "react-native-size-matters";
 import AppThemedText from "./app_components/AppThemedText";
-import AppThemedView from "./app_components/AppThemedView";
+import AppThemedSafeAreaView from "./app_components/AppThemedSafeAreaView";
+import { View } from "react-native";
 
 const OnError = (error: any) => {
   return (
-    <AppThemedView style={{}}>
-      <AppThemedText>Error: {error.message}</AppThemedText>
-      <AppThemedText
-        style={styles.text}
-        type="link"
-        onPress={() => router.push("/")}
-      >
-        Home
-      </AppThemedText>
-    </AppThemedView>
+    <AppThemedSafeAreaView>
+      <View>
+        <AppThemedText>Error: {error.message}</AppThemedText>
+        <AppThemedText
+          style={styles.text}
+          type="link"
+          onPress={() => router.push("/")}
+        >
+          Home
+        </AppThemedText>
+      </View>
+    </AppThemedSafeAreaView>
   );
 };
 
