@@ -1,7 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { ProgressBarAndroid } from "react-native";
 import Toast from "react-native-toast-message";
-import { SafeAreaView } from "react-native-safe-area-context";
 import { StatusBar } from "expo-status-bar";
 import { useQuery } from "@tanstack/react-query";
 import { router } from "expo-router";
@@ -25,6 +23,8 @@ import Row from "@/components/grid/Row";
 import Column from "@/components/grid/Column";
 import Balance from "@/components/Balance";
 import AppThemedSafeAreaView from "@/components/app_components/AppThemedSafeAreaView";
+import { ProgressBar } from "@react-native-community/progress-bar-android";
+import BarPairWithLine from "@/components/charts/BarPairWithLine";
 
 const Goals = () => {
   const colorScheme = useColorScheme();
@@ -136,7 +136,7 @@ const Goals = () => {
             <AppThemedText type="default" style={styles.text}>
               {`${((balancesTotal / goalsTotal) * 100).toFixed(0)}%`} of total
             </AppThemedText>
-            <ProgressBarAndroid
+            <ProgressBar
               styleAttr="Horizontal"
               indeterminate={false}
               color={COLORS.primary}
@@ -146,66 +146,12 @@ const Goals = () => {
         </View>
       </View>
 
-      <View
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          justifyContent: "center",
-        }}
-      >
-        <View style={styles.section}>
-          <AppThemedText style={styles.sectionTitle} type="subtitle">
-            Progress
+<AppThemedText style={styles.sectionTitle} type="subtitle">
+            Stats
           </AppThemedText>
-          <Row style={{ marginBottom: 15, width: "100%" }}>
-            <Column>
-              <AppThemedText style={styles.text} type="defaultSemiBold">
-                All Goals
-              </AppThemedText>
-              <AppThemedText
-                style={[styles.text, { fontSize: 16 }]}
-                type="default"
-              >
-                {`$${goalsTotal.toFixed(2)}`}
-              </AppThemedText>
-            </Column>
+      <BarPairWithLine />
 
-            <Column>
-              <AppThemedText style={styles.text} type="defaultSemiBold">
-                Saved
-              </AppThemedText>
-              <AppThemedText
-                style={[styles.text, { fontSize: 16 }]}
-                type="default"
-              >
-                {`$${balancesTotal.toFixed(2)}`}
-              </AppThemedText>
-            </Column>
-
-            <Column>
-              <AppThemedText style={styles.text} type="defaultSemiBold">
-                Progress
-              </AppThemedText>
-              <AppThemedText style={[styles.text, { fontSize: 16 }]}>
-                {`${((balancesTotal / goalsTotal) * 100).toFixed(0)}%`}
-              </AppThemedText>
-            </Column>
-          </Row>
-
-          <View>
-            <AppThemedText type="default" style={styles.text}>
-              {`${((balancesTotal / goalsTotal) * 100).toFixed(0)}%`} of total
-            </AppThemedText>
-            <ProgressBarAndroid
-              styleAttr="Horizontal"
-              indeterminate={false}
-              color={COLORS.primary}
-              progress={balancesTotal / goalsTotal}
-            />
-          </View>
-        </View>
-      </View>
+     
 
       <ShowIf
         condition={data?.length > 0}

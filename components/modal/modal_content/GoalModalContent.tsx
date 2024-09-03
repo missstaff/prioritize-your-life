@@ -59,7 +59,7 @@ const GoalModalContent = ({
   return (
     <>
       <ShowIf
-        condition={true} //transactionId.length > 0
+        condition={goalsContext.id.length > 0}
         render={
           <View
             style={{

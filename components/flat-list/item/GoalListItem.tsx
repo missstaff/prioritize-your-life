@@ -4,7 +4,7 @@ import Column from "../../grid/Column";
 import Row from "../../grid/Row";
 import { truncateString } from "@/app/(auth)/(tabs)/utilities/transactions-utilities";
 import { ListItemProps } from "@/app/types";
-import { ProgressBarAndroid } from "react-native";
+import {ProgressBar} from '@react-native-community/progress-bar-android';
 import { COLORS } from "@/constants/Colors";
 
 const GoalListItem = ({ item }: ListItemProps) => {
@@ -24,7 +24,7 @@ const GoalListItem = ({ item }: ListItemProps) => {
         <AppThemedText style={styles.text}>
           {item.progress?.toFixed(0)}%
         </AppThemedText>
-        <ProgressBarAndroid
+        <ProgressBar
           styleAttr="Horizontal"
           indeterminate={false}
           color={COLORS.primary}

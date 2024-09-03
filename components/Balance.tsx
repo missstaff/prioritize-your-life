@@ -26,7 +26,7 @@ const Balance = ({ balance, data, setIsVisible }: AddTransactionProps) => {
         condition={data && data?.length > 0}
         render={
           <AppThemedText type="link" onPress={() => [setIsVisible(true)]}>
-            Add {data && data[0].goal ? "Goal" : "Transaction"}
+            Add {data && data[0]?.goal ? "Goal" : "Transaction"}
           </AppThemedText>
         }
         renderElse={<View></View>}
