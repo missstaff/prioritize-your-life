@@ -1,4 +1,4 @@
-import { FlatList } from "react-native";
+import { FlatList, View } from "react-native";
 import { useQuery } from "@tanstack/react-query";
 import ListItem from "./item/ListItem";
 import LoadingSpinner from "../LoadingSpinner";
@@ -28,13 +28,12 @@ const List = ({ handleOnPress, queryKey, queryFn }: ListProps) => {
 
   return (
     <FlatList
-      scrollEnabled={true}
-      data={data}
-      keyExtractor={(item) => item.id}
-      renderItem={({ item }) => (
-        <ListItem item={item} onPress={handleOnPress} />
-      )}
-    />
+    data={data}
+    keyExtractor={(item) => item.id}
+    renderItem={({ item }) => (
+      <ListItem item={item} onPress={handleOnPress} />
+    )}
+  />
   );
 };
 

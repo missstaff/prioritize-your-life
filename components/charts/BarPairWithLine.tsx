@@ -1,6 +1,6 @@
 import React from 'react';
-import {View, Text} from 'react-native';
-import {BarChart} from "react-native-gifted-charts";
+import { View, Text } from 'react-native';
+import { BarChart } from "react-native-gifted-charts";
 import { ruleTypes } from 'gifted-charts-core';
 
 const BarPairWithLine = () => {
@@ -108,21 +108,43 @@ const BarPairWithLine = () => {
   ];
 
   return (
-    <View
-      style={{
-        // margin: 10,
-        marginVertical: 10,
-        paddingVertical: 5,
-        paddingHorizontal: 10,
-        // borderRadius: 20,
-        // backgroundColor: '#232B5D',
-      }}>
-      <Text style={{color: 'white', fontSize: 16, fontWeight: 'bold'}}>
-        Goals vs Actual
+    <View style={{ marginVertical: 10, paddingVertical: 5, paddingHorizontal: 10 }}>
+      <Text style={{ color: 'white', fontSize: 16, fontWeight: 'bold' }}>
+        12 Month Overview
       </Text>
-      <View style={{padding: 20, alignItems: 'center'}}>
+
+      {/* Legend for colors */}
+      <View style={{ flexDirection: 'row', justifyContent: 'center', marginVertical: 10 }}>
+        <View style={{ flexDirection: 'row', alignItems: 'center', marginHorizontal: 10 }}>
+          <View
+            style={{
+              width: 12,
+              height: 12,
+              backgroundColor: '#006DFF',
+              borderRadius: 6,
+              marginRight: 5,
+            }}
+          />
+          <Text style={{ color: 'white' }}>Total Goals</Text>
+        </View>
+        <View style={{ flexDirection: 'row', alignItems: 'center', marginHorizontal: 10 }}>
+          <View
+            style={{
+              width: 12,
+              height: 12,
+              backgroundColor: '#3BE9DE',
+              borderRadius: 6,
+              marginRight: 5,
+            }}
+          />
+          <Text style={{ color: 'white' }}>Actual Savings</Text>
+        </View>
+      </View>
+
+      {/* Chart */}
+      <View style={{ padding: 20, alignItems: 'center' }}>
         <BarChart
-        width={300}
+          width={300}
           data={data}
           barWidth={16}
           initialSpacing={10}
@@ -132,13 +154,13 @@ const BarPairWithLine = () => {
           yAxisThickness={0}
           xAxisType={ruleTypes.SOLID}
           xAxisColor={'lightgray'}
-          yAxisTextStyle={{color: 'lightgray'}}
+          yAxisTextStyle={{ color: 'lightgray' }}
           stepValue={1000}
           maxValue={10000}
           noOfSections={10}
           yAxisLabelTexts={['0', '1k', '2k', '3k', '4k', '5k', '6k', '7k', '8k', '9k', '10k']}
           labelWidth={40}
-          xAxisLabelTextStyle={{color: 'lightgray', textAlign: 'center'}}
+          xAxisLabelTextStyle={{ color: 'lightgray', textAlign: 'center' }}
           showLine={true}
           lineConfig={{
             color: '#F29C6E',

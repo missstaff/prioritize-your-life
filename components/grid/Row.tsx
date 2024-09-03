@@ -16,13 +16,12 @@ const Row = ({ children, style, ...props }: RowProps) => {
 
 const styles = ScaledSheet.create({
   row: {
-    alignItems: "center",
     display: "flex",
     flexDirection: "row",
-    justifyContent: "flex-start",
-    paddingHorizontal: s(5),
     paddingVertical: vs(5),
+    paddingHorizontal: s(10),
     width: "100%",
+    justifyContent: "space-between",
   },
 });
 

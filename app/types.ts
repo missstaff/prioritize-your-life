@@ -9,6 +9,7 @@ export interface GoalProps {
   description: string; 
   expectedEndDate: Timestamp; 
   goal: number; 
+  goalMet: boolean;
   howOften?: string; 
   isLongTerm: boolean; 
   lastTransactionDate: Timestamp; 

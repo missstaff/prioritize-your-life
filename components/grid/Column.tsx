@@ -16,12 +16,9 @@ const Column = ({ children, colStyles, ...props }: ColumnProps) => {
 
 const styles = ScaledSheet.create({
   column: {
-    alignItems: "flex-start",
     display: "flex",
     flexDirection: "column",
-    flexGrow: 1,
-    justifyContent: "center",
-    width: "33%",
+    // flexGrow: 1,
   },
 });
 

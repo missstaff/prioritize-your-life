@@ -71,12 +71,13 @@ export const addOrUpdateGoal = async (
             description: goalsContext.description,
             expectedEndDate: convertToFirestoreTimestamp(goalsContext.expectedEndDate),
             goal: parseFloat(goalsContext.goal),
+            goalMet: currentBalance >= parseFloat(goalsContext.goal),
             name: goalsContext.name,
             progress: currentBalance / parseFloat(goalsContext.goal) * 100,
             startDate: new Timestamp(new Date().getTime() / 1000, 0),
             startingBalance: parseFloat(goalsContext.startingBalance),
             transactions: [...goalsContext.transactions, goalTransaction],
-            isLongTerm: true,
+            isLongTerm: true, //decide whether tokeep this valueor not? 
             lastTransactionDate: new Timestamp(new Date().getTime() / 1000, 0),
         };
 

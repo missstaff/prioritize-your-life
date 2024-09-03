@@ -20,13 +20,13 @@ const styles = ScaledSheet.create({
     height: "100%",
     maxHeight: "100%",
     marginVertical: vs(5),
-    paddingHorizontal: s(25),
+    marginHorizontal: s(15),
+    // paddingHorizontal: s(25),
     paddingVertical: s(10),
     shadowColor: COLORS.black,
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: s(5),
-    width: "100%",
   },
 });
 

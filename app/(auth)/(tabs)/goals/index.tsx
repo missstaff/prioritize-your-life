@@ -18,7 +18,7 @@ import { fetchGoals } from "../apis/goal-apis";
 import { GoalProps } from "../../../types";
 import { COLORS } from "@/constants/Colors";
 import { s, ScaledSheet, vs } from "react-native-size-matters";
-import { useColorScheme, View } from "react-native";
+import { ScrollView, useColorScheme, View } from "react-native";
 import Row from "@/components/grid/Row";
 import Column from "@/components/grid/Column";
 import Balance from "@/components/Balance";
@@ -71,9 +71,11 @@ const Goals = () => {
 
   let goalsTotal = data.reduce((acc, transaction) => acc + transaction.goal, 0);
 
+
   return (
     <AppThemedSafeAreaView>
-      <AppThemedText
+     <ScrollView horizontal={false}>
+     <AppThemedText
         style={{ textAlign: "center", paddingTop: 10, paddingBottom: 2.5 }}
         type="title"
       >
@@ -95,7 +97,7 @@ const Goals = () => {
       >
         <View style={styles.section}>
           <AppThemedText style={styles.sectionTitle} type="subtitle">
-            Progress
+            At a Glance
           </AppThemedText>
           <Row style={{ marginBottom: 15, width: "100%" }}>
             <Column>
@@ -112,7 +114,7 @@ const Goals = () => {
 
             <Column>
               <AppThemedText style={styles.text} type="defaultSemiBold">
-                Saved
+                Saving
               </AppThemedText>
               <AppThemedText
                 style={[styles.text, { fontSize: 16 }]}
@@ -132,26 +134,25 @@ const Goals = () => {
             </Column>
           </Row>
 
-          <View>
-            <AppThemedText type="default" style={styles.text}>
-              {`${((balancesTotal / goalsTotal) * 100).toFixed(0)}%`} of total
-            </AppThemedText>
-            <ProgressBar
-              styleAttr="Horizontal"
-              indeterminate={false}
-              color={COLORS.primary}
-              progress={balancesTotal / goalsTotal}
-            />
-          </View>
+
+
+
         </View>
       </View>
-
-<AppThemedText style={styles.sectionTitle} type="subtitle">
-            Stats
-          </AppThemedText>
-      <BarPairWithLine />
-
      
+
+      <AppThemedText style={styles.sectionTitle} type="subtitle">
+        Stats
+      </AppThemedText>
+      <BarPairWithLine />
+      <ListWrapper>
+            <ListHeader headings={["Goals", "Complete", "Success"]} />
+            {/* <List
+              queryFn={() => fetchGoals()}
+              queryKey={["goals"]}
+              handleOnPress={handleOnPress}
+            /> */}
+          </ListWrapper>
 
       <ShowIf
         condition={data?.length > 0}
@@ -180,6 +181,7 @@ const Goals = () => {
           </AppModal>
         }
       />
+     </ScrollView>
       <StatusBar style="auto" />
     </AppThemedSafeAreaView>
   );
