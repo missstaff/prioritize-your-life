@@ -18,10 +18,8 @@ const styles = ScaledSheet.create({
   row: {
     display: "flex",
     flexDirection: "row",
-    paddingVertical: vs(5),
-    paddingHorizontal: s(10),
     width: "100%",
-    justifyContent: "space-between",
+    justifyContent: "space-evenly",
   },
 });
 

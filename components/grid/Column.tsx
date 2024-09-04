@@ -18,7 +18,6 @@ const styles = ScaledSheet.create({
   column: {
     display: "flex",
     flexDirection: "column",
-    // flexGrow: 1,
   },
 });
 
