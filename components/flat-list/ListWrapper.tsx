@@ -21,7 +21,6 @@ const styles = ScaledSheet.create({
     maxHeight: "100%",
     marginVertical: vs(5),
     marginHorizontal: s(15),
-    // paddingHorizontal: s(25),
     paddingVertical: s(10),
     shadowColor: COLORS.black,
     shadowOffset: { width: 0, height: 2 },

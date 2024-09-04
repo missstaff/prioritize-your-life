@@ -195,22 +195,11 @@ const Goals = () => {
         <ShowIf
           condition={data?.length > 0}
           render={
-            <ListWrapper
-              style={{
-                marginHorizontal: s(15),
-                marginVertical: vs(5),
-              }}
-            >
+            <ListWrapper>
               <AppThemedText style={styles.sectionTitle} type="subtitle">
                 Goal List
               </AppThemedText>
-              <ListHeader
-                rowStyles={{
-                  marginHorizontal: s(15),
-                  marginVertical: vs(2.5),
-                }}
-                headings={["Goal", "Balance", "Progress"]}
-              />
+              <ListHeader colStyles={{flexGrow: 1, marginLeft:10, marginRight: 10}} headings={["Goal Name", "Balance", "Progress"]}/>
               <List
                 queryFn={() => fetchGoals()}
                 queryKey={["goals"]}

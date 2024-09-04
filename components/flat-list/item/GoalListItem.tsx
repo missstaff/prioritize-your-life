@@ -1,4 +1,4 @@
-import { s, ScaledSheet } from "react-native-size-matters";
+import { s, ScaledSheet, vs } from "react-native-size-matters";
 import AppThemedText from "../../app_components/AppThemedText";
 import Column from "../../grid/Column";
 import Row from "../../grid/Row";
@@ -9,18 +9,18 @@ import { COLORS } from "@/constants/Colors";
 
 const GoalListItem = ({ item }: ListItemProps) => {
   return (
-    <Row>
-      <Column>
+    <Row style={{paddingVertical: vs(5), justifyContent: "space-between",marginHorizontal: 10}}>
+      <Column colStyles={{width: "36%"}}>
         <AppThemedText style={styles.text}>
           {truncateString(item.name)}
         </AppThemedText>
       </Column>
-      <Column>
+      <Column colStyles={{width: "30%"}}>
         <AppThemedText style={styles.text}>
           ${item.currentBalance?.toFixed(2)}
         </AppThemedText>
       </Column>
-      <Column>
+      <Column colStyles={{width: "33%"}}>
         <AppThemedText style={styles.text}>
           {item.progress?.toFixed(0)}%
         </AppThemedText>
