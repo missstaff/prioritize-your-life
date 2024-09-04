@@ -18,7 +18,7 @@ import { fetchGoals } from "../apis/goal-apis";
 import { GoalProps } from "../../../types";
 import { COLORS } from "@/constants/Colors";
 import { s, ScaledSheet, vs } from "react-native-size-matters";
-import { ScrollView, useColorScheme, View } from "react-native";
+import { ScrollView, useColorScheme, Text, View } from "react-native";
 import Row from "@/components/grid/Row";
 import Column from "@/components/grid/Column";
 import Balance from "@/components/Balance";
@@ -71,117 +71,166 @@ const Goals = () => {
 
   let goalsTotal = data.reduce((acc, transaction) => acc + transaction.goal, 0);
 
-
   return (
     <AppThemedSafeAreaView>
-     <ScrollView horizontal={false}>
-     <AppThemedText
-        style={{ textAlign: "center", paddingTop: 10, paddingBottom: 2.5 }}
-        type="title"
-      >
-        Goals
-      </AppThemedText>
-      <Balance
-        balance={balancesTotal}
-        data={data}
-        setIsVisible={setIsVisible}
-      />
+      <ScrollView horizontal={false}>
+        <AppThemedText
+          style={{ textAlign: "center", paddingTop: 10, paddingBottom: 2.5 }}
+          type="title"
+        >
+          Goals
+        </AppThemedText>
+        <Balance
+          balance={balancesTotal}
+          data={data}
+          setIsVisible={setIsVisible}
+        />
 
-      <View
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          justifyContent: "center",
-        }}
-      >
-        <View style={styles.section}>
-          <AppThemedText style={styles.sectionTitle} type="subtitle">
-            At a Glance
-          </AppThemedText>
-          <Row style={{ marginBottom: 15, width: "100%" }}>
-            <Column>
-              <AppThemedText style={styles.text} type="defaultSemiBold">
-                All Goals
-              </AppThemedText>
-              <AppThemedText
-                style={[styles.text, { fontSize: 16 }]}
-                type="default"
-              >
-                {`$${goalsTotal.toFixed(2)}`}
-              </AppThemedText>
-            </Column>
-
-            <Column>
-              <AppThemedText style={styles.text} type="defaultSemiBold">
-                Saving
-              </AppThemedText>
-              <AppThemedText
-                style={[styles.text, { fontSize: 16 }]}
-                type="default"
-              >
-                {`$${balancesTotal.toFixed(2)}`}
-              </AppThemedText>
-            </Column>
-
-            <Column>
-              <AppThemedText style={styles.text} type="defaultSemiBold">
-                Progress
-              </AppThemedText>
-              <AppThemedText style={[styles.text, { fontSize: 16 }]}>
-                {`${((balancesTotal / goalsTotal) * 100).toFixed(0)}%`}
-              </AppThemedText>
-            </Column>
-          </Row>
-
-
-
-
-        </View>
-      </View>
-     
-
-      <AppThemedText style={styles.sectionTitle} type="subtitle">
-        Stats
-      </AppThemedText>
-      <BarPairWithLine />
-      <ListWrapper>
-            <ListHeader headings={["Goals", "Complete", "Success"]} />
-            {/* <List
-              queryFn={() => fetchGoals()}
-              queryKey={["goals"]}
-              handleOnPress={handleOnPress}
-            /> */}
-          </ListWrapper>
-
-      <ShowIf
-        condition={data?.length > 0}
-        render={
-          <ListWrapper>
+        <View
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <View style={styles.section}>
             <AppThemedText style={styles.sectionTitle} type="subtitle">
-              Goal List
+              At a Glance
             </AppThemedText>
-            <ListHeader headings={["Goal", "Balance", "Progress"]} />
-            <List
-              queryFn={() => fetchGoals()}
-              queryKey={["goals"]}
-              handleOnPress={handleOnPress}
-            />
-          </ListWrapper>
-        }
-        renderElse={<NoListItems setIsVisible={setIsVisible} type="Goal" />}
-      />
+            <Row style={{ marginBottom: 15, width: "100%" }}>
+              <Column>
+                <AppThemedText style={styles.text} type="defaultSemiBold">
+                  Goals
+                </AppThemedText>
+                <AppThemedText
+                  style={[styles.text, { fontSize: 16 }]}
+                  type="default"
+                >
+                  {`$${goalsTotal.toFixed(2)}`}
+                </AppThemedText>
+              </Column>
 
-      <ShowIf
-        condition={isVisible}
-        render={
-          <AppModal onClose={handleClose} visible={isVisible}>
-            <GoalModalContent setIsVisible={setIsVisible} />
-            <Toast />
-          </AppModal>
-        }
-      />
-     </ScrollView>
+              <Column>
+                <AppThemedText style={styles.text} type="defaultSemiBold">
+                  Current
+                </AppThemedText>
+                <AppThemedText
+                  style={[styles.text, { fontSize: 16 }]}
+                  type="default"
+                >
+                  {`$${balancesTotal.toFixed(2)}`}
+                </AppThemedText>
+              </Column>
+
+              <Column>
+                <View>
+                  <AppThemedText style={styles.text} type="defaultSemiBold">
+                    Progress
+                  </AppThemedText>
+                  <AppThemedText style={[styles.text, { fontSize: 16 }]}>
+                    {`${((balancesTotal / goalsTotal) * 100).toFixed(0)}%`}
+                  </AppThemedText>
+                  <ProgressBar
+                    styleAttr="Horizontal"
+                    indeterminate={false}
+                    color={COLORS.primary}
+                    progress={
+                      goalsTotal > 0
+                        ? parseFloat((balancesTotal / goalsTotal).toFixed(2))
+                        : 0
+                    }
+                  />
+                </View>
+              </Column>
+            </Row>
+
+            <Row style={{ width: "100%" }}>
+              <Column>
+                <AppThemedText style={styles.text} type="defaultSemiBold">
+                  Count
+                </AppThemedText>
+                <AppThemedText
+                  style={[styles.text, { fontSize: 16 }]}
+                  type="default"
+                >
+                  {data.length}
+                </AppThemedText>
+              </Column>
+
+              <Column>
+                <AppThemedText style={styles.text} type="defaultSemiBold">
+                  Complete
+                </AppThemedText>
+                <AppThemedText
+                  style={[styles.text, { fontSize: 16 }]}
+                  type="default"
+                >
+                  {1}
+                </AppThemedText>
+              </Column>
+
+              <Column>
+                <View>
+                  <AppThemedText style={styles.text} type="defaultSemiBold">
+                    Success
+                  </AppThemedText>
+                  <AppThemedText style={[styles.text, { fontSize: 16 }]}>
+                    {Math.round(1 / 9).toFixed(0)}%
+                  </AppThemedText>
+                  <ProgressBar
+                    styleAttr="Horizontal"
+                    indeterminate={false}
+                    color={COLORS.primary}
+                    progress={parseFloat(Math.round(1 / 9).toFixed())}
+                  />
+                </View>
+              </Column>
+            </Row>
+          </View>
+        </View>
+
+        <BarPairWithLine />
+
+        <ShowIf
+          condition={data?.length > 0}
+          render={
+            <ListWrapper
+              style={{
+                marginHorizontal: s(15),
+                marginVertical: vs(5),
+              }}
+            >
+              <AppThemedText style={styles.sectionTitle} type="subtitle">
+                Goal List
+              </AppThemedText>
+              <ListHeader
+                rowStyles={{
+                  marginHorizontal: s(15),
+                  marginVertical: vs(2.5),
+                }}
+                headings={["Goal", "Balance", "Progress"]}
+              />
+              <List
+                queryFn={() => fetchGoals()}
+                queryKey={["goals"]}
+                handleOnPress={handleOnPress}
+              />
+            </ListWrapper>
+          }
+          renderElse={<NoListItems setIsVisible={setIsVisible} type="Goal" />}
+        />
+
+        <ShowIf
+          condition={isVisible}
+          render={
+            <AppModal onClose={handleClose} visible={isVisible}>
+              <GoalModalContent setIsVisible={setIsVisible} />
+              <Toast />
+            </AppModal>
+          }
+        />
+      </ScrollView>
       <StatusBar style="auto" />
     </AppThemedSafeAreaView>
   );

@@ -108,8 +108,8 @@ const BarPairWithLine = () => {
   ];
 
   return (
-    <View style={{ marginVertical: 10, paddingVertical: 5, paddingHorizontal: 10 }}>
-      <Text style={{ color: 'white', fontSize: 16, fontWeight: 'bold' }}>
+    <View style={{ marginVertical: 2, paddingVertical: 2 }}>
+      <Text style={{ color: 'white', fontSize: 16, fontWeight: 'bold', paddingLeft: 10 }}>
         12 Month Overview
       </Text>
 
