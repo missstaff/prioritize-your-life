@@ -23,6 +23,7 @@ const Details = () => {
   const colorScheme = useColorScheme();
   const { id } = useLocalSearchParams();
   const [isVisible, setIsVisible] = useState(false);
+  console.log("ID: ", id);
 
   const { refetch, isPending, isError, data, error, isFetching, isLoading } =
     useQuery<GoalProps>({
@@ -30,6 +31,8 @@ const Details = () => {
       queryFn: () => fetchGoalById(id as string),
       refetchOnMount: true,
     });
+
+    console.log("Data: ", data);
 
   if (isPending || isLoading || isFetching) {
     return <LoadingSpinner />;
@@ -39,7 +42,6 @@ const Details = () => {
     return <OnError error={error} />;
   }
 
-  console.log("records", data.currentBalance);
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <AppThemedText style={{ textAlign: "center", paddingTop: 10, paddingBottom: 2.5 }} type="title">

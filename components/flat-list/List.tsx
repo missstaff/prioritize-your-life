@@ -18,6 +18,8 @@ const List = ({ handleOnPress, queryKey, queryFn }: ListProps) => {
       refetchOnMount: true,
     });
 
+    console.log("Goals Data: ", data);
+
   if (isError) {
     return <OnError error={error} />;
   }

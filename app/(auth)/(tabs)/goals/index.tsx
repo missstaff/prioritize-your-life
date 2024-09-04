@@ -64,12 +64,14 @@ const Goals = () => {
     return <OnError error={error} />;
   }
 
-  let balancesTotal = data.reduce(
+  const balancesTotal = data.reduce(
     (acc, transaction) => acc + transaction.currentBalance,
     0
   );
 
-  let goalsTotal = data.reduce((acc, transaction) => acc + transaction.goal, 0);
+  const goalsTotal = data.reduce((acc, transaction) => acc + transaction.goal, 0);
+
+  const goalCompleteCount = data.filter((goal) => goal.complete).length;
 
   return (
     <AppThemedSafeAreaView>
@@ -166,7 +168,7 @@ const Goals = () => {
                   style={[styles.text, { fontSize: 16 }]}
                   type="default"
                 >
-                  {1}
+                  {goalCompleteCount}
                 </AppThemedText>
               </Column>
 
@@ -176,13 +178,13 @@ const Goals = () => {
                     Success
                   </AppThemedText>
                   <AppThemedText style={[styles.text, { fontSize: 16 }]}>
-                    {Math.round(1 / 9).toFixed(0)}%
+                    {((goalCompleteCount/data.length) * 100).toFixed(0)}%
                   </AppThemedText>
                   <ProgressBar
                     styleAttr="Horizontal"
                     indeterminate={false}
                     color={COLORS.primary}
-                    progress={parseFloat(Math.round(1 / 9).toFixed())}
+                    progress={goalCompleteCount/data.length}
                   />
                 </View>
               </Column>

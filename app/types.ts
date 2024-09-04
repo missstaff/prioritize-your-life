@@ -9,7 +9,7 @@ export interface GoalProps {
   description: string; 
   expectedEndDate: Timestamp; 
   goal: number; 
-  goalMet: boolean;
+  complete: boolean;
   howOften?: string; 
   isLongTerm: boolean; 
   lastTransactionDate: Timestamp; 
@@ -27,6 +27,7 @@ export interface IsValidProps {
 export interface ListItemProps {
   item: {
     amount?: string;
+    complete?: boolean;
     currentBalance?: number;
     date?: string;
     description?: string;

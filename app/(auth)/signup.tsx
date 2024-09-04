@@ -31,7 +31,7 @@ const Signup = (): JSX.Element => {
         setPassword("");
         setConfirmPassword("");
         setIsAuthenticated(true);
-        router.push("/");
+        router.push("/(tabs)");
       }
       queryClient.invalidateQueries({ queryKey: ["uid"] });
     },
