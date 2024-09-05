@@ -21,10 +21,14 @@ import { fetchTransactions } from "../apis/transaction-apis";
 import { TransactionState } from "@/store/transaction/transaction-reducer";
 
 const Transactions = () => {
-  const transactionCtx = useContext(TransactionContext);
-  const { setAmount, setDate, setDescription, setTransactionId } =
-    transactionCtx;
   const appCtx = useContext(AppContext);
+  const transactionCtx = useContext(TransactionContext);
+  const { 
+    setAmount, 
+    setDate, 
+    setDescription, 
+    setTransactionId 
+  } = transactionCtx;
   const { selectedTab, setSelectedTab } = appCtx;
   const [isVisible, setIsVisible] = useState(false);
   const tabsArr = ["Checking", "Savings"];
@@ -55,7 +59,7 @@ const Transactions = () => {
   };
 
   const balance = useMemo(() => {
-    return data?.reduce((acc, curr) => acc + Number(curr.amount), 0);
+    return data?.reduce((acc, curr) => acc + Number(curr?.amount), 0);
   }, [data]);
 
   if (isPending || isLoading || isFetching) {
@@ -68,7 +72,11 @@ const Transactions = () => {
 
   return (
     <AppThemedSafeAreaView>
-      <AppThemedText
+      <ShowIf
+        condition={!isVisible}
+        render={
+          <>
+                <AppThemedText
         style={{ textAlign: "center", paddingTop: 10, paddingBottom: 2.5 }}
         type="title"
       >
@@ -107,9 +115,9 @@ const Transactions = () => {
           <NoListItems setIsVisible={setIsVisible} type="Transaction" />
         }
       />
-      <ShowIf
-        condition={!isPending && !isError && isVisible}
-        render={
+          </>
+        }
+        renderElse={
           <AppModal onClose={handleClose} visible={isVisible}>
             <TransactionModalContent
               data={data}

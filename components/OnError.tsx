@@ -8,7 +8,7 @@ const OnError = (error: any) => {
   return (
     <AppThemedSafeAreaView>
       <View>
-        <AppThemedText>Error: {error.message}</AppThemedText>
+        <AppThemedText>Error: {error}</AppThemedText>
         <AppThemedText
           style={styles.text}
           type="link"

@@ -32,14 +32,15 @@ const Details = () => {
       refetchOnMount: true,
     });
 
-    console.log("Data: ", data);
+    // console.log("Data: ", data);
 
   if (isPending || isLoading || isFetching) {
     return <LoadingSpinner />;
   }
 
   if (isError) {
-    return <OnError error={error} />;
+    console.log("Error: ", error);
+    return <OnError error={error.message} />;
   }
 
   return (

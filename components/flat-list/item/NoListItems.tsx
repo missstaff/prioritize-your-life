@@ -25,10 +25,9 @@ const NoListItems = ({ setIsVisible, type }: NoListItemsProps) => {
 
 const styles = ScaledSheet.create({
   container: {
-    height: "50%",
+    alignItems: "center",
     display: "flex",
     flexDirection: "column",
-    alignItems: "center",
     justifyContent: "center",
   },
   text: {
