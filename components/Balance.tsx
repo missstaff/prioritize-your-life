@@ -6,7 +6,7 @@ import { View } from "react-native";
 
 export interface AddTransactionProps {
   balance?: number | undefined;
-  data: any[] | undefined;
+  data?: any[] | undefined;
   setIsVisible: (isVisible: boolean) => void;
 }
 

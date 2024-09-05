@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text } from 'react-native';
 import { BarChart } from "react-native-gifted-charts";
 import { ruleTypes } from 'gifted-charts-core';
+import AppThemedText from "../app_components/AppThemedText";
 
 const BarPairWithLine = () => {
   const data = [
@@ -125,7 +126,7 @@ const BarPairWithLine = () => {
               marginRight: 5,
             }}
           />
-          <Text style={{ color: 'white' }}>Total Goals</Text>
+          <AppThemedText>Total Goals</AppThemedText>
         </View>
         <View style={{ flexDirection: 'row', alignItems: 'center', marginHorizontal: 10 }}>
           <View

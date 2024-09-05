@@ -18,6 +18,7 @@ import NoListItems from "@/components/flat-list/item/NoListItems";
 import { formatTimestamp } from "../../utilities/transactions-utilities";
 import { useState } from "react";
 import { useColorScheme } from "react-native";
+import Balance from "@/components/Balance";
 
 const Details = () => {
   const colorScheme = useColorScheme();
@@ -48,15 +49,20 @@ const Details = () => {
       <AppThemedText style={{ textAlign: "center", paddingTop: 10, paddingBottom: 2.5 }} type="title">
         {data.name}
       </AppThemedText>
+       <Balance
+                balance={100}
+                data={[{date: "2021-10-10", amount: 100}]}
+                setIsVisible={setIsVisible}
+              />
 
       <AppThemedView style={{display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center"}}>
       <AppThemedView
           style={[
             styles.section,
-            {
-              backgroundColor:
-                colorScheme === "dark" ? COLORS.mediumGray : COLORS.white,
-            },
+            // {
+            //   backgroundColor:
+            //     colorScheme === "dark" ? COLORS.mediumGray : COLORS.white,
+            // },
           ]}
         >
           <AppThemedText style={styles.sectionTitle} type="defaultSemiBold">
