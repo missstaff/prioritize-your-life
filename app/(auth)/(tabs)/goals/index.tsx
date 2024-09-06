@@ -13,7 +13,7 @@ import ListWrapper from "@/components/flat-list/ListWrapper";
 import NoListItems from "@/components/flat-list/item/NoListItems";
 import OnError from "@/components/OnError";
 import ShowIf from "@/components/ShowIf";
-import { GoalContext, GoalContextType } from "@/store/goals/goal-context";
+import { GoalContext, GoalContextType } from "@/store/goal/goal-context";
 import { fetchGoals } from "../apis/goal-apis";
 import { GoalProps } from "../../../types";
 import { COLORS } from "@/constants/Colors";
@@ -25,6 +25,7 @@ import Balance from "@/components/Balance";
 import AppThemedSafeAreaView from "@/components/app_components/AppThemedSafeAreaView";
 import { ProgressBar } from "@react-native-community/progress-bar-android";
 import BarPairWithLine from "@/components/charts/BarPairWithLine";
+import { GoalState } from "@/store/goal/goal-reducer";
 
 const Goals = () => {
   const colorScheme = useColorScheme();
@@ -32,7 +33,7 @@ const Goals = () => {
   const [isVisible, setIsVisible] = useState(false);
 
   const { refetch, isPending, isError, data, error, isFetching, isLoading } =
-    useQuery<GoalProps[]>({
+    useQuery<GoalState[]>({
       queryKey: ["goals"],
       queryFn: () => fetchGoals(),
       refetchOnMount: true,
@@ -97,6 +98,7 @@ const Goals = () => {
                 balance={balancesTotal}
                 data={data}
                 setIsVisible={setIsVisible}
+                type="Goal"
               />
 
               <View
@@ -231,13 +233,13 @@ const Goals = () => {
               <ShowIf
                 condition={data?.length > 0}
                 render={
-                  <ListWrapper>
+                  <ListWrapper style={{marginLeft: 50, marginRight: 50}}>
                     <ListHeader
-                    rowStyles={{ justifyContent: "space-between", marginLeft: 20 }}
+                    rowStyles={{ justifyContent: "space-between"}}
                       colStyles={{
                         width: "33%",
                       }}
-                      headings={["Goal Name", "Balance", "Progress"]}
+                      headings={["Goal", "Balance", "Progress"]}
                     />
                     <List
                       queryFn={() => fetchGoals()}

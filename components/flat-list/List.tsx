@@ -3,12 +3,12 @@ import { useQuery } from "@tanstack/react-query";
 import ListItem from "./item/ListItem";
 import LoadingSpinner from "../LoadingSpinner";
 import OnError from "../OnError";
-import { GoalProps } from "@/app/types";
+import { GoalState } from "@/store/goals/goal-reducer";
 
 export interface ListProps {
   handleOnPress: (item: any) => void;
   queryKey: string | string[];
-  queryFn: () => Promise<any[]> | GoalProps[];
+  queryFn: () => Promise<any[]> | GoalState[];
 }
 
 const List = ({ handleOnPress, queryKey, queryFn }: ListProps) => {

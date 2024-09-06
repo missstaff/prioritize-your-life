@@ -93,6 +93,7 @@ const Transactions = () => {
                   balance={balance}
                   data={data}
                   setIsVisible={setIsVisible}
+                  type="Transactions"
                 />
               ))}
             </TabbedComponent>
@@ -100,10 +101,9 @@ const Transactions = () => {
             <ShowIf
               condition={data?.length > 0}
               render={
-                <ListWrapper>
+                <ListWrapper style={{marginLeft: 50, marginRight: 50}}>
                   <ListHeader
-                    colStyles={{ width: "33%" }}
-                    rowStyles={{ justifyContent: "space-between", marginLeft: 15 }}
+                    rowStyles={{ justifyContent: "space-between"}}
                     headings={["Date", "Amount", "Description"]}
                   />
                   <List

@@ -10,7 +10,7 @@ import { ListItemProps } from "@/app/types";
 
 const TransactionListItem: React.FC<ListItemProps> = ({ item }) => {
   return (
-    <Row style={{ justifyContent: "space-between", paddingBottom: s(10), marginLeft: 15 }}>
+    <Row style={{ justifyContent: "space-between", paddingBottom: s(10)}}>
       <Column colStyles={{width: "33%"}}>
         <AppThemedText style={[styles.text]}>
           {formatTimestamp(item.date).slice(0, 5)}

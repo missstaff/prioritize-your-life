@@ -1,14 +1,14 @@
 import { ScaledSheet, s, vs } from "react-native-size-matters";
-import AppThemedView from "../app_components/AppThemedView";
 import { COLORS } from "@/constants/Colors";
-import { View } from "react-native";
+import { View, ViewStyle } from "react-native";
 
 interface ListWrapperProps {
   children: React.ReactNode;
+  style?: ViewStyle;
 }
 
-const ListWrapper = ({ children }: ListWrapperProps): JSX.Element => {
-  return <View style={styles.container}>{children}</View>;
+const ListWrapper = ({ children, style }: ListWrapperProps): JSX.Element => {
+  return <View style={[styles.container, style]}>{children}</View>;
 };
 
 const styles = ScaledSheet.create({

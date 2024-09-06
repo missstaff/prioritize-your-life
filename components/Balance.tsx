@@ -8,9 +8,10 @@ export interface AddTransactionProps {
   balance?: number | undefined;
   data?: any[] | undefined;
   setIsVisible: (isVisible: boolean) => void;
+  type: string,
 }
 
-const Balance = ({ balance, data, setIsVisible }: AddTransactionProps) => {
+const Balance = ({ balance, data, setIsVisible, type }: AddTransactionProps) => {
   return (
     <View style={styles.container}>
       <ShowIf
@@ -26,7 +27,7 @@ const Balance = ({ balance, data, setIsVisible }: AddTransactionProps) => {
         condition={data && data?.length > 0}
         render={
           <AppThemedText type="link" onPress={() => [setIsVisible(true)]}>
-            Add {data && data[0]?.goal ? "Goal" : "Transaction"}
+            Add {type}
           </AppThemedText>
         }
         renderElse={<View></View>}

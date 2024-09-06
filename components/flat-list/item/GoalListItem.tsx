@@ -16,37 +16,39 @@ const GoalListItem = ({ item }: ListItemProps) => {
       render={
         <Row
           style={{
-            justifyContent: "space-between", paddingBottom: s(10), marginLeft: 20}}
+            justifyContent: "space-between",
+            paddingBottom: s(10),
+          }}
         >
-          <Column colStyles={{width: "33%"}}>
-           <View>
-           <AppThemedText style={styles.text}>
-              {truncateString(item.name)}
-            </AppThemedText>
-           </View>
-          </Column>
-          <Column colStyles={{width: "33%"}}>
+          <Column colStyles={{ width: "33%" }}>
             <View>
-            <AppThemedText style={styles.text}>
-              ${item.currentBalance?.toFixed(2)}
-            </AppThemedText>
+              <AppThemedText style={styles.text}>
+                {truncateString(item.name)}
+              </AppThemedText>
             </View>
           </Column>
-          <Column colStyles={{width: "33%", alignItems: "flex-start"}}>
+          <Column colStyles={{ width: "33%" }}>
             <View>
-            <AppThemedText style={styles.text}>
-              {item.progress?.toFixed(0)}%
-            </AppThemedText>
-            <ProgressBar
-              styleAttr="Horizontal"
-              indeterminate={false}
-              color={COLORS.primary}
-              progress={
-                item && item.progress
-                  ? parseFloat((item?.progress / 100).toFixed(2))
-                  : 0
-              }
-            />
+              <AppThemedText style={styles.text}>
+                ${item.currentBalance?.toFixed(2)}
+              </AppThemedText>
+            </View>
+          </Column>
+          <Column colStyles={{ width: "33%", paddingLeft: 25 }}>
+            <View>
+              <AppThemedText style={styles.text}>
+                {item.progress?.toFixed(0)}%
+              </AppThemedText>
+              <ProgressBar
+                styleAttr="Horizontal"
+                indeterminate={false}
+                color={COLORS.primary}
+                progress={
+                  item && item.progress
+                    ? parseFloat((item?.progress / 100).toFixed(2))
+                    : 0
+                }
+              />
             </View>
           </Column>
         </Row>
