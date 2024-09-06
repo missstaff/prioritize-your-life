@@ -15,10 +15,17 @@ import ListWrapper from "@/components/flat-list/ListWrapper";
 import ListHeader from "@/components/flat-list/ListHeader";
 import List from "@/components/flat-list/List";
 import NoListItems from "@/components/flat-list/item/NoListItems";
-import { formatTimestamp } from "../../utilities/transactions-utilities";
+import {
+  formatTimestamp,
+  truncateString,
+} from "../../utilities/transactions-utilities";
 import { useState } from "react";
-import { useColorScheme } from "react-native";
+import { FlatList, useColorScheme, View } from "react-native";
 import Balance from "@/components/Balance";
+import format from "@testing-library/react-native/build/helpers/format";
+import Row from "@/components/grid/Row";
+import Column from "@/components/grid/Column";
+import { ProgressBar } from "@react-native-community/progress-bar-android";
 
 const Details = () => {
   const colorScheme = useColorScheme();
@@ -33,7 +40,15 @@ const Details = () => {
       refetchOnMount: true,
     });
 
-    // console.log("Data: ", data);
+  // console.log("Data: ", data);
+  const calculateBalanceUpTo = (index: number) => {
+    return data?.transactions
+      .slice(0, index + 1) // Get all transactions up to the specified index
+      .reduce(
+        (totalBalance, transaction) => totalBalance + transaction.amount,
+        0
+      );
+  };
 
   if (isPending || isLoading || isFetching) {
     return <LoadingSpinner />;
@@ -46,86 +61,203 @@ const Details = () => {
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      <AppThemedText style={{ textAlign: "center", paddingTop: 10, paddingBottom: 2.5 }} type="title">
+      <AppThemedText
+        style={{ textAlign: "center", paddingTop: 10, paddingBottom: 2.5 }}
+        type="title"
+      >
         {data.name}
       </AppThemedText>
-       <Balance
-                balance={100}
-                data={[{date: "2021-10-10", amount: 100}]}
-                setIsVisible={setIsVisible}
-              />
+      <Balance
+        balance={100}
+        data={[{ data: data.expectedEndDate, amount: data.currentBalance }]}
+        setIsVisible={setIsVisible}
+      />
 
-      <AppThemedView style={{display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center"}}>
-      <AppThemedView
-          style={[
-            styles.section,
-            // {
-            //   backgroundColor:
-            //     colorScheme === "dark" ? COLORS.mediumGray : COLORS.white,
-            // },
-          ]}
+      <AppThemedView style={[styles.section]}>
+        <AppThemedText
+          style={[styles.sectionTitle, { textAlign: "center" }]}
+          type="subtitle"
         >
-          <AppThemedText style={styles.sectionTitle} type="defaultSemiBold">
-            {data.name} Progress
-          </AppThemedText>
-          <AppThemedText style={styles.text}>
-            Enter and view your account balances here.
-          </AppThemedText>
-        </AppThemedView>
+          {data.name} Details
+        </AppThemedText>
+        <Row style={{}}>
+          <Column colStyles={{ alignSelf: "flex-start" }}>
+            <View>
+              <AppThemedText
+                style={[styles.text, { fontSize: 12, marginBottom: -10 }]}
+                type="default"
+              >
+                Description
+              </AppThemedText>
+              <AppThemedText type="default" style={[styles.text]}>
+                {truncateString(data.description, 25)}
+              </AppThemedText>
+            </View>
 
+            <View>
+              <AppThemedText
+                style={[styles.text, { fontSize: 12, marginBottom: -10 }]}
+                type="default"
+              >
+                Start Date
+              </AppThemedText>
+              <AppThemedText style={[styles.text]} type="default">
+                {formatTimestamp(data.startDate)}
+              </AppThemedText>
+            </View>
+
+            <View>
+              <AppThemedText
+                style={[styles.text, { fontSize: 12, marginBottom: -10 }]}
+                type="default"
+              >
+                Starting Balance
+              </AppThemedText>
+              <AppThemedText style={styles.text} type="default">
+                ${data.startingBalance.toFixed(2)}
+              </AppThemedText>
+            </View>
+
+            <View>
+              <AppThemedText
+                style={[styles.text, { fontSize: 12, marginBottom: -10 }]}
+                type="default"
+              >
+                Current Balance
+              </AppThemedText>
+              <AppThemedText style={styles.text} type="default">
+                ${data.currentBalance.toFixed(2)}
+              </AppThemedText>
+            </View>
+
+            <View>
+              <AppThemedText
+                style={[styles.text, { fontSize: 12, marginBottom: -10 }]}
+                type="default"
+              >
+                Committment
+              </AppThemedText>
+              <AppThemedText style={styles.text} type="default">
+                ${data.pledge?.toFixed(2) ?? 0}
+              </AppThemedText>
+            </View>
+          </Column>
+
+          <Column>
+            <View>
+              <AppThemedText
+                style={[styles.text, { fontSize: 12, marginBottom: -10 }]}
+                type="default"
+              >
+                Is Long term
+              </AppThemedText>
+              <AppThemedText style={styles.text} type="default">
+                {data.isLongTerm ? "Long term" : "Short term"}
+              </AppThemedText>
+            </View>
+
+            <View>
+              <AppThemedText
+                style={[styles.text, { fontSize: 12, marginBottom: -10 }]}
+                type="default"
+              >
+                Expected End Date
+              </AppThemedText>
+              <AppThemedText style={styles.text} type="default">
+                {formatTimestamp(data.expectedEndDate)}
+              </AppThemedText>
+            </View>
+
+            <View>
+              <AppThemedText
+                style={[styles.text, { fontSize: 12, marginBottom: -10 }]}
+                type="default"
+              >
+                Goal
+              </AppThemedText>
+              <AppThemedText style={styles.text} type="default">
+                ${data.goal.toFixed(2)}
+              </AppThemedText>
+            </View>
+
+            <View>
+              <AppThemedText
+                style={[styles.text, { fontSize: 12, marginBottom: -10 }]}
+                type="default"
+              >
+                Last Transaction
+              </AppThemedText>
+              <AppThemedText style={styles.text} type="default">
+                {formatTimestamp(data.lastTransactionDate)}
+              </AppThemedText>
+            </View>
+
+            <View>
+              <AppThemedText
+                style={[styles.text, { fontSize: 12, marginBottom: -10 }]}
+                type="default"
+              >
+                How Often
+              </AppThemedText>
+              <AppThemedText style={styles.text} type="default">
+                {data.howOften ?? "N/A"}
+              </AppThemedText>
+            </View>
+          </Column>
+        </Row>
       </AppThemedView>
+      <AppThemedText
+        type="default"
+        style={{ fontSize: 16, fontWeight: "bold" }}
+      >
+        Progress {data.progress}%
+      </AppThemedText>
+      <ProgressBar
+        styleAttr="Horizontal"
+        indeterminate={false}
+        color={COLORS.primary}
+        progress={data.progress / 100}
+        style={{ marginHorizontal: s(15), marginBottom: vs(10) }}
+      />
+
+      <AppThemedText type="subtitle" style={{ textAlign: "center" }}>
+        Contribution Record
+      </AppThemedText>
+
       <ShowIf
         condition={data.transactions.length > 0}
         render={
           <ListWrapper>
-            <AppThemedText type="subtitle" style={{ textAlign: "center"}}>
-              Contribution Record
-            </AppThemedText>
-            <ListHeader headings={["Date", "Amount", "Progress"]} />
-            {data.transactions.map((transaction, index) => {
-              return (
-                <AppThemedView key={index}>
-                  <AppThemedText type="default">
-                    {formatTimestamp(transaction.date)}
-                  </AppThemedText>
-                  <AppThemedText type="default">{transaction.amount}</AppThemedText>
-                  <AppThemedText type="default">10</AppThemedText>
-                </AppThemedView>
-              );
-            })}
+            <ListHeader
+              rowStyles={{ justifyContent: "space-between" }}
+              headings={["Date", "Amount", "Balance"]}
+            />
+            <FlatList
+              data={data.transactions}
+              renderItem={({ item: transaction, index }) => (
+                <Row style={{ justifyContent: "space-between"  }} key={transaction.id}>
+                  <Column colStyles={{}}>
+                    <AppThemedText style={{ fontSize: 16 }} type="default">
+                      {formatTimestamp(transaction.date).slice(0, 5)}
+                    </AppThemedText>
+                  </Column>
+                  <Column colStyles={{}}>
+                    <AppThemedText style={{ fontSize: 16 }} type="default">
+                      ${transaction.amount}
+                    </AppThemedText>
+                  </Column>
+                  <Column colStyles={{}}>
+                    <AppThemedText style={{ fontSize: 16 }} type="default">
+                      ${calculateBalanceUpTo(index)}
+                    </AppThemedText>
+                  </Column>
+                </Row>
+              )}
+            />
           </ListWrapper>
         }
         renderElse={<NoListItems setIsVisible={setIsVisible} type="Goal" />}
       />
-      {/* <AppThemedView
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          height: "100%",
-          width: "100%",
-        }}
-      > */}
-      {/* <AppThemedText
-          style={{ textAlign: "center" }}
-          type="title"
-        >
-          {data.name}
-        </AppThemedText> */}
-
-      {/* <AppThemedView style={[styles.section]}>
-          <AppThemedText style={styles.text}>
-            View details about your goal here.
-          </AppThemedText>
-        </AppThemedView> */}
-
-      {/* <AppThemedView style={[styles.section]}> */}
-      {/* <AppThemedText style={styles.text}>
-            View details about your goal here.
-          </AppThemedText> */}
-
-      {/* </AppThemedView>
-      </AppThemedView> */}
-
       <StatusBar style="auto" />
     </SafeAreaView>
   );
@@ -133,25 +265,22 @@ const Details = () => {
 
 const styles = ScaledSheet.create({
   section: {
-    width: "90%",
+    width: "100%",
     marginVertical: vs(10),
-    padding: s(20),
+    paddingHorizontal: s(20),
     borderRadius: s(10),
     shadowColor: COLORS.black,
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: s(5),
     elevation: 3,
-    alignItems: "center",
+    alignSelf: "center",
   },
   sectionTitle: {
-    // fontSize: s(18),
-    // fontWeight: "bold",
-    // marginBottom: vs(10),
+    marginBottom: vs(10),
   },
   text: {
-    // fontSize: s(16),
-    // textAlign: "center",
+    fontSize: s(14),
   },
 });
 

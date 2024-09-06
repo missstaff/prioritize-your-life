@@ -3,7 +3,6 @@ import { Timestamp } from "@google-cloud/firestore";
 export interface GoalTransactionState {
   id: number;
   amount: number;
-  balance: number;
   date: Timestamp;
 }
 

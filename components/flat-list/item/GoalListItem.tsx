@@ -7,6 +7,7 @@ import { truncateString } from "@/app/(auth)/(tabs)/utilities/transactions-utili
 import { ListItemProps } from "@/app/types";
 import { ProgressBar } from "@react-native-community/progress-bar-android";
 import { COLORS } from "@/constants/Colors";
+import { View } from "react-native";
 
 const GoalListItem = ({ item }: ListItemProps) => {
   return (
@@ -15,22 +16,24 @@ const GoalListItem = ({ item }: ListItemProps) => {
       render={
         <Row
           style={{
-            paddingVertical: vs(5),
-            justifyContent: "space-between",
-            marginHorizontal: 10,
-          }}
+            justifyContent: "space-between", paddingBottom: s(10), marginLeft: 20}}
         >
-          <Column colStyles={{ width: "36%" }}>
-            <AppThemedText style={styles.text}>
+          <Column colStyles={{width: "33%"}}>
+           <View>
+           <AppThemedText style={styles.text}>
               {truncateString(item.name)}
             </AppThemedText>
+           </View>
           </Column>
-          <Column colStyles={{ width: "30%" }}>
+          <Column colStyles={{width: "33%"}}>
+            <View>
             <AppThemedText style={styles.text}>
               ${item.currentBalance?.toFixed(2)}
             </AppThemedText>
+            </View>
           </Column>
-          <Column colStyles={{ width: "33%" }}>
+          <Column colStyles={{width: "33%", alignItems: "flex-start"}}>
+            <View>
             <AppThemedText style={styles.text}>
               {item.progress?.toFixed(0)}%
             </AppThemedText>
@@ -44,6 +47,7 @@ const GoalListItem = ({ item }: ListItemProps) => {
                   : 0
               }
             />
+            </View>
           </Column>
         </Row>
       }

@@ -10,18 +10,18 @@ import { ListItemProps } from "@/app/types";
 
 const TransactionListItem: React.FC<ListItemProps> = ({ item }) => {
   return (
-     <Row style={{paddingVertical: vs(5), justifyContent: "space-between",marginLeft: 40, marginRight: 50}}>
-      <Column colStyles={{width: "20%"}}>
+    <Row style={{ justifyContent: "space-between", paddingBottom: s(10), marginLeft: 15 }}>
+      <Column colStyles={{width: "33%"}}>
         <AppThemedText style={[styles.text]}>
-          {formatTimestamp(item.date).slice(0,5)}
+          {formatTimestamp(item.date).slice(0, 5)}
         </AppThemedText>
       </Column>
-      <Column colStyles={{width: "30%"}}>
+      <Column colStyles={{width: "33%"}}>
         <AppThemedText style={[styles.text]}>
           {Number(item.amount).toFixed(2)}
         </AppThemedText>
       </Column>
-      <Column colStyles={{ width: "50%"}}>
+      <Column colStyles={{width: "33%"}}>
         <AppThemedText style={[styles.text]}>
           {truncateString(item.description)}
         </AppThemedText>
@@ -33,7 +33,7 @@ const TransactionListItem: React.FC<ListItemProps> = ({ item }) => {
 const styles = ScaledSheet.create({
   text: {
     fontSize: s(12),
-    textAlign: "left",
+    // textAlign: "left",
   },
 });
 

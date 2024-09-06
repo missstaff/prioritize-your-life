@@ -233,10 +233,9 @@ const Goals = () => {
                 render={
                   <ListWrapper>
                     <ListHeader
+                    rowStyles={{ justifyContent: "space-between", marginLeft: 20 }}
                       colStyles={{
-                        flexGrow: 1,
-                        marginLeft: 10,
-                        marginRight: 10,
+                        width: "33%",
                       }}
                       headings={["Goal Name", "Balance", "Progress"]}
                     />

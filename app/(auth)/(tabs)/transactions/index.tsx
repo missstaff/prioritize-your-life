@@ -23,12 +23,8 @@ import { TransactionState } from "@/store/transaction/transaction-reducer";
 const Transactions = () => {
   const appCtx = useContext(AppContext);
   const transactionCtx = useContext(TransactionContext);
-  const { 
-    setAmount, 
-    setDate, 
-    setDescription, 
-    setTransactionId 
-  } = transactionCtx;
+  const { setAmount, setDate, setDescription, setTransactionId } =
+    transactionCtx;
   const { selectedTab, setSelectedTab } = appCtx;
   const [isVisible, setIsVisible] = useState(false);
   const tabsArr = ["Checking", "Savings"];
@@ -76,45 +72,54 @@ const Transactions = () => {
         condition={!isVisible}
         render={
           <>
-                <AppThemedText
-        style={{ textAlign: "center", paddingTop: 10, paddingBottom: 2.5 }}
-        type="title"
-      >
-        Transactions
-      </AppThemedText>
-      <TabbedComponent
-        selectedTab={selectedTab}
-        setSelectedTab={setSelectedTab}
-        tabs={tabsArr}
-      >
-        {tabsArr.map((tab, index) => (
-          <Balance
-            key={index}
-            balance={balance}
-            data={data}
-            setIsVisible={setIsVisible}
-          />
-        ))}
-      </TabbedComponent>
-      <ShowIf
-        condition={data?.length > 0}
-        render={
-          <ListWrapper>
-            <ListHeader headings={["Date", "Amount", "Description"]} />
-            <List
-              queryFn={() => fetchTransactions(tabsArr[selectedTab])}
-              queryKey={[
-                "transactions",
-                "transactions " + tabsArr[selectedTab],
-              ]}
-              handleOnPress={handleOnPress}
+            <AppThemedText
+              style={{
+                textAlign: "center",
+                paddingTop: 10,
+                paddingBottom: 2.5,
+              }}
+              type="title"
+            >
+              Transactions
+            </AppThemedText>
+            <TabbedComponent
+              selectedTab={selectedTab}
+              setSelectedTab={setSelectedTab}
+              tabs={tabsArr}
+            >
+              {tabsArr.map((tab, index) => (
+                <Balance
+                  key={index}
+                  balance={balance}
+                  data={data}
+                  setIsVisible={setIsVisible}
+                />
+              ))}
+            </TabbedComponent>
+
+            <ShowIf
+              condition={data?.length > 0}
+              render={
+                <ListWrapper>
+                  <ListHeader
+                    colStyles={{ width: "33%" }}
+                    rowStyles={{ justifyContent: "space-between", marginLeft: 15 }}
+                    headings={["Date", "Amount", "Description"]}
+                  />
+                  <List
+                    queryFn={() => fetchTransactions(tabsArr[selectedTab])}
+                    queryKey={[
+                      "transactions",
+                      "transactions " + tabsArr[selectedTab],
+                    ]}
+                    handleOnPress={handleOnPress}
+                  />
+                </ListWrapper>
+              }
+              renderElse={
+                <NoListItems setIsVisible={setIsVisible} type="Transaction" />
+              }
             />
-          </ListWrapper>
-        }
-        renderElse={
-          <NoListItems setIsVisible={setIsVisible} type="Transaction" />
-        }
-      />
           </>
         }
         renderElse={
