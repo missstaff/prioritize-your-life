@@ -34,7 +34,7 @@ const GoalListItem = ({ item }: ListItemProps) => {
               </AppThemedText>
             </View>
           </Column>
-          <Column colStyles={{ width: "33%", paddingLeft: 25 }}>
+          <Column colStyles={{ width: "33%" }}>
             <View>
               <AppThemedText style={styles.text}>
                 {item.progress?.toFixed(0)}%

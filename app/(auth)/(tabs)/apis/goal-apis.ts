@@ -62,7 +62,6 @@ export const addOrUpdateGoal = async (
         const goalTransaction: GoalTransactionState = {
             id: goalsContext.transactions.length + 1,
             amount: (parseFloat(goalsContext.startingBalance)) ?? 0.00,
-            balance: currentBalance,
             date: new Timestamp(new Date().getTime() / 1000, 0),
         };
 
